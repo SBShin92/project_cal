@@ -22,7 +22,7 @@ public class CalendarController {
 	@Autowired
 	private ProjectService projectService;
 	
-	 @GetMapping("/detail/{id}")
+	 @GetMapping("/list/detail/{id}")
 	    public String projectDetail(@PathVariable("id") int projectId, Model model) {
 	        ProjectVO project = projectService.getProjectById(projectId);
 	        model.addAttribute("project", project);
