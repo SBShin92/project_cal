@@ -1,16 +1,12 @@
 spring: 
   application:
-    name: project-cal
+    name: project_cal
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
   datasource:
-    url: jdbc:mysql://localhost:3306/himedia?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/himedia
     username: himedia
     password: himedia
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-server:
-  port: 8080
-
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
