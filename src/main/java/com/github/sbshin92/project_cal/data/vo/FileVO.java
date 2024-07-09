@@ -1,13 +1,16 @@
-package com.github.sbshin92.project_cal.data.dto;
+package com.github.sbshin92.project_cal.data.vo;
 
 import java.sql.Timestamp;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
-public class FileDTO {
+public class FileVO {
     private Long fileId;
     private Long eventId;
     private String fileName;

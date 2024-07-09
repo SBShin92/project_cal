@@ -1,17 +1,20 @@
-package com.github.sbshin92.project_cal.data.dto;
+package com.github.sbshin92.project_cal.data.vo;
 
 import java.sql.Timestamp;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
-public class EventCommentDTO {
-    private Long commentId;
+public class EventAttendeeVO {
+    private Long attendeeId;
     private Long eventId;
     private Long userId;
-    private String comment;
+    private String status;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 }
