@@ -17,14 +17,10 @@ public interface UsersDAO {
 	public List<UserVO> findAll();
 	
 	
-//	@Select("SELECT no, name, email, gender\r\n"
-//			+ "    FROM users\r\n"
-//			+ "    WHERE email=#{value}")
+	// 필요?
 	public UserVO findByEmail(String email);
 	
-//	@Select("SELECT no, name, email, gender\r\n"
-//			+ "    FROM users\r\n"
-//			+ "    WHERE email = #{email} AND password = #{password}")
+	// 한가?
 	public UserVO findByEmailAndPassword(String email, String password);
 
 	

@@ -3,7 +3,6 @@ package com.github.sbshin92.project_cal.data.vo;
 import java.sql.Timestamp;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,10 +11,12 @@ import lombok.Setter;
 @Setter
 @Builder
 public class UserVO {
-    private Long userId;
+    private int userId;
     private String userName;
     private String userEmail;
     private String userPassword;
+    private String userAuthority;
+    private String userPosition;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 }
