@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 상세</title>
+    <link rel="stylesheet" href="/css/detail.css">
+</head>
+<body>
+    <div class="project-detail">
+        <header>
+            <h1 id="projectTitle" th:text="${project.projectTitle}">프로젝트 제목</h1>
+            <p id="projectDate" th:text="'프로젝트 기간: ' + ${#dates.format(project.createdAt, 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(project.updatedAt, 'yyyy-MM-dd')}">프로젝트 기간: 2024-07-01 ~ 2024-07-31</p>
+        </header>
+        
+        <main>
+            <section class="project-content">
+                <h2>상세 내용</h2>
+                <div id="projectDescription">
+                    <p th:text="${project.projectDescription}">이 프로젝트는 ... (프로젝트 설명)</p>
+                </div>
+                <!-- 이미지 부분은 실제 데이터에 맞게 수정 필요 -->
+            </section>
+            
+            <section class="project-files">
+                <h2>첨부 파일</h2>
+                <!-- 파일 목록 부분은 실제 데이터에 맞게 수정 필요 -->
+                <button id="uploadFile" class="btn">파일 업로드</button>
+            </section>
+        </main>
+        
+        <section class="project-tasks">
+            <h2>작업 목록</h2>
+            <!-- 작업 목록 부분은 실제 데이터에 맞게 수정 필요 -->
+            <div class="task-input">
+                <input type="text" id="newTask" placeholder="새 작업 추가">
+                <button id="addTask" class="btn btn-small">추가</button>
+            </div>
+        </section>
+        
+        <footer>
+            <button id="editProject" class="btn btn-primary">수정</button>
+            <button id="closeDetail" class="btn">닫기</button>
+        </footer>
+    </div>
+</body>
+</html>

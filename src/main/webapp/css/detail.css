@@ -1,0 +1,132 @@
+@charset "UTF-8";
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f8ff; /* 연한 하늘색 배경 */
+}
+
+.project-detail {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    padding: 30px;
+}
+
+header {
+    border-bottom: 2px solid #e6f2ff;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+h1, h2 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+#projectDate {
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.project-content, .project-files, .project-tasks {
+    background-color: #f9fdff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+#projectImages {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#projectImages img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#fileList, #taskList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#fileList li, #taskList li {
+    margin-bottom: 12px;
+}
+
+#fileList a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#fileList a:hover {
+    color: #2980b9;
+}
+
+.task-input {
+    display: flex;
+    margin-top: 15px;
+}
+
+#newTask {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid #bfe0ff;
+    border-radius: 4px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #3a7bc8;
+}
+
+.btn-small {
+    padding: 8px 12px;
+    font-size: 12px;
+}
+
+footer {
+    margin-top: 30px;
+    text-align: right;
+}
+
+footer .btn {
+    margin-left: 10px;
+}
+
+#taskList input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #4a90e2;
+}
