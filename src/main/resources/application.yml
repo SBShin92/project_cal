@@ -10,17 +10,7 @@ spring:
     url: jdbc:mysql://localhost:3306/himedia
     username: himedia
     password: himedia
-<<<<<<< HEAD
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  servlet:
-    session:
-      cookie:
-        name: PROJECTCAL_SESSIONID
-      timeout: 20m # 세션 유효 시간 설정     
-#스프링 시큐리티 설정
+  #스프링 시큐리티 설정
   security:
      user:
        name: user
@@ -28,7 +18,9 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/, classpath:/public/, classpath:/, classpath:/resources/, classpath:/META-INF/resources/, file:src/main/webapp/
-=======
-
-
->>>>>>> refs/remotes/origin/develop_yeaeun
+server:
+  servlet:
+    session:
+      cookie:
+        name: PROJECTCAL_SESSIONID
+      timeout: 20m # 세션 유효 시간 설정
