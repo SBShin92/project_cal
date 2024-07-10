@@ -10,3 +10,5 @@ spring:
     url: jdbc:mysql://localhost:3306/himedia
     username: himedia
     password: himedia
+
+

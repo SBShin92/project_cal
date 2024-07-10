@@ -1,45 +1,60 @@
 /**
- * 
+ * 프로젝트 상세 페이지 JavaScript
  */
 document.addEventListener('DOMContentLoaded', function() {
     // 전역 변수
     const projectId = document.querySelector('.project-detail').dataset.projectId;
-    
-    // 파일 업로드 버튼
-    const uploadFileBtn = document.getElementById('uploadFile');
-    uploadFileBtn.addEventListener('click', handleFileUpload);
 
-    // 새 작업 추가
+    // 엘리먼트 참조
+    const uploadFileBtn = document.getElementById('uploadFile');
     const addTaskBtn = document.getElementById('addTask');
     const newTaskInput = document.getElementById('newTask');
-    addTaskBtn.addEventListener('click', handleAddTask);
-
-    // 프로젝트 수정 버튼
     const editProjectBtn = document.getElementById('editProject');
-    editProjectBtn.addEventListener('click', handleEditProject);
-
-    // 닫기 버튼
     const closeDetailBtn = document.getElementById('closeDetail');
+    const taskList = document.getElementById('taskList');
+    const fileInput = document.getElementById('fileUpload');
+
+    // 이벤트 리스너 설정
+    uploadFileBtn.addEventListener('click', handleFileUpload);
+    addTaskBtn.addEventListener('click', handleAddTask);
+    editProjectBtn.addEventListener('click', handleEditProject);
     closeDetailBtn.addEventListener('click', handleCloseDetail);
+    taskList.addEventListener('change', handleTaskStatusChange);
 
     // 파일 업로드 처리
-    function handleFileUpload() {
-        // 파일 업로드 로직 구현
-        console.log('File upload clicked');
+    function handleFileUpload(event) {
+        event.preventDefault();
+        if (!fileInput.files.length) {
+            alert('파일을 선택해주세요.');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        formData.append('projectId', projectId);
+
+        fetch('/api/projects/upload-file', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('File uploaded:', data);
+            // 파일 목록 업데이트 로직 추가
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     // 새 작업 추가 처리
-    function handleAddTask() {
+    function handleAddTask(event) {
+        event.preventDefault();
         const taskDescription = newTaskInput.value.trim();
         if (taskDescription) {
             addNewTask(taskDescription);
-            newTaskInput.value = '';
         }
     }
 
     // 새 작업을 서버에 추가하고 화면에 표시
     function addNewTask(description) {
-        // AJAX 요청으로 서버에 새 작업 추가
         fetch(`/api/projects/${projectId}/tasks`, {
             method: 'POST',
             headers: {
@@ -47,40 +62,51 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ description: description })
         })
-        .then(response => response.json())
-        .then(task => {
-            // 새 작업을 화면에 추가
-            const taskList = document.getElementById('taskList');
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <input type="checkbox" id="task${task.id}">
-                <label for="task${task.id}">${task.description}</label>
-            `;
-            taskList.appendChild(li);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
         })
-        .catch(error => console.error('Error:', error));
+        .then(task => {
+            const li = createTaskElement(task);
+            taskList.appendChild(li);
+            newTaskInput.value = '';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('작업 추가에 실패했습니다.');
+        });
+    }
+
+    // 작업 요소 생성
+    function createTaskElement(task) {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <input type="checkbox" id="task${task.id}" ${task.completed ? 'checked' : ''}>
+            <label for="task${task.id}">${task.description}</label>
+        `;
+        return li;
     }
 
     // 프로젝트 수정 처리
     function handleEditProject() {
-        // 프로젝트 수정 페이지로 이동 또는 모달 띄우기
-        console.log('Edit project clicked');
+        window.location.href = `/project/edit/${projectId}`;
     }
 
     // 상세 페이지 닫기 처리
     function handleCloseDetail() {
-        // 이전 페이지로 돌아가기
         window.history.back();
     }
 
     // 작업 상태 변경 (체크박스 클릭 시)
-    document.getElementById('taskList').addEventListener('change', function(e) {
-        if (e.target.type === 'checkbox') {
-            const taskId = e.target.id.replace('task', '');
-            const completed = e.target.checked;
+    function handleTaskStatusChange(event) {
+        if (event.target.type === 'checkbox') {
+            const taskId = event.target.id.replace('task', '');
+            const completed = event.target.checked;
             updateTaskStatus(taskId, completed);
         }
-    });
+    }
 
     // 작업 상태 업데이트
     function updateTaskStatus(taskId, completed) {
@@ -91,8 +117,16 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ completed: completed })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => console.log('Task updated:', data))
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            alert('작업 상태 업데이트에 실패했습니다.');
+        });
     }
 });
