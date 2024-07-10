@@ -10,6 +10,6 @@ public class CalendarController {
 
 	@GetMapping
 	public String calendarPage() {
-		return "calendar/calendar";
+		return "/calendar/calendar";
 	}
 }

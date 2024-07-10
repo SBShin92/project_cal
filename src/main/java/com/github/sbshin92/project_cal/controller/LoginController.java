@@ -6,15 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
-	// 로그인 페이지를 반환하는 메서드
 	@GetMapping("/login")
-	public String login() {
-		return "login"; // 로그인 폼이 있는 뷰 이름을 반환
+	public String loginSuccess() {
+		return "login"; // login.jsp 페이지를 반환
 	}
 
-	// Home 페이지를 반환하는 메서드
 	@GetMapping("/home")
 	public String home() {
-		return "home"; // 로그인 성공 후 보여줄 뷰 이름
+		return "home"; // 로그인 성공 후 홈 페이지로 리디렉션
 	}
 }
