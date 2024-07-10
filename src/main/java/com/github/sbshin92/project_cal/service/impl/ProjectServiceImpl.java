@@ -19,18 +19,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void updateProject(ProjectVO project) {
-        projectsDAO.update(project);
+    public boolean updateProject(ProjectVO project) {
+        return 1 == projectsDAO.update(project);
     }
     
     @Override
-    public void createProject(ProjectVO project) {
-        projectsDAO.insert(project);
+    public boolean createProject(ProjectVO project) {
+        return 1 == projectsDAO.insert(project);
     }
 
     @Override
-    public void deleteProject(int projectId) {
-        projectsDAO.delete(projectId);
+    public boolean deleteProject(int projectId) {
+        return 1 == projectsDAO.delete(projectId);
     }
 
     @Override

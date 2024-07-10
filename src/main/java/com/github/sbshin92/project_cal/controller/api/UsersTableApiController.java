@@ -12,7 +12,7 @@ import com.github.sbshin92.project_cal.service.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class UsersTableApiController {
 
 	@Autowired
     private UserServiceImpl userService;
