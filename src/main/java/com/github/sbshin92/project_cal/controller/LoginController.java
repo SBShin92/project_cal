@@ -8,7 +8,7 @@ public class LoginController {
 
 	@GetMapping("/login")
 	public String loginSuccess() {
-		return "login"; // login.jsp 페이지를 반환
+		return "login/login"; // login.jsp 페이지를 반환
 	}
 
 	@GetMapping("/home")
