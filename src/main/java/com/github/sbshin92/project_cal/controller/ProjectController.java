@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
  * 프로젝트 목록 조회, 상세 조회, 생성, 수정, 삭제 기능을 제공
  */
 @Controller
-@RequestMapping("/calendar")
+@RequestMapping("/project")
 public class ProjectController {
 
     @Autowired
@@ -44,14 +44,14 @@ public class ProjectController {
      * @param model 뷰에 전달할 데이터를 담는 모델 객체
      * @return 프로젝트 상세 페이지 뷰 이름 또는 에러 페이지
      */
-    @GetMapping({"/detail", "/detail/{projectId}"})
+    @GetMapping({"", "/", "/{projectId}"})
     public String getProject(@PathVariable(required = false) Integer projectId, Model model) {
         try {
             if (projectId == null) {
                 // projectId가 제공되지 않았을 때의 처리
                 // 예: 가장 최근 프로젝트를 보여주거나, 프로젝트 목록 페이지로 리다이렉트
 //                return "redirect:/calendar/detail";
-            	 return "calendar/detail";
+            	 return "project/detail";
             	
             }
             
@@ -60,7 +60,7 @@ public class ProjectController {
                 throw new Exception("Project not found");
             }
             model.addAttribute("project", project);
-            return "calendar/detail";
+            return "project/detail";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
             return "error/404";
@@ -75,7 +75,7 @@ public class ProjectController {
     @GetMapping("/create")
     public String createProjectForm(Model model) {
         model.addAttribute("project", new ProjectVO());
-        return "calendar/form";
+        return "project/form";
     }
 
     /**
@@ -88,11 +88,11 @@ public class ProjectController {
     @PostMapping("/create")
     public String createProject(@Valid @ModelAttribute ProjectVO project, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "calendar/form";
+            return "project/form";
         }
         projectService.createProject(project);
         redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
-        return "redirect:/calendar/list";
+        return "redirect:/project/list";
     }
 
     /**
@@ -105,7 +105,7 @@ public class ProjectController {
     public String updateProjectForm(@PathVariable int projectId, Model model) {
         try {
             model.addAttribute("project", projectService.getProjectById(projectId));
-            return "calendar/form";
+            return "project/form";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
             return "error/404";
@@ -128,7 +128,7 @@ public class ProjectController {
         project.setProjectId(projectId);
         projectService.updateProject(project);
         redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
-        return "redirect:/calendar/detail/" + projectId;
+        return "redirect:/project/detail/" + projectId;
     }
 
     /**
@@ -145,6 +145,46 @@ public class ProjectController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
         }
-        return "redirect:/calendar/list";
+        return "redirect:/project/list";
     }
 }
+
+
+
+///*
+//* @GetMapping("/detail/{id}") URL 패턴에 매핑
+//* {id}는 경로 변수로, 조회할 프로젝트의 ID를 나타냄
+//*/
+//@GetMapping("/detail/{id}")
+//public String projectDetail(@PathVariable("id") int projectId, Model model) {
+//   try {
+//       // 프로젝트 서비스를 통해 지정된 ID의 프로젝트를 조회
+//       ProjectVO project = projectService.getProjectById(projectId);
+//       
+//       // 프로젝트가 존재하지 않는 경우 NOT_FOUND 예외를 발생
+//       if (project == null) {
+//           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
+//       }
+//       
+//       // 조회된 프로젝트 정보를 모델에 추가
+//       // 이를 통해 뷰에서 프로젝트 정보를 사용가능
+//       model.addAttribute("project", project);
+//       
+//       // calendar/detail 뷰를 반환
+//       // 이 뷰는 프로젝트 상세 정보를 표시하는 JSP 페이지
+//       return "calendar/detail";
+//   } catch (Exception e) {
+//       // 프로젝트 조회 중 예외가 발생한 경우 INTERNAL_SERVER_ERROR 예외를 발생
+//       // 이는 클라이언트에게 500 에러를 반환
+//       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error retrieving project", e);
+//   }
+//}
+
+
+
+
+
+
+
+
+
