@@ -1,4 +1,4 @@
-package com.github.sbshin92.project_cal.controller;
+package com.github.sbshin92.project_cal.controller.api;
 
 import java.util.List;
 
