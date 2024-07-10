@@ -10,6 +10,7 @@ spring:
     url: jdbc:mysql://localhost:3306/himedia
     username: himedia
     password: himedia
+<<<<<<< HEAD
   jpa:
     hibernate:
       ddl-auto: update
@@ -27,3 +28,7 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/, classpath:/public/, classpath:/, classpath:/resources/, classpath:/META-INF/resources/, file:src/main/webapp/
+=======
+
+
+>>>>>>> refs/remotes/origin/develop_yeaeun
