@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,21 +21,17 @@ import com.github.sbshin92.project_cal.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
     @Autowired
     private UsersDAO usersDAO;
+	
+	@Autowired
+	private  PasswordEncoder passwordEncoder; // 패스워드 암호화를 위한 메서드
 
-    /**
-     * 모든 사용자 정보를 조회합니다.
-     * @return 모든 사용자 목록
-     */
+
     @Override
-    public List<UserVO> getAllUsers() {
-        logger.info("Fetching all users");
-        List<UserVO> users = usersDAO.findAll();
-        logger.debug("Found {} users", users.size());
-        return users;
+	public List<UserVO> getAllUsers() {
+        List<UserVO> lst = usersDAO.findAll();
+        return lst;
     }
     
     /**
@@ -44,16 +42,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean addUser(UserVO userVO) {
-        logger.info("Adding new user: {}", userVO.getUserName());
-        int result = usersDAO.save(userVO);
-        boolean success = result == 1;
-        if (success) {
-            logger.info("User added successfully with ID: {}", userVO.getUserId());
-        } else {
-            logger.warn("Failed to add user: {}", userVO.getUserName());
-        }
-        return success;
+    	try {
+    	String encodePassword = passwordEncoder.encode(userVO.getUserPassword());
+    	userVO.setUserPassword(encodePassword);
+        return 1 == usersDAO.save(userVO);
+    } catch(DataAccessException e) {
+    	e.printStackTrace();
     }
+		return false;
+  }
 
     /**
      * 사용자 이름으로 사용자를 조회합니다.
@@ -62,15 +59,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserVO getUserByUsername(String username) {
-        logger.info("Fetching user by username: {}", username);
         UserVO user = (usersDAO).findByUsername(username);
-        if (user == null) {
-            logger.warn("User not found with username: {}", username);
-        } else {
-            logger.debug("Found user: {}", user.getUserName());
-        }
         return user;
     }
-
-    // 필요에 따라 추가 메서드 구현
 }
