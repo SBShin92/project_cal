@@ -72,8 +72,8 @@ main {
     font-weight: bold;
 }
 
-.calendar .weekend { 
-    color: #e74c3c; 
+.calendar .weekend {
+    color: #e74c3c;
 }
 
 .calendar .event {
@@ -83,15 +83,59 @@ main {
     font-size: 0.9em;
 }
 
-.event.blue { background-color: #e6f3ff; }
-.event.green { background-color: #e6ffe6; }
-.event.yellow { background-color: #fffde6; }
-.event.pink { background-color: #ffe6f0; }
+.calendar .event.blue { background-color: #e6f3ff; }
+.calendar .event.green { background-color: #e6ffe6; }
+.calendar .event.yellow { background-color: #fffde6; }
+.calendar .event.pink { background-color: #ffe6f0; }
 
 .right-panel {
-    width: 200px;
+    width: 250px;
     background-color: #ffffff;
     padding: 1rem;
     border-radius: 10px;
     margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.create-project {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #3a7bc8;
+}
+
+.today-events, .project-list {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.project-item {
+    margin-bottom: 10px;
+}
+
+.project-title {
+    font-weight: bold;
+}
+
+.project-status {
+    font-size: 0.9em;
+    color: #666;
 }

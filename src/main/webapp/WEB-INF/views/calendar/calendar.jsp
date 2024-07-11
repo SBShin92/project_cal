@@ -31,12 +31,23 @@
             </table>
         </section>
         <aside class="right-panel">
+       		<!-- 프로젝트 생성 버튼 추가 -->
+            <div class="create-project">
+                <button id="createProjectBtn" class="btn btn-primary">프로젝트 생성</button>
+            </div>
             <div class="project-list" id="projectList">
                 <h4>오늘의 프로젝트</h4>
-                <div class="project-item">
-                    <div class="project-title">임시</div>
-                </div>
-                <!-- 프로젝트 목록은 JavaScript로 동적 생성됩니다 -->
+                
+                <c:if test="${ not empty projectListByDate }">
+                <c:forEach items="${ projectListByDate }" var="vo" varStatus="status">
+	                <div class="project-item">
+	                    <div class="project-title">
+	                    	<a href="<c:url value='/project' />/${vo.projectId}">${ vo.projectTitle }</a>
+	                    </div>
+	                    <div class="project-duration">${ vo.startDate } ~ ${ vo.endDate }</div>
+	                </div>
+                </c:forEach>
+                </c:if>
             </div>
         </aside>
     </main>
