@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(document.getElementsByClassName("view-date"));
 });
 
-    
 const createCalendar = (year, month) => {
     // 기존 tbody 제거
     if (document.querySelector(".calendar table tbody") !== null)
@@ -43,25 +42,39 @@ const createCalendar = (year, month) => {
                 const divDate = document.createElement("div");
                 divDate.textContent = date;
                 td.appendChild(divDate);
+
+                td.addEventListener("click", () => {
+                    const clickedDateFormat = new Date(year, month, (i * 7) + j);
+                    window.location.href = "calendar/" + formatDate(clickedDateFormat)});
                 tr.appendChild(td);
                 date++;
-                // document.addEventListener("click", clickDateHandler)
             }
         }
         tbody.appendChild(tr);
         if (date > currentMonthEndDate)
             break;
     }
-
     // tbody 쏴주기
     document.querySelector(".calendar table").appendChild(tbody);
+};
+
+const formatDate = (date) => {
+    var d = new Date(date),
+        month = '' + (d.getMonth()),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('');
 }
+console.log(formatDate(new Date()));
 
 
-const clickDateHandler = () => {
 
-
-}
 
 // function getEventsForDate(date) {
 //     // 예시 이벤트 데이터

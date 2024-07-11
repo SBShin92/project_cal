@@ -8,9 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CalendarController {
 
-	@GetMapping
+	@GetMapping({"", "/"})
 	public String calendarPage() {
 		return "calendar/calendar";	
+	}
+	
+	@GetMapping("/{date}")
+	public String calendarPageWithDateProjectList() {
+		
+		return "calendar/calendar";
 	}
 
 }

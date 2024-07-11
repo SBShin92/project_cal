@@ -83,10 +83,10 @@ main {
     font-size: 0.9em;
 }
 
-.calendar .event.blue { background-color: #e6f3ff; }
-.calendar .event.green { background-color: #e6ffe6; }
-.calendar .event.yellow { background-color: #fffde6; }
-.calendar .event.pink { background-color: #ffe6f0; }
+.event.blue { background-color: #e6f3ff; }
+.event.green { background-color: #e6ffe6; }
+.event.yellow { background-color: #fffde6; }
+.event.pink { background-color: #ffe6f0; }
 
 .right-panel {
     width: 200px;
