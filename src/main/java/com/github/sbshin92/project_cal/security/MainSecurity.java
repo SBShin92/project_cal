@@ -1,59 +1,54 @@
 package com.github.sbshin92.project_cal.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@Configuration
 @EnableWebSecurity
 public class MainSecurity {
+	
+	  private final UserDetailsService userDetailsService;
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//            .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
-//            .and()
-//            .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
-//    }
+	    public MainSecurity(UserDetailsService userDetailsService) {
+	        this.userDetailsService = userDetailsService;
+	    }
 
-    @Bean // 패스워드 암호화
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	    @Bean 
+	    public PasswordEncoder passwordEncoder() {
+	        return new BCryptPasswordEncoder();
+	    }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            // 정적 리소스에 대한 접근 허용
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/css/**", "/js/**").permitAll()
-            )
-            // 로그인 구성
-            .formLogin(formLogin -> formLogin
-                .loginPage("/login") // 커스텀 로그인 페이지 URL
-                .loginProcessingUrl("/login") // 로그인 처리 URL
-                .permitAll() // 모든 사용자가 로그인 페이지 접근 허용
-                .defaultSuccessUrl("/calendar") // 로그인 성공 후 리디렉션할 URL을 캘린더 페이지로 설정
-            )
-            // 로그아웃 구성
-            .logout(logout -> logout
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login") // 로그아웃 성공 후 리디렉션할 URL
-                .permitAll()
-            )
-            // 권한 요구사항 구성
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/login", "/home", "/calendar").permitAll() // 로그인 및 로그아웃 페이지 접근 허용
-                .requestMatchers("/user/**").hasAnyRole("USER", "CENTER", "ADMIN") // /user/** 경로에 대해 USER, CENTER, ADMIN 역할 요구
-                .requestMatchers("/calendar/**").hasAnyRole("/**") // /calendar/** 경로에 대해 USER, ADMIN 역할 요구
-                .anyRequest().authenticated() // 그 외 모든 요청은 인증 요구
-            )
-            // CSRF 비활성화
-            .csrf(csrf -> csrf.disable());
 
-        return http.build();
-    }
+	@Bean
+	 SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+		 http
+         .authorizeHttpRequests(authorize -> authorize
+             .requestMatchers("/css/**", "/js/**", "/**", "/login/login", "/home","/").permitAll()
+             .anyRequest().authenticated()
+         )
+         .formLogin(formLogin -> formLogin
+             .loginPage("/login")
+             .defaultSuccessUrl("/home", true)
+             .permitAll()
+         )
+         .logout(logout -> logout
+             .logoutSuccessUrl("/login")
+             .permitAll()
+         )
+         .userDetailsService(userDetailsService)
+         .sessionManagement(session -> session
+             .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+         )
+         .csrf(csrf -> csrf.disable());
+
+     return http.build();
+ }
 }
