@@ -7,4 +7,6 @@ import com.github.sbshin92.project_cal.data.vo.UserVO;
 public interface UserService {
 	public List<UserVO> getAllUsers();
 	public boolean addUser(UserVO userVO);
+	
+	public UserVO getUserByUsername(String currentUsername);
 }

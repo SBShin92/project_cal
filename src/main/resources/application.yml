@@ -24,3 +24,9 @@ server:
       cookie:
         name: PROJECTCAL_SESSIONID
       timeout: 20m # 세션 유효 시간 설정
+logging:
+  level:
+    org.springframework: DEBUG
+  
+file:
+  upload-dir: /path/to/upload/directory #실제 파일 경로로 업데이트 필요
