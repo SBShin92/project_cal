@@ -17,7 +17,7 @@
 
 <div class="project-form">
     <header>
-        <h1>${project.projectId == null ? '새 프로젝트 생성' : '프로젝트 수정'}</h1>
+        <h1>${project.projectId == null ? '새 프로젝트 생성' : '프로젝트 생성'}</h1>
     </header>
 
     <main>
@@ -71,7 +71,7 @@
 
             <footer>
                 <button type="submit" class="btn btn-primary">
-                    ${project.projectId == null ? '프로젝트 생성' : '프로젝트 수정'}
+                    ${project.projectId == null ? '프로젝트 생성' : '프로젝트 생성'}
                 </button>
                 <a href="<c:url value='/project/list'/>" class="btn">취소</a>
             </footer>

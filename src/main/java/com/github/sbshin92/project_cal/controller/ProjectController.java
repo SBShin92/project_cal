@@ -51,7 +51,8 @@ public class ProjectController {
         try {
             // projectId가 null이면 프로젝트 목록 페이지로 리다이렉트
             if (projectId == null) {
-                return "redirect:/project/list";
+//                return "redirect:/project/list";
+                return "project/detail";
             }
             
             // 프로젝트 정보 조회
@@ -65,12 +66,12 @@ public class ProjectController {
             UserVO currentUser = userService.getUserByUsername(currentUsername);
             
             // 프로젝트 생성자 여부와 멤버 여부 확인
-            boolean isProjectCreator = project.getUserId().equals(currentUser.getUserId());
+//            boolean isProjectCreator = project.getUserId().equals(currentUser.getUserId());
             boolean isProjectMember = projectService.isUserProjectMember(currentUser.getUserId(), projectId);
             
             // 모델에 데이터 추가
             model.addAttribute("project", project);
-            Object isProjectCreator;
+            Object isProjectCreator = null;
 			model.addAttribute("isProjectCreator", isProjectCreator);
             model.addAttribute("isProjectMember", isProjectMember);
             model.addAttribute("projectMembers", projectService.getProjectMembers(projectId));
@@ -92,11 +93,11 @@ public class ProjectController {
      */
     @GetMapping("/create")
     public String createProjectForm(Model model, Principal principal) {
-        // 현재 사용자의 프로젝트 생성 권한 확인
-        UserVO currentUser = userService.getUserByUsername(principal.getName());
-        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
-            return "error/403"; // 권한 없음 페이지로 리다이렉트
-        }
+//        // 현재 사용자의 프로젝트 생성 권한 확인
+//        UserVO currentUser = userService.getUserByUsername(principal.getName());
+//        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
+//            return "error/403"; // 권한 없음 페이지로 리다이렉트
+//        }
         model.addAttribute("project", new ProjectVO());
         return "project/form";
     }
@@ -118,14 +119,14 @@ public class ProjectController {
         }
 
         // 사용자의 프로젝트 생성 권한 확인
-        UserVO currentUser = userService.getUserByUsername(principal.getName());
-        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
-            redirectAttributes.addFlashAttribute("error", "프로젝트 생성 권한이 없습니다.");
-            return "redirect:/project/list";
-        }
+//        UserVO currentUser = userService.getUserByUsername(principal.getName());
+//        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
+//            redirectAttributes.addFlashAttribute("error", "프로젝트 생성 권한이 없습니다.");
+//            return "redirect:/project/list";
+//        }
 
         // 프로젝트 생성자 설정
-        project.setUserId(currentUser.getUserId());
+//        project.setUserId(currentUser.getUserId());
         
         try {
             // 프로젝트 생성 (파일 업로드 포함)
