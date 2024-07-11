@@ -22,5 +22,6 @@ public class ProjectVO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String projectStatus;
-    
+    private Timestamp startDate;
+    private Timestamp endDate;
 }

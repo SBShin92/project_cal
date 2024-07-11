@@ -33,7 +33,7 @@
         <aside class="right-panel">
        		<!-- 프로젝트 생성 버튼 추가 -->
             <div class="create-project">
-                <button id="createProjectBtn" class="btn btn-primary">프로젝트 생성</button>
+                <a id="createProjectBtn" class="btn btn-primary" href="<c:url value='/project/create' />">프로젝트 생성</a>
             </div>
             <div class="project-list" id="projectList">
                 <h4>오늘의 프로젝트</h4>

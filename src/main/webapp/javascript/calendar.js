@@ -6,9 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentMonth = today.getMonth() + 1;
     
     createCalendar(currentYear, currentMonth); // default: today's date
-    document.getElementsByClassName("view-date")[0].textContent = `${currentYear}년 ${currentMonth}월`;
-    console.log(document.getElementsByClassName("view-date"));
+    document.getElementsByClassName("prev-button")[0].addEventListener("click", () => {
+        currentMonth -= 1;
+        if (currentMonth === 0) {
+            currentMonth = 12;
+            currentYear -= 1;
+        }
+        createCalendar(currentYear, currentMonth);
+    });
+    document.getElementsByClassName("next-button")[0].addEventListener("click", () => {
+        currentMonth += 1;
+        if (currentMonth === 13) {
+            currentMonth = 1;
+            currentYear += 1;
+        }
+        createCalendar(currentYear, currentMonth);
+    });
 });
+
 
 const createCalendar = (year, month) => {
     // 기존 tbody 제거
@@ -22,9 +37,6 @@ const createCalendar = (year, month) => {
     // 이번 달 마지막 날짜, 요일
     const currentMonthEndDate = new Date(year, month, 0).getDate();
     const currentMonthEndDay = new Date(year, month, 0).getDay();
-
-    // 로그(지워야함)
-    console.log("Last month: ", lastMonthEndDate, lastMonthEndDay, "This month: ", currentMonthEndDate, currentMonthEndDay);
 
     // 캘린더 tbody테이블 생성
     let date = 1;
@@ -56,6 +68,9 @@ const createCalendar = (year, month) => {
     }
     // tbody 쏴주기
     document.querySelector(".calendar table").appendChild(tbody);
+
+    // 달력 날짜 갱신
+    document.getElementsByClassName("view-date")[0].textContent = `${year}년 ${month}월`;
 };
 
 const formatDate = (date) => {
@@ -71,7 +86,6 @@ const formatDate = (date) => {
 
     return [year, month, day].join('');
 }
-console.log(formatDate(new Date()));
 
 
 
