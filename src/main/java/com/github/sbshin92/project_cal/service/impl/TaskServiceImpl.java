@@ -29,6 +29,12 @@ public class TaskServiceImpl implements TaskService {
 	public boolean addTask(TaskVO taskVO) {
 		return 1 == tasksDAO.insert(taskVO);
 	}
+
+	@Override
+	public Object getTasksByProjectId(Integer projectId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }
