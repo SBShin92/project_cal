@@ -5,23 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentYear = today.getFullYear();
     let currentMonth = today.getMonth() + 1;
     
-    createCalendar(currentYear, 1); // default: today's date
+    createCalendar(currentYear, currentMonth); // default: today's date
+    document.getElementsByClassName("view-date")[0].textContent = `${currentYear}년 ${currentMonth}월`;
+    console.log(document.getElementsByClassName("view-date"));
 });
-
-// function createCalendar(year, month) {
-//     // Last month's last date and day
-//     const lastMonthStartDate = new Date(year, month - 1, 0).getDate();
-//     const lastMonthStartDay = new Date(year, month - 1, 0).getDay();
-
-//     // This month's last date and day
-//     const currentMonthEndDate = new Date(year, month, 0).getDate();
-//     const currentMonthEndDay = new Date(year, month, 0).getDay();
-
-//     console.log("지난 달: ", lastMonthStartDate, lastMonthStartDay, "이번 달: ", currentMonthEndDate, currentMonthEndDay);
-// }
 
     
 const createCalendar = (year, month) => {
+    // 기존 tbody 제거
+    if (document.querySelector(".calendar table tbody") !== null)
+        document.querySelector(".calendar table tbody").remove();
+
     // 지난 달 마지막 날짜, 요일
     const lastMonthEndDate = new Date(year, month - 1, 0).getDate();
     const lastMonthEndDay = new Date(year, month - 1, 0).getDay();
@@ -30,8 +24,10 @@ const createCalendar = (year, month) => {
     const currentMonthEndDate = new Date(year, month, 0).getDate();
     const currentMonthEndDay = new Date(year, month, 0).getDay();
 
+    // 로그(지워야함)
     console.log("Last month: ", lastMonthEndDate, lastMonthEndDay, "This month: ", currentMonthEndDate, currentMonthEndDay);
 
+    // 캘린더 tbody테이블 생성
     let date = 1;
     const tbody = document.createElement("tbody");
     for (let i = 0; i < 6; i++) {
@@ -49,6 +45,7 @@ const createCalendar = (year, month) => {
                 td.appendChild(divDate);
                 tr.appendChild(td);
                 date++;
+                // document.addEventListener("click", clickDateHandler)
             }
         }
         tbody.appendChild(tr);
@@ -56,15 +53,15 @@ const createCalendar = (year, month) => {
             break;
     }
 
+    // tbody 쏴주기
     document.querySelector(".calendar table").appendChild(tbody);
 }
 
 
-// const clickDateHandler = () => {
+const clickDateHandler = () => {
 
 
-
-// }
+}
 
 // function getEventsForDate(date) {
 //     // 예시 이벤트 데이터

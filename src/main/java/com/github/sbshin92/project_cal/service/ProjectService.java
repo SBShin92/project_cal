@@ -5,13 +5,13 @@ import java.util.List;
 
 public interface ProjectService {
 
-    ProjectVO getProjectById(int projectId);
+    public ProjectVO getProjectById(int projectId);
 
-    void updateProject(ProjectVO project);
+    public boolean updateProject(ProjectVO project);
 
-    void createProject(ProjectVO project);
+    public boolean createProject(ProjectVO project);
 
-    void deleteProject(int projectId);
+    public boolean deleteProject(int projectId);
 
     List<ProjectVO> getAllProjects();
 }
