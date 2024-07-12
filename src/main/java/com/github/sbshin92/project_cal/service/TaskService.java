@@ -52,7 +52,7 @@ public interface TaskService {
 	 //3)특정 프로젝트에 속한 모든 태스크를 조회합니다.
      //@param projectId 조회할 프로젝트의 ID
      //@return 해당 프로젝트의 모든 태스크 리스트
-     List<TaskVO> getTasksByProjectId(Integer projectId);
+     List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
 }
 	
 	// TaskService.java

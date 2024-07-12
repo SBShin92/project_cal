@@ -15,5 +15,6 @@
 	<br/>
 	<h2>Calendar 가기 : <a href="<c:url value='/calendar' />">여기</a></h2>
 	<h2>Project 가기 : <a href="<c:url value='/project' />">여기</a></h2>
+    <h2>Task 가기 : <a href ="<c:url value='/tasks' />">여기</a></h2>
 </body>
 </html>

@@ -17,12 +17,12 @@
             <form:hidden path="taskId"/>
         </c:if>
         <div>
-            <form:label path="title">Title:</form:label>
-            <form:input path="title" required="required"/>
+            <form:label path="taskTitle">Title:</form:label>
+            <form:input path="taskTitle" required="required"/>
         </div>
         <div>
-            <form:label path="description">Description:</form:label>
-            <form:textarea path="description" required="required"/>
+            <form:label path="taskDescription">Description:</form:label>
+            <form:textarea path="taskDescription" required="required"/>
         </div>
         <!-- Add more form fields as needed -->
         <div>

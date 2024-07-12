@@ -21,36 +21,57 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
     <meta charset="UTF-8">
     <title>Task List</title>
 </head>
+
 <body>
+
+<dic id ="container" >
+
+  <c:import url="/WEB-INF/includes/header.jsp"/>
+  
     <h1>Task List</h1>
     <a href="<c:url value='/tasks/create'/>">Create New Task</a>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="task" items="${tasks}">
-                <tr>
-                    <td>${task.taskId}</td>
-                    <td>${task.title}</td>
-                    <td>${task.description}</td>
-                    <td>
-                        <a href="<c:url value='/tasks/${task.taskId}'/>">View</a>
-                        <a href="<c:url value='/tasks/${task.taskId}/edit'/>">Edit</a>
-                        <form action="<c:url value='/tasks/${task.taskId}'/>" method="post" style="display:inline;">
-                            <input type="hidden" name="_method" value="DELETE"/>
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this task?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+    
+ <div id="wrapper">
+         <div id="content">
+            
+            <!-- Content -->
+            <table border="1">
+              <thead>
+                  <tr>
+                      <th>TaskID</th>
+                      <th>TaskTitle</th>
+                      <th>TaskDescription</th>
+                      <th>&nbsp;</th>
+                  </tr>
+              </thead>
+              
+              <tbody>
+                  <c:forEach var="vo" items="${tasks}">
+                      <tr>
+                          <td>${vo.taskId}</td>
+                          <td>${vo.taskTitle}</td>
+                          <td>${vo.taskDescription}</td>
+                          <td>
+                              <a href="<c:url value='/tasks/${vo.taskId}/'/>">상세 VIEW</a> </br>
+                              <a href="<c:url value='/tasks/${vo.taskId}/edit'/>"> TASK 수정</a> </br>
+                              
+                              <form action="<c:url value='/tasks/${vo.taskId}'/>" method="post" style="display:inline;">
+                                  <input type="hidden" name="_method" value="DELETE"/>
+                                  <button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">Delete</button>
+                              </form>
+                              
+                          </td>
+                      </tr>
+                  </c:forEach>
+              </tbody>
+          </table>
+          
+        </div>
+        
+     </div>   
+    
+ </div>
+ 
 </body>
 </html>
  
