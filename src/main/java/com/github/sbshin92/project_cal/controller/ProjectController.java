@@ -63,7 +63,7 @@ public class ProjectController {
             
             // 현재 로그인한 사용자 정보 조회
             String currentUsername = principal.getName();
-            UserVO currentUser = userService.getUserByUsername(currentUsername);
+            UserVO currentUser = userService.getUserByEmail(currentUsername);
             
             // 프로젝트 생성자 여부와 멤버 여부 확인
 //            boolean isProjectCreator = project.getUserId().equals(currentUser.getUserId());

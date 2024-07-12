@@ -26,3 +26,17 @@ server:
       timeout: 20m # 세션 유효 시간 설정
 file:
   upload-dir: /uploads
+  # 이메일로 토큰 보내기
+  mail:
+    host: smtp.example.com  # 이 값을 사용하려는 이메일 서버의 호스트로 변경
+    port: 587  # 대부분의 SMTP 서버는 이 포트를 사용
+    username: ${email}  # 환경 변수로 설정된 이메일 주소
+    password: ${userPassword}  # 환경 변수로 설정된 이메일 비밀번호
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true  # TLS를 사용하는 경우
+      mail.smtp.ssl.trust: smtp.example.com  # 사용하는 이메일 서버의 호스트로 변경
+
+  redis:
+    host: localhost
+    port: 6379

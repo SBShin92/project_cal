@@ -18,7 +18,7 @@
         </c:if>
         <form action="<c:url value="/login" />" method="post">
             <div class="form-group">
-                <label for="username">Username:</label>
+                <label for="username">Email:</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
