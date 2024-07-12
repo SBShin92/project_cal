@@ -31,18 +31,23 @@
             </table>
         </section>
         <aside class="right-panel">
-            <!--  projects, taks 프로젝트에서 가져와야 -->
-            <div class="today-events">
-                <h4>오늘의 프로젝트</h4>
-                <div class="project-item">
-                    <div class="project-title">UI 디자인 회의</div>
-                    <div class="project-status">진행 중 - 60% 완료</div>
-                </div>
+       		<!-- 프로젝트 생성 버튼 추가 -->
+            <div class="create-project">
+                <a id="createProjectBtn" class="btn btn-primary" href="<c:url value='/project/create' />">프로젝트 생성</a>
             </div>
-            <!-- 전체일정 projects 가져와야 -->
             <div class="project-list" id="projectList">
-                <h4>선택한 날짜의 프로젝트</h4>
-                <!-- 프로젝트 목록은 JavaScript로 동적 생성됩니다 -->
+                <h4>오늘의 프로젝트</h4>
+                
+                <c:if test="${ not empty projectListByDate }">
+                <c:forEach items="${ projectListByDate }" var="vo" varStatus="status">
+	                <div class="project-item">
+	                    <div class="project-title">
+	                    	<a href="<c:url value='/project' />/${vo.projectId}">${ vo.projectTitle }</a>
+	                    </div>
+	                    <div class="project-duration">${ vo.startDate } ~ ${ vo.endDate }</div>
+	                </div>
+                </c:forEach>
+                </c:if>
             </div>
         </aside>
     </main>

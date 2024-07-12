@@ -7,9 +7,9 @@ spring:
       suffix: .jsp
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/himedia
-    username: himedia
-    password: himedia
+    url: jdbc:mysql://138.2.119.233:3306/project01
+    username: project01
+    password: 7e0f51dbca86c4d8f8bdc38bd3503b883f84e3fb120d93f6aeaf885033c4a6f4
   #스프링 시큐리티 설정
   security:
      user:
@@ -24,3 +24,5 @@ server:
       cookie:
         name: PROJECTCAL_SESSIONID
       timeout: 20m # 세션 유효 시간 설정
+file:
+  upload-dir: /uploads
