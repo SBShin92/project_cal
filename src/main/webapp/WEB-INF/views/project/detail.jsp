@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
 </head>
 <body>
-
-<jsp:include page="/WEB-INF/includes/header.jsp" />
-<jsp:include page="/WEB-INF/includes/nav.jsp" />
-
-<div class="project-detail" data-project-id="${project.projectId}">
+	<header>
+        <h1 id="projectTitle">프로젝트 제목 : ${project.projectTitle}</h1>
+    </header>
+    
+    <div class="project-detail" data-project-id="${project.projectId}">
     <header>
         <h1 id="projectTitle">프로젝트 제목 : ${project.projectTitle}</h1>
         <p id="projectDate">

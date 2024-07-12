@@ -21,9 +21,19 @@
 </header>
 
 <main>
-<form action="<c:url value='/project/create'/>" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="userId" value="${sessionScope.userId}" />
 
+    	<!--  form action='<c:url value="/project/create"/>'
+    		method="post">
+    		<input type="hidden" name="userId" value="1"/>
+    		<input type="hidden" name="projectTitle" value="testing"/>
+    		<input type="hidden" name="projectDescription" value="testing"/>
+    		<input type="hidden" name="projectStatus" value="ongoing"/>
+    		<button type="submit">작성</button>
+    	</form-->
+<form action="<c:url value='/project/create'/>" method="post" enctype="multipart/form-data">
+    <!-- 
+    <input type="hidden" name="userId" value="${userId}" />
+ -->
     <div class="form-group">
         <label for="projectTitle">프로젝트 제목:</label>
         <input type="text" id="projectTitle" name="projectTitle" required="required" />
@@ -55,11 +65,6 @@
     </div>
 
     <div class="form-group">
-        <label for="projectImage">프로젝트 이미지:</label>
-        <input type="file" id="projectImage" name="projectImage" accept="image/*" multiple>
-    </div>
-
-    <div class="form-group">
         <label for="projectFiles">첨부 파일:</label>
         <input type="file" id="projectFiles" name="projectFiles" multiple>
     </div>
@@ -77,12 +82,5 @@
 <script src="<c:url value='/javascript/form.js'/>"></script>
 </body>
 </html>
-    	<!-- form action='<c:url value="/project/create"/>'
-    		method="post">
-    		<input type="hidden" name="userId" value="1"/>
-    		<input type="hidden" name="projectTitle" value="testing"/>
-    		<input type="hidden" name="projectDescription" value="testing"/>
-    		<input type="hidden" name="projectStatus" value="ongoing"/>
-    		<button type="submit">작성</button>
-    	</form-->
+
 	    

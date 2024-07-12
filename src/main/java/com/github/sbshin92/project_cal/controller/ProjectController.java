@@ -52,9 +52,9 @@ public class ProjectController {
     public String getProject(@PathVariable(required = false) Integer projectId, Model model, Principal principal) {
         try {
             // projectId가 null이면 캘린더 페이지로 리다이렉트
-            if (projectId == null) {
-                return "project/detail";
-            }
+//            if (projectId == null) {
+//                return "project/detail";
+//            }
         
 //            
 //            // 프로젝트 정보 조회
