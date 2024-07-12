@@ -32,16 +32,25 @@ public interface ProjectsDAO {
      * @param projectId 조회할 프로젝트의 ID
      * @return 조회된 프로젝트 정보
      */
-    @Select("SELECT * FROM projects WHERE project_id = #{projectId}")
+    @Select("SELECT project_id as projectId, "
+    		+ " user_id as userId, "
+    		+ " project_title as projectTitle,"
+    		+ " project_description as projectDescription,"
+    		+ " project_status as projectStatus, "
+    		+ " start_date as startDate, "
+    		+ " end_date as endDate "
+    		+ " FROM projects WHERE project_id = #{projectId}")
     ProjectVO findById(@Param("projectId") int projectId);
     
+    
+    // TODO userId 꼭 바꿔야함
     /**
      * 새 프로젝트를 데이터베이스에 삽입합니다.
      * @param project 삽입할 프로젝트 정보
      * @return 삽입된 행의 수
      */
     @Insert("INSERT INTO projects (user_id, project_title, project_description, start_date, end_date) " +
-            "VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate})")
+            "VALUES (1, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate})")
     @Options(useGeneratedKeys = true, keyProperty = "projectId")
     int insert(ProjectVO project);
     
@@ -71,10 +80,10 @@ public interface ProjectsDAO {
      * @param fileSize 파일 크기
      * @return 삽입된 행의 수
      */
-    @Insert("INSERT INTO project_files (project_id, file_name, file_path, file_size) " +
-            "VALUES (#{projectId}, #{fileName}, #{filePath}, #{fileSize})")
-    int insertFile(@Param("projectId") int projectId, @Param("fileName") String fileName, 
-                   @Param("filePath") String filePath, @Param("fileSize") long fileSize);
+//    @Insert("INSERT INTO project_files (project_id, file_name, file_path, file_size) " +
+//            "VALUES (#{projectId}, #{fileName}, #{filePath}, #{fileSize})")
+//    int insertFile(@Param("projectId") int projectId, @Param("fileName") String fileName, 
+//                   @Param("filePath") String filePath, @Param("fileSize") long fileSize);
     
     /**
      * 특정 사용자가 특정 프로젝트의 멤버인지 확인합니다.
@@ -98,5 +107,5 @@ public interface ProjectsDAO {
      * @param projectId 파일 경로를 조회할 프로젝트의 ID
      * @return 프로젝트 파일 경로 목록
      */
-    List<String> getProjectFilePaths(int projectId);
+//    List<String> getProjectFilePaths(int projectId);
 }

@@ -36,7 +36,7 @@ public interface ProjectService {
 	    ProjectVO getProjectById(int projectId);
 	    List<ProjectVO> getAllProjects();
 	    boolean updateProject(ProjectVO project);
-	    boolean deleteProject(int projectId);
-	    boolean isUserProjectMember(Integer userId, Integer projectId);
-	    List<UserVO> getProjectMembers(Integer projectId);
+//	    boolean deleteProject(int projectId);
+//	    boolean isUserProjectMember(Integer userId, Integer projectId);
+//	    List<UserVO> getProjectMembers(Integer projectId);
 }

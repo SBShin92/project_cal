@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -28,7 +29,10 @@ public class ProjectVO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String projectStatus;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
-    private List<MultipartFile> files;
 }
