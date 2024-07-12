@@ -31,7 +31,7 @@ public class MainSecurity {
 
 		 http
          .authorizeHttpRequests(authorize -> authorize
-             .requestMatchers("/css/**", "/js/**","/**","/login/login", "/verify-token", "/error").permitAll()
+             .requestMatchers("/css/**", "/js/**","/**","/login/","login/verify-token","/error/**").permitAll()
              .anyRequest().authenticated()
          )
          .formLogin(formLogin -> formLogin
@@ -44,12 +44,13 @@ public class MainSecurity {
              .logoutSuccessUrl("/login")
              .permitAll()
          )
+         
          .userDetailsService(userDetailsService)
          .sessionManagement(session -> session
              .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
          )
          .csrf(csrf -> csrf
-                 .ignoringRequestMatchers("/verify-token") // CSRF 보호에서 제외할 경로
+                 .ignoringRequestMatchers("/login","/verify-token") // CSRF 보호에서 제외할 경로
              );
 
      return http.build();
