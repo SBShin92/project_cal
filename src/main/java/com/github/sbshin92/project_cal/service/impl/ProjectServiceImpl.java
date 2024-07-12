@@ -53,6 +53,8 @@ public class ProjectServiceImpl implements ProjectService {
         // 프로젝트 정보를 데이터베이스에 삽입
         projectsDAO.insert(project);
         
+        System.out.println("projectserviceimpl" + project.getProjectId());
+        
         // 프로젝트 관련 파일 업로드
         uploadProjectFiles(project);
         
