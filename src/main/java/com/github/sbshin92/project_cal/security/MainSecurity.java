@@ -31,23 +31,27 @@ public class MainSecurity {
 
 		 http
          .authorizeHttpRequests(authorize -> authorize
-             .requestMatchers("/css/**", "/js/**", "/**", "/login/login", "/home","/").permitAll()
+             .requestMatchers("/css/**", "/js/**","/**","/login/","login/verify-token","/error/**").permitAll()
              .anyRequest().authenticated()
          )
          .formLogin(formLogin -> formLogin
              .loginPage("/login")
-             .defaultSuccessUrl("/home", true)
+             .defaultSuccessUrl("/calendar", true)
+             .failureUrl("/error/404")
              .permitAll()
          )
          .logout(logout -> logout
              .logoutSuccessUrl("/login")
              .permitAll()
          )
+         
          .userDetailsService(userDetailsService)
          .sessionManagement(session -> session
              .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
          )
-         .csrf(csrf -> csrf.disable());
+         .csrf(csrf -> csrf
+                 .ignoringRequestMatchers("/login","/verify-token") // CSRF 보호에서 제외할 경로
+             );
 
      return http.build();
  }

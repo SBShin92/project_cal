@@ -8,5 +8,5 @@ public interface UserService {
 	public List<UserVO> getAllUsers();
 	public boolean addUser(UserVO userVO);
 	
-	public UserVO getUserByUsername(String currentUsername);
+	public UserVO getUserByEmail(String email);
 }
