@@ -70,7 +70,17 @@ public class TaskServiceImpl implements TaskService {
         return tasksDAO.addMemberToTask(userId, taskId);
     }
 
+		//기능 추가 
+    	@Override
+    	 public List<TaskVO> getTasksByProjectId(Integer projectId) {
+            if (projectId == null) {
+                throw new IllegalArgumentException("Project ID cannot be null");
+            }
+            return tasksDAO.getTasksByProjectId(projectId);
+        }
+
         
+    
     }
 
 //TaskServiceImpl.java

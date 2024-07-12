@@ -15,7 +15,6 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
 
 -->
 
-
 <!DOCTYPE html>
 <html>
 <head>

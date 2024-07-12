@@ -77,6 +77,19 @@ public interface TasksDAO {
 	    // 이미 생성된 users_tasks에 새 멤버 추가
 	    @Insert("INSERT INTO users_tasks (user_id, task_id) VALUES (#{userId}, #{taskId})")
 	    public int addMemberToTask(@Param("userId") Integer userId, @Param("taskId") Integer taskId);
+
+	    //
+	    @Select("SELECT t.task_id as taskId, " +
+	            "t.user_id as userId, " +
+	            "t.project_id as projectId, " +
+	            "t.task_title as taskTitle, " +
+	            "t.task_description as taskDescription, " +
+	            "t.created_at as createdAt, " +
+	            "t.updated_at as updatedAt, " +
+	            "t.task_status as taskStatus " +
+	            "FROM tasks t " +
+	            "WHERE t.project_id = #{projectId}")
+	    public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
 }
 
 // TasksDAO.java

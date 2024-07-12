@@ -48,8 +48,11 @@ public interface TaskService {
 		
 	//2) users_tasks 테이블에서 테스크에 뉴멤버 새로 추가하는 메서드
 	public int addMemberToTask(@Param("userId") Integer userId, @Param("taskId") Integer taskId);
-	
-	
+
+	 //3)특정 프로젝트에 속한 모든 태스크를 조회합니다.
+     //@param projectId 조회할 프로젝트의 ID
+     //@return 해당 프로젝트의 모든 태스크 리스트
+     List<TaskVO> getTasksByProjectId(Integer projectId);
 }
 	
 	// TaskService.java

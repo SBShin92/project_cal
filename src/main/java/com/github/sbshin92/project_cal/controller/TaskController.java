@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
+import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.TaskService;
 
 @Controller
@@ -32,6 +33,9 @@ public class TaskController {
 		@Autowired
 	    private TaskService taskService;
 
+		@Autowired
+	    private ProjectService projectService;
+		
 		/*
 	    @Autowired
 	    public TaskController(TaskService taskService) {
@@ -39,58 +43,74 @@ public class TaskController {
 	    }
 	    */
 
-	    @GetMapping
-	    public String listTasks(Model model) {
-	        List<TaskVO> tasks = taskService.findAll();
-	        model.addAttribute("tasks", tasks);
-	        return "task/list";
-	    }
+		 @GetMapping
+		    public String listTasks(Model model) {
+		        List<TaskVO> tasks = taskService.findAll();
+		        model.addAttribute("tasks", tasks);
+		        return "task/list";
+		    }
 
-	    @GetMapping("/{taskId}")
-	    public String viewTask(@PathVariable int taskId, Model model) {
-	        TaskVO task = taskService.findById(taskId);
-	        model.addAttribute("task", task);
-	        return "task/view";
-	    }
+		    @GetMapping("/{taskId}")
+		    public String viewTask(@PathVariable int taskId, Model model) {
+		        TaskVO task = taskService.findById(taskId);
+		        model.addAttribute("task", task);
+		        return "task/view";
+		    }
 
-	    @GetMapping("/create")
-	    public String createTaskForm(Model model) {
-	        model.addAttribute("task", new TaskVO());
-	        return "task/form";
-	    }
+		    @GetMapping("/create")
+		    public String createTaskForm(Model model) {
+		        model.addAttribute("task", new TaskVO());
+		        return "task/form";
+		    }
 
-	    @PostMapping
-	    public String createTask(@ModelAttribute TaskVO taskVO) {
-	        taskService.insert(taskVO);
-	        return "redirect:/tasks";
-	    }
+		    @PostMapping
+		    public String createTask(@ModelAttribute TaskVO taskVO) {
+		        taskService.insert(taskVO);
+		        return "redirect:/tasks";
+		    }
 
-	    @GetMapping("/{taskId}/edit")
-	    public String editTaskForm(@PathVariable int taskId, Model model) {
-	        TaskVO task = taskService.findById(taskId);
-	        model.addAttribute("task", task);
-	        return "task/form";
-	    }
+		    @GetMapping("/{taskId}/edit")
+		    public String editTaskForm(@PathVariable int taskId, Model model) {
+		        TaskVO task = taskService.findById(taskId);
+		        model.addAttribute("task", task);
+		        return "task/form";
+		    }
 
-	    @PostMapping("/{taskId}")
-	    public String updateTask(@PathVariable int taskId, @ModelAttribute TaskVO taskVO) {
-	        taskVO.setTaskId(taskId);
-	        taskService.updateTask(taskVO);
-	        return "redirect:/tasks/" + taskId;
-	    }
+		    @PostMapping("/{taskId}")
+		    public String updateTask(@PathVariable int taskId, @ModelAttribute TaskVO taskVO) {
+		        taskVO.setTaskId(taskId);
+		        taskService.updateTask(taskVO);
+		        return "redirect:/tasks/" + taskId;
+		    }
 
-	    @DeleteMapping("/{taskId}")
-	    public ResponseEntity<Void> deleteTask(@PathVariable int taskId) {
-	        taskService.deleteTask(taskId);
-	        return ResponseEntity.ok().build();
-	    }
+		    @DeleteMapping("/{taskId}")
+		    public ResponseEntity<Void> deleteTask(@PathVariable int taskId) {
+		        taskService.deleteTask(taskId);
+		        return ResponseEntity.ok().build();
+		    }
 
-	    @PostMapping("/{taskId}/members")
-	    public ResponseEntity<Void> addMemberToTask(@PathVariable int taskId, @RequestParam int userId) {
-	        taskService.addMemberToTask(userId, taskId);
-	        return ResponseEntity.ok().build();
-	    }
-	}
+		    @PostMapping("/{taskId}/members")
+		    public ResponseEntity<Void> addMemberToTask(@PathVariable int taskId, @RequestParam Integer userId) {
+		        try {
+		            taskService.addMemberToTask(userId, taskId);
+		            return ResponseEntity.ok().build();
+		        } catch (IllegalArgumentException | IllegalStateException e) {
+		            return ResponseEntity.badRequest().build();
+		        }
+		    }
+
+		    @GetMapping("/project/{projectId}")
+		    public String getTasksByProjectId(@PathVariable Integer projectId, Model model) {
+		        try {
+		            List<TaskVO> tasks = taskService.getTasksByProjectId(projectId);
+		            model.addAttribute("tasks", tasks);
+		            return "task/list";
+		        } catch (IllegalArgumentException e) {
+		            // Handle the case when projectId is null
+		            return "error/400";
+		        }
+		    }
+		}
 	
 	/*
     @Autowired

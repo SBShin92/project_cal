@@ -15,7 +15,6 @@
     <form:form action="${task.taskId == null ? '/tasks' : '/tasks/'.concat(task.taskId)}" method="post" modelAttribute="task">
         <c:if test="${task.taskId != null}">
             <form:hidden path="taskId"/>
-            <input type="hidden" name="_method" value="PUT"/>
         </c:if>
         <div>
             <form:label path="title">Title:</form:label>
