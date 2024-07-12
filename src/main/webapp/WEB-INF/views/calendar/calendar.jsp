@@ -85,21 +85,22 @@
 				<a id="createProjectBtn" class="btn btn-primary"
 					href="<c:url value='/project/create' />">프로젝트 생성</a>
 			</div>
-			<div class="project-list" id="projectList">
-				<h4>오늘의 프로젝트</h4>
-
-				<c:if test="${ not empty projectListByDate }">
-					<c:forEach items="${ projectListByDate }" var="vo"
-						varStatus="status">
-						<div class="project-item">
-							<div class="project-title">
-								<a href="<c:url value='/project' />/${vo.projectId}">${ vo.projectTitle }</a>
+			<c:if test="${ not empty viewDate }">
+				<div class="project-list" id="projectList">
+					<h4 id="view-date">${ viewDate }일 프로젝트</h4>
+					<c:if test="${ not empty projectListByDate }">
+						<c:forEach items="${ projectListByDate }" var="vo"
+							varStatus="status">
+							<div class="project-item">
+								<div class="project-title">
+									<a href="<c:url value='/project' />/${vo.projectId}">${ vo.projectTitle }</a>
+								</div>
+								<div class="project-duration">${ vo.startDate }~${ vo.endDate }</div>
 							</div>
-							<div class="project-duration">${ vo.startDate }~ ${ vo.endDate }</div>
-						</div>
-					</c:forEach>
-				</c:if>
-			</div>
+						</c:forEach>
+					</c:if>
+				</div>
+			</c:if>
 		</aside>
 	</main>
 

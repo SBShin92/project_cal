@@ -139,3 +139,11 @@ main {
     font-size: 0.9em;
     color: #666;
 }
+
+.calendar-date:hover {
+    background: #ddd;
+}
+
+.clicked {
+    background: #bbb;
+}

@@ -1,31 +1,11 @@
 const today = new Date();
+const viewYearMonthFromHeaderJSP = document.getElementsByClassName("view-date")[0];
 
 document.addEventListener('DOMContentLoaded', () => {
-	// Get the current year and month
-	let currentYear = today.getFullYear();
-	let currentMonth = today.getMonth() + 1;
+	let year = parseInt(viewYearMonthFromHeaderJSP.textContent);
+	let month = parseInt(viewYearMonthFromHeaderJSP.textContent.split("년 ")[1]);
 
-	createCalendar(currentYear, currentMonth); // default: today's date
-
-	// 다음 달 버튼
-	document.getElementsByClassName("prev-button")[0].addEventListener("click", () => {
-		currentMonth -= 1;
-		if (currentMonth === 0) {
-			currentMonth = 12;
-			currentYear -= 1;
-		}
-		createCalendar(currentYear, currentMonth);
-	});
-
-	// 이전 달 버튼
-	document.getElementsByClassName("next-button")[0].addEventListener("click", () => {
-		currentMonth += 1;
-		if (currentMonth === 13) {
-			currentMonth = 1;
-			currentYear += 1;
-		}
-		createCalendar(currentYear, currentMonth);
-	});
+	createCalendar(year, month);
 });
 
 
@@ -38,6 +18,12 @@ const createCalendar = async (year, month) => {
 		monthString += "0";
 	monthString += month.toString();
 
+	// 클릭한 date는 몇일?
+	const projectList = document.getElementById("view-date");
+	let clickedDate = 0;
+	if (projectList !== null) {
+		clickedDate = parseInt(projectList.textContent);
+	}
 
 	// 지난 달 마지막 요일
 	const lastMonthEndDay = new Date(year, month - 1, 0).getDay();
@@ -63,23 +49,29 @@ const createCalendar = async (year, month) => {
 				// 날짜를 문자열로 변환
 				let dateString = formatDate(new Date(year, month - 1, date));
 
-				// 주말이거나 공휴일이면 weekend 클래스 추가
+				// 주말이면 weekend 클래스 추가
 				td.className = (j === 0 || j === 6) ? "weekend" : "";
 				
 				// 날짜 숫자 표시 태그
 				const divDate = document.createElement("div");
 				divDate.textContent = date;
+				td.classList.add("calendar-date");
+				if (date == clickedDate)
+					td.classList.add("clicked");
 
-				
+				// 공휴일이면 weekend 클래스 추가 및 공휴일 글자 삽입
 				if (holiday.some(h => h.locdate === dateString)) {
 					td.classList.add("weekend");
 					const holidayName = holiday.find(h => h.locdate === dateString).dateName;
-					divDate.textContent += ` (${holidayName})`;
+					divDate.textContent += ` ${holidayName}`;
 				}
+				
+				// 날짜에 클릭 이벤트 추가(프로젝트 리스트 출력)
 				(function(date) {
 					td.addEventListener("click", () => {
-						const clickedDateFormat = new Date(year, month - 1, date);
-						window.location.href = "calendar/" + formatDate(clickedDateFormat);
+						const urlYearMonth = String(year) + String(month < 10 ? "0" + month : month);
+						const urlDate = String(date);
+						window.location.href = "calendar/" + urlYearMonth + "/" + urlDate;
 					});
 				})(date);
 				td.appendChild(divDate);
@@ -98,8 +90,6 @@ const createCalendar = async (year, month) => {
 		prevTbody.remove();
 	// tbody 쏴주기
 	document.querySelector(".calendar table").appendChild(tbody);
-	// 달력 날짜 갱신
-	document.getElementsByClassName("view-date")[0].textContent = `${year}년 ${month}월`;
 };
 
 const formatDate = (date) => {
@@ -117,7 +107,7 @@ const formatDate = (date) => {
 
 
 
-// 공휴일 체크
+// 공휴일 체크 API
 const getHolidayMonth = async (year, month) => {
 	const holiday = [];
 	const url = 'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo';
