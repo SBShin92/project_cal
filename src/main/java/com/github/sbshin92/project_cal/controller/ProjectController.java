@@ -22,10 +22,12 @@ import com.github.sbshin92.project_cal.service.UserService;
 
 import jakarta.validation.Valid;
 
-/**
- * 프로젝트 관리 기능을 처리하는 컨트롤러
- * 프로젝트 조회, 생성, 수정, 삭제 기능을 제공
- */
+
+//
+///**
+// * 프로젝트 관리 기능을 처리하는 컨트롤러
+// * 프로젝트 조회, 생성, 수정, 삭제 기능을 제공
+// */
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
@@ -49,31 +51,31 @@ public class ProjectController {
     @GetMapping({"", "/", "/{projectId}"})
     public String getProject(@PathVariable(required = false) Integer projectId, Model model, Principal principal) {
         try {
-            // projectId가 null이면 프로젝트 목록 페이지로 리다이렉트
-            if (projectId == null) {
-//                return "redirect:/project/list";
-                return "project/detail";
-            }
-            
-            // 프로젝트 정보 조회
+            // projectId가 null이면 캘린더 페이지로 리다이렉트
+//            if (projectId == null) {
+//                return "project/detail";
+//            }
+        
+//            
+//            // 프로젝트 정보 조회
             ProjectVO project = projectService.getProjectById(projectId);
             if (project == null) {
                 throw new Exception("Project not found");
             }
             
             // 현재 로그인한 사용자 정보 조회
-            String currentUsername = principal.getName();
-            UserVO currentUser = userService.getUserByUsername(currentUsername);
+//            String currentUsername = principal.getName();
+//            UserVO currentUser = userService.getUserByUsername(currentUsername);
             
             // 프로젝트 생성자 여부와 멤버 여부 확인
-//            boolean isProjectCreator = project.getUserId().equals(currentUser.getUserId());
-            boolean isProjectMember = projectService.isUserProjectMember(currentUser.getUserId(), projectId);
+//           boolean isProjectCreator = project.getUserId().equals(currentUser.getUserId());
+//            boolean isProjectMember = projectService.isUserProjectMember(currentUser.getUserId(), projectId);
             
             // 모델에 데이터 추가
             model.addAttribute("project", project);
-            Object isProjectCreator = null;
+            Object isProjectCreator = new Object();
 			model.addAttribute("isProjectCreator", isProjectCreator);
-            model.addAttribute("isProjectMember", isProjectMember);
+//            model.addAttribute("isProjectMember", isProjectMember);
             model.addAttribute("projectMembers", projectService.getProjectMembers(projectId));
             model.addAttribute("projectTasks", taskService.getTasksByProjectId(projectId));
             
@@ -85,52 +87,55 @@ public class ProjectController {
         }
     }
 
-    /**
-     * 새 프로젝트 생성 폼을 표시
-     * @param model 뷰에 전달할 데이터를 담는 모델 객체
-     * @param principal 현재 로그인한 사용자 정보
-     * @return 프로젝트 생성 폼 페이지 뷰 이름 또는 접근 거부 페이지
-     */
+
+//    /**
+//     * 새 프로젝트 생성 폼을 표시
+//     * @param model 뷰에 전달할 데이터를 담는 모델 객체
+//     * @param principal 현재 로그인한 사용자 정보
+//     * @return 프로젝트 생성 폼 페이지 뷰 이름 또는 접근 거부 페이지
+//     */
     @GetMapping("/create")
     public String createProjectForm(Model model, Principal principal) {
-//        // 현재 사용자의 프로젝트 생성 권한 확인
-//        UserVO currentUser = userService.getUserByUsername(principal.getName());
-//        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
-//            return "error/403"; // 권한 없음 페이지로 리다이렉트
-//        }
+////        // 현재 사용자의 프로젝트 생성 권한 확인
+////        UserVO currentUser = userService.getUserByUsername(principal.getName());
+////        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
+////            return "error/403"; // 권한 없음 페이지로 리다이렉트
+////        }
         model.addAttribute("project", new ProjectVO());
         return "project/form";
     }
 
-    /**
-     * 새 프로젝트를 생성
-     * @param project 생성할 프로젝트 정보
-     * @param result 유효성 검사 결과
-     * @param redirectAttributes 리다이렉트 시 전달할 속성
-     * @param principal 현재 로그인한 사용자 정보
-     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
-     */
+//    /**
+//     * 새 프로젝트를 생성
+//     * @param project 생성할 프로젝트 정보
+//     * @param result 유효성 검사 결과
+//     * @param redirectAttributes 리다이렉트 시 전달할 속성
+//     * @param principal 현재 로그인한 사용자 정보
+//     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
+//     */
     @PostMapping("/create")
     public String createProject(@Valid @ModelAttribute ProjectVO project, BindingResult result, 
                                 RedirectAttributes redirectAttributes, Principal principal) {
+
         // 폼 데이터 유효성 검사
         if (result.hasErrors()) {
             return "project/form";
         }
 
-        // 사용자의 프로젝트 생성 권한 확인
-//        UserVO currentUser = userService.getUserByUsername(principal.getName());
-//        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
-//            redirectAttributes.addFlashAttribute("error", "프로젝트 생성 권한이 없습니다.");
-//            return "redirect:/project/list";
-//        }
-
-        // 프로젝트 생성자 설정
-//        project.setUserId(currentUser.getUserId());
-        
+//        // 사용자의 프로젝트 생성 권한 확인
+////        UserVO currentUser = userService.getUserByUsername(principal.getName());
+////        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
+////            redirectAttributes.addFlashAttribute("error", "프로젝트 생성 권한이 없습니다.");
+////            return "redirect:/project/list";
+////        }
+//
+//        // 프로젝트 생성자 설정
+//       project.setUserId(currentUser.getUserId());
+//        
         try {
             // 프로젝트 생성 (파일 업로드 포함)
             projectService.createProject(project);
+        	System.out.println("project " + project.getProjectId());
             redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
         } catch (IOException e) {
             // 파일 업로드 실패 시 에러 메시지 설정
@@ -139,14 +144,15 @@ public class ProjectController {
         }
         
         return "redirect:/calendar";
+       
     }
-
-    /**
-     * 프로젝트 수정 폼을 표시
-     * @param projectId 수정할 프로젝트의 ID
-     * @param model 뷰에 전달할 데이터를 담는 모델 객체
-     * @return 프로젝트 수정 폼 페이지 뷰 이름 또는 에러 페이지
-     */
+//
+//    /**
+//     * 프로젝트 수정 폼을 표시
+//     * @param projectId 수정할 프로젝트의 ID
+//     * @param model 뷰에 전달할 데이터를 담는 모델 객체
+//     * @return 프로젝트 수정 폼 페이지 뷰 이름 또는 에러 페이지
+//     */
     @GetMapping("/update/{projectId}")
     public String updateProjectForm(@PathVariable int projectId, Model model) {
         try {
@@ -159,18 +165,19 @@ public class ProjectController {
             return "error/404";
         }
     }
-
-    /**
-     * 프로젝트를 수정
-     * @param projectId 수정할 프로젝트의 ID
-     * @param project 수정할 프로젝트 정보
-     * @param result 유효성 검사 결과
-     * @param redirectAttributes 리다이렉트 시 전달할 속성
-     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
-     */
+//
+//    /**
+//     * 프로젝트를 수정
+//     * @param projectId 수정할 프로젝트의 ID
+//     * @param project 수정할 프로젝트 정보
+//     * @param result 유효성 검사 결과
+//     * @param redirectAttributes 리다이렉트 시 전달할 속성
+//     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
+//     */
     @PostMapping("/update/{projectId}")
     public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project, 
                                 BindingResult result, RedirectAttributes redirectAttributes) {
+    	
         // 폼 데이터 유효성 검사
         if (result.hasErrors()) {
             return "project/form";
