@@ -108,17 +108,17 @@ public class ProjectServiceImpl implements ProjectService {
      * @param projectId 삭제할 프로젝트 ID
      * @return 삭제 성공 여부
      */
-//    @Override
-//    @Transactional
-//    public boolean deleteProject(int projectId) {
+    @Override
+    @Transactional
+    public boolean deleteProject(int projectId) {
 //        logger.info("Deleting project with ID: {}", projectId);
-//        
-//        // 프로젝트 관련 파일 경로 조회
+        
+        // 프로젝트 관련 파일 경로 조회
 //        List<String> filePaths = projectsDAO.getProjectFilePaths(projectId);
-//        
-//        // 프로젝트 삭제
-//        boolean deleted = projectsDAO.delete(projectId) > 0;
-//        
+        
+        // 프로젝트 삭제
+        boolean deleted = projectsDAO.delete(projectId) > 0;
+        
 //        if (deleted) {
 //            // 프로젝트 관련 파일 삭제
 //            deleteProjectFiles(filePaths);
@@ -126,8 +126,8 @@ public class ProjectServiceImpl implements ProjectService {
 //        } else {
 //            logger.warn("Failed to delete project with ID: {}", projectId);
 //        }
-//        return deleted;
-//    }
+        return deleted;
+    }
 
     /**
      * 사용자가 프로젝트의 멤버인지 확인합니다.

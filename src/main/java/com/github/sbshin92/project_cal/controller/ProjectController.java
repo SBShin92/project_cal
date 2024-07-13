@@ -182,16 +182,17 @@ public class ProjectController {
      * @param redirectAttributes 리다이렉트 시 전달할 속성
      * @return 리다이렉트 URL
      */
-//    @PostMapping("/delete/{projectId}")
-//    public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
-//        try {
-//            // 프로젝트 삭제
-//            projectService.deleteProject(projectId);
-//            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
-//        } catch (Exception e) {
-//            // 프로젝트를 찾을 수 없는 경우 에러 메시지 설정
-//            redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
-//        }
-//        return "redirect:/calendar";
-//    }
+    @PostMapping("/delete/{projectId}")
+    public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
+        try {
+            // 프로젝트 삭제
+            projectService.deleteProject(projectId);
+            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            // 프로젝트를 찾을 수 없는 경우 에러 메시지 설정
+            redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
+        }
+        
+        return "redirect:/calendar";
+    }
 }
