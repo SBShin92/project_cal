@@ -118,7 +118,7 @@ public class ProjectController {
         try {
             // 프로젝트 생성 (파일 업로드 포함)
             projectService.createProject(projectVO);
-        	System.out.println("project " + projectVO.getProjectId());
+        	//System.out.println("project " + projectVO.getProjectId());
             redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
             System.out.println(" isGood?");
         } catch (IOException e) {

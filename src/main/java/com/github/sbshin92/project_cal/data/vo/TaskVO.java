@@ -2,17 +2,9 @@ package com.github.sbshin92.project_cal.data.vo;
 
 import java.sql.Timestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 public class TaskVO {
 	private int taskId;
     private int userId;

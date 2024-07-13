@@ -8,28 +8,30 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>${task.taskId == null ? 'Create' : 'Edit'} Task</title>
+    <title>${task.taskId == 0 ? 'Create' : 'Edit'} Task</title>
 </head>
 <body>
-    <h1>${task.taskId == null ? 'Create' : 'Edit'} Task</h1>
-    <form:form action="${task.taskId == null ? '/tasks' : '/tasks/'.concat(task.taskId)}" method="post" modelAttribute="task">
-        <c:if test="${task.taskId != null}">
-            <form:hidden path="taskId"/>
+    <h1>${task.taskId == 0 ? 'Create' : 'Edit'} Task</h1>
+    <form action="${task.taskId == 0 ? '/project_cal/tasks/createTask' : '/project_cal/tasks/updateTask/'.concat(task.taskId)}" method="post" modelAttribute="task">
+        <c:if test="${task.taskId != 0}">
+            <input type="hidden" name="taskId" value="${task.taskId} "/>                   
         </c:if>
+        <input type="hidden" name="userId" value="${task.userId }"/>
+        <input type="hidden" name="projectId" value="${task.projectId }"/>
+        <div>        
+            <label path="taskTitle">Title:</label>
+            <input type="text" name="taskTitle" value="${task.taskTitle }" />
+        </div>          
         <div>
-            <form:label path="taskTitle">Title:</form:label>
-            <form:input path="taskTitle" required="required"/>
-        </div>
-        <div>
-            <form:label path="taskDescription">Description:</form:label>
-            <form:textarea path="taskDescription" required="required"/>
+            <label path="taskDescription">Description:</label>
+            <textarea name="taskDescription" >${task.taskDescription }</textarea>
         </div>
         <!-- Add more form fields as needed -->
         <div>
-            <button type="submit">${task.taskId == null ? 'Create' : 'Update'} Task</button>
+            <button type="submit">${task.taskId == 0 ? 'Create' : 'Update'} Task</button>
         </div>
-    </form:form>
-    <a href="<c:url value='/tasks'/>">Back to List</a>
+    </form>
+    <a href="<c:url value='/tasks'/>">Back to List</a>  
 </body>
 </html>
 

@@ -2,22 +2,21 @@
 
 	import lombok.AllArgsConstructor;
 	import lombok.Builder;
-	import lombok.Getter;
+import lombok.Data;
+import lombok.Getter;
 	import lombok.NoArgsConstructor;
 	import lombok.Setter;
-	import java.util.Date;	
 
-	@Getter
-	@Setter
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@Builder
+import java.sql.Timestamp;
+import java.util.Date;	
+
+	@Data
 	public class UsersTasksVO {
 		private int userId;
+		private String userName;
 		private int taskId;
 		private int projectId;
 		private Date createdAt;
 
 	}
 	
-	//UsersTasksVO.java 새로 추가함
