@@ -39,11 +39,11 @@ public class TaskController {
 
 		//테스크 생성 폼
 	    @GetMapping("/createTaskForm")
-	    public String createTaskForm(@RequestParam("taskId") int taskId, 
-	    							@RequestParam("userId") int userId, 
-					                @RequestParam("projectId") int projectId, 
-					                @RequestParam("taskTitle") String taskTitle, 
-					                @RequestParam("taskDescription") String taskDescription,
+	    public String createTaskForm(@RequestParam(defaultValue="0") int taskId, 
+	    							@RequestParam(defaultValue="0") int userId, 
+					                @RequestParam(defaultValue="0") int projectId, 
+					                @RequestParam(required = false) String taskTitle, 
+					                @RequestParam(required = false) String taskDescription,
 					                Model model) {
 	    	TaskVO taskVo = new TaskVO();
 	    	taskVo.setTaskId(taskId);

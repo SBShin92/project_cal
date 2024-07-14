@@ -21,7 +21,7 @@
     <c:import url="/WEB-INF/includes/header.jsp"/>
 
     <h1>Task Details</h1>
-    <a href="<c:url value='/tasks'/>">Back to Task List</a>
+    <a href="<c:url value='/tasks/listTasks'/>">Back to Task List</a>
 
     <div id="wrapper">
         <div id="content">
@@ -60,8 +60,20 @@
 
             <!-- Task Actions -->
             <h2>Actions</h2>
-            <a href="<c:url value='/tasks/${task.taskId}/edit'/>">Edit Task</a><br>
-            <button onclick="deleteTask(${task.taskId})">Delete Task</button>
+            <form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display:inline;">
+                <input type="hidden" name="taskId" value="${task.taskId}"/>
+                <input type="hidden" name="userId" value="${task.userId}"/>
+                <input type="hidden" name="projectId" value="${task.projectId}"/>
+                <input type="hidden" name="taskTitle" value="${task.taskTitle}"/>
+                <input type="hidden" name="taskDescription" value="${task.taskDescription}"/>
+                
+                <button type="submit" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">TASK 수정</button>
+            </form>
+        
+ 			<form action="<c:url value='/tasks/deleteTask/${task.taskId}'/>" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">TASK 삭제</button>
+            </form>       
+            
 
             <!-- Add Member Form -->
             <h2>Add Member to Task</h2>

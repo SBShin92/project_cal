@@ -12,6 +12,7 @@
 </head>
 <body>
     <h1>${task.taskId == 0 ? 'Create' : 'Edit'} Task</h1>
+    
     <form action="${task.taskId == 0 ? '/project_cal/tasks/createTask' : '/project_cal/tasks/updateTask/'.concat(task.taskId)}" method="post" modelAttribute="task">
         <c:if test="${task.taskId != 0}">
             <input type="hidden" name="taskId" value="${task.taskId} "/>                   
@@ -31,7 +32,9 @@
             <button type="submit">${task.taskId == 0 ? 'Create' : 'Update'} Task</button>
         </div>
     </form>
-    <a href="<c:url value='/tasks'/>">Back to List</a>  
+    
+    <a href="<c:url value='/tasks/listTasks'/>">Back to List</a>  
+    
 </body>
 </html>
 
