@@ -14,6 +14,6 @@
 	<h2>Users페이지에 더미 추가 : <a href="<c:url value='/api/users/add' />">여기</a></h2>
 	<br/>
 	<h2>Calendar 가기 : <a href="<c:url value='/calendar' />">여기</a></h2>
-    <h2>Task 가기 : <a href ="<c:url value='/tasks' />">여기</a></h2>
+    <h2>Task 가기 : <a href ="<c:url value='/tasks/listTasks' />">여기</a></h2>
 </body>
 </html>
