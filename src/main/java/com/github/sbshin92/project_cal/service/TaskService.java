@@ -10,10 +10,10 @@ import com.github.sbshin92.project_cal.data.vo.UsersTasksVO;
 public interface TaskService {
 	
 	//테스크 생성
-	public int insert(TaskVO taskVO);
+	public int insert(TaskVO taskVO); //public 접근제한자 _모든접근권한가능 / private은 클래스 안에서만 접근 가능
 	
 	// 테스트 조회
-	public List<TaskVO> findAll();
+	public List<TaskVO> findAll(); //리턴타입은 List<TaskVO> 로 이것을 리턴해준다는뜻. 
 
 	//테스트 삭제
 	public int deleteTask(int taskId);

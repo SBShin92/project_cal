@@ -45,8 +45,9 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
                   </tr>
               </thead>
               
-              <tbody>
-                  <c:forEach var="vo" items="${tasks}">
+              <tbody> 
+                  <c:forEach var="vo" items="${tasks}"> <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
+                      <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
                       <tr>
                           <td>${vo.taskId}</td>
                           <td>${vo.taskTitle}</td>
@@ -58,9 +59,9 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
                               </form>
                                                             
                               <form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display:inline;">
-                                  <input type="hidden" name="taskId" value="${vo.taskId}"/>
+                                  <input type="hidden" name="taskId" value="${vo.taskId}"/> <!-- pk -->
                                   <input type="hidden" name="userId" value="${vo.userId}"/>
-                                  <input type="hidden" name="projectId" value="${vo.projectId}"/>
+                                  <input type="hidden" name="projectId" value="${vo.projectId}"/> 
                                   <input type="hidden" name="taskTitle" value="${vo.taskTitle}"/>
                                   <input type="hidden" name="taskDescription" value="${vo.taskDescription}"/>
                                   
@@ -68,7 +69,7 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
                               </form>
                                                             
                               <form action="<c:url value='/tasks/deleteTask/${vo.taskId}'/>" method="post" style="display:inline;">
-                                  <input type="hidden" name="_method" value="DELETE"/>
+                                  <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
                                   <button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">TASK 삭제</button>
                               </form>
                               

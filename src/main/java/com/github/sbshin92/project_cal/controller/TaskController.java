@@ -27,7 +27,7 @@ import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.TaskService;
 
 @Controller
-@RequestMapping("/tasks")
+@RequestMapping("/tasks") // 이거중요
 public class TaskController {
 
 		@Autowired
@@ -70,14 +70,14 @@ public class TaskController {
 	    	taskVo.setTaskDescription(taskDescription);
 	    	  
 	        taskService.insert(taskVo);
-	        return "redirect:/tasks/listTasks";
+	        return "redirect:/tasks/listTasks"; // 페이지를 리다이렉트 매핑된 url을 찾으러가야함
 	    }
 	    
 		// 테스크 조회
 		 @GetMapping("/listTasks")
-	    public String listTasks(Model model) {
+	    public String listTasks(Model model) { //attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 	        List<TaskVO> tasks = taskService.findAll();
-	        model.addAttribute("tasks", tasks);
+	        model.addAttribute("tasks", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
 	        return "task/list";
 	    }
 		 

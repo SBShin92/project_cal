@@ -23,7 +23,7 @@ public interface TasksDAO {
 	//테스크 생성
 	@Insert("INSERT INTO tasks (user_id, project_id, task_title, task_description) " +
 	        "VALUES (#{userId}, #{projectId}, #{taskTitle}, #{taskDescription})")
-	public Integer insert(TaskVO taskVO);
+	public Integer insert(TaskVO taskVO); // => 서비스들려서 컨트롤러의 insert메서드로 가기
 
 	//모든 task리스트들을 조회	
 	@Select("SELECT task_id as taskId, "
