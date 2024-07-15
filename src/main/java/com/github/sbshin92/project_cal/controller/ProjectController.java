@@ -139,18 +139,18 @@ public class ProjectController {
 //     * @param model 뷰에 전달할 데이터를 담는 모델 객체
 //     * @return 프로젝트 수정 폼 페이지 뷰 이름 또는 에러 페이지
 //     */
-//    @GetMapping("/update/{projectId}")
-//    public String updateProjectForm(@PathVariable int projectId, Model model) {
-//        try {
-//            // 프로젝트 정보 조회 및 모델에 추가
-//            model.addAttribute("project", projectService.getProjectById(projectId));
-//            return "project/form";
-//        } catch (Exception e) {
-//            // 프로젝트를 찾을 수 없는 경우 에러 페이지로 이동
-//            model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
-//            return "error/404";
-//        }
-//    }
+    @GetMapping("/update/{projectId}")
+    public String updateProjectForm(@PathVariable int projectId, Model model) {
+        try {
+            // 프로젝트 정보 조회 및 모델에 추가
+            model.addAttribute("project", projectService.getProjectById(projectId));
+            return "project/form";
+        } catch (Exception e) {
+            // 프로젝트를 찾을 수 없는 경우 에러 페이지로 이동
+            model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
+            return "error/404";
+        }
+    }
 //
 //    /**
 //     * 프로젝트를 수정
@@ -160,21 +160,24 @@ public class ProjectController {
 //     * @param redirectAttributes 리다이렉트 시 전달할 속성
 //     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
 //     */
-//    @PostMapping("/update/{projectId}")
-//    public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project, 
-//                                BindingResult result, RedirectAttributes redirectAttributes) {
-//    	
-//        // 폼 데이터 유효성 검사
-//        if (result.hasErrors()) {
-//            return "project/form";
-//        }
-//        // 프로젝트 ID 설정
-//        project.setProjectId(projectId);
-//        // 프로젝트 업데이트
-//        projectService.updateProject(project);
-//        redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
-//        return "redirect:/project/" + projectId;
-//    }
+    @PostMapping("update/{projectId}")
+    public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
+                                BindingResult result, RedirectAttributes redirectAttributes) {
+        // 폼 데이터 유효성 검사
+        if (result.hasErrors()) {
+            return "project/form";
+        }
+        // 프로젝트 ID 설정
+        project.setProjectId(projectId);
+        // 프로젝트 업데이트
+        boolean updated = projectService.updateProject(project);
+        if (updated) {
+            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "프로젝트 수정에 실패했습니다.");
+        }
+        return "redirect:/project/" + projectId;
+    }
 
     /**
      * 프로젝트를 삭제
