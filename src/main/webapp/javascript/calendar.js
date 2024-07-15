@@ -125,7 +125,7 @@ const createProjectBars = (date) => {
         if (formattedDate >= project.startDate && formattedDate <= Date(project.endDate)) {
             const projectBar = document.createElement("div");
             projectBar.className = "project-bar";
-            projectBar.style.backgroundColor = getRandomColor();
+            projectBar.style.backgroundColor = decimalToHexColor(project.projectBarColor);
             projectBar.title = project.title;
             projectBarsContainer.appendChild(projectBar);
         }
@@ -136,14 +136,13 @@ const createProjectBars = (date) => {
 
 
 // 랜덤 색상 생성 (프로젝트 바 구분을 위해)
-const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+function decimalToHexColor(decimal) {
+    var hex = decimal.toString(16);
+    while (hex.length < 6) {
+        hex = '0' + hex;
     }
-    return color;
-};
+    return '#' + hex;
+}
 
 // 공휴일 체크 API
 const getHolidayMonth = async (year, month) => {

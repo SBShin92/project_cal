@@ -53,8 +53,8 @@ public interface ProjectsDAO {
 //    @Options(useGeneratedKeys = true, keyProperty = "projectId")
 //    int insert(ProjectVO project);
 //    
-	@Insert("INSERT INTO projects  (user_id, project_title, project_description, start_date, end_date) "
-			+ "VALUES (1, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) ")
+	@Insert("INSERT INTO projects  (user_id, project_title, project_description, start_date, end_date, project_bar_color) "
+			+ "VALUES (1, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}), FLOOR(0 + RAND() * (16581375 - 0 + 1))")
 	@Options(useGeneratedKeys = true, keyProperty = "projectId")
 	int insert(ProjectVO project);
 
