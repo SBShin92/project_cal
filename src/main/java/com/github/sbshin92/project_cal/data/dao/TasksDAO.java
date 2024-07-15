@@ -99,7 +99,7 @@ public interface TasksDAO {
 	    
 	    
 
-	    //
+	    //getTasksByProjectId => 
 	    @Select("SELECT t.task_id as taskId, " +
 	            "t.user_id as userId, " +
 	            "t.project_id as projectId, " +

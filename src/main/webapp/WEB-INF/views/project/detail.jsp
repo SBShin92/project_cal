@@ -49,7 +49,7 @@
             
             <!-- Content -->
             <table border="1">
-            <a href="<c:url value='/tasks/createTaskForm'/>">테스트 생성</a>
+            <a href="<c:url value='/project/${projectVO.projectId}/createTaskForm'/>">테스트 생성</a>
               <thead>
                   <tr>
                       <th>TaskID</th>

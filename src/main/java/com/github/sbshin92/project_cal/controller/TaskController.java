@@ -36,12 +36,13 @@ public class TaskController {
 		@Autowired
 	    private ProjectService projectService;
 
-
+		
+		
 		//테스크 생성 폼
 	    @GetMapping("/createTaskForm")
 	    public String createTaskForm(@RequestParam(defaultValue="0") int taskId, 
 	    							@RequestParam(defaultValue="0") int userId, 
-					                @RequestParam(defaultValue="0") int projectId, 
+					                @RequestParam (defaultValue="0") int projectId, 
 					                @RequestParam(required = false) String taskTitle, 
 					                @RequestParam(required = false) String taskDescription,
 					                Model model) {
@@ -57,6 +58,9 @@ public class TaskController {
 	        return "task/form";
 	    }
 	    
+		
+		
+	    
 		//테스크 생성 
 	    @PostMapping("/createTask")
 	    public String createTask(@RequestParam("userId") int userId, 
@@ -71,7 +75,9 @@ public class TaskController {
 	    	  
 	        taskService.insert(taskVo);
 	        return "redirect:/tasks/listTasks"; // 페이지를 리다이렉트 매핑된 url을 찾으러가야함
+	        
 	    }
+	    
 	    
 		// 테스크 조회
 		 @GetMapping("/listTasks")
@@ -124,5 +130,8 @@ public class TaskController {
 	        taskService.deleteUsersTasksMember(taskId, userId);      
 	        return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	    }
+	    
+	    
+	    
 
 }
