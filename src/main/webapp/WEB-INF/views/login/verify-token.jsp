@@ -10,7 +10,7 @@
 </head>
 <body>
     <h2>Verify Token</h2>
-    <form method="post" action="<c:url value='/verify-token'/>">
+    <form method="post" action="<c:url value="/verify-token"/>">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <input type="hidden" name="email" value="${email}"> <!-- 이메일 필드 (숨김) -->
         <div>
