@@ -49,12 +49,19 @@ public interface ProjectsDAO {
      * @param project 삽입할 프로젝트 정보
      * @return 삽입된 행의 수
      */
-    @Insert("INSERT INTO projects  (user_id, project_title, project_description, start_date, end_date) " +
-            "VALUES ((select u.user_id FROM projects as p INNER JOIN users as u ON u.user_id = p.user_id)"
-            + " #{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) "
-    		)
-    @Options(useGeneratedKeys = true, keyProperty = "projectId")
-    int insert(ProjectVO project);
+//    @Insert("INSERT INTO projects  (user_id, project_title, project_description, start_date, end_date) " +
+//            "VALUES ((select u.user_id FROM projects as p INNER JOIN users as u ON u.user_id = p.user_id)"
+//            + " 1, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) "
+//    		)
+//    @Options(useGeneratedKeys = true, keyProperty = "projectId")
+//    int insert(ProjectVO project);
+//    
+  @Insert("INSERT INTO projects  (user_id, project_title, project_description, start_date, end_date) " +
+  "VALUES (1, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) "
+	)
+@Options(useGeneratedKeys = true, keyProperty = "projectId")
+int insert(ProjectVO project);
+    
     
     /**
      * 기존 프로젝트 정보를 업데이트합니다.
