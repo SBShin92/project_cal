@@ -13,6 +13,8 @@
 <body>
     <h1>${task.taskId == 0 ? 'Create' : 'Edit'} Task</h1>
     
+    <!--  task.taskId가 0이면 /project_cal/tasks/createTask 호출
+                       0이 아니면/ /project_cal/tasks/updateTask/'.concat(task.taskId) -->
     <form action="${task.taskId == 0 ? '/project_cal/tasks/createTask' : '/project_cal/tasks/updateTask/'.concat(task.taskId)}" method="post" modelAttribute="task">
         <c:if test="${task.taskId != 0}">
             <input type="hidden" name="taskId" value="${task.taskId} "/>                   

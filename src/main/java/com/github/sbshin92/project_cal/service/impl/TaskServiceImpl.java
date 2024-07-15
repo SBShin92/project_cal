@@ -55,6 +55,8 @@ public class TaskServiceImpl implements TaskService {
         return tasksDAO.findById(taskId);
     }    
 
+    
+    
     //테스크 멤버 추가
     @Override
     @Transactional
@@ -73,14 +75,10 @@ public class TaskServiceImpl implements TaskService {
         return tasksDAO.addMemberToTask(userId, taskId, projectId);
     }
 
-
 	// UserTasks에 있는 멤버 조회
 	public List<UsersTasksVO> getUserTasksMember(int taskId){
         return tasksDAO.getUserTasksMember(taskId);
 	}
-    
-    
-    
     
     //멤버가 테스크에 있는지 조회
     @Override
@@ -88,6 +86,14 @@ public class TaskServiceImpl implements TaskService {
         return tasksDAO.isUserTaskMember(userId, taskId);
     }
     
+	//테스크 멤버 삭제
+	public int deleteUsersTasksMember(int taskId, int userId) {
+        return tasksDAO.deleteUsersTasksMember(taskId, userId);
+    }
+    
+	
+	
+	
 	//기능 추가 
 	@Override
 	 public List<TaskVO> getTasksByProjectId(Integer projectId) {
@@ -97,9 +103,5 @@ public class TaskServiceImpl implements TaskService {
         return tasksDAO.getTasksByProjectId(projectId);
     }
 
-	//테스크 멤버 삭제
-	public int deleteUsersTask(int taskId, int userId) {
-        return tasksDAO.deleteUsersTask(taskId, userId);
-    }
     
 }    
