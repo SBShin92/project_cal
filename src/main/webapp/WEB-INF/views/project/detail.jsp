@@ -49,7 +49,12 @@
             
             <!-- Content -->
             <table border="1">
-            <a href="<c:url value='/project/${projectVO.projectId}/createTaskForm'/>">테스트 생성</a>
+            <form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display:inline;">
+                	<!--  원래는 로그인한 사용자의 아이디를 담아야한다 (보내야한다) -->
+                <input type="hidden" name="projectId" value="${projectTasks[0].projectId}"/> 
+                	<!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
+                <button type="submit" >테스크 생성</button>
+            </form>            
               <thead>
                   <tr>
                       <th>TaskID</th>
@@ -84,6 +89,7 @@
                                                             
                               <form action="<c:url value='/tasks/deleteTask/${vo.taskId}'/>" method="post" style="display:inline;">
                                   <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
+                                  <input type="hidden" name="projectId" value="${vo.projectId}"/> 
                                   <button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">TASK 삭제</button>
                               </form>
                               

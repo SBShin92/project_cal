@@ -39,8 +39,10 @@ public class TaskController {
 		
 		
 		//테스크 생성 폼
-	    @GetMapping("/createTaskForm")
+	    @GetMapping("/createTaskForm") // 주의 수정과 생성을 같이 씀
 	    public String createTaskForm(@RequestParam(defaultValue="0") int taskId, 
+	    							// taskId에 널이 넘어온다면, int형 타입에는 널이 들어갈수 없으므로
+	    							// 기본값으로 0으로 바꿔준다
 	    							@RequestParam(defaultValue="0") int userId, 
 					                @RequestParam (defaultValue="0") int projectId, 
 					                @RequestParam(required = false) String taskTitle, 
@@ -48,12 +50,21 @@ public class TaskController {
 					                Model model) {
 	    	TaskVO taskVo = new TaskVO();
 	    	taskVo.setTaskId(taskId);
-	    	taskVo.setUserId(userId);
-	    	taskVo.setProjectId(projectId);
-	    	taskVo.setTaskTitle(taskTitle);
-	    	taskVo.setTaskDescription(taskDescription);
 	    	
-	    	model.addAttribute("task", taskVo);
+	    	//1. taskId가 0이면 생성을 하는것으로 한다
+			// - taskId가 0이면  userId를 auth에서 가져와야 한다 .
+    		// - taskVo.setUserId(auth.userId);	
+	    	//2.taskId가 0이 아니면 수정을 하는것으로 한다              
+	    	// - taskVo.setUserId(auth.userId);	           							 
+	    	// - 추후에 테스크수정은 테스크생성자만 할수 있으므로               
+	    	// -마찬가지로 authuser로 사용 해야한다.                  
+    		taskVo.setUserId(userId);
+	    	taskVo.setTaskTitle(taskTitle);
+	    	taskVo.setTaskDescription(taskDescription);	   	    	
+	    	taskVo.setProjectId(projectId); // 프로젝트의 테스크를 생성하는거니까 , projectId에는 값이있어야하고 나머지는 널값,
+
+	    	
+	    	model.addAttribute("createTaskForm", taskVo);
 	    	
 	        return "task/form";
 	    }
@@ -63,19 +74,9 @@ public class TaskController {
 	    
 		//테스크 생성 
 	    @PostMapping("/createTask")
-	    public String createTask(@RequestParam("userId") int userId, 
-	    		                 @RequestParam("projectId") int projectId, 
-	    		                 @RequestParam("taskTitle") String taskTitle, 
-	    		                 @RequestParam("taskDescription") String taskDescription) {
-	    	TaskVO taskVo = new TaskVO();
-	    	taskVo.setUserId(userId);  
-	    	taskVo.setProjectId(projectId);
-	    	taskVo.setTaskTitle(taskTitle);
-	    	taskVo.setTaskDescription(taskDescription);
-	    	  
+	    public String createTask(@ModelAttribute TaskVO taskVo) {
 	        taskService.insert(taskVo);
-	        return "redirect:/tasks/listTasks"; // 페이지를 리다이렉트 매핑된 url을 찾으러가야함
-	        
+	        return "redirect:/project/" + taskVo.getProjectId(); // 페이지를 리다이렉트 매핑된 url을 찾으러가야함
 	    }
 	    
 	    
@@ -83,15 +84,18 @@ public class TaskController {
 		 @GetMapping("/listTasks")
 	    public String listTasks(Model model) { //attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 	        List<TaskVO> tasks = taskService.findAll();
-	        model.addAttribute("tasks", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
+	        model.addAttribute("listTasks", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
 	        return "task/list";
 	    }
 		 
 	    //테스크 삭제
 	    @PostMapping("/deleteTask/{taskId}")
-	    public String deleteTask(@PathVariable int taskId) {
-	        taskService.deleteTask(taskId);      
-	        return "redirect:/tasks/listTasks";
+	    public String deleteTask(@PathVariable int taskId, 
+	    						 @RequestParam int projectId) {
+	    	taskService.deleteTask(taskId);      
+	        
+	        //return "redirect:/tasks/listTasks";
+	        return "redirect:/project/" + projectId; 
 	    }
 
 	    //테스크 수정
@@ -99,7 +103,9 @@ public class TaskController {
 	    public String updateTask(@PathVariable int taskId, @ModelAttribute TaskVO taskVO) {
 	        taskVO.setTaskId(taskId);
 	        taskService.updateTask(taskVO);
-	        return "redirect:/tasks/listTasks";
+	        
+	        //return "redirect:/tasks/listTasks";
+	        return "redirect:/project/" + taskVO.getProjectId(); 
 	    }	    
 	    
 	    @GetMapping("/viewTask/{taskId}")
@@ -107,7 +113,7 @@ public class TaskController {
 	        TaskVO task = taskService.findById(taskId);
 	        // UserTasks에 있는 멤버 조회
 	        List<UsersTasksVO> usersTasksVO = taskService.getUserTasksMember(taskId); 
-	        model.addAttribute("task", task);
+	        model.addAttribute("viewTask", task);
 	        model.addAttribute("usersTasks", usersTasksVO);
 	        
 	        return "task/view";

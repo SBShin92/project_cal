@@ -74,13 +74,13 @@ public class ProjectController {
 	       
             return "project/detail";
             
-        	} catch (Exception e) {
-            // 예외 발생 시 에러 페이지로 이동
-            model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
-            return "error/404";
-        	}
-        
+    	} catch (Exception e) {
+        // 예외 발생 시 에러 페이지로 이동
+        model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
+        return "error/404";
     	}
+        
+    }
         
     /*
         @GetMapping("/createTaskForm")
