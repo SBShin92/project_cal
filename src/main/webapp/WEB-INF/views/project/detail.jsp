@@ -36,14 +36,25 @@
 				<!--div id="projectImages" -->
 			</section>
 
-			<section class="project-files">
-				<h2>첨부 파일</h2>
-				<ul id="fileList">
-					<!-- forEach -->
-				</ul>
-				<!-- 만약 멤버 인증된 상태면 파일 업로드 가능 -->
-				<!-- cIf -->
-			</section>
+
+            <section class="project-files">
+                <h2>첨부 파일</h2>
+                <ul id="fileList">
+                    <c:forEach var="file" items="${projectFiles}">
+                        <li>
+                            <a href="<c:url value='/files/download/${file.fileName}'/>">${file.fileName}</a>
+                            (${file.fileSize} bytes)
+                        </li>
+                    </c:forEach>
+                </ul>
+                <c:if test="${isProjectMember}">
+                    <form action="<c:url value='/files/upload'/>" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="projectId" value="${projectVO.projectId}">
+                        <input type="file" name="file" multiple>
+                        <button type="submit">파일 업로드</button>
+                    </form>
+                </c:if>
+            </section>
 			
 			<section id="task-list">
             

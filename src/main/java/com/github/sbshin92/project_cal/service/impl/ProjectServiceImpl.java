@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
+import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.FileService;
@@ -129,6 +130,12 @@ public class ProjectServiceImpl implements ProjectService {
         return deleted;
     }
 
+	@Override
+	public List<ProjectFileVO> getFilesByProjectId(int projectId) {
+		 return projectsDAO.getProjectFiles(projectId);
+	}
+	  
+
     /**
      * 사용자가 프로젝트의 멤버인지 확인합니다.
      * @param userId 확인할 사용자 ID
@@ -164,6 +171,29 @@ public class ProjectServiceImpl implements ProjectService {
 //            }
 //        }
 //    }
+
+	  @Transactional
+	    public void createProjectWithFiles(ProjectVO project, List<MultipartFile> files) throws IOException {
+	        
+
+	        
+	        projectsDAO.insert(project);
+	        
+	        System.out.println("projectserviceimpl" + project.getProjectId());
+	        
+	        uploadProjectFiles(project.getProjectId(), files);
+	        
+	    }
+
+	    private void uploadProjectFiles(Integer projectId, List<MultipartFile> files) throws IOException {
+	        if (files != null && !files.isEmpty()) {
+	            for (MultipartFile file : files) {
+	                String filePath = fileService.saveFile(file);
+	                projectsDAO.insertFile(projectId, file.getOriginalFilename(), filePath, file.getSize());
+
+	            }
+	        }
+	    }
 
     /**
      * 프로젝트 관련 파일들을 삭제합니다.

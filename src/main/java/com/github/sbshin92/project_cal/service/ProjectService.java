@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 
@@ -17,6 +19,7 @@ public interface ProjectService {
 	    boolean updateProject(ProjectVO project);
 	    boolean deleteProject(int projectId);
 //	    boolean isUserProjectMember(Integer userId, Integer projectId);
-//	    List<UserVO> getProjectMembers(Integer projectId);
-		
+//	    List<UserVO> getProjectMembers(Integer projectId)
+	    List<ProjectFileVO> getFilesByProjectId(int projectId);
+		void createProjectWithFiles(ProjectVO project, List<MultipartFile> files) throws IOException;
 }

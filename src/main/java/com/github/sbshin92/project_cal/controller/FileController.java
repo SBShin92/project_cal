@@ -24,8 +24,9 @@ public class FileController {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    
     @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> handleFileUpload(@RequestParam(value="file",required = false) MultipartFile file) {
         try {
             if (file.isEmpty()) {
                 return ResponseEntity.badRequest().body("Failed to upload empty file");

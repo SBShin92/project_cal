@@ -1,7 +1,6 @@
 package com.github.sbshin92.project_cal.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.TaskService;
-import com.github.sbshin92.project_cal.service.UserService;
 
 import jakarta.validation.Valid;
 
@@ -78,7 +79,26 @@ public class ProjectController {
             return "error/404";
         }
     }
+    
 
+//    @GetMapping("/project/{projectId}")
+//    public String getProjectDetail(@PathVariable int projectId, Model model) {
+//        ProjectVO project = projectService.getProjectById(projectId);
+//        List<ProjectFileVO> projectFiles;
+//		try {
+//			projectFiles = ProjectsService.getFilesByProjectId(projectId);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+////        boolean isProjectMember = projectService.isUserProjectMember(getCurrentUserId(), projectId);
+//
+//        model.addAttribute("projectVO", project);
+//        model.addAttribute("projectFiles", projectFiles);
+////        model.addAttribute("isProjectMember", isProjectMember);
+//
+//        return "project/detail";
+//    }
 
 //    /**
 //     * 새 프로젝트 생성 폼을 표시
@@ -107,7 +127,8 @@ public class ProjectController {
 //     */
     @PostMapping("/create")
     public String createProject(@ModelAttribute ProjectVO projectVO, 
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes,    
+                                @RequestParam("files") List<MultipartFile> files) throws IOException {
     	System.out.println("is here??");
 //        // 사용자의 프로젝트 생성 권한 확인
 ////        UserVO currentUser = userService.getUserByUsername(principal.getName());
@@ -122,6 +143,7 @@ public class ProjectController {
         try {
             // 프로젝트 생성 (파일 업로드 포함)
             projectService.createProject(projectVO);
+            projectService.createProjectWithFiles(projectVO, files);
         	//System.out.println("project " + projectVO.getProjectId());
             redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
             System.out.println(" isGood?");

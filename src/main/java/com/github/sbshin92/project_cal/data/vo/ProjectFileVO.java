@@ -1,6 +1,7 @@
 package com.github.sbshin92.project_cal.data.vo;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class ProjectFileVO {
     private Integer fileId;
@@ -18,6 +19,7 @@ public class ProjectFileVO {
         this.fileName = fileName;
         this.filePath = filePath;
         this.fileSize = fileSize;
+        this.uploadDate = LocalDateTime.now();
     }
 
     // Getters and Setters
@@ -67,6 +69,24 @@ public class ProjectFileVO {
 
     public void setUploadDate(LocalDateTime uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProjectFileVO that = (ProjectFileVO) o;
+        return Objects.equals(fileId, that.fileId) &&
+               Objects.equals(projectId, that.projectId) &&
+               Objects.equals(fileName, that.fileName) &&
+               Objects.equals(filePath, that.filePath) &&
+               Objects.equals(fileSize, that.fileSize) &&
+               Objects.equals(uploadDate, that.uploadDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fileId, projectId, fileName, filePath, fileSize, uploadDate);
     }
 
     @Override
