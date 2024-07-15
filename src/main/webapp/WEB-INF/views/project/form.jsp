@@ -30,7 +30,7 @@
     		<input type="hidden" name="projectStatus" value="ongoing"/>
     		<button type="submit">작성</button>
     	</form-->
-<form action="<c:url value='/project/create'/>" method="post">
+<form action="<c:url value='/project/create'/>" method="post" >
     <!-- 
     <input type="hidden" name="userId" value="${userId}" />
  -->
@@ -64,12 +64,12 @@
         <input type="date" id="endDate" name="endDate" required="required" />
     </div>
 
-	<!-- 
+
     <div class="form-group">
         <label for="projectFiles">첨부 파일:</label>
         <input type="file" id="projectFiles" name="projectFiles" multiple>
     </div>
-	 -->
+
 	 
     <footer>
         <button type="submit" class="btn btn-primary">

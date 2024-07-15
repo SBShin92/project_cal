@@ -25,7 +25,7 @@ server:
         name: PROJECTCAL_SESSIONID
       timeout: 20m # 세션 유효 시간 설정
 file:
-  upload-dir: /uploads
+  upload-dir: C:/uploads
   # 이메일로 토큰 보내기
   mail:
         host: smtp.gmail.com
