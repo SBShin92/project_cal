@@ -3,13 +3,12 @@ package com.github.sbshin92.project_cal.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,59 +26,63 @@ public class CalendarController {
 	private CalendarService calendarService;
 	
 	@GetMapping({"", "/"})
-	public String calendarPage(HttpSession session) {
-		if (session.getAttribute("viewMonth") == null && session.getAttribute("viewDate") == null) {
-			LocalDate localDate = LocalDate.now();
-			int year = localDate.getYear();
-			int month = localDate.getMonthValue();
-			session.setAttribute("viewYear", year);
-			session.setAttribute("viewMonth", month);
-		}
+	public String calendarPage(HttpSession session, Model model) {
+		// 년 월 일 초기화
+		LocalDate localDate = LocalDate.now();
+		if (session.getAttribute("viewYear") == null)
+			session.setAttribute("viewYear", localDate.getYear());
+		if (session.getAttribute("viewMonth") == null)
+			session.setAttribute("viewMonth", localDate.getMonthValue());
+		// 세션에 오늘 날짜 추가
+		session.setAttribute("todayYear", localDate.getYear());
+		session.setAttribute("todayMonth", localDate.getMonthValue());
+		
+		// 월 프로젝트 리스트 가져오기
+		List<ProjectVO> monthLst = calendarService.getProjectListByMonth((Integer)session.getAttribute("viewYear"), 
+											(Integer)session.getAttribute("viewMonth"));
+		model.addAttribute("projectListByMonth", monthLst);
+		
 		return "calendar/calendar";
 	}
 	
 	@GetMapping("/{yearMonth}")
-	public String calendarPageWithMonth(@PathVariable("yearMonth") String yearMonth, HttpSession session) {
-		
+	public String calendarPageWithMonth(@PathVariable("yearMonth") String yearMonth, 
+			HttpSession session) {		
+		LocalDate today = LocalDate.now();
 		try {
 			int year = Integer.parseInt(yearMonth.substring(0, 4));
 			int month = Integer.parseInt(yearMonth.substring(4));
 			if (month > 12 || month < 1)
-				month = 0;
+				throw new NumberFormatException();
 			session.setAttribute("viewYear", year);
-			session.setAttribute("viewMonth", month);			
+			session.setAttribute("viewMonth", month);
 		} catch (NumberFormatException e) {
-			session.setAttribute("viewYear", 0);
-			session.setAttribute("viewMonth", 0);						
+			session.setAttribute("viewYear", today.getYear());
+			session.setAttribute("viewMonth", today.getMonthValue());						
 		}
 		return "redirect:/calendar";
 	}
 	
 	@GetMapping("/{yearMonth}/{date}")
 	public String calendarPageWithDateProjectList(@PathVariable("yearMonth") String yearMonth, 
-											@PathVariable("date") String date,
+											@PathVariable("date") Integer date,
+											HttpSession session,
 											RedirectAttributes redirectAttributes) {
-		
-		String fullDate = yearMonth + date;
-		Date dateTypeDate = stringToDate(fullDate);
-		List<ProjectVO> lst = calendarService.getProjectListByDate(dateTypeDate);
-		redirectAttributes.addFlashAttribute("viewDate", date);
-		redirectAttributes.addFlashAttribute("projectListByDate", lst);
+		LocalDate today = LocalDate.now();
+		try {
+			int year = Integer.parseInt(yearMonth.substring(0, 4));
+			int month = Integer.parseInt(yearMonth.substring(4));
+			if (month > 12 || month < 1)
+				throw new NumberFormatException();
+			session.setAttribute("viewYear", year);
+			session.setAttribute("viewMonth", month);
+			List<ProjectVO> lst = calendarService.getProjectListByDate(year, month, date);
+			redirectAttributes.addFlashAttribute("viewDate", date);
+			redirectAttributes.addFlashAttribute("projectListByDate", lst);
+		} catch (NumberFormatException e) {
+			session.setAttribute("viewYear", today.getYear());
+			session.setAttribute("viewMonth", today.getMonthValue());						
+		}
 		return "redirect:/calendar";
 	}
-	
-	
-	private Date stringToDate(String dateString) {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-		try {
-			Date convertedDate = formatter.parse(dateString);
-			return convertedDate;
-		} catch (ParseException e) {
-			System.err.println("잘못된 date형식 (yyyyMMdd)");
-			return null;
-		}
-	}
-	
-	
-
 }

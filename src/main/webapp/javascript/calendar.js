@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
 const createCalendar = async (year, month) => {
 	// yearString, monthString
 	let yearString = year.toString();
@@ -19,10 +18,10 @@ const createCalendar = async (year, month) => {
 	monthString += month.toString();
 
 	// 클릭한 date는 몇일?
-	const projectList = document.getElementById("view-date");
+	const getClickedDate = document.getElementById("view-date");
 	let clickedDate = 0;
-	if (projectList !== null) {
-		clickedDate = parseInt(projectList.textContent);
+	if (getClickedDate !== null) {
+		clickedDate = parseInt(getClickedDate.textContent);
 	}
 
 	// 지난 달 마지막 요일
@@ -48,9 +47,15 @@ const createCalendar = async (year, month) => {
 			} else {
 				// 날짜를 문자열로 변환
 				let dateString = formatDate(new Date(year, month - 1, date));
+				
+				// td에 yyyyMMdd 속성 추가
+				td.setAttribute("data-date-str", dateString);
 
-				// 주말이면 weekend 클래스 추가
-				td.className = (j === 0 || j === 6) ? "weekend" : "";
+				// 주말이면 sunday, saturday 클래스 추가
+				if (j === 0)
+					td.classList.add("sunday");
+				else if (j === 6)
+					td.classList.add("saturday");
 				
 				// 날짜 숫자 표시 태그
 				const divDate = document.createElement("div");
@@ -59,9 +64,9 @@ const createCalendar = async (year, month) => {
 				if (date == clickedDate)
 					td.classList.add("clicked");
 
-				// 공휴일이면 weekend 클래스 추가 및 공휴일 글자 삽입
+				// 공휴일이면 holiday 클래스 추가 및 공휴일 글자 삽입
 				if (holiday.some(h => h.locdate === dateString)) {
-					td.classList.add("weekend");
+					td.classList.add("holiday");
 					const holidayName = holiday.find(h => h.locdate === dateString).dateName;
 					divDate.textContent += ` ${holidayName}`;
 				}
@@ -75,6 +80,12 @@ const createCalendar = async (year, month) => {
 					});
 				})(date);
 				td.appendChild(divDate);
+
+				// 프로젝트 기간 바 추가
+				const currentDate = new Date(year, month - 1, date);
+				const projectBars = createProjectBars(currentDate);
+				td.appendChild(projectBars);
+
 				tr.appendChild(td);
 				date++;
 			}
@@ -105,7 +116,34 @@ const formatDate = (date) => {
 	return [returnYear, returnMonth, returnDate].join('');
 }
 
+// 프로젝트 기간 바 생성
+const createProjectBars = (date) => {
+    const projectBarsContainer = document.createElement("div");
+    projectBarsContainer.className = "project-bars";
+	const formattedDate = formatDate(date);
+    projectList.forEach(project => {
+        if (formattedDate >= project.startDate && formattedDate <= Date(project.endDate)) {
+            const projectBar = document.createElement("div");
+            projectBar.className = "project-bar";
+            projectBar.style.backgroundColor = getRandomColor();
+            projectBar.title = project.title;
+            projectBarsContainer.appendChild(projectBar);
+        }
+    });
 
+    return projectBarsContainer;
+};
+
+
+// 랜덤 색상 생성 (프로젝트 바 구분을 위해)
+const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
 
 // 공휴일 체크 API
 const getHolidayMonth = async (year, month) => {

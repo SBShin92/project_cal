@@ -1,6 +1,7 @@
 package com.github.sbshin92.project_cal.service.impl;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,18 @@ public class CalendarServiceImpl implements CalendarService {
 	private CalendarDAO calendarDAO;
 	
 	@Override
-	public List<ProjectVO> getProjectListByDate(Date date) {
-		return calendarDAO.getListByDate(date);
+	public List<ProjectVO> getProjectListByDate(int year, int month, int date) {
+		LocalDate intToLocalDate = LocalDate.of(year, month, date);
+		return calendarDAO.getListByDate(intToLocalDate);
 	}
-	
+
+	@Override
+	public List<ProjectVO> getProjectListByMonth(int year, int month) {
+		
+		YearMonth yearMonth = YearMonth.of(year, month);
+		LocalDate startOfMonth = yearMonth.atDay(1);
+		LocalDate endOfMonth = yearMonth.atEndOfMonth();
+		
+		return calendarDAO.getListByMonth(startOfMonth, endOfMonth);
+	}
 }
