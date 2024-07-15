@@ -38,7 +38,7 @@ public interface TaskService {
 		
 
 	//테스크 멤버 삭제
-	public int deleteUsersTask(int taskId, int userId);
+	public int deleteUsersTasksMember(int taskId, int userId);
 	
 	
 	

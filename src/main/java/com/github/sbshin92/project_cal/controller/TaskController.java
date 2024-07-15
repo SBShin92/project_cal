@@ -107,7 +107,6 @@ public class TaskController {
 	        return "task/view";
 	    }
 
-	    
 	    //테스크에 멤버 추가기능 
 	    @PostMapping("/members/{taskId}")
 	    public String addMemberToTask(@PathVariable int taskId, @RequestParam int userId, @RequestParam int projectId) {
@@ -121,8 +120,8 @@ public class TaskController {
 	    
 	    //테스크 멤버 삭제
 	    @PostMapping("/deleteUsersTask/{taskId}")
-	    public String deleteUsersTask(@PathVariable int taskId, @RequestParam int userId) {
-	        taskService.deleteUsersTask(taskId, userId);      
+	    public String deleteUsersTasksMember(@PathVariable int taskId, @RequestParam int userId) {
+	        taskService.deleteUsersTasksMember(taskId, userId);      
 	        return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	    }
 

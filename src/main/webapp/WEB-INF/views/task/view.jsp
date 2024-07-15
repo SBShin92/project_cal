@@ -24,7 +24,7 @@
     <a href="<c:url value='/tasks/listTasks'/>">Back to Task List</a>
 
     <div id="wrapper">
-        <div id="content">
+        <!-- <div id="content"> -->
 
             <!-- Task Details -->
             <table border="1">
