@@ -23,7 +23,7 @@
 			</c:otherwise>
 		</c:choose>
 		
-		<a class="today-button" href="<c:url value='/calendar/${ sessionScope.todayYear }${sessionScope.todayMonth }' />">오늘</a>
+		<a class="today-button" href="<c:url value='/calendar/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">오늘</a>
 	</div>
 	<div class="user-profile">사용자명 ▼</div>
 </header>

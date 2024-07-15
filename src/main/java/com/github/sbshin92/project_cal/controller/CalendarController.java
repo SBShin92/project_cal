@@ -36,6 +36,7 @@ public class CalendarController {
 		// 세션에 오늘 날짜 추가
 		session.setAttribute("todayYear", localDate.getYear());
 		session.setAttribute("todayMonth", localDate.getMonthValue());
+		session.setAttribute("todayDate", localDate.getDayOfMonth() < 10 ? "0" + localDate.getDayOfMonth() : localDate.getDayOfMonth());
 		
 		// 월 프로젝트 리스트 가져오기
 		List<ProjectVO> monthLst = calendarService.getProjectListByMonth((Integer)session.getAttribute("viewYear"), 

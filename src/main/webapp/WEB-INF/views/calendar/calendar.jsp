@@ -73,7 +73,7 @@
                     title: "${project.projectTitle}",
                     startDate: <fmt:formatDate value="${project.startDate}" pattern="yyyyMMdd" />,
                     endDate: <fmt:formatDate value="${project.endDate}" pattern="yyyyMMdd" />,
-                    projectBarColor: ${project.projectBarColor}
+                    projectStatus: "${project.projectStatus}"
                 }<c:if test="${!status.last}">,</c:if>
             </c:forEach>
         ];

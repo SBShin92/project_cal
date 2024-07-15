@@ -122,10 +122,16 @@ const createProjectBars = (date) => {
     projectBarsContainer.className = "project-bars";
 	const formattedDate = formatDate(date);
     projectList.forEach(project => {
-        if (formattedDate >= project.startDate && formattedDate <= Date(project.endDate)) {
+        if (formattedDate >= project.startDate && formattedDate <= project.endDate) {
             const projectBar = document.createElement("div");
             projectBar.className = "project-bar";
-            projectBar.style.backgroundColor = decimalToHexColor(project.projectBarColor);
+			
+			if (formattedDate == project.startDate)
+				projectBar.classList.add("start-bar");
+			if (formattedDate == project.endDate)
+				projectBar.classList.add("end-bar");
+				
+            projectBar.style.backgroundColor = projectStatusToColor(project.projectStatus);
             projectBar.title = project.title;
             projectBarsContainer.appendChild(projectBar);
         }
@@ -136,11 +142,16 @@ const createProjectBars = (date) => {
 
 
 // 랜덤 색상 생성 (프로젝트 바 구분을 위해)
-function decimalToHexColor(decimal) {
-    var hex = decimal.toString(16);
-    while (hex.length < 6) {
-        hex = '0' + hex;
-    }
+function projectStatusToColor(projectStatus) {
+	let hex = "";
+	if (projectStatus === "none")
+		hex = "808080";
+	else if (projectStatus === "진행중")
+		hex = "FF0000";
+	else if (projectStatus === "완료")
+		hex = "000000";
+	else if (projectStatus === "보류")
+		hex = "000000";
     return '#' + hex;
 }
 
