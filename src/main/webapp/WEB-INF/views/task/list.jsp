@@ -32,7 +32,7 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
     <a href="<c:url value='/tasks/createTaskForm'/>">테스트 생성</a>
     
  <div id="wrapper">
-         <div id="content">
+         <div id="task-list">
             
             <!-- Content -->
             <table border="1">

@@ -44,6 +44,59 @@
 				<!-- 만약 멤버 인증된 상태면 파일 업로드 가능 -->
 				<!-- cIf -->
 			</section>
+			
+			<section id="task-list">
+            
+            <!-- Content -->
+            <table border="1">
+            <a href="<c:url value='/tasks/createTaskForm'/>">테스트 생성</a>
+              <thead>
+                  <tr>
+                      <th>TaskID</th>
+                      <th>TaskTitle</th>
+                      <th>TaskDescription</th>
+                      <th>&nbsp;</th>
+                  </tr>
+              </thead>
+              
+              <tbody> 
+                  <c:forEach var="vo" items="${projectTasks}"> <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
+                      <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
+                      <tr>
+                          <td>${vo.taskId}</td>
+                          <td>${vo.taskTitle}</td>
+                          <td>${vo.taskDescription}</td>
+                          <td>
+                            
+                              <form action="<c:url value='/tasks/viewTask/${vo.taskId}' />" method="get" style="display:inline;">
+                                  <button type="submit" >상세 VIEW</button>
+                              </form>
+                                                            
+                              <form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display:inline;">
+                                  <input type="hidden" name="taskId" value="${vo.taskId}"/> <!-- pk -->
+                                  <input type="hidden" name="userId" value="${vo.userId}"/>
+                                  <input type="hidden" name="projectId" value="${vo.projectId}"/> 
+                                  <input type="hidden" name="taskTitle" value="${vo.taskTitle}"/>
+                                  <input type="hidden" name="taskDescription" value="${vo.taskDescription}"/>
+                                  
+                                  <button type="submit" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">TASK 수정</button>
+                              </form>
+                                                            
+                              <form action="<c:url value='/tasks/deleteTask/${vo.taskId}'/>" method="post" style="display:inline;">
+                                  <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
+                                  <button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">TASK 삭제</button>
+                              </form>
+                              
+                          </td>
+                      </tr>
+                  </c:forEach>
+              </tbody>
+          </table>
+          
+        </section>
+			
+			
+			
 		</main>
 
 		<footer>
