@@ -29,10 +29,15 @@ public class ProjectVO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String projectStatus;
+    private int projectBarColor;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
+    
+  
+
+	
 }

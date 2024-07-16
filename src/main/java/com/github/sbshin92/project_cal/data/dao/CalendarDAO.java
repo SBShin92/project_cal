@@ -19,9 +19,11 @@ public interface CalendarDAO {
 			+ " updated_at as updatedAt, "
 			+ " project_status as projectStatus,"
 			+ " start_date as startDate,"
-			+ " end_date as endDate "
+			+ " end_date as endDate,"
+			+ " project_bar_color as projectBarColor "
 			+ " FROM projects "
-			+ " WHERE start_date <= #{date} AND end_date >= #{date}")
+			+ " WHERE start_date <= #{date} AND end_date >= #{date}"
+			+ " ORDER BY start_date ASC")
 	public List<ProjectVO> getListByDate(LocalDate date);
 
 	@Select("SELECT project_id as projectId, "
@@ -32,10 +34,12 @@ public interface CalendarDAO {
 			+ " updated_at as updatedAt, "
 			+ " project_status as projectStatus,"
 			+ " start_date as startDate,"
-			+ " end_date as endDate "
+			+ " end_date as endDate,"
+			+ " project_bar_color as projectBarColor "
 			+ " FROM projects "
 			+ " WHERE (start_date BETWEEN #{startOfMonth} AND #{endOfMonth}) OR "
-			+ " (end_date BETWEEN #{startOfMonth} AND #{endOfMonth})")
+			+ " (end_date BETWEEN #{startOfMonth} AND #{endOfMonth})"
+			+ " ORDER BY start_date ASC")
 	public List<ProjectVO> getListByMonth(LocalDate startOfMonth, LocalDate endOfMonth);
 	
 	

@@ -20,6 +20,8 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
 <head>
     <meta charset="UTF-8">
     <title>Task List</title>
+    <link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
+  type="text/css">
 </head>
 
 <body>
@@ -46,7 +48,7 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
               </thead>
               
               <tbody> 
-                  <c:forEach var="vo" items="${tasks}"> <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
+                  <c:forEach var="vo" items="${listTasks}"> <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
                       <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
                       <tr>
                           <td>${vo.taskId}</td>

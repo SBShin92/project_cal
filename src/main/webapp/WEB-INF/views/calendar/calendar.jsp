@@ -37,6 +37,7 @@
 			</table>
 		</section>
 		<aside class="right-panel">
+		
 			<!-- 프로젝트 생성 버튼 추가 -->
 			<div class="create-project">
 				<a id="createProjectBtn" class="btn btn-primary"
@@ -65,6 +66,10 @@
 		</aside>
 	</main>
 	 <script>
+	 	// 뜨는 위치 고쳐야함
+
+	 
+	 
         // 서버에서 받은 프로젝트 데이터를 JavaScript 변수로 저장
         var projectList = [
             <c:forEach items="${projectListByMonth}" var="project" varStatus="status">
@@ -72,11 +77,13 @@
                     id: ${project.projectId},
                     title: "${project.projectTitle}",
                     startDate: <fmt:formatDate value="${project.startDate}" pattern="yyyyMMdd" />,
-                    endDate: <fmt:formatDate value="${project.endDate}" pattern="yyyyMMdd" />
+                    endDate: <fmt:formatDate value="${project.endDate}" pattern="yyyyMMdd" />,
+                    projectStatus: "${project.projectStatus}"
                 }<c:if test="${!status.last}">,</c:if>
             </c:forEach>
         ];
     </script>
+	<script src="<c:url value='/javascript/main.js' />"></script>
 	<script src="<c:url value='/javascript/calendar.js' />"></script>
 </body>
 </html>

@@ -27,7 +27,18 @@ public class UserServiceImpl implements UserService {
         return lst;
     }
     
-    /**
+    
+    @Override
+	public UserVO getUserByUserId(Integer userId) {
+		return usersDAO.findByUserId(userId);
+	}
+    
+	@Override
+	public UserVO getUserByUserName(String userName) {
+		return usersDAO.findByUserName(userName);
+	}
+
+	/**
      * 새 사용자를 추가합니다.
      * @param userVO 추가할 사용자 정보
      * @return 사용자 추가 성공 여부

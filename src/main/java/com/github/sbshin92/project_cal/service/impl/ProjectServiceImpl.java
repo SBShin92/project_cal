@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
+import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.service.FileService;
 import com.github.sbshin92.project_cal.service.ProjectService;
@@ -30,6 +31,70 @@ public class ProjectServiceImpl implements ProjectService {
     
     @Autowired
 	private FileService fileService;
+    
+ 
+
+        @Override
+        @Transactional
+        public void createProject(ProjectVO project, MultipartFile file, List<MultipartFile> files) throws IOException {
+            logger.info("Creating new project: {}", project.getProjectTitle());
+            
+            // 프로젝트 정보를 데이터베이스에 삽입
+            projectsDAO.insert(project);
+            
+            // 단일 파일 처리
+            if (file != null && !file.isEmpty()) {
+                String filePath = fileService.saveFile(file);
+                projectsDAO.insertFile(project.getProjectId(), file.getOriginalFilename(), filePath, file.getSize());
+            }
+            
+            // 다중 파일 처리
+            if (files != null && !files.isEmpty()) {
+                for (MultipartFile multipartFile : files) {
+                    if (!multipartFile.isEmpty()) {
+                        String filePath = fileService.saveFile(multipartFile);
+                        projectsDAO.insertFile(project.getProjectId(), multipartFile.getOriginalFilename(), filePath, multipartFile.getSize());
+                    }
+                }
+            }
+            
+            logger.info("Project created successfully with ID: {}", project.getProjectId());
+        }
+
+        @Override
+        @Transactional
+        public void addFileToProject(ProjectFileVO projectFile, MultipartFile file) throws IOException {
+            if (file != null && !file.isEmpty()) {
+                String filePath = fileService.saveFile(file);
+                projectFile.setFilePath(filePath);
+                projectFile.setFileSize(file.getSize());
+                projectsDAO.insertFile(projectFile.getProjectId(), projectFile.getFileName(), filePath, file.getSize());
+            }
+        }
+
+        @Override
+        public ProjectFileVO getFileById(int fileId) {
+            return projectsDAO.findFileById(fileId);
+        }
+
+        @Override
+        @Transactional
+        public boolean deleteProjectFile(int fileId) {
+            ProjectFileVO file = projectsDAO.findFileById(fileId);
+            if (file != null) {
+                try {
+                    fileService.deleteFile(file.getFilePath());
+                    return projectsDAO.deleteFile(fileId) > 0;
+                } catch (IOException e) {
+                    logger.error("Failed to delete file: {}", file.getFilePath(), e);
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        // ... 기존 코드 ...
+    
   
     /**
      * 새 프로젝트를 생성합니다.
@@ -52,7 +117,6 @@ public class ProjectServiceImpl implements ProjectService {
         // 프로젝트 관련 파일 업로드
 //        uploadProjectFiles(project);
         
-        logger.info("Project created successfully with ID: {}", project.getProjectId());
     }
 
     /**
@@ -137,6 +201,12 @@ public class ProjectServiceImpl implements ProjectService {
     	if(isUserProjectUser(userId, proje))
     }
 
+	@Override
+	public List<ProjectFileVO> getFilesByProjectId(int projectId) {
+		 return projectsDAO.getProjectFiles(projectId);
+	}
+	  
+
     /**
      * 사용자가 프로젝트의 멤버인지 확인합니다.
      * @param userId 확인할 사용자 ID
@@ -173,6 +243,37 @@ public class ProjectServiceImpl implements ProjectService {
 //        }
 //    }
 
+	  @Transactional
+	    public void createProjectWithFiles(ProjectVO project, List<MultipartFile> files) throws IOException {
+	        
+
+	        
+	        projectsDAO.insert(project);
+	        
+	        System.out.println("projectserviceimpl" + project.getProjectId());
+	        
+	        uploadProjectFiles(project.getProjectId(), files);
+	        
+	    }
+
+	    private void uploadProjectFiles(Integer projectId, List<MultipartFile> files) throws IOException {
+	        if (files != null && !files.isEmpty()) {
+	            for (MultipartFile file : files) {
+	                String filePath = fileService.saveFile(file);
+	                projectsDAO.insertFile(projectId, file.getOriginalFilename(), filePath, file.getSize());
+
+	            }
+	        }
+	    }
+
+		@Override
+		public void addFileToProject(ProjectFileVO projectFileVO) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+	
     /**
      * 프로젝트 관련 파일들을 삭제합니다.
      * @param filePaths 삭제할 파일 경로 목록
@@ -188,18 +289,5 @@ public class ProjectServiceImpl implements ProjectService {
 //        }
 //    }
 
-    /**
-     * 프로젝트 데이터의 유효성을 검사합니다.
-     * @param project 검사할 프로젝트 데이터
-     * @throws IllegalArgumentException 유효하지 않은 데이터인 경우
-     */
-//    private void validateProject(ProjectVO project) {
-//        if (project == null) {
-//            throw new IllegalArgumentException("Project cannot be null");
-//        }
-//        if (project.getProjectTitle() == null || project.getProjectTitle().trim().isEmpty()) {
-//            throw new IllegalArgumentException("Project title cannot be empty");
-//        }
-//        // 필요에 따라 추가적인 유효성 검사 로직을 구현할 수 있습니다.
-//    }
+
 }

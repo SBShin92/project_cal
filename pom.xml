@@ -102,13 +102,6 @@
 		    <artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 		
-		<!-- 로그백 의존성 추가 -->
-		<dependency>
-		    <groupId>ch.qos.logback</groupId>
-		    <artifactId>logback-classic</artifactId>
-		</dependency>
-		
-		
 		<!-- Jakarta -->
 		<!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
 		<dependency>

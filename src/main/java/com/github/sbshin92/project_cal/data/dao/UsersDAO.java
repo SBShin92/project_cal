@@ -23,6 +23,29 @@ public interface UsersDAO {
             + " updated_at as updatedAt "
             + " FROM users WHERE user_email = #{email}")
     UserVO findByEmail(@Param("email") String email);
+    
+    @Select("SELECT user_id as userId,"
+            + " user_name as userName, "
+            + " user_email as userEmail, "
+            + " user_password as userPassword, "
+            + " user_authority as userAuthority, "
+            + " user_position as userPosition, "
+            + " created_at as createdAt, "
+            + " updated_at as updatedAt "
+            + " FROM users WHERE user_id = #{userId}")
+    UserVO findByUserId(Integer userId);
+    
+    @Select("SELECT user_id as userId,"
+            + " user_name as userName, "
+            + " user_email as userEmail, "
+            + " user_password as userPassword, "
+            + " user_authority as userAuthority, "
+            + " user_position as userPosition, "
+            + " created_at as createdAt, "
+            + " updated_at as updatedAt "
+            + " FROM users WHERE user_name = #{userName}")
+    UserVO findByUserName(String userName);
+    
 
     @Select("SELECT user_id as userId,"
             + " user_name as userName, "
