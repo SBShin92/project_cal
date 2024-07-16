@@ -37,6 +37,8 @@
 			</table>
 		</section>
 		<aside class="right-panel">
+			<a href="#" onclick="openMessageList();">쪽지함</a>
+		
 			<!-- 프로젝트 생성 버튼 추가 -->
 			<div class="create-project">
 				<a id="createProjectBtn" class="btn btn-primary"
@@ -65,6 +67,12 @@
 		</aside>
 	</main>
 	 <script>
+	 	// 뜨는 위치 고쳐야함
+	 	function openMessageList() {
+		    window.open("/project_cal/message", 'newwindow', 'width=500, height=400, top=150, left=900');
+		}
+	 
+	 
         // 서버에서 받은 프로젝트 데이터를 JavaScript 변수로 저장
         var projectList = [
             <c:forEach items="${projectListByMonth}" var="project" varStatus="status">
