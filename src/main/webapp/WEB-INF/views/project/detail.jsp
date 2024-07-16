@@ -112,6 +112,7 @@
                                         <form action="<c:url value='/tasks/deleteTask/${pt.taskId}'/>" method="post" style="display:inline;">
                                             <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
                                             <input type="hidden" name="projectId" value="${pt.projectId}"/> 
+                                            <input type="hidden" name="userId" value="${pt.userId}"/>
                                             <button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">TASK 삭제</button>
                                         </form>
                                         

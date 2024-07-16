@@ -82,11 +82,9 @@
             <form id="addMemberForm" action="<c:url value='/tasks/members/${viewTask.taskId}' />" method="POST">
             	<input type="hidden" name="taskId"  value="${viewTask.taskId}">
             	<input type="hidden" name="projectId"  value="${viewTask.projectId}">
+				<input type="hidden" name="userId" value="${viewTask.userId}">            	
                 <label for="userId">User ID:</label>
-  
-  <!--0716 ?? 아래로 바꿔줄경우 ??             
-  <input type="text" id="userId" name="userId" value=""> -->
-  <input type="number" id="userId" name="userId" required> 
+                <input type="number" name="addUserId" value="">
   
                 <button type="submit" >멤버 추가</button>
             </form>
