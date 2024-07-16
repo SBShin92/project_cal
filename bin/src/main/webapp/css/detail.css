@@ -21,7 +21,6 @@ header {
 h1, h2 {
     color: #333;
     margin-bottom: 10px;
-    
 }
 
 #projectDate, #projectStatus {
@@ -45,33 +44,21 @@ h1, h2 {
     margin-bottom: 10px;
 }
 
-#fileList {
+#fileList, #taskList {
     list-style-type: none;
     padding: 0;
 }
 
-#fileList li {
+#fileList li, #taskList li {
     margin-bottom: 5px;
 }
 
 #fileList a {
     color: #0066cc;
-    text-decoration: none;}
-
-#uploadForm {
-    margin-top: 10px;
+    text-decoration: none;
 }
 
-#taskList {
-    list-style-type: none;
-    padding: 0;
-}
-
-#taskList li {
-    margin-bottom: 5px;
-}
-
-.task-input {
+.task-input, #uploadForm {
     margin-top: 10px;
 }
 
@@ -81,16 +68,37 @@ h1, h2 {
 }
 
 .btn {
-    background-color: #0080ff;
     color: white;
-    padding: 8px 15px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 .btn-primary {
-    background-color: #008CBA;
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #bd2130;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
 }
 
 .btn-small {
@@ -99,21 +107,49 @@ h1, h2 {
 }
 
 footer {
-    text-align: right;
     margin-top: 20px;
 }
 
-footer .btn {
-    margin-left: 10px;
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
 }
 
-/* 파일 업로드 버튼 스타일링 */
+.back-to-calendar {
+    align-self: flex-start;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
 #fileUpload {
     display: inline-block;
     margin-right: 10px;
 }
 
-/* 체크박스 스타일링 */
 input[type="checkbox"] {
     margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .back-to-calendar {
+        margin-bottom: 15px;
+    }
+
+    .button-group {
+        justify-content: flex-end;
+    }
+
+    .btn {
+        width: auto;  /* Changed from 48% to auto for better flexibility */
+    }
 }

@@ -45,65 +45,69 @@
 				<!-- cIf -->
 			</section>
 			
-			<section id="task-list">
-            
-            <!-- Content -->
-            <table border="1">
-            <form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display:inline;">
-                	<!--  원래는 로그인한 사용자의 아이디를 담아야한다 (보내야한다) -->
-                <input type="hidden" name="projectId" value="${projectTasks[0].projectId}"/> 
-                	<!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
-                <button type="submit" >테스크 생성</button>
-            </form>            
-              <thead>
-                  <tr>
-                      <th>TaskID</th>
-                      <th>TaskTitle</th>
-                      <th>TaskDescription</th>
-                      <th>&nbsp;</th>
-                  </tr>
-              </thead>
+       <!-- task목록 띄우기 위해 추가한 내용 (지원 0716 13:00) -->
+			<section class= "project-tasks" id="project-tasks">
               
-              <tbody> 
-                  <c:forEach var="vo" items="${projectTasks}"> <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
-                      <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
-                      <tr>
-                          <td>${vo.taskId}</td>
-                          <td>${vo.taskTitle}</td>
-                          <td>${vo.taskDescription}</td>
-                          <td>
-                            
-                              <form action="<c:url value='/tasks/viewTask/${vo.taskId}' />" method="get" style="display:inline;">
-                                  <button type="submit" >상세 VIEW</button>
-                              </form>
-                                                            
-                              <form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display:inline;">
-                                  <input type="hidden" name="taskId" value="${vo.taskId}"/> <!-- pk -->
-                                  <input type="hidden" name="userId" value="${vo.userId}"/>
-                                  <input type="hidden" name="projectId" value="${vo.projectId}"/> 
-                                  <input type="hidden" name="taskTitle" value="${vo.taskTitle}"/>
-                                  <input type="hidden" name="taskDescription" value="${vo.taskDescription}"/>
-                                  
-                                  <button type="submit" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">TASK 수정</button>
-                              </form>
-                                                            
-                              <form action="<c:url value='/tasks/deleteTask/${vo.taskId}'/>" method="post" style="display:inline;">
-                                  <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
-                                  <input type="hidden" name="projectId" value="${vo.projectId}"/> 
-                                  <button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">TASK 삭제</button>
-                              </form>
-                              
-                          </td>
-                      </tr>
-                  </c:forEach>
-              </tbody>
-          </table>
-          
-        </section>
+              <h2>테스크 페이지</h2>
+              <div>
+                  <!-- Content -->
+                  <table border="1">
+                      <form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display:inline;">
+                          	<!--  원래는 로그인한 사용자의 아이디를 담아야한다 (보내야한다) -->
+                          <input type="hidden" name="projectId" value="${projectTasks[0].projectId}"/> 
+                          	<!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
+                          <button type="submit" >새 테스크 생성</button>
+                      </form> 
+                                   
+                      <thead>
+                          <tr>
+                              <th>TaskID</th>
+                              <th>TaskTitle</th>
+                              <th>TaskDescription</th>
+                              <th>&nbsp;</th>
+                          </tr>
+                      </thead>
+                      
+                      <tbody> 
+                            <c:forEach var="pt" items="${projectTasks}"> <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
+                                <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
+                                <tr>
+                                    <td>${pt.taskId}</td>
+                                    <td>${pt.taskTitle}</td>
+                                    <td>${pt.taskDescription}</td>
+                                    <td>
+                                      
+                                        <form action="<c:url value='/tasks/viewTask/${pt.taskId}' />" method="get" style="display:inline;">
+                                            <button type="submit" >상세VIEW</button>
+                                        </form>
+                                                                      
+                                        <form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display:inline;">
+                                            <input type="hidden" name="taskId" value="${pt.taskId}"/> <!-- pk -->
+                                            <input type="hidden" name="userId" value="${pt.userId}"/>
+                                            <input type="hidden" name="projectId" value="${pt.projectId}"/> 
+                                            <input type="hidden" name="taskTitle" value="${pt.taskTitle}"/>
+                                            <input type="hidden" name="taskDescription" value="${pt.taskDescription}"/>
+                                            
+                                            <button type="submit" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">TASK 수정</button>
+                                        </form>
+                                                                      
+                                        <form action="<c:url value='/tasks/deleteTask/${pt.taskId}'/>" method="post" style="display:inline;">
+                                            <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
+                                            <input type="hidden" name="projectId" value="${pt.projectId}"/> 
+                                            <button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">TASK 삭제</button>
+                                        </form>
+                                        
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                  	</table>
+                 </div> 
+              </section>
 			
 			
 			
-		</main>
+		    </main>
 
 		<footer>
 			<div class="footer-content">
