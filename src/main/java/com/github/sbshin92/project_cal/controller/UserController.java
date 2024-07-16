@@ -1,7 +1,6 @@
 package com.github.sbshin92.project_cal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,7 @@ public class UserController {
     private UserService userService;
     
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+//    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping
     public String join() {
@@ -58,8 +57,8 @@ public class UserController {
         user.setUserAuthority("ROLE_USER"); // 기본 권한 설정
 
         // 비밀번호를 암호화하여 설정
-        String encodedPassword = passwordEncoder.encode(password);
-        user.setUserPassword(encodedPassword);
+//        String encodedPassword = passwordEncoder.encode(password);
+//        user.setUserPassword(encodedPassword);
 
         try {
             // 사용자 정보를 데이터베이스에 저장

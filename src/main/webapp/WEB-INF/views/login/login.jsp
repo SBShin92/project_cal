@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="jakarta.tags.core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,15 +11,15 @@
 <body>
     <div class="login-container">
         <h2>로그인</h2>
-        <c:if test="${param.error != null}">
+        <c:if test="${not empty error}">
             <div class="error-message">
-                로그인에 실패했습니다. 다시 시도해주세요.
+                ${error}
             </div>
         </c:if>
-        <form action="<c:url value="/login" />" method="post">
+        <form action="<c:url value='/login' />" method="post">
             <div class="form-group">
-                <label for="username">Email:</label>
-                <input type="name" id="username" name="username" required>
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호:</label>
@@ -27,9 +27,9 @@
             </div>
             <div class="form-group">
                 <button type="submit">로그인</button>
+                <a href="<c:url value='/join' />" class="btn btn-secondary">회원가입</a>
             </div>
         </form>
-        <a href="<c:url value="/join" />">회원가입</a>
     </div>
 </body>
 </html>
