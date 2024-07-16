@@ -27,6 +27,8 @@ import com.github.sbshin92.project_cal.data.vo.UsersTasksVO;
 import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.TaskService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/tasks") // 이거중요
 public class TaskController {
@@ -49,6 +51,7 @@ public class TaskController {
 	    							@RequestParam (defaultValue="0") int projectId, 
 					                @RequestParam(required = false) String taskTitle, 
 					                @RequestParam(required = false) String taskDescription,
+					                HttpSession session,
 					                Model model) { 
 					       
 	    					/*
@@ -56,17 +59,17 @@ public class TaskController {
 	    					//Model model, Authentication authentication) {
 	    					*/		
 	    
-	/*
+	
 	//추가 0716 //사용자 아이디를 가져오는 메서드 필요
-	UserVO userVO = (UserVO) authentication.getPrincipal();
-	int userId = userVO.getUserId();
-	*/   	
+	UserVO userVO = (UserVO)session.getAttribute("authUser");
+		
 	    	
 	    	TaskVO taskVo = new TaskVO();
 	    	
 	    	// 해당프로젝트의 테스크를 생성하는거니까 , 
 	    	// projectId에는 값이있어야하고 나머지는 널값,
-	    	taskVo.setProjectId(projectId);    
+	    	taskVo.setProjectId(projectId); 
+	    	taskVo.setUserId(userVO.getUserId());
 	    	
 	    	taskVo.setTaskTitle(taskTitle);
 	    	taskVo.setTaskDescription(taskDescription);	  
@@ -112,7 +115,10 @@ public class TaskController {
 
 		//테스크 생성 
 	    @PostMapping("/createTask")
-	    public String createTask(@ModelAttribute TaskVO taskVo) {
+	    public String createTask(@ModelAttribute TaskVO taskVo,HttpSession session) {
+	    	//추가 0716 //사용자 아이디를 가져오는 메서드 필요
+	    	UserVO userVO = (UserVO)session.getAttribute("authUser");
+	    	taskVo.setUserId(userVO.getUserId());
 	        taskService.insert(taskVo);
 	        return "redirect:/project/" + taskVo.getProjectId(); // 페이지를 리다이렉트 매핑된 url을 찾으러가야함
 	    }
