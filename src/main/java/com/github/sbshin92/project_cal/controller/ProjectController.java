@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartFile;
+=======
+>>>>>>> refs/remotes/origin/develop_jiwon
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
@@ -73,23 +76,59 @@ public class ProjectController {
 //			model.addAttribute("isProjectCreator", isProjectCreator);
 //            model.addAttribute("isProjectMember", isProjectMember);
 //            model.addAttribute("projectMembers", projectService.getProjectMembers(projectId));
+            
+            // ProjectController에 추가한 내용 (지원)  
             List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
 	        model.addAttribute("projectTasks", tasks);
 	        
-	        
+	       
             return "project/detail";
-        } catch (Exception e) {
-            // 예외 발생 시 에러 페이지로 이동
-            model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
-            return "error/404";
-        }
+            
+    	} catch (Exception e) {
+        // 예외 발생 시 에러 페이지로 이동
+        model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
+        return "error/404";
+    	}
+        
     }
+
     
     // 첨부파일 관련 메서드들
     @GetMapping("/upload")
     public String showUploadForm() {
         return "project/uploadForm";
     }
+
+        
+    /*
+        @GetMapping("/createTaskForm")
+        public String createTaskForm(@PathVariable int projectId,
+                                     Model model) {
+            TaskVO taskVo = new TaskVO();
+            taskVo.setProjectId(projectId);
+            model.addAttribute("task", taskVo);
+            //return "task/form";
+            return "project/detail";
+        }
+            
+        @PostMapping("/createTask")
+	    public String createTask(@RequestParam("userId") int userId, 
+	    		                 @RequestParam("projectId") int projectId, 
+	    		                 @RequestParam("taskTitle") String taskTitle, 
+	    		                 @RequestParam("taskDescription") String taskDescription) {
+	    	TaskVO taskVo = new TaskVO();
+	    	taskVo.setUserId(userId);  
+	    	taskVo.setProjectId(projectId);
+	    	taskVo.setTaskTitle(taskTitle);
+	    	taskVo.setTaskDescription(taskDescription);
+	    	  
+	        taskService.insert(taskVo);
+	        return "redirect:/project/" + projectId;  // 페이지를 리다이렉트 매핑된 url을 찾으러가야함
+	        
+        } 
+        지원이 추가한것인데 아직 진행중  
+    	*/
+
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, 

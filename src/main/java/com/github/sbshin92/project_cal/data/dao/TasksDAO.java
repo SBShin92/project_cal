@@ -94,22 +94,18 @@ public interface TasksDAO {
 	 @Delete("DELETE FROM users_tasks WHERE task_id = #{taskId} and user_id = #{userId}")
 	public int deleteUsersTasksMember(int taskId, int userId);
 	    
-	    
-	    
-	    
-	    
 
-	    //
-	    @Select("SELECT t.task_id as taskId, " +
-	            "t.user_id as userId, " +
-	            "t.project_id as projectId, " +
-	            "t.task_title as taskTitle, " +
-	            "t.task_description as taskDescription, " +
-	            "t.created_at as createdAt, " +
-	            "t.updated_at as updatedAt, " +
-	            "t.task_status as taskStatus " +
-	            "FROM tasks t " +
-	            "WHERE t.project_id = #{projectId}")
-	    public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
+    //projectId로 테스크 조회
+    @Select("SELECT task_id as taskId, " +
+	            "user_id as userId, " +
+	            "project_id as projectId, " +
+	            "task_title as taskTitle, " +
+	            "task_description as taskDescription, " +
+	            "created_at as createdAt, " +
+	            "updated_at as updatedAt, " +
+	            "task_status as taskStatus " +
+            "FROM tasks  " +
+            "WHERE project_id = #{projectId}")
+    public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
 }
 
