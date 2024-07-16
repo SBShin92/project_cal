@@ -53,26 +53,14 @@ public class TaskController {
 					                @RequestParam(required = false) String taskDescription,
 					                HttpSession session,
 					                Model model) { 
-					       
-	    					/*
-	    					//추가 0716 -Authentication 추가    ??
-	    					//Model model, Authentication authentication) {
-	    					*/		
-	    
 	
-	//추가 0716 //사용자 아이디를 가져오는 메서드 필요
-	UserVO userVO = (UserVO)session.getAttribute("authUser");
+			//추가 0716 //사용자 아이디를 가져오는 메서드 필요
+			UserVO userVO = (UserVO)session.getAttribute("authUser");
 		
 	    	
 	    	TaskVO taskVo = new TaskVO();
 	    	
-	    	// 해당프로젝트의 테스크를 생성하는거니까 , 
-	    	// projectId에는 값이있어야하고 나머지는 널값,
-	    	taskVo.setProjectId(projectId); 
-	    	taskVo.setUserId(userVO.getUserId());
-	    	
-	    	taskVo.setTaskTitle(taskTitle);
-	    	taskVo.setTaskDescription(taskDescription);	  
+
 	    	
 	    	//1. taskId가 0이면 생성을 하는것으로 한다
 			// - taskId가 0이면  userId를 auth에서 가져와야 한다 .
@@ -82,32 +70,29 @@ public class TaskController {
 	    	// - taskVo.setUserId(auth.userId);	           							 
 	    	// - 추후에 테스크수정은 테스크생성자만 할수 있으므로               
 	    	// - 마찬가지로 authuser로 사용 해야한다.   
-	    	//taskVo.setUserId(userId);
-	    	
-	    	taskVo.setTaskId(taskId);
-	/*    	
-	//추가 0716 if-else 문??
-	if (taskId == 0) {
-		//생성로직
-		taskVo.setUserId(userId);
-		model.addAttribute("createTaskForm", taskVo);
-		
-	} else {
-		//수정로직
-		TaskVO existingTask =taskService.findById(taskId);
-		if(existingTask != null && existingTask.getUserId() == userId) {
-			//현재 사용자가 테스크 생성자인 경우에만 수정 허용 
-			taskVo = existingTask;
-			model.addAttribute("createTaskForm", taskVo);
-		} else {
-			//권한이 없는 경우 에러 처리
-			model.addAttribute("error", "이 태스크를 수정할 권한이 없습니다.");
-			return "error";
-		}
-	}
-	*/
+	    	  
+			//추가 0716 if-else 문??
+			if (taskId == 0) {
+				//생성로직
+				taskVo.setUserId(userVO.getUserId());
+				model.addAttribute("createTaskForm", taskVo);
+				
+			} else {
+				//수정로직
+				TaskVO existingTask =taskService.findById(taskId);
+				if(existingTask != null && existingTask.getUserId() == userId) {
+					//현재 사용자가 테스크 생성자인 경우에만 수정 허용 
+					taskVo = existingTask;
+					model.addAttribute("createTaskForm", taskVo);
+				} else {
+					//권한이 없는 경우 에러 처리
+					model.addAttribute("error", "이 태스크를 수정할 권한이 없습니다.");
+					return "error";
+				}
+			}
+	
 	    	//모델 어트리뷰트에 담고 보내주기 
-	    	model.addAttribute("createTaskForm", taskVo);
+	    	//model.addAttribute("createTaskForm", taskVo);
 	        return "task/form";
 	    }
 	    
@@ -150,7 +135,7 @@ public class TaskController {
 	 	        return "redirect:/project/" + projectId; 
 
 	         } else {
-	        	 return "error/404";
+	        	 return "redirect:/project/" + projectId; 
 	         }
 	       
 	    }
@@ -167,7 +152,7 @@ public class TaskController {
 		        taskService.updateTask(taskVO);
 		        return "redirect:/project/" + taskVO.getProjectId(); 
 	        } else {
-	        	return "error/404"; 
+	        	return "redirect:/project/" + taskVO.getProjectId(); 
 	        }
 	    	
 	    	
@@ -192,8 +177,8 @@ public class TaskController {
 	    //해당 테스크에 멤버 추가 
 	    @PostMapping("/members/{taskId}")
 	    public String addMemberToTask(@PathVariable int taskId, 
-    								@RequestParam int userId,
-    								@RequestParam int addUserId,
+    								@RequestParam int userId,//task 생성한 userId
+    								@RequestParam int addUserId, //추가하고싶은 userId
     								@RequestParam int projectId, 
     								HttpSession httpsession) {
 	        try { 
@@ -205,14 +190,14 @@ public class TaskController {
 		        	return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 		        	
 		        } else {
-		        	 return "error/404";
+		        	 return "redirect:/tasks/viewTask/" +  String.valueOf(taskId);
 		        }
 
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        } 
 	        
-	        return "task/view";
+	        return "redirect:/tasks/viewTask/" +  String.valueOf(taskId);
 	    }
 	    
 	    //해당 테스크 멤버 삭제

@@ -83,7 +83,7 @@
             	<input type="hidden" name="taskId"  value="${viewTask.taskId}">
             	<input type="hidden" name="projectId"  value="${viewTask.projectId}">
 				<input type="hidden" name="userId" value="${viewTask.userId}">            	
-                <label for="userId">User ID:</label>
+                <label for="addUserId">User ID:</label>
                 <input type="number" name="addUserId" value="">
   
                 <button type="submit" >멤버 추가</button>
