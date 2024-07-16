@@ -18,6 +18,7 @@
     <div id="container">
 
     <c:import url="/WEB-INF/includes/header.jsp"/>
+    
 	<section class="project-content">
     <h1>Task Details</h1>
     <a href="<c:url value='/project/${viewTask.projectId}'/>">Back to Task List</a>

@@ -20,6 +20,8 @@ hidden 필드를 사용하여 HTTP 메소드를 지정했습니다. 이는 HTML 
 <head>
     <meta charset="UTF-8">
     <title>Task List</title>
+    <link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
+  type="text/css">
 </head>
 
 <body>

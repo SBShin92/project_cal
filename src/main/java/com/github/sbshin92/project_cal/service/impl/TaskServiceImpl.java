@@ -86,7 +86,7 @@ public class TaskServiceImpl implements TaskService {
         return tasksDAO.isUserTaskMember(userId, taskId);
     }
     
-	//테스크 멤버 삭제
+	//해당 테스크 멤버 삭제
 	public int deleteUsersTasksMember(int taskId, int userId) {
         return tasksDAO.deleteUsersTasksMember(taskId, userId);
     }

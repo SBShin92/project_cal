@@ -9,8 +9,11 @@
 <head>
     <meta charset="UTF-8">
     <title>${createTaskForm.taskId == 0 ? 'Create' : 'Edit'} Task</title>
+    <link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
+    type="text/css">
 </head>
 <body>
+   <div id="projectViewMode" class="project-detail">
     <h1>${createTaskForm.taskId == 0 ? 'Create' : 'Edit'} Task</h1>
     
     <!--  createTaskForm.taskId가 0이면 /project_cal/tasks/createTask 호출(user,projectId 값이 필요함)
@@ -35,7 +38,8 @@
         </div>
     </form>
     
-    <a href="<c:url value='/project/${createTaskForm.projectId}'/>">Back to List</a>  
+    <a href="<c:url value='/project/${createTaskForm.projectId}'/>">테스크 페이지로 돌아가기</a>  
+  </div>  
     
 </body>
 </html>
