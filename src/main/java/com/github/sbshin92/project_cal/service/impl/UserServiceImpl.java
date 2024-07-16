@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,10 +11,6 @@ import com.github.sbshin92.project_cal.data.dao.UsersDAO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.UserService;
 
-/**
- * UserService 인터페이스의 구현 클래스입니다.
- * 사용자 관련 비즈니스 로직을 처리합니다.
- */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -23,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private UsersDAO usersDAO;
 	
 	@Autowired
-	private  PasswordEncoder passwordEncoder; // 패스워드 암호화를 위한 메서드
+//	private  PasswordEncoder passwordEncoder; // 패스워드 암호화를 위한 메서드
 
 
     @Override
@@ -52,8 +47,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public boolean addUser(UserVO userVO) {
     	try {
-    	String encodePassword = passwordEncoder.encode(userVO.getUserPassword());
-    	userVO.setUserPassword(encodePassword);
+//    	String encodePassword = passwordEncoder.encode(userVO.getUserPassword());
+//    		userVO.setUserPassword(encodePassword);
+    		String Password = userVO.getUserPassword();
+    		userVO.setUserPassword(Password);
+    	
         return 1 == usersDAO.save(userVO);
     } catch(DataAccessException e) {
     	e.printStackTrace();

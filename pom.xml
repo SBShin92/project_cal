@@ -102,10 +102,6 @@
 		    <artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 		
-
-	
-
-		
 		<!-- Jakarta -->
 		<!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
 		<dependency>
