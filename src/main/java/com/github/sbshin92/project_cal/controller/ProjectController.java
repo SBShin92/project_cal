@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
+import com.github.sbshin92.project_cal.service.FileService;
 import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.TaskService;
 
@@ -39,6 +40,8 @@ public class ProjectController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private FileService fileService;
 //    @Autowired
 //    private UserService userService;
 
@@ -125,39 +128,80 @@ public class ProjectController {
 //     * @param principal 현재 로그인한 사용자 정보
 //     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
 //     */
+    
     @PostMapping("/create")
     public String createProject(@ModelAttribute ProjectVO projectVO, 
-                                RedirectAttributes redirectAttributes,    
-                                @RequestParam("files") List<MultipartFile> files) throws IOException {
-    	System.out.println("is here??");
-//        // 사용자의 프로젝트 생성 권한 확인
-////        UserVO currentUser = userService.getUserByUsername(principal.getName());
-////        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
-////            redirectAttributes.addFlashAttribute("error", "프로젝트 생성 권한이 없습니다.");
-////            return "redirect:/project/list";
-////        }
-//
-//        // 프로젝트 생성자 설정
-//       project.setUserId(currentUser.getUserId());
-//        
+    							@ModelAttribute ProjectFileVO projectFileVO,
+                                @RequestParam(value = "file", required = false) MultipartFile file,
+                                @RequestParam(value = "files", required = false) List<MultipartFile> files,
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
         try {
-            // 프로젝트 생성 (파일 업로드 포함)
+            // 단일 파일 처리
+            if (file != null && !file.isEmpty()) {
+                String fileName = fileService.saveFile(file);
+                projectFileVO.setFileName(fileName); 
+            }
+
+            // 프로젝트 생성 (단일 파일 정보 포함)
             projectService.createProject(projectVO);
-            projectService.createProjectWithFiles(projectVO, files);
-        	//System.out.println("project " + projectVO.getProjectId());
+
+            // 다중 파일 처리
+            if (files != null && !files.isEmpty()) {
+                projectService.createProjectWithFiles(projectVO, files);
+            }
+
             redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
-            System.out.println(" isGood?");
+            return "redirect:/calendar";
         } catch (IOException e) {
-            // 파일 업로드 실패 시 에러 메시지 설정
-            redirectAttributes.addFlashAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
-            System.out.println(" fail");
+            model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
+            return "project/form";
+        } catch (Exception e) {
+            model.addAttribute("error", "프로젝트 생성 중 오류가 발생했습니다: " + e.getMessage());
             return "project/form";
         }
-        System.out.println(" last");
-        
-        return "redirect:/calendar";
-       
     }
+//    @PostMapping("/create")
+//    public String createProject(@ModelAttribute ProjectVO projectVO, 
+//    							@ModelAttribute ProjectFileVO fileVO,
+//                                RedirectAttributes redirectAttributes,    
+//                                @RequestParam("file") MultipartFile file,
+//                                @RequestParam("files") List<MultipartFile> files,
+//                                Model model) throws IOException {
+//    	System.out.println("is here??");
+////        // 사용자의 프로젝트 생성 권한 확인
+//////        UserVO currentUser = userService.getUserByUsername(principal.getName());
+//////        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
+//////            redirectAttributes.addFlashAttribute("error", "프로젝트 생성 권한이 없습니다.");
+//////            return "redirect:/project/list";
+//////        }
+////
+////        // 프로젝트 생성자 설정
+////       project.setUserId(currentUser.getUserId());
+////        
+//        try {
+//            // 프로젝트 생성 (파일 업로드 포함)
+//            projectService.createProject(projectVO);
+//            projectService.createProjectWithFiles(projectVO, files);
+//            Object fileService;
+//            String fileName = fileService.saveFile(file);
+//
+//            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
+//            System.out.println(" isGood?");
+//            model.addAttribute("message", "프로젝트 생성 및 파일 업로드 성공");
+//            
+//        } catch (IOException e) {
+//            // 파일 업로드 실패 시 에러 메시지 설정
+//            redirectAttributes.addFlashAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
+//            model.addAttribute("message", "프로젝트 생성 실패:" + e.getMessage());
+//            System.out.println(" fail");
+//            return "project/form";
+//        }
+//        System.out.println(" last");
+//        
+//        return "redirect:/calendar";
+//       
+//    }
 //
 //    /**
 //     * 프로젝트 수정 폼을 표시
