@@ -117,6 +117,10 @@ public interface ProjectsDAO {
 
 	    @Select("SELECT * FROM project_files WHERE project_id = #{projectId}")
 	    List<ProjectFileVO> getProjectFiles(@Param("projectId") int projectId);
+
+		ProjectFileVO findFileById(int fileId);
+
+		int deleteFile(int fileId);
 	}
 	/**
 	 * 특정 사용자가 특정 프로젝트의 멤버인지 확인합니다.

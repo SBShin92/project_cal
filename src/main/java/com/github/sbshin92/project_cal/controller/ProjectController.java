@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +29,6 @@ import com.github.sbshin92.project_cal.service.TaskService;
 
 import jakarta.validation.Valid;
 
-
 //
 ///**
 // * 프로젝트 관리 기능을 처리하는 컨트롤러
@@ -35,18 +38,17 @@ import jakarta.validation.Valid;
 @RequestMapping("/project")
 public class ProjectController {
 
-    @Autowired
-    private ProjectService projectService;
-    @Autowired
-    private TaskService taskService;
+	@Autowired
+	private ProjectService projectService;
+	@Autowired
+	private TaskService taskService;
 
-    @Autowired
-    private FileService fileService;
+	@Autowired
+	private FileService fileService;
 //    @Autowired
 //    private UserService userService;
 
-
-    /**
+	/**
      * 프로젝트 상세 정보를 조회하거나 프로젝트 목록으로 리다이렉트
      * @param projectId 조회할 프로젝트의 ID (선택적)
      * @param model 뷰에 전달할 데이터를 담는 모델 객체
@@ -60,7 +62,7 @@ public class ProjectController {
             if (projectVO == null) {
                 throw new Exception("Project not found");
             }
-            
+   
             // 프로젝트 생성자 여부와 멤버 여부 확인
 //           boolean isProjectCreator = project.getUserId().equals(currentUser.getUserId());
 //            boolean isProjectMember = projectService.isUserProjectMember(currentUser.getUserId(), projectId);
@@ -83,6 +85,47 @@ public class ProjectController {
         }
     }
     
+    // 첨부파일 관련 메서드들
+    @GetMapping("/upload")
+    public String showUploadForm() {
+        return "project/uploadForm";
+    }
+
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, 
+                                   @RequestParam("projectId") Integer projectId,
+                                   RedirectAttributes redirectAttributes) {
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:/project/" + projectId;
+        }
+
+        try {
+            String fileName = fileService.saveFile(file);
+            // 여기서 프로젝트와 파일을 연결하는 로직을 추가해야 합니다.
+            // 예: projectService.addFileToProject(projectId, fileName);
+
+            redirectAttributes.addFlashAttribute("message", "File uploaded successfully: " + fileName);
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to upload file: " + e.getMessage());
+        }
+
+        return "redirect:/project/" + projectId;
+    }
+
+    @GetMapping("/download/{filename:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
+        try {
+            Resource resource = fileService.loadAsResource(filename);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 //    @GetMapping("/project/{projectId}")
 //    public String getProjectDetail(@PathVariable int projectId, Model model) {
@@ -109,16 +152,16 @@ public class ProjectController {
 //     * @param principal 현재 로그인한 사용자 정보
 //     * @return 프로젝트 생성 폼 페이지 뷰 이름 또는 접근 거부 페이지
 //     */
-    @GetMapping("/create")
-    public String createProjectForm() {
+	@GetMapping("/create")
+	public String createProjectForm() {
 ////        // 현재 사용자의 프로젝트 생성 권한 확인
 ////        UserVO currentUser = userService.getUserByUsername(principal.getName());
 ////        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
 ////            return "error/403"; // 권한 없음 페이지로 리다이렉트
 ////        }
 //        model.addAttribute("projectVO", new ProjectVO());
-        return "project/form";
-    }
+		return "project/form";
+	}
 
 //    /**
 //     * 새 프로젝트를 생성
@@ -128,39 +171,76 @@ public class ProjectController {
 //     * @param principal 현재 로그인한 사용자 정보
 //     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
 //     */
-    
-    @PostMapping("/create")
-    public String createProject(@ModelAttribute ProjectVO projectVO, 
-    							@ModelAttribute ProjectFileVO projectFileVO,
-                                @RequestParam(value = "file", required = false) MultipartFile file,
-                                @RequestParam(value = "files", required = false) List<MultipartFile> files,
-                                Model model,
-                                RedirectAttributes redirectAttributes) {
-        try {
-            // 단일 파일 처리
-            if (file != null && !file.isEmpty()) {
-                String fileName = fileService.saveFile(file);
-                projectFileVO.setFileName(fileName); 
-            }
 
-            // 프로젝트 생성 (단일 파일 정보 포함)
-            projectService.createProject(projectVO);
+	@PostMapping("/create")
+	public String createProject(@ModelAttribute ProjectVO projectVO, 
+	                            @ModelAttribute ProjectFileVO projectFileVO,
+	                            @RequestParam(value = "file", required = false) MultipartFile file,
+	                            @RequestParam(value = "files", required = false) List<MultipartFile> files, 
+	                            Model model,
+	                            RedirectAttributes redirectAttributes) {
+	    try {
+	        // 프로젝트 생성
+	        projectService.createProject(projectVO);
 
-            // 다중 파일 처리
-            if (files != null && !files.isEmpty()) {
-                projectService.createProjectWithFiles(projectVO, files);
-            }
+	        // 단일 파일 처리
+	        if (file != null && !file.isEmpty()) {
+	            String fileName = fileService.saveFile(file);
+	            projectFileVO.setFileName(fileName);
+	            projectFileVO.setProjectId(projectVO.getProjectId());
+	            projectService.addFileToProject(projectFileVO);
+	        }
 
-            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
-            return "redirect:/calendar";
-        } catch (IOException e) {
-            model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
-            return "project/form";
-        } catch (Exception e) {
-            model.addAttribute("error", "프로젝트 생성 중 오류가 발생했습니다: " + e.getMessage());
-            return "project/form";
-        }
-    }
+	        // 다중 파일 처리
+	        if (files != null && !files.isEmpty()) {
+	            for (MultipartFile multipartFile : files) {
+	                if (!multipartFile.isEmpty()) {
+	                    String fileName = fileService.saveFile(multipartFile);
+	                    ProjectFileVO newFileVO = new ProjectFileVO();
+	                    newFileVO.setFileName(fileName);
+	                    newFileVO.setProjectId(projectVO.getProjectId());
+	                    projectService.addFileToProject(newFileVO);
+	                }
+	            }
+	        }
+
+	        redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
+	        return "redirect:/calendar";
+	    } catch (IOException e) {
+	        model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
+	        return "project/form";
+	    } catch (Exception e) {
+	        model.addAttribute("error", "프로젝트 생성 중 오류가 발생했습니다: " + e.getMessage());
+	        return "project/form";
+	    }
+	
+		
+//		try {
+//			// 단일 파일 처리
+//			if (file != null && !file.isEmpty()) {
+//				String fileName = fileService.saveFile(file);
+//				projectFileVO.setFileName(fileName);
+//			}
+//
+//			// 프로젝트 생성 (단일 파일 정보 포함)
+//			projectService.createProject(projectVO);
+//
+//			// 다중 파일 처리
+//			if (files != null && !files.isEmpty()) {
+//				projectService.createProjectWithFiles(projectVO, files);
+//			}
+//
+//			redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
+//			return "redirect:/calendar";
+//		} catch (IOException e) {
+//			model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
+//			return "project/form";
+//		} catch (Exception e) {
+//			model.addAttribute("error", "프로젝트 생성 중 오류가 발생했습니다: " + e.getMessage());
+//			return "project/form";
+//		}
+	}
+
 //    @PostMapping("/create")
 //    public String createProject(@ModelAttribute ProjectVO projectVO, 
 //    							@ModelAttribute ProjectFileVO fileVO,
@@ -209,18 +289,19 @@ public class ProjectController {
 //     * @param model 뷰에 전달할 데이터를 담는 모델 객체
 //     * @return 프로젝트 수정 폼 페이지 뷰 이름 또는 에러 페이지
 //     */
-    @GetMapping("/update/{projectId}")
-    public String updateProjectForm(@PathVariable int projectId, Model model) {
-        try {
-            // 프로젝트 정보 조회 및 모델에 추가
-            model.addAttribute("project", projectService.getProjectById(projectId));
-            return "project/form";
-        } catch (Exception e) {
-            // 프로젝트를 찾을 수 없는 경우 에러 페이지로 이동
-            model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
-            return "error/404";
-        }
-    }
+	@GetMapping("/update/{projectId}")
+	public String updateProjectForm(@PathVariable int projectId, Model model) {
+		try {
+			// 프로젝트 정보 조회 및 모델에 추가
+			model.addAttribute("project", projectService.getProjectById(projectId));
+			return "project/form";
+		} catch (Exception e) {
+			// 프로젝트를 찾을 수 없는 경우 에러 페이지로 이동
+			model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
+			return "error/404";
+		}
+	}
+
 //
 //    /**
 //     * 프로젝트를 수정
@@ -230,42 +311,43 @@ public class ProjectController {
 //     * @param redirectAttributes 리다이렉트 시 전달할 속성
 //     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
 //     */
-    @PostMapping("update/{projectId}")
-    public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
-                                BindingResult result, RedirectAttributes redirectAttributes) {
-        // 폼 데이터 유효성 검사
-        if (result.hasErrors()) {
-            return "project/form";
-        }
-        // 프로젝트 ID 설정
-        project.setProjectId(projectId);
-        // 프로젝트 업데이트
-        boolean updated = projectService.updateProject(project);
-        if (updated) {
-            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
-        } else {
-            redirectAttributes.addFlashAttribute("error", "프로젝트 수정에 실패했습니다.");
-        }
-        return "redirect:/project/" + projectId;
-    }
+	@PostMapping("update/{projectId}")
+	public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
+			BindingResult result, RedirectAttributes redirectAttributes) {
+		// 폼 데이터 유효성 검사
+		if (result.hasErrors()) {
+			return "project/form";
+		}
+		// 프로젝트 ID 설정
+		project.setProjectId(projectId);
+		// 프로젝트 업데이트
+		boolean updated = projectService.updateProject(project);
+		if (updated) {
+			redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
+		} else {
+			redirectAttributes.addFlashAttribute("error", "프로젝트 수정에 실패했습니다.");
+		}
+		return "redirect:/project/" + projectId;
+	}
 
-    /**
-     * 프로젝트를 삭제
-     * @param projectId 삭제할 프로젝트의 ID
-     * @param redirectAttributes 리다이렉트 시 전달할 속성
-     * @return 리다이렉트 URL
-     */
-    @PostMapping("/delete/{projectId}")
-    public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
-        try {
-            // 프로젝트 삭제
-            projectService.deleteProject(projectId);
-            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
-        } catch (Exception e) {
-            // 프로젝트를 찾을 수 없는 경우 에러 메시지 설정
-            redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
-        }
-        
-        return "redirect:/calendar";
-    }
+	/**
+	 * 프로젝트를 삭제
+	 * 
+	 * @param projectId          삭제할 프로젝트의 ID
+	 * @param redirectAttributes 리다이렉트 시 전달할 속성
+	 * @return 리다이렉트 URL
+	 */
+	@PostMapping("/delete/{projectId}")
+	public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
+		try {
+			// 프로젝트 삭제
+			projectService.deleteProject(projectId);
+			redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
+		} catch (Exception e) {
+			// 프로젝트를 찾을 수 없는 경우 에러 메시지 설정
+			redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
+		}
+
+		return "redirect:/calendar";
+	}
 }

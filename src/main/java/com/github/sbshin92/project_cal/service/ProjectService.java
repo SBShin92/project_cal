@@ -22,4 +22,9 @@ public interface ProjectService {
 //	    List<UserVO> getProjectMembers(Integer projectId)
 	    List<ProjectFileVO> getFilesByProjectId(int projectId);
 		void createProjectWithFiles(ProjectVO project, List<MultipartFile> files) throws IOException;
+		void addFileToProject(ProjectFileVO projectFileVO);
+	    void createProject(ProjectVO project, MultipartFile file, List<MultipartFile> files) throws IOException;
+	    void addFileToProject(ProjectFileVO projectFile, MultipartFile file) throws IOException;
+	    ProjectFileVO getFileById(int fileId);
+	    boolean deleteProjectFile(int fileId);
 }

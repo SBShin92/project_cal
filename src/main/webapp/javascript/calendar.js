@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	createCalendar(year, month);
 });
-
-
 const createCalendar = async (year, month) => {
 	// yearString, monthString
 	let yearString = year.toString();
