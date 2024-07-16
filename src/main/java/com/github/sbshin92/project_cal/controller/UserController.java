@@ -54,6 +54,7 @@ public class UserController {
         UserVO user = new UserVO();
         user.setUserName(username);
         user.setUserEmail(email);
+        user.setUserPassword(password);
         user.setUserAuthority("ROLE_USER"); // 기본 권한 설정
 
         // 비밀번호를 암호화하여 설정

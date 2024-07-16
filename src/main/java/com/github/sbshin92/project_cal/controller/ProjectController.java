@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-<<<<<<< HEAD
 import org.springframework.web.multipart.MultipartFile;
-=======
->>>>>>> refs/remotes/origin/develop_jiwon
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
