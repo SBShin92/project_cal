@@ -54,14 +54,14 @@ public interface ProjectsDAO {
 	 */
 //    @Insert("INSERT INTO projects  (user_id, project_title, project_description, start_date, end_date) " +
 //            "VALUES ((select u.user_id FROM projects as p INNER JOIN users as u ON u.user_id = p.user_id)"
-//            + " 1, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) "
+//            + " #{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) "
 //    		)
 //    @Options(useGeneratedKeys = true, keyProperty = "projectId")
 //    int insert(ProjectVO project);
 
 
 	@Insert("INSERT INTO projects (user_id, project_title, project_description, start_date, end_date, project_bar_color) "
-	        + "VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
+	        + " VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
 	@Options(useGeneratedKeys = true, keyProperty = "projectId")
 	int insert(ProjectVO project);
 

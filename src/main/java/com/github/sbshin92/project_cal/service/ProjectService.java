@@ -26,9 +26,11 @@ public interface ProjectService {
 		}
 		void createProjectWithFiles(ProjectVO project, List<MultipartFile> files) throws IOException;
 		void addFileToProject(ProjectFileVO projectFileVO);
-	    void createProject(ProjectVO project, MultipartFile file, List<MultipartFile> files) throws IOException;
+	
 	    void addFileToProject(ProjectFileVO projectFile, MultipartFile file) throws IOException;
 	    ProjectFileVO getFileById(int fileId);
 	    boolean deleteProjectFile(int fileId);
 		boolean isUserProjectMember(Object currentUserId, int projectId);
+		void createProject(ProjectVO project, Integer userId, MultipartFile file, List<MultipartFile> files)
+				throws IOException;
 }
