@@ -75,6 +75,8 @@ public class TaskController {
 			if (taskId == 0) {
 				//생성로직
 				taskVo.setUserId(userVO.getUserId());
+				taskVo.setTaskId(taskId);
+				taskVo.setProjectId(projectId);
 				model.addAttribute("createTaskForm", taskVo);
 				
 			} else {
