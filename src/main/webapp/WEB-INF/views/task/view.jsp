@@ -31,14 +31,14 @@
                 
                <thead> 
                 <tr>
-                    <th>taskId</th>
-                    <th>taskId</th>
-                    <th>projectId</th>
-                    <th>taskTitle</th>
-                    <th>taskDescription</th>
-                    <th>createdAt</th>
-                    <th>updatedAt</th>
-                    <th>taskStatus</th>
+                      <th>Task ID</th>
+                      <th>User ID</th>
+                      <th>Project ID</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                      <th>Status</th>
                 </tr>
               </thead> 
                
@@ -83,7 +83,11 @@
             	<input type="hidden" name="taskId"  value="${viewTask.taskId}">
             	<input type="hidden" name="projectId"  value="${viewTask.projectId}">
                 <label for="userId">User ID:</label>
-                <input type="text" id="userId" name="userId" value="">
+  
+  <!--0716 ?? 아래로 바꿔줄경우 ??             
+  <input type="text" id="userId" name="userId" value=""> -->
+  <input type="number" id="userId" name="userId" required> 
+  
                 <button type="submit" >멤버 추가</button>
             </form>
 
