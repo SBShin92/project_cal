@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
 import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
+import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.FileService;
 import com.github.sbshin92.project_cal.service.ProjectService;
 
@@ -192,10 +193,10 @@ public class ProjectServiceImpl implements ProjectService {
         return deleted;
     }
 
-	@Override
-	public List<ProjectFileVO> getFilesByProjectId(int projectId) {
-		 return projectsDAO.getProjectFiles(projectId);
-	}
+//	@Override
+//	public List<ProjectFileVO> getFilesByProjectId(int projectId) {
+//		 return projectsDAO.getProjectFiles(projectId);
+//	}
 	  
 
     /**
@@ -261,6 +262,18 @@ public class ProjectServiceImpl implements ProjectService {
 		public void addFileToProject(ProjectFileVO projectFileVO) {
 			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		public List<UserVO> getProjectMembers(Integer projectId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean isUserProjectMember(Object currentUserId, int projectId) {
+			// TODO Auto-generated method stub
+			return false;
 		}
 
 

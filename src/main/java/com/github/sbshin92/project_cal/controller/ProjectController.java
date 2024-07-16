@@ -69,10 +69,11 @@ public class ProjectController {
             
             // 모델에 데이터 추가
             model.addAttribute("projectVO", projectVO);
-//            Object isProjectCreator = new Object();
-//			model.addAttribute("isProjectCreator", isProjectCreator);
-//            model.addAttribute("isProjectMember", isProjectMember);
-//            model.addAttribute("projectMembers", projectService.getProjectMembers(projectId));
+            Object isProjectCreator = new Object();
+			model.addAttribute("isProjectCreator", isProjectCreator);
+            Object isProjectMember = null;
+			model.addAttribute("isProjectMember", isProjectMember);
+            model.addAttribute("projectMembers", projectService.getProjectMembers(projectId));
             
             // ProjectController에 추가한 내용 (지원)  
             List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
@@ -163,24 +164,29 @@ public class ProjectController {
     }
 
 
-//    @GetMapping("/project/{projectId}")
-//    public String getProjectDetail(@PathVariable int projectId, Model model) {
-//        ProjectVO project = projectService.getProjectById(projectId);
-//        List<ProjectFileVO> projectFiles;
-//		try {
-//			projectFiles = ProjectsService.getFilesByProjectId(projectId);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-////        boolean isProjectMember = projectService.isUserProjectMember(getCurrentUserId(), projectId);
-//
-//        model.addAttribute("projectVO", project);
-//        model.addAttribute("projectFiles", projectFiles);
-////        model.addAttribute("isProjectMember", isProjectMember);
-//
-//        return "project/detail";
-//    }
+    @GetMapping("/project/{projectId}")
+    public String getProjectDetail(@PathVariable int projectId, Model model) {
+        ProjectVO project = projectService.getProjectById(projectId);
+        List<ProjectFileVO> projectFiles = null;
+		try {
+			projectFiles = ProjectService.getFilesByProjectId(projectId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+     boolean isProjectMember = projectService.isUserProjectMember(getCurrentUserId(), projectId);
+
+        model.addAttribute("projectVO", project);
+        model.addAttribute("projectFiles", projectFiles);
+      model.addAttribute("isProjectMember", isProjectMember);
+
+        return "project/detail";
+    }
+
+private Object getCurrentUserId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 //    /**
 //     * 새 프로젝트 생성 폼을 표시

@@ -18,13 +18,17 @@ public interface ProjectService {
 	    List<ProjectVO> getAllProjects();
 	    boolean updateProject(ProjectVO project);
 	    boolean deleteProject(int projectId);
-//	    boolean isUserProjectMember(Integer userId, Integer projectId);
-//	    List<UserVO> getProjectMembers(Integer projectId)
-	    List<ProjectFileVO> getFilesByProjectId(int projectId);
+
+	    List<UserVO> getProjectMembers(Integer projectId);
+	    static List<ProjectFileVO> getFilesByProjectId(int projectId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		void createProjectWithFiles(ProjectVO project, List<MultipartFile> files) throws IOException;
 		void addFileToProject(ProjectFileVO projectFileVO);
 	    void createProject(ProjectVO project, MultipartFile file, List<MultipartFile> files) throws IOException;
 	    void addFileToProject(ProjectFileVO projectFile, MultipartFile file) throws IOException;
 	    ProjectFileVO getFileById(int fileId);
 	    boolean deleteProjectFile(int fileId);
+		boolean isUserProjectMember(Object currentUserId, int projectId);
 }
