@@ -8,11 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
-import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.FileService;
 import com.github.sbshin92.project_cal.service.ProjectService;
 
@@ -127,6 +125,16 @@ public class ProjectServiceImpl implements ProjectService {
 //            logger.warn("Failed to delete project with ID: {}", projectId);
 //        }
         return deleted;
+    }
+    
+    /** 
+     * 프로젝트 멤버 초대
+     */
+    public boolean addProjectUser(int userId, int projectId) {
+    	if(userId == 0 || projectId == 0) {
+    		throw new IllegalArgumentException("User Id and project_ID cannot be 0");	
+    	}
+    	if(isUserProjectUser(userId, proje))
     }
 
     /**
