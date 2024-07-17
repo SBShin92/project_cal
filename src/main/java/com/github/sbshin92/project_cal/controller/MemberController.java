@@ -16,7 +16,7 @@ import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Controller
-public class ProjectAddController {
+public class MemberController {
 
   
     
