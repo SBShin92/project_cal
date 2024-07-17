@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
 import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
+import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.FileService;
 import com.github.sbshin92.project_cal.service.ProjectService;
 
@@ -37,11 +38,13 @@ public class ProjectServiceImpl implements ProjectService {
 
         @Override
         @Transactional
-        public void createProject(ProjectVO project, MultipartFile file, List<MultipartFile> files) throws IOException {
+        public void createProject(ProjectVO project, Integer userId, MultipartFile file, List<MultipartFile> files) throws IOException {
             logger.info("Creating new project: {}", project.getProjectTitle());
             
             // 프로젝트 정보를 데이터베이스에 삽입
             projectsDAO.insert(project);
+            project.setUserId(userId);
+            
             
             // 단일 파일 처리
             if (file != null && !file.isEmpty()) {
@@ -94,7 +97,7 @@ public class ProjectServiceImpl implements ProjectService {
             return false;
         }
 
-        // ... 기존 코드 ...
+
     
   
     /**
@@ -107,8 +110,7 @@ public class ProjectServiceImpl implements ProjectService {
     public void createProject(ProjectVO project) throws IOException {
         // 프로젝트 데이터 유효성 검사
 //        validateProject(project);
-        
-        logger.info("Creating new project: {}", project.getProjectTitle());
+       
         
         // 프로젝트 정보를 데이터베이스에 삽입
         projectsDAO.insert(project);
@@ -192,10 +194,10 @@ public class ProjectServiceImpl implements ProjectService {
         return deleted;
     }
 
-	@Override
-	public List<ProjectFileVO> getFilesByProjectId(int projectId) {
-		 return projectsDAO.getProjectFiles(projectId);
-	}
+//	@Override
+//	public List<ProjectFileVO> getFilesByProjectId(int projectId) {
+//		 return projectsDAO.getProjectFiles(projectId);
+//	}
 	  
 
     /**
@@ -257,10 +259,30 @@ public class ProjectServiceImpl implements ProjectService {
 	        }
 	    }
 
+	    public void createProject(ProjectVO project, Integer userId) {
+	        if (userId == null) {
+	            throw new IllegalArgumentException("User ID cannot be null");
+	        }
+	        project.setUserId(userId);
+	        projectsDAO.insert(project);
+	    }
+	    
 		@Override
 		public void addFileToProject(ProjectFileVO projectFileVO) {
 			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		public List<UserVO> getProjectMembers(Integer projectId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean isUserProjectMember(Object currentUserId, int projectId) {
+			// TODO Auto-generated method stub
+			return false;
 		}
 
 

@@ -6,7 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	let month = parseInt(viewYearMonthFromHeaderJSP.textContent.split("년 ")[1]);
 
 	createCalendar(year, month);
+	
+	setupMonthYearPicker(year, month);
 });
+
+
 const createCalendar = async (year, month) => {
 	// yearString, monthString
 	let yearString = year.toString();
@@ -186,8 +190,43 @@ const getHolidayMonth = async (year, month) => {
 	return holiday;
 }
 
+// 예은추가
 
 
+function setupMonthYearPicker(initialYear, initialMonth) {
+    const monthYearSelector = document.getElementById('monthYearSelector');
+    const monthYearPicker = document.getElementById('monthYearPicker');
+    const monthSelect = document.getElementById('monthSelect');
+    const yearSelect = document.getElementById('yearSelect');
+    const applyDateButton = document.getElementById('applyDateButton');
+
+    // 년도 옵션 생성 (현재 년도 기준 ±10년)
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear - 10; year <= currentYear + 10; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year + '년';
+        yearSelect.appendChild(option);
+    }
+
+    // 초기 값 설정
+    monthSelect.value = initialMonth;
+    yearSelect.value = initialYear;
+
+    monthYearSelector.addEventListener('click', () => {
+        monthYearPicker.style.display = monthYearPicker.style.display === 'none' ? 'block' : 'none';
+    });
+
+    applyDateButton.addEventListener('click', () => {
+        const selectedYear = parseInt(yearSelect.value);
+        const selectedMonth = parseInt(monthSelect.value);
+        createCalendar(selectedYear, selectedMonth);
+        monthYearPicker.style.display = 'none';
+        viewYearMonthFromHeaderJSP.textContent = `${selectedYear}년 ${selectedMonth}월`;
+    });
+}
+
+//여기까지 예은 추가
 
 
 // function getEventsForDate(date) {
