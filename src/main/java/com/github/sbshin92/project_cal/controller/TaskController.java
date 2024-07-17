@@ -190,5 +190,14 @@ public class TaskController {
 		taskService.deleteUsersTasksMember(taskId, userId);
 		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	}
+	
+	//이 부분 우선 추가함 .. 0717 18:13
+	// 해당 테스크 검색위한 모든 데이터 search
+		@GetMapping("/SearchTasks")
+		public String SearchTask(Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
+			List<TaskVO> tasks = taskService.findAll();
+			model.addAttribute("SearchTask", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
+			return "search/search";
+		}
 
 }
