@@ -10,16 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.sbshin92.project_cal.data.vo.FileVO;
 
 public interface FileService {
-	
-
 	public List<FileVO> getFileListByProjectId(Integer projectId);
-	
 	public boolean saveFilesInProject(MultipartFile[] multipartFiles, Integer projectId) throws IOException;
-    
-    
-    
-    
-    
     
     
     

@@ -100,14 +100,14 @@ public class ProjectController {
         	// TODO: 파일 업로드
         	if (files != null)
         		fileService.saveFilesInProject(files, projectVO.getProjectId());
-
             redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
+            
+            return "redirect:/project/" + projectVO.getProjectId();
         } catch (IOException e) {
             // 파일 업로드 실패 시 에러 메시지 설정
             redirectAttributes.addFlashAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
             return "project/form";
         }
-        return "redirect:/calendar";
     }
     
 
