@@ -27,7 +27,7 @@
   <!-- 여기까지 예은추가 -->
     
 	<button class="nav-btn">개인/전체 일정</button>
-	<button class="nav-btn">멤버 초대</button>
+	<button class="nav-btn" id="inviteMemberBtn">멤버 초대</button>
 	<button class="nav-btn" id="message-btn">쪽지함</button>
 	<button class="nav-btn">휴지통</button>
 </nav>
