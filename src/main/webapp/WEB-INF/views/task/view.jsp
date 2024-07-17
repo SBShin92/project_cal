@@ -31,14 +31,14 @@
                 
                <thead> 
                 <tr>
-                    <th>taskId</th>
-                    <th>taskId</th>
-                    <th>projectId</th>
-                    <th>taskTitle</th>
-                    <th>taskDescription</th>
-                    <th>createdAt</th>
-                    <th>updatedAt</th>
-                    <th>taskStatus</th>
+                      <th>Task ID</th>
+                      <th>User ID</th>
+                      <th>Project ID</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                      <th>Status</th>
                 </tr>
               </thead> 
                
@@ -82,8 +82,10 @@
             <form id="addMemberForm" action="<c:url value='/tasks/members/${viewTask.taskId}' />" method="POST">
             	<input type="hidden" name="taskId"  value="${viewTask.taskId}">
             	<input type="hidden" name="projectId"  value="${viewTask.projectId}">
-                <label for="userId">User ID:</label>
-                <input type="text" id="userId" name="userId" value="">
+				<input type="hidden" name="userId" value="${viewTask.userId}">            	
+                <label for="addUserId">User ID:</label>
+                <input type="number" name="addUserId" value="">
+  
                 <button type="submit" >멤버 추가</button>
             </form>
 
