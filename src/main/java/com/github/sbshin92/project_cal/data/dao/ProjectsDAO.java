@@ -109,15 +109,28 @@ public interface ProjectsDAO {
 	                   @Param("filePath") String filePath, @Param("fileSize") long fileSize);
 
 
-
+	 	// 멤버조회
 	    @Select("SELECT u.* FROM users u JOIN user_project up ON u.user_id = up.user_id WHERE up.project_id = #{projectId}")
 	    List<UserVO> getProjectMembers(@Param("projectId") Integer projectId);
 
+	    // 파일
 	    @Select("SELECT file_path FROM project_files WHERE project_id = #{projectId}")
 	    List<String> getProjectFilePaths(@Param("projectId") int projectId);
-
-		int deleteFile(int fileId);
-	}
+	    
+	    int deleteFile(int fileId);
+	    
+	    // 등록된 멤버인지 확인
+	    @Select("SELECT COUNT(*) > 0 FROM projects_users WHERE user_id = #{userId} AND project_id = #{projectId}")
+	    public boolean isUserProjectMember(int userId, int projectId);
+	    
+	    // 멤버 추가
+		@Insert("INSERT INTO projects_users(user_id, project_id) VALUES (#{userId}#{projectId})")
+		public int addMemberProject(int userId, int projectId);
+		
+		// 멤버 삭제
+		@Delete("DELETE FROM projects_users WHERE user_id = #{userId}, project_id=#{projectId}")
+		public int deleteProjectUser(int userId);
+}
 	/**
 	 * 특정 사용자가 특정 프로젝트의 멤버인지 확인합니다.
 	 * 
@@ -136,7 +149,7 @@ public interface ProjectsDAO {
 //	 */
 //	@Select("SELECT u.* FROM users u JOIN user_project up ON u.user_id = up.user_id WHERE up.project_id = #{projectId}")
 //	List<UserVO> getProjectMembers(@Param("projectId") Integer projectId);
-
+		
 //	/**
 //	 * 특정 프로젝트의 모든 파일 경로를 조회합니다.
 //	 * 
