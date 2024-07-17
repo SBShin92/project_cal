@@ -15,6 +15,10 @@
 
 </head>
 <body>
+    
+    <jsp:include page="/WEB-INF/includes/header.jsp" />
+ 	<jsp:include page="/WEB-INF/includes/nav.jsp" />
+
   <h1>${createTaskForm.taskId == 0 ? 'Create' : 'Edit'}Task</h1>
 
   <section class="project-content">

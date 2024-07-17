@@ -25,5 +25,12 @@
 		
 		<a class="today-button" href="<c:url value='/calendar/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">오늘</a>
 	</div>
+  
+    <!-- header.jsp에 검색기능 추가 (테스크타이틀, -->
+    <div>
+    
+    
+    </div>
+  
 	<div class="user-profile">사용자명 ▼</div>
 </header>

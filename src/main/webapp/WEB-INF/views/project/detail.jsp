@@ -76,7 +76,7 @@
 							style="display: inline;">
 							<!--  원래는 로그인한 사용자의 아이디를 담아야한다 (보내야한다) -->
 							<input type="hidden" name="projectId"
-								value="${projectTasks[0].projectId}" />
+								value="${projectVO.projectId}" />
 							<!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
 							<button type="submit">새 테스크 생성</button>
 						</form>
