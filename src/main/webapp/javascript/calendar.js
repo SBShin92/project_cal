@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	let month = parseInt(viewYearMonthFromHeaderJSP.textContent.split("년 ")[1]);
 
 	createCalendar(year, month);
+	
+	setupMonthYearPicker(year, month);
 });
 
 
@@ -189,13 +191,7 @@ const getHolidayMonth = async (year, month) => {
 }
 
 // 예은추가
-document.addEventListener('DOMContentLoaded', () => {
-    let year = parseInt(viewYearMonthFromHeaderJSP.textContent);
-    let month = parseInt(viewYearMonthFromHeaderJSP.textContent.split("년 ")[1]);
 
-    createCalendar(year, month);
-    setupMonthYearPicker(year, month);
-});
 
 function setupMonthYearPicker(initialYear, initialMonth) {
     const monthYearSelector = document.getElementById('monthYearSelector');
