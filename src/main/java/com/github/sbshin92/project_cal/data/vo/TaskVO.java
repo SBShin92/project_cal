@@ -1,6 +1,9 @@
 package com.github.sbshin92.project_cal.data.vo;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -14,6 +17,13 @@ public class TaskVO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String taskStatus;
+    private int taskPriority;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startDate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;
 }
 
-//여기서 수정한것 없음
+//수정함 0718

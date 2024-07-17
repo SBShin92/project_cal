@@ -65,18 +65,16 @@
 				</c:if>
 			</section>
 			
-			<!-- task목록 띄우기 위해 추가한 내용 (지원 0716 13:00) -->
+			<!-- task목록 띄우기 위해 추가한 내용 (지원 0718 03:00) -->
 			<section class="project-tasks" id="project-tasks">
 
 				<h2>테스크 페이지</h2>
 				<div>
 					<!-- Content -->
 					<table border="1">
-						<form action="<c:url value='/tasks/createTaskForm'/>" method="get"
-							style="display: inline;">
+						<form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display: inline;">
 							<!--  원래는 로그인한 사용자의 아이디를 담아야한다 (보내야한다) -->
-							<input type="hidden" name="projectId"
-								value="${projectVO.projectId}" />
+							<input type="hidden" name="projectId" value="${projectVO.projectId}" />
 							<!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
 							<button type="submit">새 테스크 생성</button>
 						</form>
@@ -86,6 +84,10 @@
 								<th>TaskID</th>
 								<th>TaskTitle</th>
 								<th>TaskDescription</th>
+								<th>TaskStatus</th>
+								<th>TaskPriority</th>
+								<th>StartDate</th>
+								<th>EndDate</th>
 								<th>&nbsp;</th>
 							</tr>
 						</thead>
@@ -98,35 +100,43 @@
 									<td>${pt.taskId}</td>
 									<td>${pt.taskTitle}</td>
 									<td>${pt.taskDescription}</td>
+									<td>${pt.taskStatus}</td>
+									<td>${pt.taskPriority}</td>
 									<td>
-
-										<form action="<c:url value='/tasks/viewTask/${pt.taskId}' />"
-											method="get" style="display: inline;">
+										<fmt:formatDate value="${pt.startDate}" pattern="yyyy-MM-dd" />
+									</td>
+									
+									<td>
+										<fmt:formatDate value="${pt.endDate}" pattern="yyyy-MM-dd" />
+									</td>
+									
+									<td>
+										
+										<form action="<c:url value='/tasks/viewTask/${pt.taskId}'/>" method="get" style="display: inline;">
 											<button type="submit">상세VIEW</button>
 										</form>
 
-										<form action="<c:url value='/tasks/createTaskForm'/>"
-											method="get" style="display: inline;">
+										<form action="<c:url value='/tasks/createTaskForm'/>" method="get" style="display: inline;">
 											<input type="hidden" name="taskId" value="${pt.taskId}" />
 											<!-- pk -->
 											<input type="hidden" name="userId" value="${pt.userId}" /> 
                                             <input type="hidden" name="projectId" value="${pt.projectId}" /> 
                                             <input type="hidden" name="taskTitle" value="${pt.taskTitle}" /> 
                                             <input type="hidden" name="taskDescription" value="${pt.taskDescription}" />
-
-											<button type="submit"
-												onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">TASK
-												수정</button>
+                                            <input type="hidden" name="taskPriority" value="${pt.taskPriority}" />
+                                            <input type="hidden" name="startDate" value="${pt.startDate}" />
+                                            <input type="hidden" name="endDate" value="${pt.endDate}" />
+                                            
+											<button type="submit" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
+											Edit</button>
 										</form>
 
-										<form action="<c:url value='/tasks/deleteTask/${pt.taskId}'/>"
-											method="post" style="display: inline;">
+										<form action="<c:url value='/tasks/deleteTask/${pt.taskId}'/>" method="post" style="display: inline;">
 											<!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
 											<input type="hidden" name="projectId" value="${pt.projectId}" />
-                                           <input type="hidden" name="userId" value="${pt.userId}"/>
-											<button type="submit"
-												onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">TASK
-												삭제</button>
+                                           	<input type="hidden" name="userId" value="${pt.userId}"/>
+											<button type="submit" onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">
+											DELETE</button>
 										</form>
 
 									</td>

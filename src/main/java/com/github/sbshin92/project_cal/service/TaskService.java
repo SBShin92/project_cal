@@ -40,9 +40,6 @@ public interface TaskService {
 	//테스크 멤버 삭제
 	public int deleteUsersTasksMember(int taskId, int userId);
 	
-	
-	
-	
 	 //3)특정 프로젝트에 속한 모든 태스크를 조회합니다.
      //@param projectId 조회할 프로젝트의 ID
      //@return 해당 프로젝트의 모든 태스크 리스트

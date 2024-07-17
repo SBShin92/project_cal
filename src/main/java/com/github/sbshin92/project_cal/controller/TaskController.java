@@ -1,17 +1,9 @@
 package com.github.sbshin92.project_cal.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
-/*
- 모든 task 목록을 보여주는 페이지 (/tasks)
-개별 task 상세 보기 페이지 (/tasks/{taskId})
-task 생성 폼 페이지 (/tasks/create) 
-task 수정 폼 페이지 (/tasks/{taskId}/edit)
-task 생성, 수정, 삭제 기능
-task에 멤버 추가 기능
- */
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,11 +35,18 @@ public class TaskController {
 	// 이 폼에서 같이 사용
 	@GetMapping("/createTaskForm") // 주의 수정과 생성을 같이 씀
 	public String createTaskForm(@RequestParam(defaultValue = "0") int taskId,
-			// taskId에 널이 넘어온다면, int형 타입에는 널이 들어갈수 없으므로
-			// 기본값으로 0으로 바꿔준다(defaultValue= "0" =>null상태)
-			@RequestParam(defaultValue = "0") int userId, @RequestParam(defaultValue = "0") int projectId,
-			@RequestParam(required = false) String taskTitle, @RequestParam(required = false) String taskDescription,
-			HttpSession session, Model model) {
+								// taskId에 널이 넘어온다면, int형 타입에는 널이 들어갈수 없으므로
+								// 기본값으로 0으로 바꿔준다(defaultValue= "0" =>null상태)
+								@RequestParam(defaultValue = "0") int userId, 
+								@RequestParam(defaultValue = "0") int projectId,
+								@RequestParam(required = false) String taskTitle, 
+								@RequestParam(required = false) String taskDescription,
+								@RequestParam(required = false) Timestamp createdAt,
+								@RequestParam(required = false) Timestamp updatedAt,
+								@RequestParam(required = false) String taskStatus,
+								@RequestParam(defaultValue = "0") int taskPriority,
+								
+								HttpSession session, Model model) {
 
 		// 추가 0716 //사용자 아이디를 가져오는 메서드 필요
 		UserVO userVO = (UserVO) session.getAttribute("authUser");
@@ -81,7 +80,7 @@ public class TaskController {
 			} else {
 				// 권한이 없는 경우 에러 처리
 				model.addAttribute("error", "이 태스크를 수정할 권한이 없습니다.");
-				return "error";
+				return "error/404";
 			}
 		}
 
