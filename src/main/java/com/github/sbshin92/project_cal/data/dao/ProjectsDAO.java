@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.github.sbshin92.project_cal.data.vo.ProjectFileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 
@@ -116,11 +115,6 @@ public interface ProjectsDAO {
 
 	    @Select("SELECT file_path FROM project_files WHERE project_id = #{projectId}")
 	    List<String> getProjectFilePaths(@Param("projectId") int projectId);
-
-	    @Select("SELECT * FROM project_files WHERE project_id = #{projectId}")
-	    List<ProjectFileVO> getProjectFiles(@Param("projectId") int projectId);
-
-		ProjectFileVO findFileById(int fileId);
 
 		int deleteFile(int fileId);
 	}

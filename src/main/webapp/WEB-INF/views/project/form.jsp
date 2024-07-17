@@ -2,6 +2,7 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page session="true" %>
 
 <!DOCTYPE html>
 <html>
@@ -22,6 +23,9 @@
 
     <main>
         <form action="<c:url value='/project/create'/>" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" id="userId" name="userId" value="${ authUser.userId }" />
+        
             <div class="form-group">
                 <label for="projectTitle">프로젝트 제목:</label>
                 <input type="text" id="projectTitle" name="projectTitle" required="required" />

@@ -7,11 +7,22 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileService {
-    String saveFile(MultipartFile file) throws IOException;
-    void deleteFile(String filePath) throws IOException;
-    Path load(String filename);
-    Resource loadAsResource(String filename) throws IOException;
-    void init() throws IOException;
-    String getUploadDir();
+	
+
+	
+	public boolean saveFilesInProject(MultipartFile[] multipartFiles, Integer projectId) throws IOException;
+    
+    
+    
+    
+    
+    
+    
+    
+//    void deleteFile(String filePath) throws IOException;
+//    Path load(String filename);
+//    Resource loadAsResource(String filename) throws IOException;
+//    void init() throws IOException;
+//    String getUploadDir();
 
 }
