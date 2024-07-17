@@ -54,14 +54,14 @@ public interface ProjectsDAO {
 	 */
 //    @Insert("INSERT INTO projects  (user_id, project_title, project_description, start_date, end_date) " +
 //            "VALUES ((select u.user_id FROM projects as p INNER JOIN users as u ON u.user_id = p.user_id)"
-//            + " 1, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) "
+//            + " #{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) "
 //    		)
 //    @Options(useGeneratedKeys = true, keyProperty = "projectId")
 //    int insert(ProjectVO project);
 
 
 	@Insert("INSERT INTO projects (user_id, project_title, project_description, start_date, end_date, project_bar_color) "
-	        + "VALUES (1, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
+	        + " VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
 	@Options(useGeneratedKeys = true, keyProperty = "projectId")
 	int insert(ProjectVO project);
 
@@ -133,7 +133,7 @@ public interface ProjectsDAO {
 	 */
 //	@Select("SELECT COUNT(*) > 0 FROM user_project WHERE user_id = #{userId} AND project_id = #{projectId}")
 //	boolean isUserProjectMember(@Param("userId") Integer userId, @Param("projectId") Integer projectId);
-//
+
 //	/**
 //	 * 특정 프로젝트의 모든 멤버를 조회합니다.
 //	 * 
@@ -142,7 +142,7 @@ public interface ProjectsDAO {
 //	 */
 //	@Select("SELECT u.* FROM users u JOIN user_project up ON u.user_id = up.user_id WHERE up.project_id = #{projectId}")
 //	List<UserVO> getProjectMembers(@Param("projectId") Integer projectId);
-//
+
 //	/**
 //	 * 특정 프로젝트의 모든 파일 경로를 조회합니다.
 //	 * 

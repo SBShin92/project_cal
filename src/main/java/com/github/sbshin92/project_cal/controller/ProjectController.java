@@ -27,6 +27,7 @@ import com.github.sbshin92.project_cal.service.FileService;
 import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.TaskService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 //
@@ -69,10 +70,11 @@ public class ProjectController {
             
             // 모델에 데이터 추가
             model.addAttribute("projectVO", projectVO);
-//            Object isProjectCreator = new Object();
-//			model.addAttribute("isProjectCreator", isProjectCreator);
-//            model.addAttribute("isProjectMember", isProjectMember);
-//            model.addAttribute("projectMembers", projectService.getProjectMembers(projectId));
+            Object isProjectCreator = new Object();
+			model.addAttribute("isProjectCreator", isProjectCreator);
+            Object isProjectMember = null;
+			model.addAttribute("isProjectMember", isProjectMember);
+            model.addAttribute("projectMembers", projectService.getProjectMembers(projectId));
             
             // ProjectController에 추가한 내용 (지원)  
             List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
@@ -163,24 +165,29 @@ public class ProjectController {
     }
 
 
-//    @GetMapping("/project/{projectId}")
-//    public String getProjectDetail(@PathVariable int projectId, Model model) {
-//        ProjectVO project = projectService.getProjectById(projectId);
-//        List<ProjectFileVO> projectFiles;
-//		try {
-//			projectFiles = ProjectsService.getFilesByProjectId(projectId);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-////        boolean isProjectMember = projectService.isUserProjectMember(getCurrentUserId(), projectId);
-//
-//        model.addAttribute("projectVO", project);
-//        model.addAttribute("projectFiles", projectFiles);
-////        model.addAttribute("isProjectMember", isProjectMember);
-//
-//        return "project/detail";
-//    }
+    @GetMapping("/project/{projectId}")
+    public String getProjectDetail(@PathVariable int projectId, Model model) {
+        ProjectVO project = projectService.getProjectById(projectId);
+        List<ProjectFileVO> projectFiles = null;
+		try {
+			projectFiles = ProjectService.getFilesByProjectId(projectId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+     boolean isProjectMember = projectService.isUserProjectMember(getCurrentUserId(), projectId);
+
+        model.addAttribute("projectVO", project);
+        model.addAttribute("projectFiles", projectFiles);
+      model.addAttribute("isProjectMember", isProjectMember);
+
+        return "project/detail";
+    }
+
+private Object getCurrentUserId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 //    /**
 //     * 새 프로젝트 생성 폼을 표시
@@ -207,51 +214,24 @@ public class ProjectController {
 //     * @param principal 현재 로그인한 사용자 정보
 //     * @return 리다이렉트 URL 또는 폼 페이지 뷰 이름
 //     */
-
-	@PostMapping("/create")
-	public String createProject(@ModelAttribute ProjectVO projectVO, 
-	                            @ModelAttribute ProjectFileVO projectFileVO,
-	                            @RequestParam(value = "file", required = false) MultipartFile file,
-	                            @RequestParam(value = "files", required = false) List<MultipartFile> files, 
-	                            Model model,
-	                            RedirectAttributes redirectAttributes) {
-	    try {
-	        // 프로젝트 생성
-	        projectService.createProject(projectVO);
-
-	        // 단일 파일 처리
-	        if (file != null && !file.isEmpty()) {
-	            String fileName = fileService.saveFile(file);
-	            projectFileVO.setFileName(fileName);
-	            projectFileVO.setProjectId(projectVO.getProjectId());
-	            projectService.addFileToProject(projectFileVO);
-	        }
-
-	        // 다중 파일 처리
-	        if (files != null && !files.isEmpty()) {
-	            for (MultipartFile multipartFile : files) {
-	                if (!multipartFile.isEmpty()) {
-	                    String fileName = fileService.saveFile(multipartFile);
-	                    ProjectFileVO newFileVO = new ProjectFileVO();
-	                    newFileVO.setFileName(fileName);
-	                    newFileVO.setProjectId(projectVO.getProjectId());
-	                    projectService.addFileToProject(newFileVO);
-	                }
-	            }
-	        }
-
-	        redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
-	        return "redirect:/calendar";
-	    } catch (IOException e) {
-	        model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
-	        return "project/form";
-	    } catch (Exception e) {
-	        model.addAttribute("error", "프로젝트 생성 중 오류가 발생했습니다: " + e.getMessage());
-	        return "project/form";
-	    }
-	
-		
+//
+//	@PostMapping("/create")
+//	public String createProject(@ModelAttribute ProjectVO projectVO, 
+//	                            @ModelAttribute ProjectFileVO projectFileVO,
+//	                            @RequestParam(value = "file", required = false) MultipartFile file,
+//	                            @RequestParam(value = "files", required = false) List<MultipartFile> files, 
+//	                            Model model,
+//	                            RedirectAttributes redirectAttributes,
+//	                            HttpSession session) {
+//		Integer userId = (Integer) session.getAttribute("userId");
+////		if (userId == null) {
+////            // 사용자가 로그인하지 않은 경우 처리
+////            return "redirect:/login";
+////        }
+//		
 //		try {
+//			// 프로젝트 생성
+//	        projectService.createProject(projectVO, userId, file, files);
 //			// 단일 파일 처리
 //			if (file != null && !file.isEmpty()) {
 //				String fileName = fileService.saveFile(file);
@@ -275,49 +255,53 @@ public class ProjectController {
 //			model.addAttribute("error", "프로젝트 생성 중 오류가 발생했습니다: " + e.getMessage());
 //			return "project/form";
 //		}
-	}
+//	}
 
-//    @PostMapping("/create")
-//    public String createProject(@ModelAttribute ProjectVO projectVO, 
-//    							@ModelAttribute ProjectFileVO fileVO,
-//                                RedirectAttributes redirectAttributes,    
-//                                @RequestParam("file") MultipartFile file,
-//                                @RequestParam("files") List<MultipartFile> files,
-//                                Model model) throws IOException {
-//    	System.out.println("is here??");
-////        // 사용자의 프로젝트 생성 권한 확인
-//////        UserVO currentUser = userService.getUserByUsername(principal.getName());
-//////        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
-//////            redirectAttributes.addFlashAttribute("error", "프로젝트 생성 권한이 없습니다.");
-//////            return "redirect:/project/list";
-//////        }
-////
-////        // 프로젝트 생성자 설정
-////       project.setUserId(currentUser.getUserId());
-////        
-//        try {
-//            // 프로젝트 생성 (파일 업로드 포함)
-//            projectService.createProject(projectVO);
+    @PostMapping("/create")
+    public String createProject(@ModelAttribute ProjectVO projectVO, 
+    							@ModelAttribute ProjectFileVO fileVO,
+                                RedirectAttributes redirectAttributes,    
+                                @RequestParam("file") MultipartFile file,
+                                @RequestParam("files") List<MultipartFile> files,
+                                Model model, HttpSession session) throws IOException {
+    	System.out.println("is here??");
+//        // 사용자의 프로젝트 생성 권한 확인
+////        UserVO currentUser = userService.getUserByUsername(principal.getName());
+////        if (!currentUser.isCanCreateProject() && !"admin".equals(currentUser.getUserAuthority())) {
+////            redirectAttributes.addFlashAttribute("error", "프로젝트 생성 권한이 없습니다.");
+////            return "redirect:/project/list";
+////        }
+//
+    	 Integer userId = (Integer) session.getAttribute("userId");
+         if (userId == null) {
+             // 사용자가 로그인하지 않은 경우
+             return "redirect:/login";
+         }
+     
+        try {
+            // 프로젝트 생성 (파일 업로드 포함)
+        	projectService.createProject(projectVO);
+            projectService.createProject(projectVO, userId, file, files);
 //            projectService.createProjectWithFiles(projectVO, files);
 //            Object fileService;
 //            String fileName = fileService.saveFile(file);
-//
-//            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
-//            System.out.println(" isGood?");
-//            model.addAttribute("message", "프로젝트 생성 및 파일 업로드 성공");
-//            
-//        } catch (IOException e) {
-//            // 파일 업로드 실패 시 에러 메시지 설정
-//            redirectAttributes.addFlashAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
-//            model.addAttribute("message", "프로젝트 생성 실패:" + e.getMessage());
-//            System.out.println(" fail");
-//            return "project/form";
-//        }
-//        System.out.println(" last");
-//        
-//        return "redirect:/calendar";
-//       
-//    }
+
+            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
+            System.out.println(" isGood?");
+            model.addAttribute("message", "프로젝트 생성 및 파일 업로드 성공");
+            
+        } catch (IOException e) {
+            // 파일 업로드 실패 시 에러 메시지 설정
+            redirectAttributes.addFlashAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
+            model.addAttribute("message", "프로젝트 생성 실패:" + e.getMessage());
+            System.out.println(" fail");
+            return "project/form";
+        }
+        System.out.println(" last");
+        
+        return "redirect:/calendar";
+       
+    }
 //
 //    /**
 //     * 프로젝트 수정 폼을 표시

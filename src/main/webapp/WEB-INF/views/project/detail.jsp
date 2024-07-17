@@ -12,6 +12,9 @@
 	type="text/css">
 </head>
 <body>
+	<jsp:include page="/WEB-INF/includes/header.jsp" />
+	<jsp:include page="/WEB-INF/includes/nav.jsp" />
+
 	<div id="projectViewMode" class="project-detail"
 		data-project-id="${projectVO.projectId}">
 		<header>
