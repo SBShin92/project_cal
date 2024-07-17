@@ -43,15 +43,15 @@
 			<section class="project-files">
 				<h2>첨부 파일</h2>
 				<ul id="fileList">
-					<c:forEach var="file" items="${projectFiles}">
-						<li><a href="<c:url value='/files/download/${file.fileId}'/>">${file.fileName}</a>
-							(${file.fileSize} bytes) <span class="file-upload-date">
-								업로드: <fmt:formatDate value="${file.uploadDate}"
+					<c:forEach var="file" items="${fileVOs}">
+						<li><a href="<c:url value='/files/download/${file.fileId}'/>">${file.originalFileName}</a>
+							(${file.fileSize } bytes)<br/> <span class="file-upload-date">
+								업로드 날짜: <fmt:formatDate value="${file.uploadedAt}"
 									pattern="yyyy-MM-dd HH:mm:ss" />
 						</span></li>
 					</c:forEach>
 				</ul>
-				<c:if test="${empty projectFiles}">
+				<c:if test="${empty fileVOs}">
 					<p>업로드된 파일이 없습니다.</p>
 				</c:if>
 				<c:if test="${isProjectMember}">

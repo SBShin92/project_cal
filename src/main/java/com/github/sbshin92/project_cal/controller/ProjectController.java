@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.sbshin92.project_cal.data.vo.FileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.service.FileService;
@@ -51,7 +52,11 @@ public class ProjectController {
             }
             // project 상세정보 뷰에 추가
             model.addAttribute("projectVO", projectVO);
-			
+            
+            // 프로젝트 관련 파일정보 뷰에 추가
+            List<FileVO> fileVOs = fileService.getFileListByProjectId(projectId);
+			model.addAttribute("fileVOs", fileVOs);
+            
 			// TODO: 프로젝트 멤버 추가 후 상세페이지 뷰에 추가
             
             // 프로젝트의 TASK리스트 뷰에 추가

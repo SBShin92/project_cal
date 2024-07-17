@@ -20,5 +20,6 @@ public class FileVO {
 	private int taskId;
 	private String fileName;
 	private String originalFileName;
-	private Timestamp updatedAt;
+	private Long fileSize;
+	private Timestamp uploadedAt;
 }
