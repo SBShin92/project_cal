@@ -128,7 +128,7 @@ public class ProjectServiceImpl implements ProjectService {
     public int addMemberProject(int userId,int projectId) {
     	// 유효성 검사
     	if(projectId == 0 || userId == 0) {
-    		throw new IllegalArgumentException("등록 가능");
+    		throw new IllegalArgumentException("유효하지 않습니다");
     	}
     	// 등록된 멤버확인
     	if(isUserProjectMember(userId,projectId)) {
@@ -141,26 +141,27 @@ public class ProjectServiceImpl implements ProjectService {
     
     // 등록 가능 멤버 조회
     @Override
-	public List<UserVO> getProjectMembers(int userId) {
-    	return projectsDAO.getProjectMembers(userId);
+	public List<UserVO> getProjectMembers(int projectId) {
+    	return projectsDAO.getProjectMembers(projectId);
     }
     
     // 등록되어 있는지 조회
-    public boolean isUserProjectMember(int userId,int projectId) {
+    @Override
+	public boolean isUserProjectMember(int userId,int projectId) {
     	return projectsDAO.isUserProjectMember(userId, projectId);
     }
    
     // 멤버 삭제
     @Override
 	public int deleteProjectUser(int userId, int projectId) {
-    	return projectsDAO.deleteProjectUser(userId);
+    	return projectsDAO.deleteProjectUser(userId,projectId);
     }
 
-	@Override
-	public boolean isUserProjectMember(Integer userId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	@Override
+//	public ProjectVO findById(int projectId) {
+//		// TODO Auto-generated method stub
+//		return projectsDAO.findById(projectId);
+//	}
     
 
 	/**
