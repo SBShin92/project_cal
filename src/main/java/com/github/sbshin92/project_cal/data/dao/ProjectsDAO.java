@@ -25,7 +25,18 @@ public interface ProjectsDAO {
 	 * 
 	 * @return 모든 프로젝트 목록
 	 */
-	@Select("SELECT * FROM projects")
+	@Select("SELECT project_id as projectId, "
+			+ " p.user_id as userId, "
+			+ " p.project_title as projectTitle, "
+			+ " p.project_description as projectDescription, "
+			+ " p.created_at as createdAt, "
+			+ " p.updated_at as updatedAt, "
+			+ " p.project_status as projectStatus, "
+			+ " p.start_date as startDate, "
+			+ " p.end_date as endDate, "
+			+ " u.user_name as userName "
+			+ " FROM projects p JOIN users u ON p.user_id = u.user_id"
+			+ " ORDER BY project_id ASC")
 	List<ProjectVO> findAll();
 
 	/**

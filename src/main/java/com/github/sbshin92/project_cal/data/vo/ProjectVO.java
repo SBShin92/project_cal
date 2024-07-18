@@ -38,6 +38,6 @@ public class ProjectVO {
     private Date endDate;
     
   
-
-	
+    // 조인용 필드
+    private String userName;
 }
