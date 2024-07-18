@@ -98,8 +98,7 @@ public class ProjectController {
             // 프로젝트 생성
         	projectService.createProject(projectVO);
         	// TODO: 파일 업로드
-        	if (files != null)
-        		fileService.saveFilesInProject(files, projectVO.getProjectId());
+        	fileService.saveFilesInProject(files, projectVO.getProjectId());
             redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
             
             return "redirect:/project/" + projectVO.getProjectId();
