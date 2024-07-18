@@ -130,8 +130,14 @@ public interface TasksDAO {
 	            "start_date as startDate, " + 
 	            "end_date as endDate " +
 	            "FROM tasks " +
-	            "WHERE task_title = #{taskTitle}")
+    			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskTitle}), '%')")
     // taskTitle로 조회해서 리스트 불러오는 SearcByTitle()
 	public List<TaskVO> searchByTitle(@Param("taskTitle") String taskTitle);
+    //LOWER() 함수를 사용하여 테이블의 task_title 컬럼과 입력받은 taskTitle 파라미터를 모두 소문자로 변환합니다. 
+    // 이렇게 하면 대소문자를 구분하지 않고 검색가능
+    //LIKE 연산자와 CONCAT() 함수를 사용하여 부분 일치 검색을 구현합니다. 
+    //% 와일드카드를 검색어 앞뒤에 추가하여 검색어가 제목의 어느 부분에 있어도 매치되도록
+    //AS 키워드를 사용하여 각 컬럼에 별칭을 부여
+    //
 }
 

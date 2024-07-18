@@ -29,12 +29,12 @@
                   <th>taskPriority</th>
                   <th>startDate</th>
                   <th>endDate</th>
-                  <th>&nbsp;</th>
+                  <th>Action</th>
                 </tr>
               </thead>
             
               <tbody>
-                  <c:forEach var="st" items="${SearchedTasks}">
+                  <c:forEach var="st" items="${searchedTasks}">
                     <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
                     <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
                     <tr>
