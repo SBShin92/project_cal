@@ -31,4 +31,5 @@
 	<button class="nav-btn" id="inviteMemberBtn">멤버 초대</button>
 	<button class="nav-btn" id="message-btn">쪽지함 (${ sessionScope.messageUnreadCount }) </button>
 	<button class="nav-btn">휴지통</button>
+	<a href="<c:url value='/manager' />">관리자페이지</a>
 </nav>
