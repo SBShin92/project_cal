@@ -2,6 +2,7 @@ package com.github.sbshin92.project_cal.data.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -62,4 +63,7 @@ public interface UsersDAO {
             + "VALUES(#{userName}, #{userPassword}, #{userEmail})")
     @Options(useGeneratedKeys = true, keyProperty = "userId")
     Integer save(UserVO userVO);
+    
+    @Delete("DELETE FROM users WHERE user_id = #{userId}")
+    int deleteByUserId(@Param("userId") Integer userId);
 }

@@ -10,5 +10,5 @@ public interface UserService {
 	public UserVO getUserByUserName(String userName);
 	public boolean addUser(UserVO userVO);	
 	public UserVO getUserByEmail(String email);
-	
+	public boolean deleteUser(Integer userId);
 }

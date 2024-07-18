@@ -69,4 +69,12 @@ public class UserServiceImpl implements UserService {
     public UserVO getUserByEmail(String email) {
         return usersDAO.findByEmail(email);
     }
+    
+    // 유저 삭제 기능
+    @Override
+    public boolean deleteUser(Integer userId) {
+        return usersDAO.deleteByUserId(userId) > 0;
+    }
 }
+
+
