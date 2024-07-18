@@ -63,12 +63,12 @@ public interface TasksDAO {
 			+ "project_id as projectId, "
 			+ "task_title as taskTitle, "
 			+ "task_description as taskDescription, "
-			+ "created_at as createdAt, "
-			+ "updated_at as updatedAt, "
 			+ "task_status as taskStatus, "
 			+ "task_priority as taskPriority, "
 			+ "start_date as startDate, "
-			+ "end_date as endDate "
+			+ "end_date as endDate, "
+			+ "created_at as createdAt, "
+			+ "updated_at as updatedAt "
 			+ "FROM tasks "
 			+ "WHERE task_id = #{taskId}")
 	public TaskVO findById(@Param("taskId") int taskId);
