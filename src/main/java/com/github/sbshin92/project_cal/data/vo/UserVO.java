@@ -5,13 +5,20 @@ import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class UserVO {
+	
+	private ProjectVO project;
+	 
     private int userId;
     private String userName;
     private String userEmail;

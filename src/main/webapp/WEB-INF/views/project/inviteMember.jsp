@@ -6,45 +6,40 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="<c:url value='/css/form.css'/>" type="text/css">
+    <title>프로젝트 멤버 초대</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Project Members for Project: ${project.projectTitle}</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="member" items="${members}">
+    <div class="container my-5">
+        <h1>프로젝트 멤버 초대</h1>
+
+        <h3>모든 사용자</h3>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>${member.userId}</td>
-                    <td>${member.userName}</td>
-                    <td>${member.userEmail}</td>
-                    <td>
-                        <form action="/projects/${project.projectId}/members/delete" method="post" style="display:inline;">
-                            <input type="hidden" name="userId" value="${member.userId}" />
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
+                    <th>ID</th>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>작업</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-    <h2>Add Member</h2>
-    <form action="/projects/inviteMember" method="post">
-        <input type="hidden" name="projectId" value="${project.projectId}" />
-        <label for="userId">Select User:</label>
-        <select id="userId" name="userId">
-            <c:forEach var="user" items="${users}">
-                <option value="${user.userId}">${user.userName}</option>
-            </c:forEach>
-        </select>
-        <button type="submit">Add</button>
-    </form>
+            </thead>
+            <tbody>
+                <c:forEach var="user" items="${users}">
+                    <tr>
+                        <td>${user.userId}</td>
+                        <td>${user.userName}</td>
+                        <td>${user.userEmail}</td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/inviteMember/projects/${user.userId}/members/add" method="post">
+                                <input type="hidden" name="userId" value="${user.userId}">
+                        
+                                <button type="submit" class="btn btn-primary btn-sm">추가</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

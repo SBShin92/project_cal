@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 @Service
 public interface ProjectService {
 
@@ -18,11 +20,12 @@ public interface ProjectService {
 	public boolean deleteProject(int projectId); // 삭제
 	 
 	 // 멤버조회 및 멤버 추가
-	public List<UserVO> getProjectMembers(int projectId); //멤버조회
+	List<UserVO> getProjectMembers(int projectId); //멤버조회
 	public int addMemberProject(int userId, int projectId); // 멤버추가
 	public boolean isUserProjectMember(int userId, int projectId); // 이미 등록된 사용자
 	public int deleteProjectUser(int userId, int projectId);
 	public ProjectVO findById(int userId);
+	List<UserVO> getAllUsers(@Param("projectId") int projectId);
 	
 	 
 	 

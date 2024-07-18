@@ -12,6 +12,8 @@ import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.ProjectService;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 /**
  * ProjectService 인터페이스의 구현 클래스입니다. 프로젝트 관련 비즈니스 로직을 처리합니다.
  */
@@ -124,7 +126,6 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 	
     @Override
-    @Transactional
     public int addMemberProject(int userId,int projectId) {
     	// 유효성 검사
     	if(projectId == 0 || userId == 0) {
@@ -141,8 +142,8 @@ public class ProjectServiceImpl implements ProjectService {
     
     // 등록 가능 멤버 조회
     @Override
-	public List<UserVO> getProjectMembers(int projectId) {
-    	return projectsDAO.getProjectMembers(projectId);
+	public List<UserVO> getProjectMembers(int userId) {
+    	return projectsDAO.getProjectMembers(userId);
     }
     
     // 등록되어 있는지 조회
@@ -155,6 +156,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
 	public int deleteProjectUser(int userId, int projectId) {
     	return projectsDAO.deleteProjectUser(userId,projectId);
+    }
+    
+    @Override
+    public List<UserVO> getAllUsers(@Param("projectId") int projectId) {
+        return projectsDAO.getAllUsers(projectId);
     }
 
 //	@Override
