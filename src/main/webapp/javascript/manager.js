@@ -186,3 +186,60 @@ function deleteUser(userId) {
             .catch(error => console.error('Error:', error));
     }
 }
+// 사용자 삭제 확인 및 실행 함수
+function confirmDelete(userId) {
+    if (confirm('정말로 이 사용자를 삭제하시겠습니까?')) {
+        // AJAX 요청으로 사용자 삭제
+        fetch(`/manager/users/delete/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // CSRF 토큰이 필요한 경우 아래 주석을 해제하고 사용하세요
+                // 'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('사용자가 성공적으로 삭제되었습니다.');
+                // 삭제된 행을 테이블에서 제거
+                const userRow = document.querySelector(`tr[data-user-id="${userId}"]`);
+                if (userRow) {
+                    userRow.remove();
+                } else {
+                    // 행을 찾지 못한 경우 전체 페이지 새로고침
+                    location.reload();
+                }
+            } else {
+                alert('사용자 삭제에 실패했습니다: ' + (data.message || '알 수 없는 오류가 발생했습니다.'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('오류가 발생했습니다: ' + error.message);
+        });
+    }
+    return false; // 기본 링크 동작 방지
+}
+/*
+// 사이드바 토글 함수 (기존 코드에 없다면 추가)
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('active');
+}
+*/
+// 페이지 로드 시 실행될 초기화 함수
+document.addEventListener('DOMContentLoaded', function() {
+    // 검색 기능 초기화
+    const searchBar = document.querySelector('.search-bar');
+    if (searchBar) {
+        searchBar.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
+});

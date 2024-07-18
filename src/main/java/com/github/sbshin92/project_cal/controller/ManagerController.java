@@ -3,9 +3,12 @@ package com.github.sbshin92.project_cal.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,5 +42,27 @@ public class ManagerController {
 
 		return "manager/manager-users";
 	}
+	  //유저 삭제 
+    @PostMapping("/users/delete/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
+    	//userId를 경로 변수로 받아와 사용자를 삭제
+    	
+        boolean deleted = userService.deleteUser(userId);
+        //userService에서 실제 사용자를 삭제하는 비즈니스 로직을 호출
+        
+        if (deleted) {
+        	// 만약 삭제 성공하면
+            return ResponseEntity.ok().body("{\"success\": true}");
+            
+        } else {
+        	//실패하면
+            return ResponseEntity.badRequest().body("{\"success\": false, \"message\": \"사용자 삭제에 실패했습니다.\"}");
+        }
+    }
+//	@GetMapping("/roles")
+//	public String managerRolesPage() {
+//		return "manager/manager-roles";
+//	}
+//	
 	
 }
