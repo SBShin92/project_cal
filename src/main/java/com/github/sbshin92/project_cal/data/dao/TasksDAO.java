@@ -117,7 +117,21 @@ public interface TasksDAO {
     public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
 
     
+    //taskTitle로 테스크 조회
+    @Select("SELECT task_id as taskId, " +
+	            "user_id as userId, " +
+	            "project_id as projectId, " +
+	            "task_title as taskTitle, " +
+	            "task_description as taskDescription, " +
+	            "created_at as createdAt, " +
+	            "updated_at as updatedAt, " +
+	            "task_status as taskStatus, " +
+	            "task_priority as taskPriority, " +
+	            "start_date as startDate, " + 
+	            "end_date as endDate " +
+	            "FROM tasks " +
+	            "WHERE task_title = #{taskTitle}")
     // taskTitle로 조회해서 리스트 불러오는 SearcByTitle()
-	public List<TaskVO> searchByTitle(String taskTitle);
+	public List<TaskVO> searchByTitle(@Param("taskTitle") String taskTitle);
 }
 
