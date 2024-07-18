@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.data.vo.UsersTasksVO;
@@ -198,8 +199,11 @@ public class TaskController {
 		@GetMapping("/SearchTasks")
 		public String SearchTask(@RequestParam("taskTitle") String taskTitle, Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 			List<TaskVO> searchedTasks = taskService.searchByTitle(taskTitle);
+			
+			List<ProjectVO> searchedProjects = projectService.searchedProjects(taskTitle);
 			model.addAttribute("searchedTasks", searchedTasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
-			 return "search/search"; //검색 결과를 보여줄 jsp 페이지로 리다이렉트
+			model.addAttribute("searchedProjects", searchedProjects);  
+			return "search/search"; //검색 결과를 보여줄 jsp 페이지로 리다이렉트
 		}
 
 }

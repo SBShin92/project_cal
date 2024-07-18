@@ -129,6 +129,19 @@ public interface ProjectsDAO {
 		// 멤버 삭제
 		@Delete("DELETE FROM projects_users WHERE user_id = #{userId} AND project_id=#{projectId}")
 		public int deleteProjectUser(@Param("userId") int userId, @Param("projectId") int projectId);
+		
+	    // 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 //0718 지원 추가
+	    @Select("SELECT project_id as projectId, "
+	    		+ "user_id as userId, "
+	    		+ "project_title as projectTitle, "
+	    		+ "project_description as projectDescription, "
+	    		+ "created_at as createdAt, "
+	    		+ "updated_at as updatedAt, "
+	    		+ "project_status as projectStatus, "
+	    		+ "start_date as startDate, "
+	    		+ "end_date as endDate "
+	    		+ " FROM projects WHERE project_title = #{projectTitle}")
+	    List<ProjectVO> searchedProjects(String projectTitle);
 }
 	/**
 	 * 특정 사용자가 특정 프로젝트의 멤버인지 확인합니다.

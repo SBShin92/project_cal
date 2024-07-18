@@ -24,7 +24,7 @@ public interface ProjectService {
 	public int deleteProjectUser(int userId, int projectId);
 	public ProjectVO findById(int userId);
 	
-	 
+	public List<ProjectVO> searchedProjects(String projectTitle); // 지원 추가 0718// 프로젝트타이틀을 통한 프로젝트목록의 검색기능구현
 	 
 	 
 	 
