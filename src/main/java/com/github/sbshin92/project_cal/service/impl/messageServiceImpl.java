@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.sbshin92.project_cal.data.dao.MessagesDAO;
 import com.github.sbshin92.project_cal.data.vo.MessageVO;
@@ -14,6 +15,20 @@ public class messageServiceImpl implements MessageService {
 
 	@Autowired
 	private MessagesDAO messagesDAO;
+	
+	@Transactional
+	@Override
+	public MessageVO getMessageWithReadCheck(Integer messageId) {
+		MessageVO messageVO = messagesDAO.getMessageByMessageId(messageId);
+		if ("unread".equals(messageVO.getReadStatus()))
+			messagesDAO.updateReadStatusRead(messageId);
+		return messageVO;
+	}
+	
+	@Override
+	public MessageVO getMessage(Integer messageId) {
+		return messagesDAO.getMessageByMessageId(messageId);
+	}
 
 	@Override
 	public List<MessageVO> getMessageListByReceiverUserId(Integer receiverUserId) {

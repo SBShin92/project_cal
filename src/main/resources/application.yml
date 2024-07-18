@@ -10,6 +10,13 @@ spring:
     url: jdbc:mysql://138.2.119.233:3306/project01
     username: project01
     password: 7e0f51dbca86c4d8f8bdc38bd3503b883f84e3fb120d93f6aeaf885033c4a6f4
+  #멀티파트를 위한 설정
+  servlet:
+      multipart:
+        max-file-size: 10MB
+        max-request-size: 50MB
+        location: c:\\uploads
+
   #스프링 시큐리티 설정
   security:
      user:
@@ -24,5 +31,7 @@ server:
       cookie:
         name: PROJECTCAL_SESSIONID
       timeout: 20m # 세션 유효 시간 설정
+
+# 파일 경로 바꾸려면 util 클래스의 FilesUtility에서 확인
 file:
   upload-dir: /uploads

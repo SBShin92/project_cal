@@ -6,7 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	let month = parseInt(viewYearMonthFromHeaderJSP.textContent.split("년 ")[1]);
 
 	createCalendar(year, month);
+	
+	setupMonthYearPicker(year, month);
 });
+
+
 const createCalendar = async (year, month) => {
 	// yearString, monthString
 	let yearString = year.toString();
@@ -187,13 +191,7 @@ const getHolidayMonth = async (year, month) => {
 }
 
 // 예은추가
-document.addEventListener('DOMContentLoaded', () => {
-    let year = parseInt(viewYearMonthFromHeaderJSP.textContent);
-    let month = parseInt(viewYearMonthFromHeaderJSP.textContent.split("년 ")[1]);
 
-    createCalendar(year, month);
-    setupMonthYearPicker(year, month);
-});
 
 function setupMonthYearPicker(initialYear, initialMonth) {
     const monthYearSelector = document.getElementById('monthYearSelector');
@@ -228,17 +226,3 @@ function setupMonthYearPicker(initialYear, initialMonth) {
     });
 }
 
-//여기까지 예은 추가
-
-
-// function getEventsForDate(date) {
-//     // 예시 이벤트 데이터
-//     const events = {
-//         5: '<div class="event blue">회의 09:30</div>',
-//         7: '<div class="event green">식사 21:00</div>',
-//         14: '<div class="event yellow">약속 15:30</div>',
-//         21: '<div class="event pink">점심 12:30</div>',
-//         28: '<div class="event blue">미팅 14:00</div>'
-//     };
-//     return events[date] || '';
-// }

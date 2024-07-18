@@ -1,79 +1,60 @@
 package com.github.sbshin92.project_cal.service.impl;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.sbshin92.project_cal.data.dao.FilesDAO;
+import com.github.sbshin92.project_cal.data.vo.FileVO;
 import com.github.sbshin92.project_cal.service.FileService;
+import com.github.sbshin92.project_cal.util.FilesUtility;
 
 
 @Service
 public class FileServiceImpl implements FileService {
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+	@Autowired
+	private FilesDAO filesDAO;
 
-    private final Path rootLocation;
-
-    public FileServiceImpl(@Value("${file.upload-dir}") String uploadDir) {
-        this.rootLocation = Paths.get(uploadDir);
-    }
-
+	
     @Override
-    public String saveFile(MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            throw new IOException("Failed to store empty file");
-        }
-        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        Path destinationFile = this.rootLocation.resolve(Paths.get(fileName)).normalize().toAbsolutePath();
-        
-        Files.copy(file.getInputStream(), destinationFile);
-        
-        return fileName;
-    }
+	public List<FileVO> getFileListByProjectId(Integer projectId) {
+		return filesDAO.findByProjectId(projectId);
+	}
 
-    @Override
-    public void deleteFile(String filePath) throws IOException {
-        Path file = load(filePath);
-        Files.deleteIfExists(file);
-    }
 
-    @Override
-    public Path load(String filename) {
-        return rootLocation.resolve(filename);
-    }
 
-    @Override
-    public Resource loadAsResource(String filename) throws IOException {
-        try {
-            Path file = load(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new IOException("Could not read file: " + filename);
-            }
-        } catch (MalformedURLException e) {
-            throw new IOException("Could not read file: " + filename, e);
-        }
+	@Override
+    public boolean saveFilesInProject(MultipartFile[] multipartFiles, Integer projectId) throws IOException {
+    	boolean isSuccess = true;
+		for (MultipartFile file: multipartFiles) {
+			// 각 파일명 구하기
+			String originalFileName = file.getOriginalFilename();
+			String extName = originalFileName.substring(originalFileName.lastIndexOf("."));
+			String saveFileName = FilesUtility.getFileNameByTimeMillis(extName);
+			
+			// 파일 사이즈
+			Long fileSize = file.getSize();
+			
+			// 로컬에 파일 저장
+			FilesUtility.writeFile(file, saveFileName);
+			
+			// 저장 정보 DB에 저장
+			FileVO fileVO = FileVO.builder()
+								.projectId(projectId)
+								.fileName(saveFileName)
+								.originalFileName(originalFileName)
+								.fileSize(fileSize)
+								.build();
+			if (1 != filesDAO.save(fileVO)) {
+				isSuccess = false;
+				break ;
+			}
+		}
+    	return isSuccess;
     }
-
-    @Override
-    public void init() throws IOException {
-        Files.createDirectories(rootLocation);
-    }
-
-    @Override
-    public String getUploadDir() {
-        return uploadDir;
-    }
+    
 }

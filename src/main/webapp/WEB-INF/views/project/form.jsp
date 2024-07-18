@@ -2,6 +2,7 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page session="true" %>
 
 <!DOCTYPE html>
 <html>
@@ -22,6 +23,9 @@
 
     <main>
         <form action="<c:url value='/project/create'/>" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" id="userId" name="userId" value="${ authUser.userId }" />
+        
             <div class="form-group">
                 <label for="projectTitle">프로젝트 제목:</label>
                 <input type="text" id="projectTitle" name="projectTitle" required="required" />
@@ -36,9 +40,9 @@
                 <label for="projectStatus">프로젝트 상태:</label>
                 <select id="projectStatus" name="projectStatus">
                     <option value="none">선택하세요</option>
-                    <option value="ongoing">진행 중</option>
-                    <option value="completed">완료</option>
-                    <option value="onhold">보류</option>
+                    <option value="진행중">진행 중</option>
+                    <option value="완료">완료</option>
+                    <option value="보류">보류</option>
                 </select>
             </div>
 

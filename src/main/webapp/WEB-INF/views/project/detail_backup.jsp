@@ -81,7 +81,7 @@
             </div>
         </c:if>
     </section>
-
+ 
     <section class="project-members">
         <h2>프로젝트 멤버</h2>
         <ul id="memberList">
@@ -93,7 +93,7 @@
             <button id="addMember" class="btn">멤버 추가</button>
         </c:if>
     </section>
-	 -->
+	-->
 	 
 	 
     <footer>

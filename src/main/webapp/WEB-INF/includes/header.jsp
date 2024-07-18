@@ -25,5 +25,16 @@
 		
 		<a class="today-button" href="<c:url value='/calendar/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">오늘</a>
 	</div>
+  
+    <!-- header.jsp에 검색기능 추가 0717 (테스크타이틀, -->
+    <!--  -이 부분 우선 추가함 .. 0717 18:13 -->
+    <div>
+    <form action ="<c:url value='/tasks/SearchProjectTasks'/>" method="get" class="search-form">SEARCH
+      <input type="text" name="query" placeholder="Put project title or task title" required>
+      <button type="submit">검색</button>
+    </form>
+    
+    </div>
+  
 	<div class="user-profile">사용자명 ▼</div>
 </header>
