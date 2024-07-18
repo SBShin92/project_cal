@@ -106,9 +106,7 @@ public class TaskServiceImpl implements TaskService {
 	// searchByTitle for search
 	@Override
 	public List<TaskVO> searchByTitle(String taskTitle) {
-		if (taskTitle == null) {
-            throw new IllegalArgumentException("taskTitle cannot be null");
-        }
+		
         return tasksDAO.searchByTitle(taskTitle);
 	}
 
