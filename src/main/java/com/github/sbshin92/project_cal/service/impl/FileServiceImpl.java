@@ -30,6 +30,8 @@ public class FileServiceImpl implements FileService {
 	@Override
     public boolean saveFilesInProject(MultipartFile[] multipartFiles, Integer projectId) throws IOException {
     	boolean isSuccess = true;
+    	if (multipartFiles[0].isEmpty())
+    		return isSuccess;
 		for (MultipartFile file: multipartFiles) {
 			// 각 파일명 구하기
 			String originalFileName = file.getOriginalFilename();
