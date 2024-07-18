@@ -28,13 +28,20 @@ public class ManagerController {
 		model.addAttribute("totalPages", (projectVOs.size()));
 		return "manager/manager-projects";
 	}
+	
 	@GetMapping({"/users"})
-	public String managerUsersPage() {
+	public String managerUsersPage(Model model) {
+		
+		
+		
+//	        model.addAttribute("roles", roleService.getAllRoles());
 		return "manager/manager-users";
 	}
-	@GetMapping("/roles")
-	public String managerRolesPage() {
-		return "manager/manager-roles";
-	}
+	
+//	@GetMapping("/roles")
+//	public String managerRolesPage() {
+//		return "manager/manager-roles";
+//	}
+//	
 	
 }

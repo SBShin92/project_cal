@@ -9,14 +9,14 @@ import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.service.RoleService;
 
 @Controller
-@RequestMapping("/manager/users")
+@RequestMapping("/manager/role")
 public class RoleController {
 
     @Autowired
     private RoleService roleService;
 
     // 모든 역할 목록을 조회하고 users 페이지로 이동
-    @GetMapping("/users")
+    @GetMapping({"", "/", "/list"})
     public String listRoles(Model model) {
         model.addAttribute("roles", roleService.getAllRoles());
         return "manager/users";
