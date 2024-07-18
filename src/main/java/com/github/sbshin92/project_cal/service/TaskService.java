@@ -46,7 +46,7 @@ public interface TaskService {
 	public List<TaskVO> getTasksByProjectId(Integer projectId);
 
      //
-	public List<TaskVO> searchByTitle(String taskTitle);
+	public List<TaskVO> searchByTitle(@Param("taskTitle")String taskTitle);
 }
 	
 

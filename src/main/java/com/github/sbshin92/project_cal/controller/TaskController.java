@@ -3,6 +3,7 @@ package com.github.sbshin92.project_cal.controller;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -193,6 +194,7 @@ public class TaskController {
 	
 	//이 부분 우선 추가함 .. 0717 18:13
 	// 해당 테스크 검색위한 모든 데이터 search
+		
 		@GetMapping("/SearchTasks")
 		public String SearchTask(@RequestParam ("taskTitle") String taskTitle, Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 			List<TaskVO> searchedTasks = taskService.searchByTitle(taskTitle);
