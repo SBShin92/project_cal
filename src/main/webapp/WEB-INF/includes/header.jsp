@@ -30,7 +30,7 @@
     <!--  -이 부분 우선 추가함 .. 0717 18:13 -->
     <div>
     <form action ="<c:url value='/tasks/SearchTasks'/>" method="get">SEARCH
-      <input type="text" name="searchKeyword_title" placeholder="Put project title or task title" required>
+      <input type="text" name="taskTitle" placeholder="Put project title or task title" required>
       <button type="submit">검색</button>
     </form>
     
