@@ -59,4 +59,8 @@ public class MemberController {
 //    	return "redirect:/project/inviteMember";
 //    }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/remotes/origin/develop

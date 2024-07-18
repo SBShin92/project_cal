@@ -39,4 +39,8 @@ public class MessageInterceptor implements HandlerInterceptor {
 		session.setAttribute("messageUnreadCount", messageUnreadCount);
 		return true;
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/remotes/origin/develop

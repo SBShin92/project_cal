@@ -22,4 +22,8 @@ public class FileVO {
 	private String originalFileName;
 	private Long fileSize;
 	private Timestamp uploadedAt;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/remotes/origin/develop

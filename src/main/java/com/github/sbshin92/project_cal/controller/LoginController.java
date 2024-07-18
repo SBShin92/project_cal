@@ -33,7 +33,7 @@ public class LoginController {
                         HttpSession session) {
         UserVO user = userService.getUserByEmail(email);
 //        && passwordEncoder.matches(password, user.getUserPassword())
-        if (user != null ) {
+        if (user != null && user.getUserPassword().equals(password))  {
             session.setAttribute("authUser", user);
             return "redirect:/calendar";
         } else {
