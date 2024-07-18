@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
@@ -38,6 +39,24 @@ public interface ProjectsDAO {
 			+ " FROM projects p JOIN users u ON p.user_id = u.user_id"
 			+ " ORDER BY project_id ASC")
 	List<ProjectVO> findAll();
+	
+	@Select("SELECT project_id as projectId, "
+			+ " p.user_id as userId, "
+			+ " p.project_title as projectTitle, "
+			+ " p.project_description as projectDescription, "
+			+ " p.created_at as createdAt, "
+			+ " p.updated_at as updatedAt, "
+			+ " p.project_status as projectStatus, "
+			+ " p.start_date as startDate, "
+			+ " p.end_date as endDate, "
+			+ " u.user_name as userName "
+			+ " FROM projects p JOIN users u ON p.user_id = u.user_id"
+			+ " ORDER BY project_id ASC")
+	public List<ProjectVO> findAllWithRowBounds(RowBounds rowBounds);
+	
+	@Select("SELECT COUNT(*) FROM projects")
+	public Integer getTotalProjectCount();
+
 
 	/**
 	 * 특정 ID의 프로젝트를 조회합니다.

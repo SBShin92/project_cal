@@ -3,6 +3,7 @@ package com.github.sbshin92.project_cal.service.impl;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return project;
 	}
 
+	@Override
+	public Integer getTotalProjectCount() {
+		return projectsDAO.getTotalProjectCount();
+	}
+
 	/**
 	 * 모든 프로젝트를 조회합니다.
 	 * 
@@ -56,6 +62,14 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectVO> getAllProjects() {
 		return projectsDAO.findAll();
+	}
+	
+	
+
+	@Override
+	public List<ProjectVO> getProjectsWithPage(int page, int size) {
+		int offset = (page - 1) * size;
+		return projectsDAO.findAllWithRowBounds(new RowBounds(offset, size));
 	}
 
 	/**

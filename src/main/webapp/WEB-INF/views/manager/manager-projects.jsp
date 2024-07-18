@@ -63,9 +63,9 @@
 										pattern="yyyy-MM-dd" /></td>
 								<td>${ projectVO.projectStatus }</td>
 								<td>
-									<button class="btn">상세</button>
-									<button class="btn">수정</button>
-									<button class="btn">삭제</button>
+									<a class="btn" href="<c:url value='/project/${projectVO.projectId}' />">상세</a>
+									<a class="btn">수정</a>
+									<a class="btn">삭제</a>
 								</td>
 							</tr>
 						</c:forEach>
@@ -73,7 +73,16 @@
 				</table>
 			</div>
 
+			<nav aria-label="Page-nav">
+			  <ul class="pagination">
+			    <li class="page-item"><a class="page-link" href="?page=${param.page == 1 ? param.page : param.page - 1}">Previous</a></li>
 
+			    <c:forEach begin="1" end="${(projectCount / 10) + 1}" varStatus="num">
+			      <li class="page-item"><a class="page-link" href="?page=${num.index}">${num.index}</a></li>
+			    </c:forEach>
+			    <li class="page-item"><a class="page-link" href="?page=${ totalpages != 10 ? param.page : param.page + 1}">Next</a></li>
+			  </ul>
+			</nav>
 
 		</div>
 	</div>

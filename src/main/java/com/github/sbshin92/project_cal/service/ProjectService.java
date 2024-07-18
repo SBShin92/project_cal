@@ -12,6 +12,9 @@ import com.github.sbshin92.project_cal.data.vo.UserVO;
 public interface ProjectService {
 
 	List<ProjectVO> getAllProjects(); // 프로젝트조회
+	public List<ProjectVO> getProjectsWithPage(int page, int size);
+	public Integer getTotalProjectCount();
+	
 	public ProjectVO getProjectById(int projectId); // 프로젝트 아이디로 프로젝트 조회	
 	public boolean createProject(ProjectVO project) throws IOException; // 생성
 	public boolean updateProject(ProjectVO project); // 수정
