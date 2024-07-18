@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 
@@ -64,6 +65,11 @@ public interface UsersDAO {
     @Options(useGeneratedKeys = true, keyProperty = "userId")
     Integer save(UserVO userVO);
     
+    // 사용자관리-유저 삭제
     @Delete("DELETE FROM users WHERE user_id = #{userId}")
     int deleteByUserId(@Param("userId") Integer userId);
+    
+    // 사용자관리-유저 수정
+    @Update("UPDATE users SET user_name = #{userName}, user_email = #{userEmail}, user_position = #{userPosition} WHERE user_id = #{userId}")
+    int updateUser(@Param("userId") int userId, @Param("userName") String userName, @Param("userEmail") String userEmail, @Param("userPosition") String userPosition);
 }

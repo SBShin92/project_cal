@@ -75,6 +75,17 @@ public class UserServiceImpl implements UserService {
     public boolean deleteUser(Integer userId) {
         return usersDAO.deleteByUserId(userId) > 0;
     }
+    // 유저 수정 기능
+    @Override
+    @Transactional
+    public boolean updateUser(int userId, String userName, String userEmail, String userPosition) {
+        try {
+            return usersDAO.updateUser(userId, userName, userEmail, userPosition) > 0;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
 
 
