@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.service.ProjectService;
+import com.github.sbshin92.project_cal.service.RoleService;
 
 @RequestMapping("/manager")
 @Controller
 public class ManagerController {
-	
 	@Autowired
 	private ProjectService projectService;
+	@Autowired
+	private RoleService roleService;
 	
 	
 	@GetMapping({"", "/", "/projects"})
@@ -37,11 +39,5 @@ public class ManagerController {
 //	        model.addAttribute("roles", roleService.getAllRoles());
 		return "manager/manager-users";
 	}
-	
-//	@GetMapping("/roles")
-//	public String managerRolesPage() {
-//		return "manager/manager-roles";
-//	}
-//	
 	
 }

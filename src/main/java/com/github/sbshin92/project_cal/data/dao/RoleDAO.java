@@ -15,41 +15,49 @@ import com.github.sbshin92.project_cal.data.vo.RoleVO;
 @Mapper
 public interface RoleDAO {
 	
-	 @Select("SELECT role_id as roleId, " +
-	            "role_name as roleName, " +
-	            "project_create as projectCreate, " +
-	            "project_read as projectRead, " +
-	            "project_update as projectUpdate, " +
-	            "project_delete as projectDelete, " +
-	            "task_create as taskCreate, " +
-	            "task_read as taskRead, " +
-	            "task_update as taskUpdate, " +
-	            "task_delete as taskDelete " +
-	            "FROM roles")
+	@Select("SELECT r.role_id as roleId, " +
+            "r.role_name as roleName, " +
+            "r.role_description as roleDescription, " +
+            "r.project_create as projectCreate, " +
+            "r.project_read as projectRead, " +
+            "r.project_update as projectUpdate, " +
+            "r.project_delete as projectDelete, " +
+            "r.task_create as taskCreate, " +
+            "r.task_read as taskRead, " +
+            "r.task_update as taskUpdate, " +
+            "r.task_delete as taskDelete, " +
+            "(SELECT COUNT(*) FROM users_roles ru WHERE ru.role_id = r.role_id) as role_users_count " +
+            "FROM roles r")
 	 List<RoleVO> findAll();
 	 
-	  @Select("SELECT role_id as roleId, " +
-	            "role_name as roleName, " +
-	            "project_create as projectCreate, " +
-	            "project_read as projectRead, " +
-	            "project_update as projectUpdate, " +
-	            "project_delete as projectDelete, " +
-	            "task_create as taskCreate, " +
-	            "task_read as taskRead, " +
-	            "task_update as taskUpdate, " +
-	            "task_delete as taskDelete " +
-	            "FROM roles WHERE role_id = #{roleId}")
-	    RoleVO findById(@Param("roleId") int roleId);
+	@Select("SELECT r.role_id as roleId, " +
+            "r.role_name as roleName, " +
+            "r.role_description as roleDescription, " +
+            "r.project_create as projectCreate, " +
+            "r.project_read as projectRead, " +
+            "r.project_update as projectUpdate, " +
+            "r.project_delete as projectDelete, " +
+            "r.task_create as taskCreate, " +
+            "r.task_read as taskRead, " +
+            "r.task_update as taskUpdate, " +
+            "r.task_delete as taskDelete, " +
+            "(SELECT COUNT(*) FROM users_roles ru WHERE ru.role_id = r.role_id) as role_users_count " +
+            "FROM roles r WHERE r.role_id = #{roleId}")
+	  RoleVO findById(@Param("roleId") int roleId);
 	  
-	  @Insert("INSERT INTO roles(role_name, project_create, project_read, project_update, project_delete, " +
+	  
+	  
+	  
+	  @Insert("INSERT INTO roles(role_name, role_description, project_create, project_read, project_update, project_delete, " +
 	            "task_create, task_read, task_update, task_delete) " +
-	            "VALUES(#{roleName}, #{projectCreate}, #{projectRead}, #{projectUpdate}, #{projectDelete}, " +
+	            "VALUES(#{roleName}, #{roleDescription}, #{projectCreate}, #{projectRead}, #{projectUpdate}, #{projectDelete}, " +
 	            "#{taskCreate}, #{taskRead}, #{taskUpdate}, #{taskDelete})")
 	    @Options(useGeneratedKeys = true, keyProperty = "roleId")
 	  void insert(RoleVO role);
 
 	  @Update("UPDATE roles SET " +
 	            "role_name = #{roleName}, " +
+	            "role_description = #{roleDescription}, " +
 	            "project_create = #{projectCreate}, " +
 	            "project_read = #{projectRead}, " +
 	            "project_update = #{projectUpdate}, " +

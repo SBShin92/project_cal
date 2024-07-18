@@ -36,7 +36,7 @@
 
             <div id="Permissions" class="tabcontent">
                 <h2>권한 관리</h2>
-                <button class="btn">새 권한 그룹 생성</button>
+                <a class="btn" href="<c:url value='/manager/roles/create' />">새 권한 그룹 생성</a>
                 <table>
                     <thead>
                         <tr>
@@ -47,37 +47,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>전체 관리자</td>
-                            <td>모든 권한 보유</td>
-                            <td>2</td>
-                            <td>
-                                <button class="btn">상세</button>
-                                <button class="btn">수정</button>
-                                <button class="btn">삭제</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>프로젝트 관리자</td>
-                            <td>프로젝트 생성 및 관리 권한</td>
-                            <td>5</td>
-                            <td>
-                                <button class="btn">상세</button>
-                                <button class="btn">수정</button>
-                                <button class="btn">삭제</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>일반 사용자</td>
-                            <td>프로젝트 참여 및 작업 수행</td>
-                            <td>20</td>
-                            <td>
-                                <button class="btn">상세</button>
-                                <button class="btn">수정</button>
-                                <button class="btn">삭제</button>
-                            </td>
-                        </tr>
-                    </tbody>
+						<c:forEach items="${ roleVOs }" var="roleVO" varStatus="status">
+							<tr>
+								<td>${ roleVO.roleName }</td>
+								<td>${ roleVO.roleDescription }</td>
+								<td>${ roleVO.roleUsersCount }</td>
+								<td>
+									<a class="btn" href="<c:url value='/roles/${roleVO.roleId}' />">상세</a>
+									<a class="btn">수정</a>
+									<a class="btn">삭제</a>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
                 </table>
             </div>
         </div>
