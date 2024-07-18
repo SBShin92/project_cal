@@ -115,5 +115,9 @@ public interface TasksDAO {
 	            "FROM tasks " +
 	            "WHERE project_id = #{projectId}")
     public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
+
+    
+    // taskTitle로 조회해서 리스트 불러오는 SearcByTitle()
+	public List<TaskVO> searchByTitle(String taskTitle);
 }
 

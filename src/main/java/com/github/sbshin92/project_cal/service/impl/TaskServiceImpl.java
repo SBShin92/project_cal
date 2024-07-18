@@ -94,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
 	
 	
 	
-	//기능 추가 
+	//기능 추가 getTasksByProjectId
 	@Override
 	 public List<TaskVO> getTasksByProjectId(Integer projectId) {
         if (projectId == null) {
@@ -102,6 +102,15 @@ public class TaskServiceImpl implements TaskService {
         }
         return tasksDAO.getTasksByProjectId(projectId);
     }
+
+	// searchByTitle for search
+	@Override
+	public List<TaskVO> searchByTitle(String taskTitle) {
+		if (taskTitle == null) {
+            throw new IllegalArgumentException("taskTitle cannot be null");
+        }
+        return tasksDAO.searchByTitle(taskTitle);
+	}
 
     
 }    

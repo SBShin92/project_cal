@@ -31,7 +31,7 @@
               </thead>
             
               <tbody>
-                  <c:forEach var="st" items="${SearchTask}">
+                  <c:forEach var="st" items="${SearchedTasks}">
                     <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
                     <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
                     <tr>
@@ -41,6 +41,13 @@
                       <td>${st.createdAt}</td>
                       <td>${st.updatedAt}</td>
                       <td>${st.taskStatus}</td>
+                      <td>
+                        <form
+                          action="<c:url value='/tasks/viewTask/${st.taskId}' />"
+                          method="get" style="display: inline;">
+                          <button type="submit">상세 VIEW</button>
+                        </form>
+                      </td>
                    </tr>
                    
                   </c:forEach>
@@ -51,8 +58,7 @@
     </section>
     
     <section>
-    
-    
+   
     </section>
     
   </div>
