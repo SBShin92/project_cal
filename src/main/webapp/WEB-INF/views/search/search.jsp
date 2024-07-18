@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +15,10 @@
     
   <div id="container">
     <c:import url="/WEB-INF/includes/header.jsp" />
-
-    <section>
+    
+   
         <h1>Task List</h1>
-        
+        <c:if test="${not empty searchedTasks}">
         <table border="1">
               <thead>
                 <tr>
@@ -59,12 +61,12 @@
               </tbody>
               
         </table>
-            
-    </section>
+     </c:if>   
+     
+     <c:if test="${empty searchedTasks}">
+        <p>No Tasks Found. </p>
+     </c:if>
     
-    <section>
-   
-    </section>
     
   </div>
 </body>

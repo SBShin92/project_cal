@@ -199,7 +199,7 @@ public class TaskController {
 		public String SearchTask(@RequestParam("taskTitle") String taskTitle, Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 			List<TaskVO> searchedTasks = taskService.searchByTitle(taskTitle);
 			model.addAttribute("searchedTasks", searchedTasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
-			return "redirect:/tasks/listTasks" ; //검색 결과를 보여줄 jsp 페이지로 리다이렉트
+			 return "search/search"; //검색 결과를 보여줄 jsp 페이지로 리다이렉트
 		}
 
 }
