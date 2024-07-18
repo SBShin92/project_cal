@@ -72,8 +72,4 @@ public interface MessagesDAO {
 			+ " WHERE message_id = #{messageId}")
 	public Integer updateReadStatusUnRead(Integer messageId);
 	
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> refs/remotes/origin/develop

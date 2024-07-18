@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
 	public UserVO getUserByUserName(String userName) {
 		return usersDAO.findByUserName(userName);
 	}
+	
 
 	/**
      * 새 사용자를 추가합니다.

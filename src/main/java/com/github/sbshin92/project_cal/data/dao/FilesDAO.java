@@ -72,8 +72,4 @@ public interface FilesDAO {
 	public Integer save(FileVO fileVO);
 	
 	
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> refs/remotes/origin/develop

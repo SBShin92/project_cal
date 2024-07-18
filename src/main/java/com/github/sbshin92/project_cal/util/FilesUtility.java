@@ -48,8 +48,4 @@ public class FilesUtility {
 		}
 
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> refs/remotes/origin/develop
