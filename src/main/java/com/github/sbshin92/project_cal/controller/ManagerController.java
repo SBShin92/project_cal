@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
+import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.ProjectService;
-import com.github.sbshin92.project_cal.service.RoleService;
+import com.github.sbshin92.project_cal.service.UserService;
 
 @RequestMapping("/manager")
 @Controller
 public class ManagerController {
 	@Autowired
 	private ProjectService projectService;
-	@Autowired
-	private RoleService roleService;
 	
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping({"", "/", "/projects"})
 	public String managerProjectsPage(Model model, @RequestParam(defaultValue = "1") int page) {
@@ -33,10 +34,9 @@ public class ManagerController {
 	
 	@GetMapping({"/users"})
 	public String managerUsersPage(Model model) {
-		
-		
-		
-//	        model.addAttribute("roles", roleService.getAllRoles());
+		List<UserVO> userVOs = userService.getAllUsers();
+		model.addAttribute("userVOs", userVOs);
+
 		return "manager/manager-users";
 	}
 	
