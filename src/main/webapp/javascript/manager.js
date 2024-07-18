@@ -8,38 +8,23 @@ document.addEventListener('DOMContentLoaded', function() {
 			sidebar.classList.toggle('active');
 		});
 	}
-	
- // 모든 삭제 폼에 대해 이벤트 리스너 추가
-    const deleteForms = document.querySelectorAll('.deleteForm');
-    deleteForms.forEach(form => {
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const userId = this.getAttribute('data-user-id');
-            const confirmDelete = confirm(`정말로 사용자 ID ${userId}를 삭제하시겠습니까?`);
-            if (confirmDelete) {
-                fetch(this.action, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('사용자가 성공적으로 삭제되었습니다.');
-                        // 삭제된 행을 DOM에서 제거
-                        this.closest('tr').remove();
-                    } else {
-                        alert('사용자 삭제 실패: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('삭제 중 오류가 발생했습니다.');
-                });
-            }
-        });
-    });
+
+
+	// 모든 삭제 폼에 대해 이벤트 리스너 추가
+	document.querySelectorAll('.deleteForm').forEach(form => {
+		form.addEventListener('submit', function(e) {
+			// 폼 제출 이벤트가 발생했을 때 처리
+			e.preventDefault(); // 기본 제출 동작 방지
+
+			const userId = this.id.split('_')[1]; // 폼 ID에서 사용자 ID 추출
+			if (confirm('정말로 삭제하시겠습니까?')) {
+				// 삭제 확인 시 해당 사용자의 폼 제출
+				this.submit();
+			}
+			// 사용자가 취소를 선택한 경우 아무 작업도 하지 않음
+		});
+	});
+
 	// 사용자 검색 기능
 	const searchBar = document.querySelector('.search-bar');
 	if (searchBar) {

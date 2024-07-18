@@ -69,6 +69,6 @@
             <!-- <a href="<c:url value='/manager/users/add'/>" class="btn btn-add">새 사용자 추가</a> -->
         </div>
     </div>
-    <script src="<c:url value='/js/manager.js'/>"></script>
+    <script src="<c:url value='/javascript/manager.js'/>"></script>
 </body>
 </html>
