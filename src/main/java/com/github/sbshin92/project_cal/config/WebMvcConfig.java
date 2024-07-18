@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.github.sbshin92.project_cal.interceptor.AuthInterceptor;
 import com.github.sbshin92.project_cal.interceptor.MessageInterceptor;
 import com.github.sbshin92.project_cal.service.MessageService;
-import com.github.sbshin92.project_cal.service.UserService;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
