@@ -21,6 +21,7 @@ public class MessageVO {
     private int receiverUserId;
     private String messageTitle;
     private String messageDescription;
+    private String readStatus;
     private Timestamp createdAt;
     
     // 조인용 필드

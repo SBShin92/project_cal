@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
-<%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
 <%@ page session="true" %>
 <!DOCTYPE html>
 <html>
@@ -16,12 +15,11 @@
 <a href="<c:url value='/message/sended' />">보낸 쪽지</a>
 <a href="<c:url value='/message/create' />">쪽지 보내기</a>
 	<div>
-		<ul>
-			<c:forEach var="messageVO" items="${messageVOs}">
-				 <li><a href="<c:url value='/message/${url}/${ messageVO.messageId }' />">${messageVO.messageTitle}</a></li>
-			</c:forEach>
-		</ul>
+		<h2>${messageVO.messageTitle}</h2>
+		<p>${messageVO.messageDescription}</p>
+		<p>보낸이: ${messageVO.senderUserName}</p>
+		<p>받는이: ${messageVO.receiverUserName}</p>
+		<p>보낸 시간: ${messageVO.createdAt}</p>
 	</div>
-
 </body>
 </html>

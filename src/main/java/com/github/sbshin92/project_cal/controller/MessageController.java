@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,23 +29,38 @@ public class MessageController {
 	private UserService userService;
 	
 	@GetMapping({"", "/", "/received"})
-	public String receivedMessagePage(Model model) {
+	public String receivedMessageListPage(Model model, HttpSession session) {
 		
-		// TODO: 세션에서 가져와야하지만, 편의상 receiver의 user_id = 1인 녀석이 '받은' 쪽지만 출력하도록 설정
-		List<MessageVO> messageVOs = messageService.getMessageListByReceiverUserId(1);
-		model.addAttribute("messages", messageVOs);
+		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		List<MessageVO> messageVOs = messageService.getMessageListByReceiverUserId(authUser.getUserId());
+		model.addAttribute("messageVOs", messageVOs);
+		model.addAttribute("url", "received");
 		return "message/message-list";
 	}
-
+	
 	@GetMapping("/sended")
 	public String sendedMessagePage(Model model, HttpSession session) {
 		
 		UserVO authUser = (UserVO)session.getAttribute("authUser");
-		// TODO: 세션에서 가져와야하지만, 편의상 sender의 user_id = 1인 녀석이 '보낸' 쪽지만 출력하도록 설정
 		List<MessageVO> messageVOs = messageService.getMessageListBySenderUserId(authUser.getUserId());
-		
-		model.addAttribute("messages", messageVOs);
+		model.addAttribute("messageVOs", messageVOs);
+		model.addAttribute("url", "sended");
 		return "message/message-list";
+	}
+	
+	@GetMapping("/received/{messageId}")
+	public String receivedMessageDetailPage(@PathVariable("messageId") Integer messageId , Model model, HttpSession session) {
+
+		MessageVO messageVO = messageService.getMessageWithReadCheck(messageId);
+		model.addAttribute("messageVO", messageVO);
+		return "message/message-detail";
+	}
+	
+	@GetMapping("/sended/{messageId}")
+	public String sendedMessageDetailPage(@PathVariable("messageId") Integer messageId , Model model, HttpSession session) {
+		MessageVO messageVO = messageService.getMessage(messageId);
+		model.addAttribute("messageVO", messageVO);
+		return "message/message-detail";
 	}
 	
 	@GetMapping("/create")
