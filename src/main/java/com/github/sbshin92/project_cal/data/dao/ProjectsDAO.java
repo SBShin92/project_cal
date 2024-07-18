@@ -34,30 +34,18 @@ public interface ProjectsDAO {
 	 * @param projectId 조회할 프로젝트의 ID
 	 * @return 조회된 프로젝트 정보
 	 */
-//	@Select("SELECT project_id as projectId, " + " user_id as userId, " + " project_title as projectTitle,"
-//			+ " project_description as projectDescription," + " project_status as projectStatus, "
-//			+ " start_date as startDate, " + " end_date as endDate " + " FROM projects WHERE project_id = #{projectId}")
-//	ProjectVO findById(@Param("projectId") int projectId);
-
 	   @Select("SELECT project_id as projectId, user_id as userId, project_title as projectTitle, " +
 	            "project_description as projectDescription, project_status as projectStatus, " +
 	            "start_date as startDate, end_date as endDate, project_bar_color as projectBarColor " +
 	            "FROM projects WHERE project_id = #{projectId}")
 	    ProjectVO findById(@Param("projectId") int projectId);
-	// TODO userId 꼭 바꿔야함
+
 	/**
 	 * 새 프로젝트를 데이터베이스에 삽입합니다.
 	 * 
 	 * @param project 삽입할 프로젝트 정보
 	 * @return 삽입된 행의 수
 	 */
-//    @Insert("INSERT INTO projects  (user_id, project_title, project_description, start_date, end_date) " +
-//            "VALUES ((select u.user_id FROM projects as p INNER JOIN users as u ON u.user_id = p.user_id)"
-//            + " #{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}) "
-//    		)
-//    @Options(useGeneratedKeys = true, keyProperty = "projectId")
-//    int insert(ProjectVO project);
-
 
 	@Insert("INSERT INTO projects (user_id, project_title, project_description, start_date, end_date, project_bar_color) "
 	        + " VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
@@ -70,10 +58,7 @@ public interface ProjectsDAO {
 	 * @param project 업데이트할 프로젝트 정보
 	 * @return 업데이트된 행의 수
 	 */
-//	@Update("UPDATE projects SET project_title = #{projectTitle}, project_description = #{projectDescription}, "
-//			+ "start_date = #{startDate}, end_date = #{endDate}, "
-//			+ "project_status = #{projectStatus} WHERE project_id = #{projectId}")
-//	int update(ProjectVO project);
+
 	   @Update("UPDATE projects SET project_title = #{projectTitle}, project_description = #{projectDescription}, " +
 	            "start_date = #{startDate}, end_date = #{endDate}, " +
 	            "project_status = #{projectStatus}, project_bar_color = #{projectBarColor} WHERE project_id = #{projectId}")
@@ -98,10 +83,6 @@ public interface ProjectsDAO {
 	 * @param fileSize  파일 크기
 	 * @return 삽입된 행의 수
 	 */
-//    @Insert("INSERT INTO project_files (project_id, file_name, file_path, file_size) " +
-//            "VALUES (#{projectId}, #{fileName}, #{filePath}, #{fileSize})")
-//    int insertFile(@Param("projectId") int projectId, @Param("fileName") String fileName, 
-//                   @Param("filePath") String filePath, @Param("fileSize") long fileSize);
 
 	 @Insert("INSERT INTO project_files (project_id, file_name, file_path, file_size) " +
 	            "VALUES (#{projectId}, #{fileName}, #{filePath}, #{fileSize})")
