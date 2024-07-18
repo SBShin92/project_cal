@@ -2,8 +2,6 @@ package com.github.sbshin92.project_cal.interceptor;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.github.sbshin92.project_cal.data.vo.MessageVO;

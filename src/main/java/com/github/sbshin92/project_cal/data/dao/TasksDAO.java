@@ -116,4 +116,3 @@ public interface TasksDAO {
 	            "WHERE project_id = #{projectId}")
     public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
 }
-
