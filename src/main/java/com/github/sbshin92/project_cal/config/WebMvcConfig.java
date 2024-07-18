@@ -27,6 +27,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new MessageInterceptor(messageService))
 			.addPathPatterns("/**")
 			.excludePathPatterns("/login")
+			.excludePathPatterns("/join/**")
 			.excludePathPatterns("/css/**")
 			.excludePathPatterns("/javascript/**");
 	}

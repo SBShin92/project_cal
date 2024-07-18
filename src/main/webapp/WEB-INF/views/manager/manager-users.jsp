@@ -59,9 +59,10 @@
 								href="<c:url value='/manager/users/edit/${user.userId}'/>"
 								class="btn btn-edit">수정</a> 
 								
-								<a href="<c:url value='/manager/users/delete/${user.userId}'/>"
-								class="btn btn-delete" data-user-id="${user.userId}"
-								onclick="return confirmDelete(${user.userId});">삭제</a></td>
+								<form action="<c:url value='/manager/users/delete/${user.userId}'/>" method="post">
+									<input class="btn btn-delete" type="submit" value="삭제">
+								</form>
+
 						</tr>
 					</c:forEach>
 				</tbody>
