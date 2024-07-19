@@ -12,8 +12,6 @@ import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.ProjectService;
 
-import io.lettuce.core.dynamic.annotation.Param;
-
 /**
  * ProjectService 인터페이스의 구현 클래스입니다. 프로젝트 관련 비즈니스 로직을 처리합니다.
  */
@@ -115,62 +113,6 @@ public class ProjectServiceImpl implements ProjectService {
 //    }
 
 	/**
-	 * 프로젝트의 멤버 목록을 조회합니다.
-	 * 
-	 * @param projectId 조회할 프로젝트 ID
-	 * @return 프로젝트 멤버 목록
-	 */
-	@Override
-	public ProjectVO findById(int userId) {
-		return null;
-	}
-	
-    @Override
-    public int addMemberProject(int userId,int projectId) {
-    	// 유효성 검사
-    	if(projectId == 0 || userId == 0) {
-    		throw new IllegalArgumentException("유효하지 않습니다");
-    	}
-    	// 등록된 멤버확인
-    	if(isUserProjectMember(userId,projectId)) {
-    		throw new IllegalArgumentException("이미 등록된 사용자입니다");
-    	}
-    	// 멤버 추가
-    	return projectsDAO.addMemberProject(userId,projectId);
-//        return projectsDAO.getProjectMembers(projectId);
-    }
-    
-    // 등록 가능 멤버 조회
-    @Override
-	public List<UserVO> getProjectMembers(int userId) {
-    	return projectsDAO.getProjectMembers(userId);
-    }
-    
-    // 등록되어 있는지 조회
-    @Override
-	public boolean isUserProjectMember(int userId,int projectId) {
-    	return projectsDAO.isUserProjectMember(userId, projectId);
-    }
-   
-    // 멤버 삭제
-    @Override
-	public int deleteProjectUser(int userId, int projectId) {
-    	return projectsDAO.deleteProjectUser(userId,projectId);
-    }
-    
-    @Override
-    public List<UserVO> getAllUsers(@Param("projectId") int projectId) {
-        return projectsDAO.getAllUsers(projectId);
-    }
-
-//	@Override
-//	public ProjectVO findById(int projectId) {
-//		// TODO Auto-generated method stub
-//		return projectsDAO.findById(projectId);
-//	}
-    
-
-	/**
 	 * 프로젝트 관련 파일들을 업로드합니다.
 	 * 
 	 * @param project 파일을 업로드할 프로젝트
@@ -185,27 +127,12 @@ public class ProjectServiceImpl implements ProjectService {
 //        }
 //    }
 
-
 //	public void createProject(ProjectVO project, Integer userId) {
 //		if (userId == null) {
 //			throw new IllegalArgumentException("User ID cannot be null");
 //		}
 //		project.setUserId(userId);
 //		projectsDAO.insert(project);
-//	}
-
-
-	/* 멤버 추가 관련 */
-//	@Override
-//	public List<UserVO> getProjectMembers(Integer projectId) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public boolean isUserProjectMember(Object currentUserId, int projectId) {
-//		// TODO Auto-generated method stub
-//		return false;
 //	}
 
 	/**
@@ -221,5 +148,30 @@ public class ProjectServiceImpl implements ProjectService {
 //            }
 //        }
 //    }
+//-------------------------------------------------------------------------------------	
+	/**
+	 * 프로젝트의 멤버 목록을 조회합니다.
+	 * 
+	 * @param projectId 조회할 프로젝트 ID
+	 * @return 프로젝트 멤버 목록
+	 */
+	@Override
+    public List<UserVO> getAllUsers() {
+        return projectsDAO.getAllUsers();
+    }
 
+    @Override
+    public boolean isUserProjectMember(int userId, int projectId) {
+        return projectsDAO.isUserProjectMember(userId, projectId);
+    }
+
+    @Override
+    public boolean addMemberProject(int userId, int projectId) {
+        return projectsDAO.addMemberProject(userId, projectId) > 0;
+    }
+
+    @Override
+    public boolean deleteProjectUser(int userId, int projectId) {
+        return projectsDAO.deleteProjectUser(userId, projectId) > 0;
+    }
 }

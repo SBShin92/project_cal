@@ -1,45 +1,44 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>프로젝트 멤버 초대</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Invite Member to Project</title>
 </head>
 <body>
-    <div class="container my-5">
-        <h1>프로젝트 멤버 초대</h1>
-
-        <h3>모든 사용자</h3>
-        <table class="table">
-            <thead>
+    <h1>Invite Member to Project</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>User Email</th>
+                <th>User Position</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="user" items="${allUsers}">
                 <tr>
-                    <th>ID</th>
-                    <th>이름</th>
-                    <th>이메일</th>
-                    <th>작업</th>
+                    <td>${user.userId}</td>
+                    <td>${user.userName}</td>
+                    <td>${user.userEmail}</td>
+                    <td>${user.userPosition}</td>
+                    <td>
+                        <form action="/inviteMember/add" method="post" style="display:inline;">
+                            <input type="hidden" name="userId" value="${user.userId}" />
+                            <input type="hidden" name="projectId" value="${projectId}" />
+                            <input type="submit" value="Add" />
+                        </form>
+                        <form action="/inviteMember/remove" method="post" style="display:inline;">
+                            <input type="hidden" name="userId" value="${user.userId}" />
+                            <input type="hidden" name="projectId" value="${projectId}" />
+                            <input type="submit" value="Remove" />
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="user" items="${users}">
-                    <tr>
-                        <td>${user.userId}</td>
-                        <td>${user.userName}</td>
-                        <td>${user.userEmail}</td>
-                        <td>
-                            <form action="${pageContext.request.contextPath}/inviteMember/projects/${user.userId}/members/add" method="post">
-                                <input type="hidden" name="userId" value="${user.userId}">
-                        
-                                <button type="submit" class="btn btn-primary btn-sm">추가</button>
-                            </form>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </div>
+            </c:forEach>
+        </tbody>
+    </table>
 </body>
 </html>
