@@ -1,19 +1,26 @@
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Invite Member to Project</title>
+    <title>Invite Member</title>
 </head>
 <body>
-    <h1>Invite Member to Project</h1>
-    <table>
+    <h2>Invite Member</h2>
+
+    <c:if test="${not empty message}">
+        <div style="color:green;">${message}</div>
+    </c:if>
+
+    <c:if test="${not empty error}">
+        <div style="color:red;">${error}</div>
+    </c:if>
+
+    <h3>All Users</h3>
+    <table border="1">
         <thead>
             <tr>
                 <th>User ID</th>
                 <th>User Name</th>
-                <th>User Email</th>
-                <th>User Position</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,18 +29,16 @@
                 <tr>
                     <td>${user.userId}</td>
                     <td>${user.userName}</td>
-                    <td>${user.userEmail}</td>
-                    <td>${user.userPosition}</td>
                     <td>
-                        <form action="/inviteMember/add" method="post" style="display:inline;">
+                        <form action="${pageContext.request.contextPath}/inviteMember/add" method="post">
                             <input type="hidden" name="userId" value="${user.userId}" />
                             <input type="hidden" name="projectId" value="${projectId}" />
-                            <input type="submit" value="Add" />
+                            <button type="submit">Add</button>
                         </form>
-                        <form action="/inviteMember/remove" method="post" style="display:inline;">
+                        <form action="${pageContext.request.contextPath}/inviteMember/remove" method="post">
                             <input type="hidden" name="userId" value="${user.userId}" />
                             <input type="hidden" name="projectId" value="${projectId}" />
-                            <input type="submit" value="Remove" />
+                            <button type="submit">Remove</button>
                         </form>
                     </td>
                 </tr>
