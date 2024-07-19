@@ -68,55 +68,52 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	// 사용자 수정
 // 수정 버튼에 대한 이벤트 리스너 추가
-    document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function(e) {
-            const userId = this.dataset.userId;
-            const row = this.closest('tr');
-            const editableCells = row.querySelectorAll('.editable');
-            
-            if (this.textContent === '수정') {
-                // 수정 모드로 전환
-                editableCells.forEach(cell => {
-                    const currentValue = cell.textContent;
-                    cell.innerHTML = `<input type="text" value="${currentValue}">`;
-                });
-                this.textContent = '저장';
-            } else {
-                // 저장 모드
-                const updatedData = {};
-                editableCells.forEach(cell => {
-                    const field = cell.dataset.field;
-                    const input = cell.querySelector('input');
-                    updatedData[field] = input.value;
-                });
+ document.querySelectorAll('.btn-edit').forEach(button => {
+    button.addEventListener('click', function(e) {
+        const userId = this.dataset.userId;
+        const row = this.closest('tr');
+        const editableCells = row.querySelectorAll('.editable');
+        
+        if (this.textContent === '수정') {
+            // 수정 모드로 전환
+            editableCells.forEach(cell => {
+                const currentValue = cell.textContent;
+                cell.innerHTML = `<input type="text" value="${currentValue}">`;
+            });
+            this.textContent = '저장';
+        } else {
+            // 저장 모드
+            const formData = new FormData();
+            editableCells.forEach(cell => {
+                const field = cell.dataset.field;
+                const input = cell.querySelector('input');
+                formData.append(field, input.value);
+            });
 
-                // 서버로 데이터 전송
-                fetch(`/manager/users/edit/${userId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `name=${encodeURIComponent(updatedData.name)}&email=${encodeURIComponent(updatedData.email)}&position=${encodeURIComponent(updatedData.position)}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        // 수정된 데이터로 셀 업데이트
-                        editableCells.forEach(cell => {
-                            const field = cell.dataset.field;
-                            cell.textContent = updatedData[field];
-                        });
-                        this.textContent = '수정';
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('오류가 발생했습니다.');
-                });
-            }
-        });
+            // 서버로 데이터 전송
+            fetch(`/manager/users/edit/${userId}`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // 수정된 데이터로 셀 업데이트
+                    editableCells.forEach(cell => {
+                        const field = cell.dataset.field;
+                        cell.textContent = formData.get(field);
+                    });
+                    this.textContent = '수정';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('오류가 발생했습니다.');
+            });
+        }
     });
+});
 });

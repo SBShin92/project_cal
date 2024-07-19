@@ -72,4 +72,24 @@ public interface UsersDAO {
     // 사용자관리-유저 수정
     @Update("UPDATE users SET user_name = #{userName}, user_email = #{userEmail}, user_position = #{userPosition} WHERE user_id = #{userId}")
     int updateUser(@Param("userId") int userId, @Param("userName") String userName, @Param("userEmail") String userEmail, @Param("userPosition") String userPosition);
+
+    @Select("SELECT user_id as userId,"
+            + " user_name as userName, "
+            + " user_email as userEmail, "
+            + " user_password as userPassword, "
+            + " user_authority as userAuthority, "
+            + " user_position as userPosition, "
+            + " created_at as createdAt, "
+            + " updated_at as updatedAt "
+            + " FROM users WHERE user_id = #{userId}")
+    UserVO findById(@Param("userId") int userId);
+
+    @Update("UPDATE users SET "
+            + "user_name = #{userName}, "
+            + "user_email = #{userEmail}, "
+            + "user_authority = #{userAuthority}, "
+            + "user_position = #{userPosition}, "
+            + "updated_at = CURRENT_TIMESTAMP "
+            + "WHERE user_id = #{userId}")
+    void update(UserVO user);
 }

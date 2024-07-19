@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
@@ -26,6 +27,8 @@ public interface ProjectService {
 	public boolean isUserProjectMember(int userId, int projectId); // 이미 등록된 사용자
 	public int deleteProjectUser(int userId, int projectId);
 	public ProjectVO findById(int userId);
+	
+
 	
 	 
 	 

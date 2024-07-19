@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
@@ -170,6 +171,8 @@ public class ProjectServiceImpl implements ProjectService {
 	public int deleteProjectUser(int userId, int projectId) {
     	return projectsDAO.deleteProjectUser(userId,projectId);
     }
+
+	
 
 //	@Override
 //	public ProjectVO findById(int projectId) {

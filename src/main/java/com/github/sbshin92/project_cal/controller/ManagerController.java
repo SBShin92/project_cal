@@ -57,38 +57,31 @@ public class ManagerController {
 	}
 
 	// 유저 수정
-	 @PostMapping("/users/edit/{userId}")
-	  public Map<String, Object> editUser(
-	            @PathVariable int userId,
-	            @RequestParam String name,
-	            @RequestParam String email,
-	            @RequestParam String position) {
-	        
-	        Map<String, Object> response = new HashMap<>();
-	        
-	        if (name.isEmpty() || email.isEmpty()) {
-	            response.put("success", false);
-	            response.put("message", "이름과 이메일은 필수 입력 항목입니다.");
-	            return response;
-	        }
-	        
-	        try {
-	            boolean updated = userService.updateUser(userId, name, email, position);
-	            if (updated) {
-	                response.put("success", true);
-	                response.put("message", "사용자 정보가 성공적으로 수정되었습니다.");
-	            } else {
-	                response.put("success", false);
-	                response.put("message", "사용자 정보 수정에 실패했습니다.");
-	            }
-	        } catch (Exception e) {
-	            response.put("success", false);
-	            response.put("message", "사용자 정보 수정 중 오류가 발생했습니다: " + e.getMessage());
-	        }
-	        
-	        return response;
-	    }
-    
+	@PostMapping("/users/edit/{userId}")
+	public Map<String, Object> editUser(@PathVariable int userId, @RequestParam String name, @RequestParam String email,
+			@RequestParam String position) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+// 사용자 정보 업데이트 로직
+			UserVO user = userService.getUserById(userId);
+			if (user != null) {
+				user.setUserName(name);
+				user.setUserEmail(email);
+				user.setUserPosition(position);
+				userService.updateUser(user);
+				response.put("success", true);
+				response.put("message", "사용자 정보가 업데이트되었습니다.");
+			} else {
+				response.put("success", false);
+				response.put("message", "사용자를 찾을 수 없습니다.");
+			}
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("message", "사용자 정보 업데이트 중 오류가 발생했습니다.");
+		}
+		return response;
+	}
+
 //	@GetMapping("/roles")
 //	public String managerRolesPage() {
 //		return "manager/manager-roles";

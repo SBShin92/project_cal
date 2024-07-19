@@ -77,8 +77,8 @@ public interface ProjectsDAO {
 	 * @return 삽입된 행의 수
 	 */
 
-	@Insert("INSERT INTO projects (user_id, project_title, project_description, start_date, end_date, project_bar_color) "
-	        + " VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
+	@Insert("INSERT INTO projects (user_id, project_title, project_description, project_status, start_date, end_date, project_bar_color) "
+	        + " VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{projectStatus}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
 	@Options(useGeneratedKeys = true, keyProperty = "projectId")
 	int insert(ProjectVO project);
 
