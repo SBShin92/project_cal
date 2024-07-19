@@ -226,3 +226,32 @@ function setupMonthYearPicker(initialYear, initialMonth) {
     });
 }
 
+//로그아웃
+// 문서 로드 완료 시 실행
+document.addEventListener('DOMContentLoaded', function() {
+  const userProfile = document.querySelector('.user-profile');
+  const userMenu = document.querySelector('.user-menu');
+  const logoutButton = document.getElementById('logoutButton');
+
+  // 사용자 프로필 클릭 시 메뉴 토글
+  userProfile.addEventListener('click', function(e) {
+    e.stopPropagation();
+    userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // 문서 클릭 시 메뉴 닫기
+  document.addEventListener('click', function(e) {
+    if (!userProfile.contains(e.target) && !userMenu.contains(e.target)) {
+      userMenu.style.display = 'none';
+    }
+  });
+
+  // 로그아웃 버튼 클릭 이벤트
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      // 로그인 페이지로 리다이렉트
+      window.location.href = '/project_cal';
+    });
+  }
+});

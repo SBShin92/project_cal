@@ -35,15 +35,18 @@ public class LoginController {
 //        && passwordEncoder.matches(password, user.getUserPassword())
         if (user != null && user.getUserPassword().equals(password))  {
             session.setAttribute("authUser", user);
+            session.setAttribute("userName", user.getUserName()); // 사용자 이름 저장
             return "redirect:/calendar";
         } else {
             return "redirect:/login";
         }
+      
     }
     
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("authUser");
+        session.removeAttribute("userName");
         session.invalidate();
         return "redirect:/";
     }

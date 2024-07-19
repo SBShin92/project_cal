@@ -18,3 +18,4 @@ document.addEventListener("DOMContentLoaded", () => {
         window.open("/project_cal/inviteMember", 'newwindow', 'width=600,height=600');
     }
 });
+
