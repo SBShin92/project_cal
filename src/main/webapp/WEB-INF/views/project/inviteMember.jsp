@@ -46,8 +46,6 @@
         </tbody>
     </table>
 </body>
-<<<<<<< HEAD
+
+
 </html>
-=======
-</html>
->>>>>>> refs/remotes/origin/develop
