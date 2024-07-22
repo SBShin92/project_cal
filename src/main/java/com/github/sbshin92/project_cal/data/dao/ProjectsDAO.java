@@ -150,6 +150,7 @@ public interface ProjectsDAO {
 	    List<UserVO> getAllUsers();
 
 	    @Select("SELECT COUNT(*) > 0 FROM projects_users WHERE user_id = #{userId} AND project_id = #{projectId}")
+
 	    boolean isUserProjectMember(@Param("userId") int userId, @Param("projectId") int projectId);
 
 	    @Insert("INSERT INTO projects_users(user_id, project_id) VALUES (#{userId}, #{projectId})")
@@ -183,6 +184,7 @@ public interface ProjectsDAO {
 //		    List<UserVO> getAllUsers(int userId);
 //}
 	
+
 //	@Select("SELECT COUNT(*) > 0 FROM user_project WHERE user_id = #{userId} AND project_id = #{projectId}")
 //	boolean isUserProjectMember(@Param("userId") Integer userId, @Param("projectId") Integer projectId);
 

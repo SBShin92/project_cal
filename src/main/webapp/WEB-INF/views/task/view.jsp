@@ -37,9 +37,12 @@
               <th>Project ID</th>
               <th>Title</th>
               <th>Description</th>
+              <th>Status</th>
+              <th>Priority</th>
+              <th>Start Date</th>
+               <th>End Date</th>
               <th>Created At</th>
               <th>Updated At</th>
-              <th>Status</th>
             </tr>
           </thead>
 
@@ -50,9 +53,13 @@
               <td>${viewTask.projectId}</td>
               <td>${viewTask.taskTitle}</td>
               <td>${viewTask.taskDescription}</td>
+              <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
+              <td>${viewTask.taskPriority}</td>
+              <td>${viewTask.startDate}</td>
+              <td>${viewTask.endDate}</td>
               <td>${viewTask.createdAt}</td>
               <td>${viewTask.updatedAt == null ? '' : viewTask.updatedAt}</td>
-              <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
+              
             </tr>
           </tbody>
 
@@ -67,12 +74,10 @@
       action="<c:url value='/tasks/members/${viewTask.taskId}' />"
       method="POST">
       <input type="hidden" name="taskId" value="${viewTask.taskId}">
-      <input type="hidden" name="projectId"
-        value="${viewTask.projectId}"> <input type="hidden"
-        name="userId" value="${viewTask.userId}"> <label
-        for="addUserId">User ID:</label> <input type="number"
-        name="addUserId" value="">
-
+      <input type="hidden" name="projectId" value="${viewTask.projectId}"> 
+      <input type="hidden" name="userId" value="${viewTask.userId}"> 
+      <label for="addUserId">User ID:</label> 
+      <input type="number" name="addUserId" value="">
       <button type="submit">멤버 추가</button>
     </form>
 
@@ -96,10 +101,8 @@
               <form
                 action="<c:url value='/tasks/deleteUsersTask/${viewTask.taskId}'/>"
                 method="post">
-                <input type="hidden" name="userId"
-                  value="${member.userId}" />
-                <button type="submit"
-                  onclick="return confirm('Are you sure you want to remove this member?')">Remove</button>
+                <input type="hidden" name="userId" value="${member.userId}" />
+                <button type="submit" onclick="return confirm('Are you sure you want to remove this member?')">Remove</button>
               </form>
             </td>
           </tr>
