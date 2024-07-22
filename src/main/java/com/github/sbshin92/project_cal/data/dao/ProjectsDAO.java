@@ -146,11 +146,10 @@ public interface ProjectsDAO {
 //	            "VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
 //	    int insert(ProjectVO project);
 
-	    @Select("SELECT user_id as userId, user_name as userName, user_email as userEmail, user_position as userPosition FROM users")
+	    @Select("SELECT user_id AS userId, user_name AS userName, user_email AS userEmail, user_position AS userPosition FROM users")
 	    List<UserVO> getAllUsers();
 
 	    @Select("SELECT COUNT(*) > 0 FROM projects_users WHERE user_id = #{userId} AND project_id = #{projectId}")
-
 	    boolean isUserProjectMember(@Param("userId") int userId, @Param("projectId") int projectId);
 
 	    @Insert("INSERT INTO projects_users(user_id, project_id) VALUES (#{userId}, #{projectId})")
@@ -158,6 +157,25 @@ public interface ProjectsDAO {
 
 	    @Delete("DELETE FROM projects_users WHERE user_id = #{userId} AND project_id = #{projectId}")
 	    int deleteProjectUser(@Param("userId") int userId, @Param("projectId") int projectId);
+
+	    @Select("SELECT u.user_id as userId, u.user_name as userName, u.user_email as userEmail, u.user_position as userPosition " +
+	            "FROM users u " +
+	            "JOIN projects_users pu ON u.user_id = pu.user_id " +
+	            "WHERE pu.project_id = #{projectId}")
+	    List<UserVO> getProjectMembers(@Param("projectId") int projectId);
+		
+		 // 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 //0722 지원 추가
+	    @Select("SELECT project_id as projectId, "
+	    		+ "user_id as userId, "
+	    		+ "project_title as projectTitle, "
+	    		+ "project_description as projectDescription, "
+	    		+ "created_at as createdAt, "
+	    		+ "updated_at as updatedAt, "
+	    		+ "project_status as projectStatus, "
+	    		+ "start_date as startDate, "
+	    		+ "end_date as endDate "
+	    		+ " FROM projects WHERE project_title = #{projectTitle}")
+	    List<ProjectVO> searchedProjects(String projectTitle);
 	}
     
 //	    // 멤버 추가

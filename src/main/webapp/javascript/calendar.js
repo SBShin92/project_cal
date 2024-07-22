@@ -1,3 +1,16 @@
+const projectColors = [
+    "#A8E6CF", // 연한 민트
+    "#FFDFD3", // 연한 살구색
+    "#B8D8F5", // 연한 하늘색
+    "#FFD9DA", // 연한 분홍
+    "#E0BBE4", // 연한 라벤더
+    "#FFF5BA", // 연한 레몬
+    "#DCEDC1", // 연한 라임
+    "#C4E0F9", // 연한 파랑
+    "#FFCAAF", // 연한 복숭아
+    "#D5AAFF"  // 연한 보라
+];
+
 const today = new Date();
 const viewYearMonthFromHeaderJSP = document.getElementsByClassName("view-date")[0];
 
@@ -6,10 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	let month = parseInt(viewYearMonthFromHeaderJSP.textContent.split("년 ")[1]);
 
 	createCalendar(year, month);
-	
+
 	setupMonthYearPicker(year, month);
 });
 
+function getProjectColor(projectId) {
+    return projectColors[projectId % projectColors.length];
+}
 
 const createCalendar = async (year, month) => {
 	// yearString, monthString
@@ -105,12 +121,13 @@ const createCalendar = async (year, month) => {
 	document.querySelector(".calendar table").appendChild(tbody);
 };
 
+
 const formatDate = (date) => {
 	returnYear = String(date.getFullYear());
 	returnMonth = String(date.getMonth() + 1);
 	returnDate = String(date.getDate());
 
-	if (returnMonth.length < 2) 
+	if (returnMonth.length < 2)
 		returnMonth = '0' + returnMonth;
 	if (returnDate.length < 2)
 		returnDate = '0' + returnDate;
@@ -119,29 +136,58 @@ const formatDate = (date) => {
 }
 
 // 프로젝트 기간 바 생성
-const createProjectBars = (date) => {
-    const projectBarsContainer = document.createElement("div");
-    projectBarsContainer.className = "project-bars";
+/*const createProjectBars = (date) => {
+	const projectBarsContainer = document.createElement("div");
+	projectBarsContainer.className = "project-bars";
 	const formattedDate = formatDate(date);
-    projectList.forEach(project => {
-        if (formattedDate >= project.startDate && formattedDate <= project.endDate) {
-            const projectBar = document.createElement("div");
-            projectBar.className = "project-bar";
+	projectList.forEach(project => {
+		if (formattedDate >= project.startDate && formattedDate <= project.endDate) {
+			const projectBar = document.createElement("div");
+			projectBar.className = "project-bar";
 			
 			if (formattedDate == project.startDate)
 				projectBar.classList.add("start-bar");
 			if (formattedDate == project.endDate)
 				projectBar.classList.add("end-bar");
 				
-            projectBar.style.backgroundColor = projectStatusToColor(project.projectStatus);
-            projectBar.title = project.title;
-            projectBarsContainer.appendChild(projectBar);
-        }
+			projectBar.style.backgroundColor = projectStatusToColor(project.projectStatus);
+			projectBar.title = project.title;
+			projectBarsContainer.appendChild(projectBar);
+		}
+	});
+
+	return projectBarsContainer;
+};
+*/
+// 예은 추가
+const createProjectBars = (date) => {
+    const projectBarsContainer = document.createElement("div");
+    projectBarsContainer.className = "project-bars";
+    const formattedDate = formatDate(date);
+
+    const dateProjects = projectList.filter(project =>
+        formattedDate >= project.startDate && formattedDate <= project.endDate
+    );
+
+    const maxVisibleProjects = 5;
+    dateProjects.slice(0, maxVisibleProjects).forEach((project) => {
+        const projectBar = document.createElement("div");
+        projectBar.className = "project-bar";
+        projectBar.style.backgroundColor = getProjectColor(project.id);
+        projectBar.textContent = project.title;
+        projectBar.title = project.title;
+        projectBarsContainer.appendChild(projectBar);
     });
+
+    if (dateProjects.length > maxVisibleProjects) {
+        const moreProjectsDiv = document.createElement("div");
+        moreProjectsDiv.className = "more-projects";
+        moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects} more`;
+        projectBarsContainer.appendChild(moreProjectsDiv);
+    }
 
     return projectBarsContainer;
 };
-
 
 // 랜덤 색상 생성 (프로젝트 바 구분을 위해)
 function projectStatusToColor(projectStatus) {
@@ -154,7 +200,7 @@ function projectStatusToColor(projectStatus) {
 		hex = "000000";
 	else if (projectStatus === "보류")
 		hex = "000000";
-    return '#' + hex;
+	return '#' + hex;
 }
 
 // 공휴일 체크 API
@@ -194,64 +240,64 @@ const getHolidayMonth = async (year, month) => {
 
 
 function setupMonthYearPicker(initialYear, initialMonth) {
-    const monthYearSelector = document.getElementById('monthYearSelector');
-    const monthYearPicker = document.getElementById('monthYearPicker');
-    const monthSelect = document.getElementById('monthSelect');
-    const yearSelect = document.getElementById('yearSelect');
-    const applyDateButton = document.getElementById('applyDateButton');
+	const monthYearSelector = document.getElementById('monthYearSelector');
+	const monthYearPicker = document.getElementById('monthYearPicker');
+	const monthSelect = document.getElementById('monthSelect');
+	const yearSelect = document.getElementById('yearSelect');
+	const applyDateButton = document.getElementById('applyDateButton');
 
-    // 년도 옵션 생성 (현재 년도 기준 ±10년)
-    const currentYear = new Date().getFullYear();
-    for (let year = currentYear - 10; year <= currentYear + 10; year++) {
-        const option = document.createElement('option');
-        option.value = year;
-        option.textContent = year + '년';
-        yearSelect.appendChild(option);
-    }
+	// 년도 옵션 생성 (현재 년도 기준 ±10년)
+	const currentYear = new Date().getFullYear();
+	for (let year = currentYear - 10; year <= currentYear + 10; year++) {
+		const option = document.createElement('option');
+		option.value = year;
+		option.textContent = year + '년';
+		yearSelect.appendChild(option);
+	}
 
-    // 초기 값 설정
-    monthSelect.value = initialMonth;
-    yearSelect.value = initialYear;
+	// 초기 값 설정
+	monthSelect.value = initialMonth;
+	yearSelect.value = initialYear;
 
-    monthYearSelector.addEventListener('click', () => {
-        monthYearPicker.style.display = monthYearPicker.style.display === 'none' ? 'block' : 'none';
-    });
+	monthYearSelector.addEventListener('click', () => {
+		monthYearPicker.style.display = monthYearPicker.style.display === 'none' ? 'block' : 'none';
+	});
 
-    applyDateButton.addEventListener('click', () => {
-        const selectedYear = parseInt(yearSelect.value);
-        const selectedMonth = parseInt(monthSelect.value);
-        createCalendar(selectedYear, selectedMonth);
-        monthYearPicker.style.display = 'none';
-        viewYearMonthFromHeaderJSP.textContent = `${selectedYear}년 ${selectedMonth}월`;
-    });
+	applyDateButton.addEventListener('click', () => {
+		const selectedYear = parseInt(yearSelect.value);
+		const selectedMonth = parseInt(monthSelect.value);
+		createCalendar(selectedYear, selectedMonth);
+		monthYearPicker.style.display = 'none';
+		viewYearMonthFromHeaderJSP.textContent = `${selectedYear}년 ${selectedMonth}월`;
+	});
 }
 
 //로그아웃
 // 문서 로드 완료 시 실행
 document.addEventListener('DOMContentLoaded', function() {
-  const userProfile = document.querySelector('.user-profile');
-  const userMenu = document.querySelector('.user-menu');
-  const logoutButton = document.getElementById('logoutButton');
+	const userProfile = document.querySelector('.user-profile');
+	const userMenu = document.querySelector('.user-menu');
+	const logoutButton = document.getElementById('logoutButton');
 
-  // 사용자 프로필 클릭 시 메뉴 토글
-  userProfile.addEventListener('click', function(e) {
-    e.stopPropagation();
-    userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
-  });
+	// 사용자 프로필 클릭 시 메뉴 토글
+	userProfile.addEventListener('click', function(e) {
+		e.stopPropagation();
+		userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
+	});
 
-  // 문서 클릭 시 메뉴 닫기
-  document.addEventListener('click', function(e) {
-    if (!userProfile.contains(e.target) && !userMenu.contains(e.target)) {
-      userMenu.style.display = 'none';
-    }
-  });
+	// 문서 클릭 시 메뉴 닫기
+	document.addEventListener('click', function(e) {
+		if (!userProfile.contains(e.target) && !userMenu.contains(e.target)) {
+			userMenu.style.display = 'none';
+		}
+	});
 
-  // 로그아웃 버튼 클릭 이벤트
-  if (logoutButton) {
-    logoutButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      // 로그인 페이지로 리다이렉트
-      window.location.href = '/project_cal';
-    });
-  }
+	// 로그아웃 버튼 클릭 이벤트
+	if (logoutButton) {
+		logoutButton.addEventListener('click', function(e) {
+			e.preventDefault();
+			// 로그인 페이지로 리다이렉트
+			window.location.href = '/project_cal';
+		});
+	}
 });

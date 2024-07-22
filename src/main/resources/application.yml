@@ -60,12 +60,11 @@ server:
       timeout: 20m # 세션 유효 시간 설정
 # 파일 경로 바꾸려면 util 클래스의 FilesUtility에서 확인
 file:
-<<<<<<< HEAD
   upload-dir: /uploads
 #디버
   logging:
     level:
     root: DEBUG
-=======
-  upload-dir: /uploads
->>>>>>> refs/remotes/origin/develop
+
+upload-dir: /uploads
+
