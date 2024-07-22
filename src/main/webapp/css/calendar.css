@@ -242,3 +242,45 @@ a:link {
 .menu-item:hover {
   background-color: #fdb03e;
 }
+
+
+
+.calendar td {
+    height: 100px;
+    width: 14.28%;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.project-bars {
+    margin-top: 5px;
+}
+
+.project-bar {
+    height: 20px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+}
+
+.more-projects {
+    background-color: #f0f0f0;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 2px;
+}
+
+/* 파스텔톤 색상 */
+.project-color-1 { background-color: #FFB3BA; }
+.project-color-2 { background-color: #BAFFC9; }
+.project-color-3 { background-color: #BAE1FF; }
+.project-color-4 { background-color: #FFFFBA; }
+.project-color-5 { background-color: #FFD9BA; }
