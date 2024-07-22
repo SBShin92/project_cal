@@ -7,9 +7,18 @@ body {
 	background-color: #f0f0f0;
 }
 
+ul {
+	list-style-type: none;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
 .container {
 	display: flex;
-	min-height: 100vh;
+	height: 100vh;
 }
 
 .sidebar {
@@ -18,6 +27,7 @@ body {
 	color: white;
 	padding: 20px;
 	transition: all 0.3s;
+	position: relative;
 }
 
 .main-content {
@@ -37,12 +47,19 @@ body {
 
 .menu-item {
 	padding: 10px 0;
-	cursor: pointer;
 }
+
+
 
 .menu-item:hover {
 	background-color: #5a95f5;
 }
+
+.foot {
+	position: absolute;
+	bottom: 10vh;
+}
+
 
 table {
 	width: 100%;

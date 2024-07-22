@@ -14,28 +14,20 @@
 <body>
 	<button class="menu-toggle">☰</button>
 	<div class="container">
-		<div class="sidebar" id="sidebar">
-			<h2>관리자 메뉴</h2>
-			<div class="menu-item">대시보드</div>
-			<div class="menu-item">프로젝트 관리</div>
-			<div class="menu-item">사용자 관리</div>
-			<div class="menu-item">권한 관리</div>
-			<div class="menu-item">보고서</div>
-			<div class="menu-item">설정</div>
-		</div>
+		<jsp:include page="/WEB-INF/includes/manager-nav.jsp" />
 		<div class="main-content">
 			<div class="header">
-				<h1>프로젝트 관리 시스템</h1>
+				<h1>새 권한 그룹 생성</h1>
 			</div>
 			<h2>권한 생성</h2>
-			<form action="<c:url value='/manager/roles/create' />" method="post">
+			<form action="<c:url value='/manager/role/create' />" method="post">
 				<div>
 					<label for="roleName">권한 이름:</label>
-					<input type="text" id="roleName" name="roleName" value="${role.roleName}" required>
+					<input type="text" id="roleName" name="roleName" required>
 				</div>
 				<div>
 					<label for="roleDescription">권한 설명:</label>
-					<input type="text" id="roleDescription" name="roleDescription" value="${role.userEmail}" required>
+					<input type="text" id="roleDescription" name="roleDescription" required>
 				</div>
 				<div>
 					<input type="checkbox" name="projectCreate" id="projectCreate" value="true">
@@ -59,7 +51,7 @@
 					
 				</div>
 				<button type="submit" class="btn">생성</button>
-				<a href="<c:url value='/manager/roles' />" class="btn">취소</a>
+				<a href="<c:url value='/manager/role' />" class="btn">취소</a>
 			</form>
 		</div>
 	</div>

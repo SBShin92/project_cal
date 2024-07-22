@@ -15,15 +15,7 @@
 <body>
 	<button class="menu-toggle">☰</button>
 	<div class="container">
-		<div class="sidebar" id="sidebar">
-			<h2>관리자 메뉴</h2>
-			<div class="menu-item">대시보드</div>
-			<div class="menu-item">프로젝트 관리</div>
-			<div class="menu-item">사용자 관리</div>
-			<div class="menu-item">권한 관리</div>
-			<div class="menu-item">보고서</div>
-			<div class="menu-item">설정</div>
-		</div>
+		<jsp:include page="/WEB-INF/includes/manager-nav.jsp" />
 		<div class="main-content">
 			<div class="header">
 				<h1>프로젝트 관리 시스템</h1>
@@ -61,7 +53,7 @@
 				</tr>
 				<!-- 나머지 권한들도 같은 방식으로 표시 -->
 			</table>
-			<form action="<c:url value='/manager/users/delete/${role.roleId}' />"
+			<form action="<c:url value='/manager/user/delete/${role.roleId}' />"
 				method="post" style="display: inline;">
 				<button type="submit" class="btn delete-role"
 					onclick="return confirm('정말로 이 사용자를 삭제하시겠습니까?');">삭제</button>

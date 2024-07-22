@@ -9,12 +9,12 @@
 		<c:choose>
 			<c:when test="${ sessionScope.viewMonth <= 1 }">
 				<a class="prev-button"
-					href="<c:url value='/calendar/${ sessionScope.viewYear - 1 }12' />">←
+					href="<c:url value='/calendar/${ sessionScope.viewYear - 1 }12' />">◀
 				</a>
 			</c:when>
 			<c:otherwise>
 				<a class="prev-button"
-					href="<c:url value='/calendar/${ sessionScope.viewYear }${sessionScope.viewMonth - 1 }' />">←
+					href="<c:url value='/calendar/${ sessionScope.viewYear }${sessionScope.viewMonth - 1 }' />">◀
 				</a>
 			</c:otherwise>
 		</c:choose>
@@ -23,18 +23,18 @@
 			<c:when test="${ sessionScope.viewMonth >= 12 }">
 				<a class="next-button"
 					href="<c:url value='/calendar/${ sessionScope.viewYear + 1 }1' />">
-					→</a>
+					▶</a>
 			</c:when>
 			<c:otherwise>
 				<a class="next-button"
 					href="<c:url value='/calendar/${ sessionScope.viewYear }${sessionScope.viewMonth + 1 }' />">
-					→</a>
+					▶</a>
 			</c:otherwise>
 		</c:choose>
 
 		<a class="today-button"
 			href="<c:url value='/calendar/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">
-			오늘</a>
+			Today</a>
 	</div>
 
 	<!-- header.jsp에 검색기능 추가 0717 (테스크타이틀, -->
@@ -42,7 +42,7 @@
 	<div>
 		<form action="<c:url value='/tasks/SearchProjectTasks'/>" method="get"
 			class="search-form">
-			SEARCH <input type="text" name="query"
+			SEARCH <input type="text" name="taskTitle"
 				placeholder="Put project title or task title" required>
 			<button type="submit">검색</button>
 		</form>

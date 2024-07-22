@@ -16,12 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			// 폼 제출 이벤트가 발생했을 때 처리
 			e.preventDefault(); // 기본 제출 동작 방지
 
-			const userId = this.id.split('_')[1]; // 폼 ID에서 사용자 ID 추출
 			if (confirm('정말로 삭제하시겠습니까?')) {
 				// 삭제 확인 시 해당 사용자의 폼 제출
 				this.submit();
 			}
-			// 사용자가 취소를 선택한 경우 아무 작업도 하지 않음
 		});
 	});
 
