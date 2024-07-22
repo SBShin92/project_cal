@@ -1,3 +1,16 @@
+const projectColors = [
+    "#A8E6CF", // 연한 민트
+    "#FFDFD3", // 연한 살구색
+    "#B8D8F5", // 연한 하늘색
+    "#FFD9DA", // 연한 분홍
+    "#E0BBE4", // 연한 라벤더
+    "#FFF5BA", // 연한 레몬
+    "#DCEDC1", // 연한 라임
+    "#C4E0F9", // 연한 파랑
+    "#FFCAAF", // 연한 복숭아
+    "#D5AAFF"  // 연한 보라
+];
+
 const today = new Date();
 const viewYearMonthFromHeaderJSP = document.getElementsByClassName("view-date")[0];
 
@@ -10,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	setupMonthYearPicker(year, month);
 });
 
+function getProjectColor(projectId) {
+    return projectColors[projectId % projectColors.length];
+}
 
 const createCalendar = async (year, month) => {
 	// yearString, monthString
@@ -144,34 +160,35 @@ const formatDate = (date) => {
 };
 */
 // 예은 추가
-
 const createProjectBars = (date) => {
-	const projectBarsContainer = document.createElement("div");
-	projectBarsContainer.className = "project-bars";
-	const formattedDate = formatDate(date);
+    const projectBarsContainer = document.createElement("div");
+    projectBarsContainer.className = "project-bars";
+    const formattedDate = formatDate(date);
 
-	const dateProjects = projectList.filter(project =>
-		formattedDate >= project.startDate && formattedDate <= project.endDate
-	);
+    const dateProjects = projectList.filter(project =>
+        formattedDate >= project.startDate && formattedDate <= project.endDate
+    );
 
-	const maxVisibleProjects = 5;
-	dateProjects.slice(0, maxVisibleProjects).forEach((project, index) => {
-		const projectBar = document.createElement("div");
-		projectBar.className = `project-bar project-color-${(index % 5) + 1}`;
-		projectBar.textContent = project.title;
-		projectBar.title = project.title;
-		projectBarsContainer.appendChild(projectBar);
-	});
+    const maxVisibleProjects = 5;
+    dateProjects.slice(0, maxVisibleProjects).forEach((project) => {
+        const projectBar = document.createElement("div");
+        projectBar.className = "project-bar";
+        projectBar.style.backgroundColor = getProjectColor(project.id);
+        projectBar.textContent = project.title;
+        projectBar.title = project.title;
+        projectBarsContainer.appendChild(projectBar);
+    });
 
-	if (dateProjects.length > maxVisibleProjects) {
-		const moreProjectsDiv = document.createElement("div");
-		moreProjectsDiv.className = "more-projects";
-		moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects} more`;
-		projectBarsContainer.appendChild(moreProjectsDiv);
-	}
+    if (dateProjects.length > maxVisibleProjects) {
+        const moreProjectsDiv = document.createElement("div");
+        moreProjectsDiv.className = "more-projects";
+        moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects} more`;
+        projectBarsContainer.appendChild(moreProjectsDiv);
+    }
 
-	return projectBarsContainer;
+    return projectBarsContainer;
 };
+
 // 랜덤 색상 생성 (프로젝트 바 구분을 위해)
 function projectStatusToColor(projectStatus) {
 	let hex = "";
