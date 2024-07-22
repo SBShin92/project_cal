@@ -23,7 +23,7 @@ public interface ProjectService {
 	 
 
 	
-	public List<ProjectVO> searchedProjects(String projectTitle); // 지원 추가 0718// 프로젝트타이틀을 통한 프로젝트목록의 검색기능구현
+	public List<ProjectVO> searchedProjects(String projectTitle); // 지원 추가 0722// 프로젝트타이틀을 통한 프로젝트목록의 검색기능구현
 	 
 
 //	 // 멤버조회 및 멤버 추가
