@@ -53,7 +53,7 @@
 				</tr>
 				<!-- 나머지 권한들도 같은 방식으로 표시 -->
 			</table>
-			<form action="<c:url value='/manager/users/delete/${role.roleId}' />"
+			<form action="<c:url value='/manager/user/delete/${role.roleId}' />"
 				method="post" style="display: inline;">
 				<button type="submit" class="btn delete-role"
 					onclick="return confirm('정말로 이 사용자를 삭제하시겠습니까?');">삭제</button>

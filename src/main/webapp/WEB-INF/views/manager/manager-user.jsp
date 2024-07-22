@@ -45,7 +45,7 @@
 								<button class="btn btn-edit" data-user-id="${user.userId}">수정</button>
 								
 								<form id="deleteForm_${user.userId}" class="deleteForm"
-									action="<c:url value='/manager/users/delete/${user.userId}'/>"
+									action="<c:url value='/manager/user/delete/${user.userId}'/>"
 									method="post" style="display: inline;">
 									<input class="btn btn-delete" type="submit" value="삭제">
 								</form>

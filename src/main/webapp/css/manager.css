@@ -27,6 +27,7 @@ a {
 	color: white;
 	padding: 20px;
 	transition: all 0.3s;
+	position: relative;
 }
 
 .main-content {
@@ -53,6 +54,12 @@ a {
 .menu-item:hover {
 	background-color: #5a95f5;
 }
+
+.foot {
+	position: absolute;
+	bottom: 10vh;
+}
+
 
 table {
 	width: 100%;
