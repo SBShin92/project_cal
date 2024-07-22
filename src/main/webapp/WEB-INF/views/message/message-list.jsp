@@ -1,27 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
 <%@ page session="true" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <title>쪽지함</title>
 </head>
 <body>
-
-<h1>${ sessionScope.authUser.userName } 님의 쪽지함</h1>
-<a href="<c:url value='/message/received' />">받은 쪽지</a>
-<a href="<c:url value='/message/sended' />">보낸 쪽지</a>
-<a href="<c:url value='/message/create' />">쪽지 보내기</a>
-	<div>
-		<ul>
-			<c:forEach var="messageVO" items="${messageVOs}">
-				 <li><a href="<c:url value='/message/${url}/${ messageVO.messageId }' />">${messageVO.messageTitle}</a></li>
-			</c:forEach>
-		</ul>
-	</div>
-
+    <div class="container py-5">
+        <div class="message-box p-4">
+            <h1 class="message-title mb-4">
+                <i class="fas fa-envelope me-2"></i>${sessionScope.authUser.userName} 님의 쪽지함
+            </h1>
+            <div class="btn-group mb-4" role="group" aria-label="Message actions">
+                <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/received' />">
+                    <i class="fas fa-inbox me-2"></i>받은 쪽지
+                </a>
+                <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/sended' />">
+                    <i class="fas fa-paper-plane me-2"></i>보낸 쪽지
+                </a>
+                <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/create' />">
+                    <i class="fas fa-pen me-2"></i>쪽지 보내기
+                </a>
+            </div>
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    <c:forEach var="messageVO" items="${messageVOs}">
+                        <li class="list-group-item">
+                        	<div class="row">
+						    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none col-8">
+						        <i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}
+						    </a>
+						    <span class="col-4"><fmt:formatDate value="${messageVO.createdAt}" pattern="MM/dd HH:mm" />, ${messageVO.readStatus}</span>
+						    </div>
+						</li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+    </div>
+<script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
 </body>
 </html>

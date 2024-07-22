@@ -191,12 +191,16 @@ main {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	text-decoration: none;
 }
 
-a:link {
-    text-decoration: none;
-
+a {
+	color: white;
+	text-decoration: none;
 }
+
+
+
 .next-button .prev-button .today-button {
 	color:white;
 }

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function openMessageList() {
-    window.open("/project_cal/message", 'newwindow', 'width=500, height=400, top=150, left=900');
+    window.open("/project_cal/message", 'newwindow', 'width=600, height=500, top=150, left=400');
 }
 
 
