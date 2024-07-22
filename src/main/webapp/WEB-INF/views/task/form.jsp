@@ -18,7 +18,8 @@
     <jsp:include page="/WEB-INF/includes/header.jsp" />
  	<jsp:include page="/WEB-INF/includes/nav.jsp" />
   
-  <div class="project-content">
+  <div id="container"> 
+  <section class="project-content">
   	<header>
   		<h1>${createTaskForm.taskId == 0 ? 'Create' : 'Edit'}Task</h1>
 	</header>       
@@ -81,7 +82,8 @@
       	
     </form>
     </main>
+  </section>
   </div>
-
+  
 </body>
 </html>

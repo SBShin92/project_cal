@@ -129,7 +129,7 @@
                                             <input type="hidden" name="endDate" value="${pt.endDate}" />
                                             
 											<button type="submit" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
-											Edit</button>
+											EDIT</button>
 										</form>
 
 										<form action="<c:url value='/tasks/deleteTask/${pt.taskId}'/>" method="post" style="display: inline;">
