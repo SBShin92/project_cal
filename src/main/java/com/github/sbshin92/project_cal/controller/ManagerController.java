@@ -69,34 +69,34 @@ public class ManagerController {
 	}
 
 	// 유저 수정
-	@PostMapping("/user/edit/{userId}")
-	public Map<String, Object> editUser(@PathVariable int userId, @RequestParam String name, @RequestParam String email,
-			@RequestParam String position, @RequestParam String authority) {
-		Map<String, Object> response = new HashMap<>();
-		try {
-// 사용자 정보 업데이트 로직
-			UserVO user = userService.getUserById(userId);
-			if (user != null) {
-				user.setUserName(name);
-				user.setUserEmail(email);
-				user.setUserAuthority(authority);
-				user.setUserPosition(position);
-				userService.updateUser(user);
-				response.put("success", true);
-				response.put("message", "사용자 정보가 업데이트되었습니다.");
-			} else {
-				response.put("success", false);
-				response.put("message", "사용자를 찾을 수 없습니다.");
-			}
-		} catch (Exception e) {
-			response.put("success", false);
-			response.put("message", "사용자 정보 업데이트 중 오류가 발생했습니다.");
-		}
-		return response;
-	}
+//	@PostMapping("/user/edit/{userId}")
+//	public Map<String, Object> editUser(@PathVariable int userId, @RequestParam String name, @RequestParam String email,
+//			@RequestParam String position, @RequestParam String authority) {
+//		Map<String, Object> response = new HashMap<>();
+//		try {
+//// 사용자 정보 업데이트 로직
+//			UserVO user = userService.getUserById(userId);
+//			if (user != null) {
+//				user.setUserName(name);
+//				user.setUserEmail(email);
+//				user.setUserAuthority(authority);
+//				user.setUserPosition(position);
+//				userService.updateUser(user);
+//				response.put("success", true);
+//				response.put("message", "사용자 정보가 업데이트되었습니다.");
+//			} else {
+//				response.put("success", false);
+//				response.put("message", "사용자를 찾을 수 없습니다.");
+//			}
+//		} catch (Exception e) {
+//			response.put("success", false);
+//			response.put("message", "사용자 정보 업데이트 중 오류가 발생했습니다.");
+//		}
+//		return response;
+//	}
 	@PostMapping("/user/update/{userId}")
 	@ResponseBody
-	public Map<String, Object> updateUser(@PathVariable int userId, 
+	public String updateUser(@PathVariable int userId, 
 	                                      @RequestParam String name,
 	                                      @RequestParam String email,
 	                                      @RequestParam String authority,
@@ -135,6 +135,6 @@ public class ManagerController {
 	        response.put("success", false);
 	        response.put("message", "사용자 정보 업데이트 중 오류가 발생했습니다.");
 	    }
-	    return response;
+	    return "redirect:/manager/user";
 	}
 }

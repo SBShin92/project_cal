@@ -25,7 +25,6 @@
                         <th>ID</th>
                         <th>이름</th>
                         <th>이메일</th>
-                        <th>권한</th>
                         <th>직책</th>
                         <th>프로젝트 권한</th>
                         <th>작업</th>
@@ -37,7 +36,6 @@
                             <td>${user.userId}</td>
                             <td class="editable" data-field="name">${user.userName}</td>
                             <td class="editable" data-field="email">${user.userEmail}</td>
-                            <td class="editable" data-field="authority">${user.userAuthority}</td>
                             <td class="editable" data-field="position">${user.userPosition}</td>
                             <td class="permissions">
                                 <label><input type="checkbox" name="projectCreate" ${user.role.projectCreate ? 'checked' : ''} disabled> 생성</label>
