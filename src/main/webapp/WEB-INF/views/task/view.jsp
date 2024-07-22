@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Task Details</title>
+<title>Task 상세뷰 페이지</title>
 
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
   type="text/css">
@@ -68,6 +68,8 @@
 
       </div>
     </section>
+    
+    <section class="project-content">
     <!-- Add Member Form -->
     <h2>Add Member to Task</h2>
     <form id="addMemberForm"
@@ -80,7 +82,8 @@
       <input type="number" name="addUserId" value="">
       <button type="submit">멤버 추가</button>
     </form>
-
+    
+   
     <!-- Task Members List -->
     <h2>Task Members</h2>
     <table border="1">
@@ -110,6 +113,7 @@
 
       </tbody>
     </table>
+    </section>
 
   </div>
 

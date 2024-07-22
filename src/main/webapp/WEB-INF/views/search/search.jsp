@@ -16,7 +16,7 @@
   <div id="container">
     <c:import url="/WEB-INF/includes/header.jsp" />
     
-   
+   <section class="project-content">
         <h1>Task List</h1>
         <c:if test="${not empty searchedTasks}">
         <table border="1">
@@ -67,7 +67,9 @@
         <p>No Tasks Found. </p>
      </c:if>
     
+     </section>  
     
+     <section class="project-content">
     <h1>Projects List</h1>
         <c:if test="${not empty searchedProjects}">
         <table border="1">
@@ -119,6 +121,7 @@
      <c:if test="${empty searchedProjects}">
         <p>No Projects Found. </p>
      </c:if>
+    </section>
     
   </div>
 </body>
