@@ -127,7 +127,7 @@ public class ProjectServiceImpl implements ProjectService {
 //        return projectsDAO.isUserProjectMember(userId, projectId);
 //    }
 
-/**
+
     //지원 추가 07 18
 	@Override
 	public List<ProjectVO> searchedProjects(String projectTitle) {
@@ -137,7 +137,7 @@ public class ProjectServiceImpl implements ProjectService {
 			}
 				// 검색어 전처리 (옵션)
 	        String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거\
-		return projectsDAO.searchedProjects(processedTitle);
+		return projectsDAO.findByProjectTitle(processedTitle);
 	}
 
 //	@Override

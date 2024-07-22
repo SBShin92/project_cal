@@ -42,7 +42,7 @@
 	<div>
 		<form action="<c:url value='/tasks/SearchProjectTasks'/>" method="get"
 			class="search-form">
-			SEARCH <input type="text" name="query"
+			SEARCH <input type="text" name="taskTitle"
 				placeholder="Put project title or task title" required>
 			<button type="submit">검색</button>
 		</form>

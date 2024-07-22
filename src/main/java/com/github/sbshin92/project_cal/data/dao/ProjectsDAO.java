@@ -70,6 +70,13 @@ public interface ProjectsDAO {
 	            "FROM projects WHERE project_id = #{projectId}")
 	    ProjectVO findById(@Param("projectId") int projectId);
 
+	   
+	   @Select("SELECT project_id as projectId, user_id as userId, project_title as projectTitle, " +
+	            "project_description as projectDescription, project_status as projectStatus, " +
+	            "start_date as startDate, end_date as endDate, project_bar_color as projectBarColor " +
+	            "FROM projects WHERE project_title LIKE CONCAT('%', #{projectTitle}, '%')")
+	    List<ProjectVO> findByProjectTitle(@Param("projectTitle") String projectTitle);
+	   
 	/**
 	 * 새 프로젝트를 데이터베이스에 삽입합니다.
 	 * 
