@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -192,8 +193,8 @@ public class TaskController {
 		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	}
 	
-	//이 부분 우선 추가함 .. 0717 18:13
-	// 해당 테스크 검색위한 모든 데이터 search
+	//이 부분 우선 추가함 .. 0722 
+	// 해당 테스크, 프로젝트 타이틀 검색위한 모든 데이터 search
 		
 		@GetMapping("/SearchProjectTasks")
 		public String SearchTask(@RequestParam("taskTitle") String taskTitle, Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
@@ -204,5 +205,9 @@ public class TaskController {
 			model.addAttribute("searchedProjects", searchedProjects);  
 			return "search/search"; //검색 결과를 보여줄 jsp 페이지로 리다이렉트
 		}
-
+		
+		
+	// 페이지네이션 기능 추가 위한 로직 추가 0722 	
+		
+		
 }
