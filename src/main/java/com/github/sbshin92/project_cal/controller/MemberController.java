@@ -46,6 +46,9 @@ public class MemberController {
         return "redirect:/inviteMember?projectId=" + projectId;
     }
 
+
+
+
     @PostMapping("/remove")
     public String removeMemberFromProject(@RequestParam("userId") int userId,
                                           @RequestParam("projectId") int projectId,

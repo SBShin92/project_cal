@@ -3,9 +3,11 @@ package com.github.sbshin92.project_cal.service.impl;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
@@ -48,6 +50,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return project;
 	}
 
+	@Override
+	public Integer getTotalProjectCount() {
+		return projectsDAO.getTotalProjectCount();
+	}
+
 	/**
 	 * 모든 프로젝트를 조회합니다.
 	 * 
@@ -56,6 +63,14 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectVO> getAllProjects() {
 		return projectsDAO.findAll();
+	}
+	
+	
+
+	@Override
+	public List<ProjectVO> getProjectsWithPage(int page, int size) {
+		int offset = (page - 1) * size;
+		return projectsDAO.findAllWithRowBounds(new RowBounds(offset, size));
 	}
 
 	/**
@@ -113,6 +128,30 @@ public class ProjectServiceImpl implements ProjectService {
 //    }
 
 	/**
+
+<<<<<<< HEAD
+=======
+    //지원 추가 07 18
+	@Override
+	public List<ProjectVO> searchedProjects(String projectTitle) {
+	 	// 검색어가 projectTitle이거나 비어있는 경우 처리
+			if (projectTitle == null || projectTitle.trim().isEmpty()) {
+				return List.of();	//빈리스트 반환 또는 다른 적절한 처리 
+			}
+				// 검색어 전처리 (옵션)
+	        String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거\
+		return projectsDAO.searchedProjects(processedTitle);
+	}
+
+//	@Override
+//	public ProjectVO findById(int projectId) {
+//		// TODO Auto-generated method stub
+//		return projectsDAO.findById(projectId);
+//	}
+>>>>>>> refs/remotes/origin/develop_jiwon
+    
+
+	/**
 	 * 프로젝트 관련 파일들을 업로드합니다.
 	 * 
 	 * @param project 파일을 업로드할 프로젝트
@@ -160,6 +199,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectsDAO.getAllUsers();
     }
 
+
     @Override
     public boolean isUserProjectMember(int userId, int projectId) {
         return projectsDAO.isUserProjectMember(userId, projectId);
@@ -174,4 +214,5 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean deleteProjectUser(int userId, int projectId) {
         return projectsDAO.deleteProjectUser(userId, projectId) > 0;
     }
+
 }

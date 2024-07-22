@@ -27,22 +27,22 @@
 //		registry.addInterceptor(new MessageInterceptor(messageService))
 //			.addPathPatterns("/**")
 //			.excludePathPatterns("/login")
+//			.excludePathPatterns("/join/**")
 //			.excludePathPatterns("/css/**")
 //			.excludePathPatterns("/javascript/**");
 //	}
-//
-//	
-//	
-//
-////    @Override
-////    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-////        Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
-////        String uploadAbsolutePath = uploadPath.toString().replace("\\","/") + "/";
-////        
-////        registry.addResourceHandler("/uploads/**")
-////                .addResourceLocations("file:/" + uploadAbsolutePath)
-////                .setCachePeriod(3600)
-////                .resourceChain(true);
-////    }
-//
+
+	
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+//        String uploadAbsolutePath = uploadPath.toString().replace("\\","/") + "/";
+//        
+//        registry.addResourceHandler("/uploads/**")
+//                .addResourceLocations("file:/" + uploadAbsolutePath)
+//                .setCachePeriod(3600)
+//                .resourceChain(true);
+//    }
+
 //}

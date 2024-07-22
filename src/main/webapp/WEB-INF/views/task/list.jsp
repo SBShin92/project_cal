@@ -59,16 +59,12 @@
 
                   <form action="<c:url value='/tasks/createTaskForm'/>"
                     method="get" style="display: inline;">
-                    <input type="hidden" name="taskId"
-                      value="${vo.taskId}" />
+                    <input type="hidden" name="taskId" value="${vo.taskId}" />
                     <!-- pk -->
-                    <input type="hidden" name="userId"
-                      value="${vo.userId}" /> <input type="hidden"
-                      name="projectId" value="${vo.projectId}" /> <input
-                      type="hidden" name="taskTitle"
-                      value="${vo.taskTitle}" /> <input type="hidden"
-                      name="taskDescription"
-                      value="${vo.taskDescription}" />
+                    <input type="hidden" name="userId" value="${vo.userId}" /> 
+                    <input type="hidden" name="projectId" value="${vo.projectId}" /> 
+                    <input type="hidden" name="taskTitle" value="${vo.taskTitle}" /> 
+                    <input type="hidden" name="taskDescription" value="${vo.taskDescription}" />
 
                     <button type="submit"
                       onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">TASK

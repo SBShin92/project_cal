@@ -3,6 +3,7 @@ package com.github.sbshin92.project_cal.controller;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.data.vo.UsersTasksVO;
@@ -101,10 +103,11 @@ public class TaskController {
 
 	// 테스크 조회
 	@GetMapping("/listTasks")
-	public String listTasks(Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
+	public String listTasks(Model model) { //attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 		List<TaskVO> tasks = taskService.findAll();
 		model.addAttribute("listTasks", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
-		return "task/list";
+		return "search/search";
+
 	}
 
 	// 테스크 삭제
@@ -192,11 +195,15 @@ public class TaskController {
 	
 	//이 부분 우선 추가함 .. 0717 18:13
 	// 해당 테스크 검색위한 모든 데이터 search
+		
 		@GetMapping("/SearchTasks")
-		public String SearchTask(Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
-			List<TaskVO> tasks = taskService.findAll();
-			model.addAttribute("SearchTask", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
-			return "search/search";
+		public String SearchTask(@RequestParam("taskTitle") String taskTitle, Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
+			List<TaskVO> searchedTasks = taskService.searchByTitle(taskTitle);
+			
+			List<ProjectVO> searchedProjects = projectService.searchedProjects(taskTitle);
+			model.addAttribute("searchedTasks", searchedTasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
+			model.addAttribute("searchedProjects", searchedProjects);  
+			return "search/search"; //검색 결과를 보여줄 jsp 페이지로 리다이렉트
 		}
 
 }

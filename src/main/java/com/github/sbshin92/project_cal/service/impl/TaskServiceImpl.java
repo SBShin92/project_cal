@@ -94,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
 	
 	
 	
-	//기능 추가 
+	//기능 추가 getTasksByProjectId
 	@Override
 	 public List<TaskVO> getTasksByProjectId(Integer projectId) {
         if (projectId == null) {
@@ -102,6 +102,18 @@ public class TaskServiceImpl implements TaskService {
         }
         return tasksDAO.getTasksByProjectId(projectId);
     }
+
+	// searchByTitle for search
+	@Override
+	public List<TaskVO> searchByTitle(String taskTitle) {
+		  	// 검색어가 null이거나 비어있는 경우 처리
+		if (taskTitle == null || taskTitle.trim().isEmpty()) {
+			return List.of();	//빈리스트 반환 또는 다른 적절한 처리 
+		}
+			// 검색어 전처리 (옵션)
+        String processedTitle = taskTitle.trim(); // 앞뒤 공백 제거
+            return tasksDAO.searchByTitle(processedTitle);
+	}
 
     
 }    

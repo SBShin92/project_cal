@@ -10,9 +10,10 @@
 <title>${projectVO.projectTitle}</title>
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
 	type="text/css">
+	<link rel="stylesheet" href="<c:url value='/css/calendar.css'/>"
+	type="text/css">
 </head>
 <body>
-	<jsp:include page="/WEB-INF/includes/header.jsp" />
 	<jsp:include page="/WEB-INF/includes/nav.jsp" />
 
 	<div id="projectViewMode" class="project-detail"
@@ -172,53 +173,59 @@
 		</footer>
 	</div>
 
-	<form id="projectEditForm"
-		action="<c:url value='/project/update/${projectVO.projectId}'/>"
-		method="post" style="display: none;">
-		<div class="project-detail" data-project-id="${projectVO.projectId}">
-			<header>
-				<h1>
-					<input type="text" name="projectTitle" id="editProjectTitle"
-						value="${projectVO.projectTitle}" required>
-				</h1>
-				<p>
-					프로젝트 기간: <input type="date" name="startDate"
-						value="<fmt:formatDate value="${projectVO.startDate}" pattern="yyyy-MM-dd" />"
-						required> ~ <input type="date" name="endDate"
-						value="<fmt:formatDate value="${projectVO.endDate}" pattern="yyyy-MM-dd" />"
-						required>
-				</p>
-				<p>
-					상태: <select name="projectStatus" required>
-						<option value="진행중"
-							${projectVO.projectStatus == '진행중' ? 'selected' : ''}>진행중</option>
-						<option value="완료"
-							${projectVO.projectStatus == '완료' ? 'selected' : ''}>완료</option>
-						<option value="지연"
-							${projectVO.projectStatus == '지연' ? 'selected' : ''}>지연</option>
-						<option value="취소"
-							${projectVO.projectStatus == '취소' ? 'selected' : ''}>취소</option>
-					</select>
-				</p>
-			</header>
+	<form id="projectEditForm" action="<c:url value='/project/update/${projectVO.projectId}'/>" method="post" style="display: none;">
+    <div class="project-detail" data-project-id="${projectVO.projectId}">
+        <header>
+            <h1>프로젝트 제목:
+                <input type="text" name="projectTitle" id="editProjectTitle" value="${projectVO.projectTitle}" required>
+            </h1>
+            <p>
+                프로젝트 기간: 
+                <input type="date" name="startDate" value="<fmt:formatDate value="${projectVO.startDate}" pattern="yyyy-MM-dd" />" required>
+                ~
+                <input type="date" name="endDate" value="<fmt:formatDate value="${projectVO.endDate}" pattern="yyyy-MM-dd" />" required>
+            </p>
+            <p>
+                상태: 
+                <select name="projectStatus" required>
+                    <option value="진행중" ${projectVO.projectStatus == '진행중' ? 'selected' : ''}>진행중</option>
+                    <option value="완료" ${projectVO.projectStatus == '완료' ? 'selected' : ''}>완료</option>
+                    <option value="지연" ${projectVO.projectStatus == '지연' ? 'selected' : ''}>지연</option>
+                    <option value="취소" ${projectVO.projectStatus == '취소' ? 'selected' : ''}>취소</option>
+                </select>
+            </p>
+        </header>
 
-			<main>
-				<section class="project-content">
-					<h2>상세 내용</h2>
-					<textarea name="projectDescription" required>${projectVO.projectDescription}</textarea>
-				</section>
-			</main>
+        <main>
+          <section class="project-content">
+    <h2>상세 내용</h2>
+    <textarea id="projectDescription" name="projectDescription" rows="4" required>${projectVO.projectDescription}</textarea>
+</section>
 
-			<footer>
-				<button type="submit" id="saveButton" class="btn btn-primary">저장</button>
-				<button type="button" id="cancelButton" class="btn btn-secondary">취소</button>
-			</footer>
-		</div>
-		<!-- CSRF 토큰 (Spring Security 사용 시) -->
-		<!-- input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" / -->
-	</form>
+ <section class="project-files">
+        <h2>첨부 파일</h2>
+        <ul id="editFileList">
+            <c:forEach var="file" items="${fileVOs}">
+                <li>
+                    ${file.originalFileName} (${file.fileSize} bytes)
+                    <input type="checkbox" name="deleteFiles" value="${file.fileId}"> 삭제
+                </li>
+            </c:forEach>
+        </ul>
+        <input type="file" name="newFiles" multiple>
+    </section>
+        </main>
+
+        <footer>
+            <button type="submit" id="saveButton" class="btn btn-primary">저장</button>
+            <button type="button" id="cancelButton" class="btn btn-secondary">취소</button>
+        </footer>
+    </div>
+</form>
 
 	<script src="<c:url value='/javascript/detail.js'/>"></script>
 	<script src="<c:url value='/javascript/edit.js'/>"></script>
+	<script src="<c:url value='/javascript/calendar.js'/>"></script>
+	<script src="<c:url value='/javascript/main.js'/>"></script>
 </body>
 </html>

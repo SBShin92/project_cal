@@ -1,62 +1,54 @@
 package com.github.sbshin92.project_cal.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-////
-//@RequestMapping("/login")
+import com.github.sbshin92.project_cal.data.vo.UserVO;
+import com.github.sbshin92.project_cal.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+
+@RequestMapping("/login")
 @Controller
 public class LoginController {
-////
-//// @Autowired
-//    private UsersDAO usersDAO;
-//
-//    @Autowired
-//    private MailConfig mailConfig;
-//
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-//
-	@GetMapping("/login")
-    public String login(@RequestParam(value = "error", required = false) String error, Model model) {
-        if (error != null) {
-            model.addAttribute("error", "Invalid username or password.");
-        }
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping({"", "/"})
+    public String loginPage() {
         return "login/login";
+    }
+
+    @PostMapping
+    public String login(@RequestParam("email") String email, 
+                        @RequestParam("password") String password, 
+                        HttpSession session) {
+        UserVO user = userService.getUserByEmail(email);
+       
+        if (user != null && passwordEncoder.matches(password, user.getUserPassword()))  {
+            session.setAttribute("authUser", user);
+            session.setAttribute("userName", user.getUserName()); // 사용자 이름 저장
+            return "redirect:/calendar";
+        } else {
+            return "redirect:/login";
+        }
+      
+    }
     
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("authUser");
+        session.removeAttribute("userName");
+        session.invalidate();
+        return "redirect:/";
+    }
 }
-}
-//
-//    @PostMapping("/login")
-//    public String login(String email, String password, HttpSession session) {
-//        UserVO user = usersDAO.findByEmail(email);
-//        if (user != null && passwordEncoder.matches(password, user.getUserPassword())) {
-//            String token = UUID.randomUUID().toString();
-//            mailConfig.sendTokenEmail(email, token); // 사용자의 이메일 주소로 토큰 전송
-//            session.setAttribute("token", token);
-//            session.setAttribute("email", email);
-//            return "redirect:/verify-token";
-//        }
-//        return "redirect:/login?error=true";
-//    }
-//
-//    @GetMapping("/verify-token")
-//    public String verifyToken() {
-//        return "verify-token";
-//    }
-//
-//    @PostMapping("/verify-token")
-//    public String verifyToken(String token, HttpSession session) {
-//        String sessionToken = (String) session.getAttribute("token");
-//        String email = (String) session.getAttribute("email");
-//
-//        if (token.equals(sessionToken)) {
-//            session.removeAttribute("token");
-//            return "redirect:/home";
-//        } else {
-//            return "redirect:/verify-token?error=true";
-//        }
-//    }
-//}

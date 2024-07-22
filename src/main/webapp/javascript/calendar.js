@@ -226,17 +226,32 @@ function setupMonthYearPicker(initialYear, initialMonth) {
     });
 }
 
-//여기까지 예은 추가
+//로그아웃
+// 문서 로드 완료 시 실행
+document.addEventListener('DOMContentLoaded', function() {
+  const userProfile = document.querySelector('.user-profile');
+  const userMenu = document.querySelector('.user-menu');
+  const logoutButton = document.getElementById('logoutButton');
 
+  // 사용자 프로필 클릭 시 메뉴 토글
+  userProfile.addEventListener('click', function(e) {
+    e.stopPropagation();
+    userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
+  });
 
-// function getEventsForDate(date) {
-//     // 예시 이벤트 데이터
-//     const events = {
-//         5: '<div class="event blue">회의 09:30</div>',
-//         7: '<div class="event green">식사 21:00</div>',
-//         14: '<div class="event yellow">약속 15:30</div>',
-//         21: '<div class="event pink">점심 12:30</div>',
-//         28: '<div class="event blue">미팅 14:00</div>'
-//     };
-//     return events[date] || '';
-// }
+  // 문서 클릭 시 메뉴 닫기
+  document.addEventListener('click', function(e) {
+    if (!userProfile.contains(e.target) && !userMenu.contains(e.target)) {
+      userMenu.style.display = 'none';
+    }
+  });
+
+  // 로그아웃 버튼 클릭 이벤트
+  if (logoutButton) {
+    logoutButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      // 로그인 페이지로 리다이렉트
+      window.location.href = '/project_cal';
+    });
+  }
+});

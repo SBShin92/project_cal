@@ -84,4 +84,6 @@ public class UserController {
     public String joinSuccess() {
         return "login/joinsuccess"; // joinsuccess.jsp 페이지를 반환
     }
+    
+  
 }
