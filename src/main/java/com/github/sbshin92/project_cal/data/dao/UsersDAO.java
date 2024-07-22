@@ -70,8 +70,8 @@ public interface UsersDAO {
     int deleteByUserId(@Param("userId") Integer userId);
     
     // 사용자관리-유저 수정
-    @Update("UPDATE users SET user_name = #{userName}, user_email = #{userEmail}, user_position = #{userPosition} WHERE user_id = #{userId}")
-    int updateUser(@Param("userId") int userId, @Param("userName") String userName, @Param("userEmail") String userEmail, @Param("userPosition") String userPosition);
+    @Update("UPDATE users SET user_name = #{userName}, user_email = #{userEmail}, user_authority = #{userAuthority}, user_position = #{userPosition} WHERE user_id = #{userId}")
+    int updateUser(@Param("userId") int userId, @Param("userName") String userName, @Param("userEmail") String userEmail, @Param("userAuthority") String userAuthority, @Param("userPosition") String userPosition);
 
     @Select("SELECT user_id as userId,"
             + " user_name as userName, "
