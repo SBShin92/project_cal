@@ -45,8 +45,13 @@ public interface TaskService {
      //@return 해당 프로젝트의 모든 태스크 리스트
 	public List<TaskVO> getTasksByProjectId(Integer projectId);
 
-     //
-	public List<TaskVO> searchByTitle(@Param("taskTitle")String taskTitle);
+
+	//삭제 금지 ...plz ...0722 21:00
+	public List<TaskVO> searchByTitle(TaskVO taskVO);
+	
+	//삭제 금지 ...plz ...0722 21:00
+	public int getTotalTasksCount(TaskVO taskVO);
+	
 }
 	
 

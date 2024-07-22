@@ -193,21 +193,33 @@ public class TaskController {
 		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	}
 	
-	//이 부분 우선 추가함 .. 0722 
-	// 해당 테스크, 프로젝트 타이틀 검색위한 모든 데이터 search
+		//삭제 금지 ...plz ...0722 21:00
+		// 해당 테스크, 프로젝트 타이틀 검색위한 모든 데이터 search
 		
 		@GetMapping("/SearchProjectTasks")
-		public String SearchTask(@RequestParam("taskTitle") String taskTitle, Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
-			List<TaskVO> searchedTasks = taskService.searchByTitle(taskTitle);
-			
-			List<ProjectVO> searchedProjects = projectService.searchedProjects(taskTitle);
+		public String SearchTask(@RequestParam("taskTitle") String taskTitle,
+								 @RequestParam(defaultValue = "1") int page,
+								 Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
+			//테스크 조회
+			TaskVO taskVO = new TaskVO();
+			taskVO.setTaskTitle(taskTitle);
+			taskVO.setPage(page);
+			List<TaskVO> searchedTasks = taskService.searchByTitle(taskVO);
 			model.addAttribute("searchedTasks", searchedTasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
+			model.addAttribute("tasksCount", taskService.getTotalTasksCount(taskVO)); //리스트 총카운트
+			model.addAttribute("totalPages", (searchedTasks.size()));
+			
+
+			//프로젝트 조회
+			List<ProjectVO> searchedProjects = projectService.searchedProjects(taskTitle);
 			model.addAttribute("searchedProjects", searchedProjects);  
+			
+			//검색시 사용했던 타이틀 재세팅
+			model.addAttribute("taskTitle", taskTitle);  
+			
 			return "search/search"; //검색 결과를 보여줄 jsp 페이지로 리다이렉트
 		}
-		
-		
-	// 페이지네이션 기능 추가 위한 로직 추가 0722 	
+	
 		
 		
 }

@@ -7,8 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Task List</title>
-<link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
-  type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
+<link type="text/css" rel="stylesheet"
+	href='<c:url value="/css/manager.css" />' />
 </head>
 
 <body>
@@ -66,9 +67,22 @@
      <c:if test="${empty searchedTasks}">
         <p>No Tasks Found. </p>
      </c:if>
-    
+     
+     	<!-- 삭제금지 0722 21:00 -->
+	    <nav>
+		  <ul class="pagination">
+		    <li class="page-item"><a class="page-link" href="?page=${param.page == 1 || param.page == null ? 1 : param.page - 1}&taskTitle=${taskTitle}">Previous</a></li>
+	
+		    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
+		      <li class="page-item"><a class="page-link" href="?page=${num.index}&taskTitle=${taskTitle}">${num.index}</a></li>
+		    </c:forEach>
+		    <li class="page-item"><a class="page-link" href="?page=${ totalPages != 10 ? (param.page == null ? 1 : param.page) : (param.page == null ? 1 : param.page) + 1}&taskTitle=${taskTitle}">Next</a></li>
+		  </ul>
+		</nav>
      </section>  
-    
+     
+
+		
      <section class="project-content">
     <h1>Projects List</h1>
         <c:if test="${not empty searchedProjects}">
