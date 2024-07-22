@@ -174,7 +174,7 @@ const createProjectBars = (date) => {
     );
 
     // 한 번에 표시할 최대 프로젝트 수 설정
-    const maxVisibleProjects = 5;
+    const maxVisibleProjects = 3;
     
     // 최대 표시 가능한 프로젝트 수만큼만 처리
     dateProjects.slice(0, maxVisibleProjects).forEach((project) => {

@@ -11,8 +11,7 @@ body {
 }
 
 header {
-	background-color: #4a90e2;
-	color: white;
+	background-color: #e6f3ff;
 	padding: 1rem;
 	display: flex;
 	justify-content: space-between;
@@ -214,7 +213,6 @@ a {
 .user-profile {
   cursor: pointer;
   padding: 5px 10px;
-  color: white;
 }
 
 .user-menu {
@@ -242,7 +240,7 @@ a {
 
 
 .calendar td {
-    height: 100px;
+    height: 16.66%;
     width: 14.28%;
     vertical-align: top;
     padding: 5px;
@@ -250,6 +248,7 @@ a {
 
 .project-bars {
     margin-top: 5px;
+    margin-bottom: 0;
 }
 
 .project-bar {
@@ -263,7 +262,7 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: default;
-    max-width: 11vw;
+    max-width: 12vw;
     color: #333;
     border: 1px solid rgba(0,0,0,0.1);
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
