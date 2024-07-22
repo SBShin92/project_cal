@@ -75,21 +75,8 @@ main {
 	height: 100px; /* 셀의 높이를 조정하여 프로젝트 바를 표시할 공간 확보 */
 }
 
-.project-bars {
-	position: absolute;
-	left: 0;
-	right: 0;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-}
 
-.project-bar {
-	height: 5px;
-	margin-bottom: 2px;
-	border-radius: 2px;
-}
+
 
 .calendar th {
 	background-color: #f9f9f9;
@@ -241,4 +228,41 @@ a:link {
 
 .menu-item:hover {
   background-color: #fdb03e;
+}
+
+
+
+.calendar td {
+    height: 100px;
+    width: 14.28%;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.project-bars {
+    margin-top: 5px;
+}
+
+.project-bar {
+    height: 20px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.more-projects {
+    background-color: #f0f0f0;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 2px;
 }
