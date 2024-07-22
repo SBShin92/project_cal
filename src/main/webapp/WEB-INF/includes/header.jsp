@@ -34,7 +34,7 @@
 
 		<a class="today-button"
 			href="<c:url value='/calendar/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">
-			오늘</a>
+			Today</a>
 	</div>
 
 	<!-- header.jsp에 검색기능 추가 0717 (테스크타이틀, -->

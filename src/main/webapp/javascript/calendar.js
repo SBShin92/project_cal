@@ -161,35 +161,57 @@ const formatDate = (date) => {
 */
 // 예은 추가
 const createProjectBars = (date) => {
+    // 프로젝트 바를 담을 컨테이너 생성
     const projectBarsContainer = document.createElement("div");
     projectBarsContainer.className = "project-bars";
+    
+    // 주어진 날짜를 형식화 (예: "20240715" 형태로 변환)
     const formattedDate = formatDate(date);
 
+    // 현재 날짜에 해당하는 프로젝트만 필터링
     const dateProjects = projectList.filter(project =>
         formattedDate >= project.startDate && formattedDate <= project.endDate
     );
 
+    // 한 번에 표시할 최대 프로젝트 수 설정
     const maxVisibleProjects = 5;
+    
+    // 최대 표시 가능한 프로젝트 수만큼만 처리
     dateProjects.slice(0, maxVisibleProjects).forEach((project) => {
+        // 각 프로젝트에 대한 바 요소 생성
         const projectBar = document.createElement("div");
         projectBar.className = "project-bar";
+        
+        // 프로젝트 ID를 기반으로 고유한 색상 지정
         projectBar.style.backgroundColor = getProjectColor(project.id);
+        
+        // 프로젝트 제목을 바 내부에 표시
         projectBar.textContent = project.title;
+        
+        // 마우스 오버 시 전체 제목을 툴팁으로 표시
         projectBar.title = project.title;
+        
+        // 생성한 프로젝트 바를 컨테이너에 추가
         projectBarsContainer.appendChild(projectBar);
     });
 
+    // 표시할 수 있는 최대 수를 초과하는 프로젝트가 있다면
     if (dateProjects.length > maxVisibleProjects) {
+        // '더 보기' 요소 생성
         const moreProjectsDiv = document.createElement("div");
         moreProjectsDiv.className = "more-projects";
+        // 초과된 프로젝트 수를 표시
         moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects} more`;
+        // '더 보기' 요소를 컨테이너에 추가
         projectBarsContainer.appendChild(moreProjectsDiv);
     }
 
+    // 완성된 프로젝트 바 컨테이너 반환
     return projectBarsContainer;
 };
 
 // 랜덤 색상 생성 (프로젝트 바 구분을 위해)
+/*
 function projectStatusToColor(projectStatus) {
 	let hex = "";
 	if (projectStatus === "none")
@@ -202,6 +224,7 @@ function projectStatusToColor(projectStatus) {
 		hex = "000000";
 	return '#' + hex;
 }
+*/
 
 // 공휴일 체크 API
 const getHolidayMonth = async (year, month) => {
