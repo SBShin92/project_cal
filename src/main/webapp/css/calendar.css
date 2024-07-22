@@ -116,7 +116,7 @@ main {
 
 
 .right-panel {
-	width: 250px;
+	width: 20vw;
 	background-color: #ffffff;
 	padding: 1rem;
 	border-radius: 10px;
@@ -201,7 +201,10 @@ a {
 	text-decoration: none;
 }
 
-
+.search-div {
+	margin-left: 55vw;
+	margin-right: auto;
+}
 
 .next-button .prev-button .today-button {
 	color:white;
