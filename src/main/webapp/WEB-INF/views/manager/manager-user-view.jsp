@@ -15,15 +15,7 @@
 <body>
 	<button class="menu-toggle">☰</button>
 	<div class="container">
-		<div class="sidebar" id="sidebar">
-			<h2>관리자 메뉴</h2>
-			<div class="menu-item">대시보드</div>
-			<div class="menu-item">프로젝트 관리</div>
-			<div class="menu-item">사용자 관리</div>
-			<div class="menu-item">권한 관리</div>
-			<div class="menu-item">보고서</div>
-			<div class="menu-item">설정</div>
-		</div>
+		<jsp:include page="/WEB-INF/includes/manager-nav.jsp" />
 		<div class="main-content">
 			<div class="header">
 				<h1>프로젝트 관리 시스템</h1>

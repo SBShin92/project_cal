@@ -36,7 +36,7 @@ public interface ProjectsDAO {
 			+ " p.start_date as startDate, "
 			+ " p.end_date as endDate, "
 			+ " u.user_name as userName "
-			+ " FROM projects p JOIN users u ON p.user_id = u.user_id"
+			+ " FROM projects p LEFT JOIN users u ON p.user_id = u.user_id"
 			+ " ORDER BY project_id ASC")
 	List<ProjectVO> findAll();
 	
@@ -50,7 +50,7 @@ public interface ProjectsDAO {
 			+ " p.start_date as startDate, "
 			+ " p.end_date as endDate, "
 			+ " u.user_name as userName "
-			+ " FROM projects p JOIN users u ON p.user_id = u.user_id"
+			+ " FROM projects p LEFT JOIN users u ON p.user_id = u.user_id"
 			+ " ORDER BY project_id ASC")
 	public List<ProjectVO> findAllWithRowBounds(RowBounds rowBounds);
 	

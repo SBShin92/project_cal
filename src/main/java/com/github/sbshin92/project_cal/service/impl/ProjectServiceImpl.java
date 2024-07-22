@@ -127,10 +127,7 @@ public class ProjectServiceImpl implements ProjectService {
 //        return projectsDAO.isUserProjectMember(userId, projectId);
 //    }
 
-	/**
-
-<<<<<<< HEAD
-=======
+/**
     //지원 추가 07 18
 	@Override
 	public List<ProjectVO> searchedProjects(String projectTitle) {
@@ -148,7 +145,6 @@ public class ProjectServiceImpl implements ProjectService {
 //		// TODO Auto-generated method stub
 //		return projectsDAO.findById(projectId);
 //	}
->>>>>>> refs/remotes/origin/develop_jiwon
     
 
 	/**

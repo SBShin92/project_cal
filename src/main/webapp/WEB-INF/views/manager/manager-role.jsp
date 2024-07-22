@@ -13,30 +13,14 @@
 <body>
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     <div class="container">
-        <div class="sidebar" id="sidebar">
-            <h2>관리자 메뉴</h2>
-            <div class="menu-item">대시보드</div>
-            <div class="menu-item">프로젝트 관리</div>
-            <div class="menu-item">사용자 관리</div>
-            <div class="menu-item">권한 관리</div>
-            <div class="menu-item">보고서</div>
-            <div class="menu-item">설정</div>
-        </div>
+        <jsp:include page="/WEB-INF/includes/manager-nav.jsp" />
         <div class="main-content">
             <div class="header">
-                <h1>프로젝트 관리 시스템</h1>
+                <h1>권한 관리</h1>
                 <input type="text" class="search-bar" placeholder="프로젝트 또는 사용자 검색...">
             </div>
-            
-            <div class="tab">
-            	<a class="tablinks" href="<c:url value='/manager/projects' />">프로젝트</a>
-            	<a class="tablinks" href="<c:url value='/manager/users' />">사용자</a>
-            	<a class="tablinks" href="<c:url value='/manager/roles' />">권한</a>
-            </div>
-
             <div id="Permissions" class="tabcontent">
-                <h2>권한 관리</h2>
-                <a class="btn" href="<c:url value='/manager/roles/create' />">새 권한 그룹 생성</a>
+                <a class="btn" href="<c:url value='/manager/role/create' />">새 권한 그룹 생성</a>
                 <table>
                     <thead>
                         <tr>
@@ -53,9 +37,10 @@
 								<td>${ roleVO.roleDescription }</td>
 								<td>${ roleVO.roleUsersCount }</td>
 								<td>
-									<a class="btn" href="<c:url value='/roles/${roleVO.roleId}' />">상세</a>
-									<a class="btn">수정</a>
-									<a class="btn">삭제</a>
+									<form class="deleteForm" action="<c:url value='/manager/role/delete/${ roleVO.roleId }' />" method="POST">
+										<a class="btn" href="<c:url value='/manager/role/${roleVO.roleId}' />">상세</a>
+										<input type="submit" class="btn" value="삭제">
+									</form>
 								</td>
 							</tr>
 						</c:forEach>
@@ -64,5 +49,6 @@
             </div>
         </div>
     </div>
+    <script src="<c:url value='/javascript/manager.js'/>"></script>
 </body>
 </html>
