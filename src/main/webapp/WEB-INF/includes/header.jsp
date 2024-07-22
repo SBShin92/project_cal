@@ -9,12 +9,12 @@
 		<c:choose>
 			<c:when test="${ sessionScope.viewMonth <= 1 }">
 				<a class="prev-button"
-					href="<c:url value='/calendar/${ sessionScope.viewYear - 1 }12' />">←
+					href="<c:url value='/calendar/${ sessionScope.viewYear - 1 }12' />">◀
 				</a>
 			</c:when>
 			<c:otherwise>
 				<a class="prev-button"
-					href="<c:url value='/calendar/${ sessionScope.viewYear }${sessionScope.viewMonth - 1 }' />">←
+					href="<c:url value='/calendar/${ sessionScope.viewYear }${sessionScope.viewMonth - 1 }' />">◀
 				</a>
 			</c:otherwise>
 		</c:choose>
@@ -23,12 +23,12 @@
 			<c:when test="${ sessionScope.viewMonth >= 12 }">
 				<a class="next-button"
 					href="<c:url value='/calendar/${ sessionScope.viewYear + 1 }1' />">
-					→</a>
+					▶</a>
 			</c:when>
 			<c:otherwise>
 				<a class="next-button"
 					href="<c:url value='/calendar/${ sessionScope.viewYear }${sessionScope.viewMonth + 1 }' />">
-					→</a>
+					▶</a>
 			</c:otherwise>
 		</c:choose>
 
