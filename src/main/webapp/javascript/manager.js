@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 사용자 수정
+   // 사용자 수정
     document.querySelectorAll('.btn-edit').forEach(button => {
         button.addEventListener('click', function(e) {
             const userId = this.dataset.userId;
@@ -68,7 +68,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            throw new Error(text);
+                        });
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.success) {
                         alert(data.message);
@@ -82,12 +89,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                         this.textContent = '수정';
                     } else {
-                        alert(data.message);
+                        throw new Error(data.message || '알 수 없는 오류가 발생했습니다.');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('오류가 발생했습니다.');
+                    alert('오류 발생: ' + error.message);
                 });
             }
         });

@@ -97,5 +97,3 @@ public class UserServiceImpl implements UserService {
         usersDAO.update(user);
     }
 }
-
-
