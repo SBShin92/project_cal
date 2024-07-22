@@ -78,9 +78,9 @@ public class UserServiceImpl implements UserService {
     // 유저 수정 기능
     @Override
     @Transactional
-    public boolean updateUser(int userId, String userName, String userEmail, String userPosition) {
+    public boolean updateUser(int userId, String userName, String userEmail, String userAuthority, String userPosition) {
         try {
-            return usersDAO.updateUser(userId, userName, userEmail, userPosition) > 0;
+            return usersDAO.updateUser(userId, userName, userEmail, userAuthority, userPosition) > 0;
         } catch (DataAccessException e) {
             e.printStackTrace();
             return false;

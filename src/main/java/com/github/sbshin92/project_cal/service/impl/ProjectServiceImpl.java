@@ -211,4 +211,10 @@ public class ProjectServiceImpl implements ProjectService {
         return projectsDAO.deleteProjectUser(userId, projectId) > 0;
     }
 
+	@Override
+	public List<ProjectVO> searchedProjects(String projectTitle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
