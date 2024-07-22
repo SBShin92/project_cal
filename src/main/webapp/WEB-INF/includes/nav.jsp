@@ -31,7 +31,7 @@
 	<button class="nav-btn" id="message-btn">쪽지함 (${ sessionScope.messageUnreadCount })
 	</button>
 	<button class="nav-btn">휴지통</button>
-	<a href="<c:url value='/manager' />" class="nav-btn">관리자페이지</a>
+	<a href="<c:url value='/manager' />" class="nav-btn btn-dark">관리자페이지</a>
 
 
 </nav>

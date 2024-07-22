@@ -9,8 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link type="text/css" rel="stylesheet"
-	href='<c:url value="/css/calendar.css" />' />
+<link type="text/css" rel="stylesheet" href='<c:url value="/css/calendar.css" />' />
+<link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 <title>OurCalendar</title>
 </head>
 <body>
@@ -43,25 +43,21 @@
 				<a id="createProjectBtn" class="btn btn-primary"
 					href="<c:url value='/project/create' />">프로젝트 생성</a>
 			</div>
-			<c:if test="${ not empty viewDate }">
-				<div class="project-list" id="projectList">
-					<h4 id="view-date">${ viewDate }일 프로젝트</h4>
-					<c:if test="${ not empty projectListByDate }">
-						<c:forEach items="${ projectListByDate }" var="vo"
-							varStatus="status">
-							<div class="project-item">
-								<div class="project-title">
-									<a href="<c:url value='/project' />/${vo.projectId}">${ vo.projectTitle }</a>
-								</div>
-								<div class="project-duration">
-								<fmt:formatDate value="${vo.startDate}" pattern="MM/dd" />
-								~
-								<fmt:formatDate value="${vo.endDate}" pattern="MM/dd" />
-								</div>
-							</div>
-						</c:forEach>
-					</c:if>
-				</div>
+			<c:if test="${ not empty projectListByDate }">
+			    <c:forEach items="${ projectListByDate }" var="vo" varStatus="status">
+			        <div class="card mb-3">
+			            <div class="card-body">
+			                <h5 class="card-title">
+			                    <a href="<c:url value='/project' />/${vo.projectId}">${ vo.projectTitle }</a>
+			                </h5>
+			                <p class="card-text">
+			                    <fmt:formatDate value="${vo.startDate}" pattern="MM/dd" />
+			                    ~
+			                    <fmt:formatDate value="${vo.endDate}" pattern="MM/dd" />
+			                </p>
+			            </div>
+			        </div>
+			    </c:forEach>
 			</c:if>
 		</aside>
 	</main>
@@ -83,6 +79,7 @@
             </c:forEach>
         ];
     </script>
+	<script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
     <script src="https://kit.fontawesome.com/075a1476de.js" crossorigin="anonymous"></script>
 	<script src="<c:url value='/javascript/main.js' />"></script>
 	<script src="<c:url value='/javascript/calendar.js' />"></script>

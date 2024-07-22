@@ -46,6 +46,7 @@ main {
 	display: flex;
 	flex: 1;
 	padding: 1rem;
+	height: 100vh;
 }
 
 .calendar {
@@ -114,6 +115,7 @@ main {
 	background-color: #ffe6f0;
 }
 
+
 .right-panel {
 	width: 250px;
 	background-color: #ffffff;
@@ -123,6 +125,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	overflow: scroll;
 }
 
 .create-project {
@@ -191,12 +194,16 @@ main {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	text-decoration: none;
 }
 
-a:link {
-    text-decoration: none;
-
+a {
+	color: white;
+	text-decoration: none;
 }
+
+
+
 .next-button .prev-button .today-button {
 	color:white;
 }
@@ -255,6 +262,7 @@ a:link {
     white-space: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: default;
     max-width: 11vw;
     color: #333;
     border: 1px solid rgba(0,0,0,0.1);
@@ -268,4 +276,5 @@ a:link {
     font-size: 12px;
     line-height: 20px;
     margin-top: 2px;
+    cursor: default;
 }

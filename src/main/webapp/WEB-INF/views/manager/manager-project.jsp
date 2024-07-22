@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link type="text/css" rel="stylesheet"
 	href='<c:url value="/css/manager.css" />' />
+
 <title>OurCalendar</title>
 </head>
 <body>
@@ -27,26 +28,26 @@
 				<table>
 					<thead>
 						<tr>
-							<th>프로젝트명</th>
+							<th class="title-column">프로젝트명</th>
 							<th>팀장</th>
 							<th>시작일</th>
 							<th>종료일</th>
 							<th>상태</th>
-							<th>작업</th>
+							<th class="status-column">작업</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${ projectVOs }" var="projectVO"
 							varStatus="status">
 							<tr>
-								<td>${ projectVO.projectTitle }</td>
+								<td class="title-column">${ projectVO.projectTitle }</td>
 								<td>${ projectVO.userName }</td>
 								<td><fmt:formatDate value="${projectVO.startDate}"
 										pattern="yyyy-MM-dd" /></td>
 								<td><fmt:formatDate value="${projectVO.endDate}"
 										pattern="yyyy-MM-dd" /></td>
 								<td>${ projectVO.projectStatus }</td>
-								<td>
+								<td  class="status-column">
 									<form class="deleteForm" action="<c:url value='/manager/project/delete/${ projectVO.projectId }' />" method="POST">
 										<a class="btn" href="<c:url value='/project/${projectVO.projectId}' />">상세</a>
 										<input type="submit" class="btn" value="삭제">

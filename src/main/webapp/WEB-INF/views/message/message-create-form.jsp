@@ -6,32 +6,62 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <title>쪽지함</title>
 </head>
 <body>
-
-<h1>${ sessionScope.authUser.userName } 님의 쪽지 보내기</h1>
-<a href="<c:url value='/message/received' />">받은 쪽지</a>
-<a href="<c:url value='/message/sended' />">보낸 쪽지</a>
-<a href="<c:url value='/message/create' />">쪽지 보내기</a>
-	<div>
-		<form action="<c:url value='/message/create' />" method="POST">
-			<!-- TODO: 보내는 이 아이디값 고쳐야함 -->
-			<input type="hidden" name="senderUserName" id="senderUserName" value="1"></br>
-			
-			<!-- 유저이름? 별명? 실명? 이메일? 뭘로 보내야 할까 -->
-			<label for="receiverUserNameOrEmail">받는 이</label>
-			<input type="text" name="receiverUserNameOrEmail" id="receiverUserNameOrEmail" /></br>
-			
-			<label for="messageTitle">타이틀</label>
-			<input type="text" name="messageTitle" id="messageTitle" /></br>
-			
-			<label for="messageDescription">내용</label>
-			<textarea name="messageDescription" id="messageDescription" cols="50" rows="10"></textarea></br>
-			
-			<input type="submit" value="제출">
-		
-		</form>
-	</div>
+    <div class="container py-5">
+        <div class="message-box">
+            <h1 class="message-title mb-4">
+                <i class="fas fa-envelope me-2"></i>${sessionScope.authUser.userName} 님의 쪽지 보내기
+            </h1>
+            <div class="p-4">
+                <div class="d-flex justify-content-between mb-4">
+                    <div class="btn-group" role="group" aria-label="Message actions">
+                        <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/received' />">
+                            <i class="fas fa-inbox me-2"></i>받은 쪽지
+                        </a>
+                        <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/sended' />">
+                            <i class="fas fa-paper-plane me-2"></i>보낸 쪽지
+                        </a>
+                        <a class="btn btn-custom btn-outline-dark active" href="<c:url value='/message/create' />">
+                            <i class="fas fa-pen me-2"></i>쪽지 보내기
+                        </a>
+                    </div>
+                </div>
+                
+                <form action="<c:url value='/message/create' />" method="POST">
+                    <input type="hidden" name="senderUserName" id="senderUserName" value="1">
+                    
+                    <div class="mb-3">
+                        <label for="receiverUserNameOrEmail" class="form-label">
+                            <i class="fas fa-user me-2"></i>받는 이
+                        </label>
+                        <input type="text" class="form-control" name="receiverUserNameOrEmail" id="receiverUserNameOrEmail" placeholder="이름, 별명 또는 이메일" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="messageTitle" class="form-label">
+                            <i class="fas fa-heading me-2"></i>제목
+                        </label>
+                        <input type="text" class="form-control" name="messageTitle" id="messageTitle" placeholder="쪽지 제목" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="messageDescription" class="form-label">
+                            <i class="fas fa-envelope-open-text me-2"></i>내용
+                        </label>
+                        <textarea class="form-control" name="messageDescription" id="messageDescription" rows="5" placeholder="쪽지 내용을 입력하세요" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        쪽지 보내기
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+	<script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
 </body>
 </html>
