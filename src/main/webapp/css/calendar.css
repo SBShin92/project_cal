@@ -159,6 +159,8 @@ main {
 
 .project-title {
 	font-weight: bold;
+	overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .project-status {
