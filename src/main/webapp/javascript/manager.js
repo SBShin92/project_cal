@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function() {
    toggleSidebar();
    addDeleteFormListener();
@@ -7,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
    updateUser();
 });
 
+// 왼쪽 사이드바(반응형 웹)
 function toggleSidebar() {
    const menuToggle = document.querySelector('.menu-toggle');
    const sidebar = document.getElementById('sidebar');
@@ -18,6 +17,7 @@ function toggleSidebar() {
    }
 }
 
+// 삭제 버튼 눌렀을 때 alert
 function addDeleteFormListener() {
    document.querySelectorAll('.deleteForm').forEach(form => {
       form.addEventListener('submit', function(e) {
@@ -29,6 +29,7 @@ function addDeleteFormListener() {
    });
 }
 
+// 유저 서치
 function searchUser() {
    const searchBar = document.querySelector('.search-bar');
    if (searchBar) {
@@ -44,6 +45,7 @@ function searchUser() {
    }
 }
 
+// '유저' 수정 버튼
 function updateUser() {
    document.querySelectorAll('.btn-edit').forEach(button => {
       button.addEventListener('click', function(e) {
