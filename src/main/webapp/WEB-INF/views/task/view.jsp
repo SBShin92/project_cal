@@ -42,9 +42,6 @@
               <th>Title</th>
               <th>Description</th>
               <th>Status</th>
-              <th>Priority</th>
-              <th>Start Date</th>
-               <th>End Date</th>
               <th>Created At</th>
               <th>Updated At</th>
             </tr>
@@ -58,9 +55,6 @@
               <td>${viewTask.taskTitle}</td>
               <td>${viewTask.taskDescription}</td>
               <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
-              <td>${viewTask.taskPriority}</td>
-              <td>${viewTask.startDate}</td>
-              <td>${viewTask.endDate}</td>
               <td>${viewTask.createdAt}</td>
               <td>${viewTask.updatedAt == null ? '' : viewTask.updatedAt}</td>
               

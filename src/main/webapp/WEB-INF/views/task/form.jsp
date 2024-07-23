@@ -57,27 +57,6 @@
         </div>
      </section>
   
-     <section class="project-content">     
-        <div class="form-group">
-            <label for="startDate">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" required="required" />
-        </div>
-      </section>
-      
-     <section class="project-content">   
-        <div class="form-group">
-            <label for="endDate">End Date:</label>
-            <input type="date" id="endDate" name="endDate" required="required" />
-        </div>    
-     </section>
-     
-     <section class="project-content">    
-        <div class="form-group">
-            <label for="taskPriority">Priority:</label>
-            <input type="text" name="taskPriority" value="${createTaskForm.taskPriority}" />
-        </div>  
-    </section>
-  
     <section class="project-content">   
         <div class="form-group">
             <label for="taskStatus">테스크 상태:</label>
