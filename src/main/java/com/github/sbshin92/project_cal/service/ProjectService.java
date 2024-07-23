@@ -34,14 +34,4 @@ public interface ProjectService {
 
 	 
 	 
-//
-//    List<UserVO> getProjectMembers(Integer projectId);
-//    static List<ProjectFileVO> getFilesByProjectId(int projectId) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//	void addFileToProject(ProjectFileVO projectFileVO);
-//
-//    void addFileToProject(ProjectFileVO projectFile, MultipartFile file) throws IOException;
-//	boolean isUserProjectMember(Object currentUserId, int projectId);
 }

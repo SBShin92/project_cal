@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div class="page-container">
-
+		<jsp:include page="/WEB-INF/includes/header.jsp" />
 		<jsp:include page="/WEB-INF/includes/nav.jsp" />
 
 		<div class="project-form">

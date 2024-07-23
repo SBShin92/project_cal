@@ -8,12 +8,14 @@
 <head>
 <meta charset="UTF-8">
 <title>${projectVO.projectTitle}</title>
+<link rel="stylesheet" href="<c:url value='/css/calendar.css'/>"
+	type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
 	type="text/css">
-	<link rel="stylesheet" href="<c:url value='/css/calendar.css'/>"
-	type="text/css">
+
 </head>
 <body>
+	 <jsp:include page="/WEB-INF/includes/header.jsp" />
 	<jsp:include page="/WEB-INF/includes/nav.jsp" />
 
 	<div id="projectViewMode" class="project-detail"

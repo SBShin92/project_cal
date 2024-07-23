@@ -98,15 +98,10 @@ public class ProjectServiceImpl implements ProjectService {
 	@Transactional
 	public boolean deleteProject(int projectId) {
 
-		// 프로젝트 관련 파일 경로 조회
-//        List<String> filePaths = projectsDAO.getProjectFilePaths(projectId);
-
 		// 프로젝트 삭제
 		boolean deleted = projectsDAO.delete(projectId) > 0;
 
-//        if (deleted) {
-//            // 프로젝트 관련 파일 삭제
-//            deleteProjectFiles(filePaths);
+
 		return deleted;
 	}
 	
@@ -138,68 +133,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	
 
-//	@Override
-//	public List<ProjectFileVO> getFilesByProjectId(int projectId) {
-//		 return projectsDAO.getProjectFiles(projectId);
-//	}
-
-	/**
-	 * 사용자가 프로젝트의 멤버인지 확인합니다.
-	 * 
-	 * @param userId    확인할 사용자 ID
-	 * @param projectId 확인할 프로젝트 ID
-	 * @return 프로젝트 멤버 여부
-	 */
-//    @Override
-//    public boolean isUserProjectMember(Integer userId, Integer projectId) {
-//        return projectsDAO.isUserProjectMember(userId, projectId);
-//    }
-
-
-
-//	@Override
-//	public ProjectVO findById(int projectId) {
-//		// TODO Auto-generated method stub
-//		return projectsDAO.findById(projectId);
-//	}
     
 
-	/**
-	 * 프로젝트 관련 파일들을 업로드합니다.
-	 * 
-	 * @param project 파일을 업로드할 프로젝트
-	 * @throws IOException 파일 업로드 중 오류 발생 시
-	 */
-//    private void uploadProjectFiles(ProjectVO project) throws IOException {
-//        if (project.getFiles() != null && !project.getFiles().isEmpty()) {
-//            for (MultipartFile file : project.getFiles()) {
-//                String filePath = fileService.saveFile(file);
-//                projectsDAO.insertFile(project.getProjectId(), file.getOriginalFilename(), filePath, file.getSize());
-//            }
-//        }
-//    }
-
-//	public void createProject(ProjectVO project, Integer userId) {
-//		if (userId == null) {
-//			throw new IllegalArgumentException("User ID cannot be null");
-//		}
-//		project.setUserId(userId);
-//		projectsDAO.insert(project);
-//	}
-
-	/**
-	 * 프로젝트 관련 파일들을 삭제합니다.
-	 * 
-	 * @param filePaths 삭제할 파일 경로 목록
-	 */
-//    private void deleteProjectFiles(List<String> filePaths) {
-//        for (String filePath : filePaths) {
-//            try {
-//                fileService.deleteFile(filePath);
-//            } catch (IOException e) {
-//            }
-//        }
-//    }
+	
 //-------------------------------------------------------------------------------------	
 	/**
 	 * 프로젝트의 멤버 목록을 조회합니다.
@@ -228,10 +164,6 @@ public class ProjectServiceImpl implements ProjectService {
         return projectsDAO.deleteProjectUser(userId, projectId) > 0;
     }
 
-	@Override
-	public List<ProjectVO> searchedProjects(String projectTitle) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }

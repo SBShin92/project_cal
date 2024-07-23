@@ -3,7 +3,10 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ page session="true"%>
 <header>
-	<div class="logo">CompanyCal</div>
+	<div class="logo">
+	<a href="<c:url value='/calendar'/>">CompanyCal</a>
+						
+	</div>
 
 	<div class="move-buttons">
 		<c:choose>
