@@ -24,7 +24,9 @@ public class MemberController {
     @GetMapping
     public String showInviteMemberPage(@RequestParam(value = "projectId", required = false) Integer projectId, Model model) {
         List<UserVO> allUsers = projectService.getAllUsers();
+        List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
         model.addAttribute("allUsers", allUsers);
+        model.addAttribute("projectMembers", projectMembers);
         model.addAttribute("projectId", projectId);
         return "project/inviteMember";
     }
@@ -45,9 +47,6 @@ public class MemberController {
         }
         return "redirect:/inviteMember?projectId=" + projectId;
     }
-
-
-
 
     @PostMapping("/remove")
     public String removeMemberFromProject(@RequestParam("userId") int userId,

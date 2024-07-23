@@ -1,6 +1,7 @@
 package com.github.sbshin92.project_cal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ public class LoginController {
     private UserService userService;
 
     @Autowired
-//    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping({"", "/"})
     public String loginPage() {
@@ -32,8 +33,8 @@ public class LoginController {
                         @RequestParam("password") String password, 
                         HttpSession session) {
         UserVO user = userService.getUserByEmail(email);
-//        && passwordEncoder.matches(password, user.getUserPassword())
-        if (user != null && user.getUserPassword().equals(password))  {
+       
+        if (user != null && passwordEncoder.matches(password, user.getUserPassword()))  {
             session.setAttribute("authUser", user);
             session.setAttribute("userName", user.getUserName()); // 사용자 이름 저장
             return "redirect:/calendar";

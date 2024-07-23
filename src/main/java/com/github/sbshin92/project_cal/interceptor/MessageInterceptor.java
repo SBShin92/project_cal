@@ -28,11 +28,19 @@ public class MessageInterceptor implements HandlerInterceptor {
 			throws Exception {
 		HttpSession session = request.getSession();
 		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		
+		// 추가
+		if(authUser == null) {
+			response.sendRedirect("/project_cal/login");
+			return false;
+		}
+		
 		int messageUnreadCount = 0;
 		List<MessageVO> messageVOs = messageService.getMessageListByReceiverUserId(authUser.getUserId());
 		for (MessageVO messageVO: messageVOs) {
-			if ("unread".equals(messageVO.getReadStatus()))
+			if ("unread".equals(messageVO.getReadStatus())) {
 				messageUnreadCount += 1;
+			}
 		}
 		session.setAttribute("messageUnreadCount", messageUnreadCount);
 		return true;

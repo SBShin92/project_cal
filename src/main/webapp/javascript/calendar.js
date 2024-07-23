@@ -161,6 +161,22 @@ const formatDate = (date) => {
 */
 // 예은 추가
 const createProjectBars = (date) => {
+    const projectBarsContainer = document.createElement("div");
+    projectBarsContainer.className = "project-bars";
+    const formattedDate = formatDate(date);
+
+    const dateProjects = projectList.filter(project =>
+        formattedDate >= project.startDate && formattedDate <= project.endDate
+    );
+
+    const maxVisibleProjects = 5;
+    dateProjects.slice(0, maxVisibleProjects).forEach((project) => {
+        const projectBar = document.createElement("div");
+        projectBar.className = "project-bar";
+        projectBar.style.backgroundColor = getProjectColor(project.id);
+        projectBar.textContent = project.title;
+        projectBar.title = project.title;
+
     // 프로젝트 바를 담을 컨테이너 생성
     const projectBarsContainer = document.createElement("div");
     projectBarsContainer.className = "project-bars";
@@ -192,8 +208,17 @@ const createProjectBars = (date) => {
         projectBar.title = project.title;
         
         // 생성한 프로젝트 바를 컨테이너에 추가
+		refs/remotes/origin/develop
         projectBarsContainer.appendChild(projectBar);
     });
+
+    if (dateProjects.length > maxVisibleProjects) {
+        const moreProjectsDiv = document.createElement("div");
+        moreProjectsDiv.className = "more-projects";
+        moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects} more`;
+        projectBarsContainer.appendChild(moreProjectsDiv);
+    }
+
 
     // 표시할 수 있는 최대 수를 초과하는 프로젝트가 있다면
     if (dateProjects.length > maxVisibleProjects) {

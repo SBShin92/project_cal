@@ -117,4 +117,3 @@
 //    @Delete("DELETE FROM project_files WHERE project_id = #{projectId}")
 //    int deleteAllByProjectId(Integer projectId);
 //}
-

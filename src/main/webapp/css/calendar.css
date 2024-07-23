@@ -243,6 +243,38 @@ a {
 
 
 .calendar td {
+    height: 100px;
+    width: 14.28%;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.project-bars {
+    margin-top: 5px;
+}
+
+.project-bar {
+    height: 20px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.more-projects {
+    background-color: #f0f0f0;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 2px;
     height: 16.66%;
     width: 14.28%;
     vertical-align: top;
