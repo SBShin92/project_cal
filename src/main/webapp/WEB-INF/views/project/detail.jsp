@@ -169,7 +169,7 @@
 
 			<!-- 프로젝트 멤버 목록 -->
 			<section class="project-members">
-			    <h2>프로젝트 멤버</h2>
+			    <h2>프로젝트 참여멤버</h2>
 			    <ul id="memberList">
 			        <c:forEach var="member" items="${projectMembers}">
 			            <li>

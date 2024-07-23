@@ -56,6 +56,8 @@ public class ProjectController {
             model.addAttribute("fileVOs", fileVOs);
             List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
             model.addAttribute("projectTasks", tasks);
+            List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
+            model.addAttribute("projectMembers",projectMembers);
            
             return "project/detail";
         } catch (Exception e) {
@@ -136,17 +138,17 @@ public class ProjectController {
         return "redirect:/project/" + projectId;
     }
 
-//    @PostMapping("/delete/{projectId}")
-//    public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
-//        try {
-//            projectService.deleteProject(projectId);
-//            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
-//        }
-//        return "redirect:/calendar";
-//    }
-//}
+    @PostMapping("/delete/{projectId}")
+    public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
+        try {
+            projectService.deleteProject(projectId);
+            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
+        }
+        return "redirect:/calendar";
+    }
+
 
     // 멤버 추가
     @PostMapping("/inviteMember")
@@ -163,8 +165,26 @@ public class ProjectController {
 
     // 멤버 삭제
     @PostMapping("/removeMember")
-    public String removeMember(@RequestParam("projectId") int projectId, @RequestParam("userId") int userId) {
-        projectService.deleteProjectUser(userId, projectId);
-        return "redirect:/project/detail/" + projectId;
+    public String removeMember(@RequestParam("projectId") int projectId, @RequestParam("userId") int userId,
+    							RedirectAttributes redirectAttributes) {  
+ 
+    try {
+    	if( projectService.isUserProjectMember(userId, projectId)) {
+    		boolean success = projectService.deleteProjectUser(userId, projectId);
+    	if(success) {
+    		redirectAttributes.addFlashAttribute("message","멤버 삭제 성공");
+    		
+    	} else {
+    		redirectAttributes.addFlashAttribute("error","멤버 삭제 실패");	
+    	}
+    	
+    	} else {
+    		redirectAttributes.addFlashAttribute("error","존재하지 않거나 프로젝트멤버가 아닙니다");
+    	}
+        
+    } catch(Exception e) {
+    		redirectAttributes.addFlashAttribute("error","멤버 삭제중 에러 발생");
     }
+    return "redirect:/project/" + projectId;
+}
 }

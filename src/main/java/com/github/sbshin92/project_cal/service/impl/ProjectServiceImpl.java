@@ -73,33 +73,6 @@ public class ProjectServiceImpl implements ProjectService {
 	 * @Override boolean updated = projectsDAO.update(project) > 0; return updated;
 	 * }
 	 */
-	/**
-	 * 프로젝트를 삭제합니다.
-	 * 
-	 * @param projectId 삭제할 프로젝트 ID
-	 * @return 삭제 성공 여부
-	 */
-
-	/**
-	 * 사용자가 프로젝트의 멤버인지 확인합니다. isUserProjectMember
-	 * 
-	 * @param userId    확인할 사용자 ID
-	 * @param projectId 확인할 프로젝트 ID
-	 * @return 프로젝트 멤버 여부
-	 */
-
-	/**
-	 * 프로젝트 관련 파일들을 업로드합니다. uploadProjectFiles
-	 * 
-	 * @param project 파일을 업로드할 프로젝트
-	 * @throws IOException 파일 업로드 중 오류 발생 시
-	 */
-
-	/**
-	 * 프로젝트 관련 파일들을 삭제합니다.
-	 * 
-	 * @param filePaths 삭제할 파일 경로 목록
-	 */
 
 //-------------------------------------------------------------------------------------	
 	/**
@@ -134,7 +107,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	// 프로젝트에서 멤버 삭제
 	@Override
-	public boolean deleteProjectUser(int userId, int projectId) {
+	public boolean deleteProjectUser(Integer userId, int projectId) {
 		return projectsDAO.deleteProjectUser(userId, projectId) > 0;
 	}
 
