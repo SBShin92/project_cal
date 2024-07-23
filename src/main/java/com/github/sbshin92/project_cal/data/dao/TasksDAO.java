@@ -143,6 +143,7 @@ public interface TasksDAO {
     //
     
     //삭제금지 0723
+    //taskTitle로 테스크 조회
     @Select("SELECT count(1)" + 
             "FROM tasks " +
 			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")

@@ -158,8 +158,9 @@ public interface ProjectsDAO {
 	    		"JOIN projects_users pu ON u.user_id = pu.user_id " +
 	    		"WHERE pu.project_id = #{projectId}")
 	    List<UserVO> getProjectMembers(@Param("projectId") int projectId);
-
-	    // 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 //0722 지원 추가
+	    
+	    
+	    //0723지원 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 
 	    @Select("SELECT project_id as projectId, "
 	    		+ "user_id as userId, "
 	    		+ "project_title as projectTitle, "
@@ -169,6 +170,27 @@ public interface ProjectsDAO {
 	    		+ "project_status as projectStatus, "
 	    		+ "start_date as startDate, "
 	    		+ "end_date as endDate "
-	    		+ " FROM projects WHERE project_title = #{projectTitle}")
+	    		+ "FROM projects " 
+	    		+ "WHERE LOWER(project_title) LIKE CONCAT('%',LOWER(#{projectTitle}), '%')")
 	    List<ProjectVO> searchedProjects(String projectTitle);
+	    
+	    
+	    
+	    /*
+	    //project paging 구현중..
+	    @Select("SELECT project_id as projectId, "
+	    		+ "user_id as userId, "
+	    		+ "project_title as projectTitle, "
+	    		+ "project_description as projectDescription, "
+	    		+ "created_at as createdAt, "
+	    		+ "updated_at as updatedAt, "
+	    		+ "project_status as projectStatus, "
+	    		+ "start_date as startDate, "
+	    		+ "end_date as endDate "
+	    		+ "FROM projects " 
+	    		+ "WHERE LOWER(project_title) LIKE CONCAT('%',LOWER(#{projectTitle}), '%')")
+	    List<ProjectVO> searchedProjects(@Param("projectVO") ProjectVO prjocectVO, RowBounds rowBounds);
+	    
+	    @SELECT conut(1)""
+	    */
 }
