@@ -156,7 +156,8 @@
 						</tbody>
 					</table>
 				</div>
-        
+          
+                 <!--지원 nav추가 0723 --> 
                  <nav>
                   <ul class="pagination">
                     <li class="page-item"><a class="page-link" href="?page=${param.page == 1 || param.page == null ? 1 : param.page - 1}&taskTitle=${taskTitle}">Previous</a></li>

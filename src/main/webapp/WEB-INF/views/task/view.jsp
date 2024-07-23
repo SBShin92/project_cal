@@ -23,8 +23,10 @@
 
     <section class="project-content">
       <h1>Task Details</h1>
-      <a href="<c:url value='/project/${viewTask.projectId}'/>">Back
-        to Task List</a>
+      
+      <a href="<c:url value='/project/${viewTask.projectId}'/>">
+            <button type="button">Go Back</button>
+      </a>
 
       <div id="wrapper" class="editable">
         <!-- <div id="content"> -->
