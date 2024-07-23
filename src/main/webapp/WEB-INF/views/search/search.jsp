@@ -32,9 +32,6 @@
                   <th>CreatedAt</th>
                   <th>UpdatedAt</th>
                   <th>TaskStatus</th>
-                  <th>taskPriority</th>
-                  <th>startDate</th>
-                  <th>endDate</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -50,9 +47,6 @@
                       <td>${st.createdAt}</td>
                       <td>${st.updatedAt}</td>
                       <td>${st.taskStatus}</td>
-                      <td>${st.taskPriority}</td>
-                      <td>${st.startDate}</td>
-                      <td>${st.endDate}</td>
                       <td>
                         <form action="<c:url value='/tasks/viewTask/${st.taskId}' />"
                           method="get" style="display: inline;">

@@ -160,6 +160,8 @@ public interface ProjectsDAO {
 	    List<UserVO> getProjectMembers(@Param("projectId") int projectId);
 	    
 	    
+	    
+	   //------------------------------------------------------------------------
 	    //0723지원 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 
 	    @Select("SELECT project_id as projectId, "
 	    		+ "user_id as userId, "
@@ -170,10 +172,8 @@ public interface ProjectsDAO {
 	    		+ "project_status as projectStatus, "
 	    		+ "start_date as startDate, "
 	    		+ "end_date as endDate "
-	    		+ "FROM projects " 
-	    		+ "WHERE LOWER(project_title) LIKE CONCAT('%',LOWER(#{projectTitle}), '%')")
+	    		+ " FROM projects WHERE project_title = #{projectTitle}")
 	    List<ProjectVO> searchedProjects(String projectTitle);
-	    
 	    
 	    
 	    /*
