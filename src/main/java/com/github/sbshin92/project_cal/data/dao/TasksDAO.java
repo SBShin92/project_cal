@@ -109,10 +109,7 @@ public interface TasksDAO {
 	            "task_description as taskDescription, " +
 	            "created_at as createdAt, " +
 	            "updated_at as updatedAt, " +
-	            "task_status as taskStatus, " +
-	            "task_priority as taskPriority, " +
-	            "start_date as startDate, " + 
-	            "end_date as endDate " +
+	            "task_status as taskStatus " +
 	            "FROM tasks " +
 	            "WHERE project_id = #{projectId}")
     public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
@@ -127,10 +124,7 @@ public interface TasksDAO {
 	            "task_description as taskDescription, " +
 	            "created_at as createdAt, " +
 	            "updated_at as updatedAt, " +
-	            "task_status as taskStatus, " +
-	            "task_priority as taskPriority, " +
-	            "start_date as startDate, " + 
-	            "end_date as endDate " +
+	            "task_status as taskStatus " +
 	            "FROM tasks " +
     			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")
     // taskTitle로 조회해서 리스트 불러오는 SearcByTitle()
