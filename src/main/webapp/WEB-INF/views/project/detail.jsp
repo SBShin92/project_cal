@@ -170,7 +170,7 @@
 
 			<!-- 프로젝트 멤버 목록 -->
 			<section class="project-members">
-			    <h2>프로젝트 멤버</h2>
+			    <h2>프로젝트 참여멤버</h2>
 			    <ul id="memberList">
 			        <c:forEach var="member" items="${projectMembers}">
 			            <li>
@@ -186,10 +186,12 @@
 			    <c:if test="${empty projectMembers}">
 			        <p>초대된 멤버가 없습니다</p>
 			    </c:if>
+			    
 			    <form action="<c:url value='/project/inviteMember'/>" method="post">
 			        <input type="hidden" name="projectId" value="${projectVO.projectId}">
 			        <select name="userId">
-			            <c:forEach var="user" items="${allUsers}">
+			        	<option value="" disabled selected>멤버를 선택해주세요</option>
+			            <c:forEach var="user" items="${availableUsers}">
 			                <option value="${user.userId}">${user.userName}</option>
 			            </c:forEach>
 			        </select>

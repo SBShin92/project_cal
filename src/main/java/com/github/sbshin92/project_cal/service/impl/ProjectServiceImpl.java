@@ -68,7 +68,6 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectsDAO.delete(projectId) > 0;
 	}
 	
-	
 	//삭제금지.. 0722 21:00
 	@Override
 	public List<ProjectVO> searchedProjects(String projectTitle) {
@@ -81,7 +80,6 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectsDAO.searchedProjects(processedTitle);
 	}
 		
-
 //-------------------------------------------------------------------------------------	
 	/**
 	 * 프로젝트의 멤버 목록을 조회합니다.멤버조회 추가 삭제 
@@ -115,7 +113,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	// 프로젝트에서 멤버 삭제
 	@Override
-	public boolean deleteProjectUser(int userId, int projectId) {
+	public boolean deleteProjectUser(Integer userId, int projectId) {
 		return projectsDAO.deleteProjectUser(userId, projectId) > 0;
 	}
 
