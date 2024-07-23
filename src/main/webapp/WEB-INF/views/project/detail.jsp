@@ -189,6 +189,7 @@
 			    <form action="<c:url value='/project/inviteMember'/>" method="post">
 			        <input type="hidden" name="projectId" value="${projectVO.projectId}">
 			        <select name="userId">
+			        	<option value="" disabled selected>멤버를 선택해주세요</option>
 			            <c:forEach var="user" items="${availableUsers}">
 			                <option value="${user.userId}">${user.userName}</option>
 			            </c:forEach>
