@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -94,6 +95,14 @@ public class ManagerController {
 //		}
 //		return response;
 //	}
+	
+	 // 기존 역할을 수정하고 역할 목록 페이지로 리다이렉트
+    @PostMapping("user/update/{roleId}")
+    public String editRole(@PathVariable int roleId, @ModelAttribute RoleVO role) {
+        roleService.updateRole(role);
+        return "redirect:/manager/user";
+    }
+
 	@PostMapping("/user/update/{userId}")
 	@ResponseBody
 	public String updateUser(@PathVariable int userId, 

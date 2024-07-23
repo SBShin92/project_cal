@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function getProjectColor(projectId) {
     return projectColors[projectId % projectColors.length];
-}
+};
 
 const createCalendar = async (year, month) => {
 	// yearString, monthString
