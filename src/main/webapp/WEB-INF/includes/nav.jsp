@@ -10,9 +10,9 @@
 	
 		<div class="search-div">
 		<form action="<c:url value='/tasks/SearchProjectTasks'/>" method="get" class="search-form">
-			<input type="text" name="taskTitle" placeholder="search projects, tasks" required>
+			<input type="text" name="taskProjectTitle" placeholder="search projects, tasks" required>
 			<button type="submit" class="btn btn-dark">검색</button>
-		</form>
+		</form> <!-- 삭제금지 0723--> 
 
 	</div>
 
