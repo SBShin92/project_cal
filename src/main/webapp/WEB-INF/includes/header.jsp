@@ -9,12 +9,12 @@
 		<c:choose>
 			<c:when test="${ sessionScope.viewMonth <= 1 }">
 				<a class="prev-button btn btn-dark"
-					href="<c:url value='/calendar/${ sessionScope.viewYear - 1 }12' />">◀
+					href="<c:url value='/calendar/date/${ sessionScope.viewYear - 1 }12' />">◀
 				</a>
 			</c:when>
 			<c:otherwise>
 				<a class="prev-button btn btn-dark"
-					href="<c:url value='/calendar/${ sessionScope.viewYear }${sessionScope.viewMonth - 1 }' />">◀
+					href="<c:url value='/calendar/date/${ sessionScope.viewYear }${sessionScope.viewMonth - 1 }' />">◀
 				</a>
 			</c:otherwise>
 		</c:choose>
@@ -47,18 +47,18 @@
 		<c:choose>
 			<c:when test="${ sessionScope.viewMonth >= 12 }">
 				<a class="next-button btn btn-dark"
-					href="<c:url value='/calendar/${ sessionScope.viewYear + 1 }1' />">
+					href="<c:url value='/calendar/date/${ sessionScope.viewYear + 1 }1' />">
 					▶</a>
 			</c:when>
 			<c:otherwise>
 				<a class="next-button btn btn-dark"
-					href="<c:url value='/calendar/${ sessionScope.viewYear }${sessionScope.viewMonth + 1 }' />">
+					href="<c:url value='/calendar/date/${ sessionScope.viewYear }${sessionScope.viewMonth + 1 }' />">
 					▶</a>
 			</c:otherwise>
 		</c:choose>
 
 		<a class="today-button btn btn-dark"
-			href="<c:url value='/calendar/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">
+			href="<c:url value='/calendar/date/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">
 			Today</a>
 	</div>
 

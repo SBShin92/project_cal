@@ -94,7 +94,7 @@ const createCalendar = async (year, month) => {
 					td.addEventListener("click", () => {
 						const urlYearMonth = String(year) + String(month < 10 ? "0" + month : month);
 						const urlDate = String(date);
-						window.location.href = "calendar/" + urlYearMonth + "/" + urlDate;
+						window.location.href = "calendar/date/" + urlYearMonth + "/" + urlDate;
 					});
 				})(date);
 				td.appendChild(divDate);
