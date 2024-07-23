@@ -7,8 +7,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.sbshin92.project_cal.data.dao.RoleDAO;
 import com.github.sbshin92.project_cal.data.dao.UsersDAO;
+import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
+import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Service
@@ -16,6 +19,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UsersDAO usersDAO;
+
+	@Autowired
+	private RoleDAO roleDAO;
 
 	@Override
 	public List<UserVO> getAllUsers() {
@@ -73,14 +79,16 @@ public class UserServiceImpl implements UserService {
 	// 유저 수정 기능
 	@Override
 	@Transactional
-	public boolean updateUser(int userId, String userName, String userEmail, String userAuthority,
-			String userPosition) {
+	public void updateUser(UserVO user) {
 		try {
-			return usersDAO.updateUser(userId, userName, userEmail, userAuthority, userPosition) > 0;
+			usersDAO.update(user);
+			if (user.getRole() != null) {
+				roleDAO.update(user.getRole());
+			}
 		} catch (DataAccessException e) {
-			e.printStackTrace();
-			return false;
+			throw new RuntimeException("사용자 정보 업데이트 중 오류 발생", e);
 		}
+
 	}
 
 	@Override
@@ -88,13 +96,6 @@ public class UserServiceImpl implements UserService {
 		return usersDAO.findByUserId(userId);
 	}
 
-	@Override
-	public void updateUser(UserVO user) {
-		usersDAO.update(user);
-	}
 
-	@Override
-	public boolean updateUser(int userId, String userName, String userEmail, String userPosition) {
-		return false;
-	}
+
 }

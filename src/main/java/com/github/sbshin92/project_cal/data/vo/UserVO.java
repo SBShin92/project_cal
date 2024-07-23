@@ -70,21 +70,17 @@ public class UserVO {
 
     /**
      * 사용자의 역할을 설정합니다.
-     * @param role 설정할 역할
      */
     public void setRole(RoleVO role) {
         this.role = role;
     }
 
-    /**
-     * 사용자의 역할을 반환합니다.
-     * @return 사용자의 역할
-     */
+    //사용자의 역할을 반환합니다.
     public RoleVO getRole() {
-        return this.role;
+        return role;
     }
 
-
+ 
 
 
 

@@ -18,15 +18,16 @@ public interface UserService {
 
 	public boolean deleteUser(Integer userId);
 
-	boolean updateUser(int userId, String userName, String userEmail, String userPosition);
+//	boolean updateUser(int userId, String userName, String userEmail, String userPosition);
 
 //	UserVO getUserById(int userId);
 
 //	void updateUser(UserVO user);
 
-	boolean updateUser(int userId, String userName, String userEmail, String userAuthority, String userPosition);
+//	boolean updateUser(int userId, String userName, String userEmail, String userAuthority, String userPosition);
 
 	UserVO getUserById(int userId);
 
 	void updateUser(UserVO user);
+	
 }
