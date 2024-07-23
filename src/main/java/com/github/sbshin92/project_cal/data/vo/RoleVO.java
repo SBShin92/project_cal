@@ -14,18 +14,10 @@ import lombok.Setter;
 @Data
 public class RoleVO {
     private int roleId;
-    private String roleName;
-    private String roleDescription;
+    private int userId;
     private Boolean projectCreate = false;
     private Boolean projectRead = false;
     private Boolean projectUpdate = false;
     private Boolean projectDelete = false;
-    private Boolean taskCreate = false;
-    private Boolean taskRead = false;
-    private Boolean taskUpdate = false;
-    private Boolean taskDelete = false;
-	
-    // 조인용 필드
-    private int roleUsersCount;
 
 }

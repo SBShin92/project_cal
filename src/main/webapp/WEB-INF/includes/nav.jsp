@@ -5,7 +5,6 @@
 <nav class="top-nav">
 
 	<a class="nav-btn" href="<c:url value='/calendar/scheduleSwitch' /> ">개인/전체 일정</a>
-	<button class="nav-btn" id="inviteMemberBtn">멤버 초대</button>
 	<button class="nav-btn" id="message-btn">쪽지함 (${ sessionScope.messageUnreadCount })</button>
 	<a href="<c:url value='/manager' />" class="nav-btn btn-dark">관리자페이지</a>
 	
