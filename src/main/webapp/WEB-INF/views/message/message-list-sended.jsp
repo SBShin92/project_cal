@@ -19,10 +19,10 @@
                 <i class="fas fa-envelope me-2"></i>${sessionScope.authUser.userName} 님의 쪽지함
             </h1>
             <div class="btn-group mb-4" role="group" aria-label="Message actions">
-                <a class="btn btn-custom btn-outline-dark active" href="<c:url value='/message/received' />">
+                <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/received' />">
                     <i class="fas fa-inbox me-2"></i>받은 쪽지
                 </a>
-                <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/sended' />">
+                <a class="btn btn-custom btn-outline-dark active" href="<c:url value='/message/sended' />">
                     <i class="fas fa-paper-plane me-2"></i>보낸 쪽지
                 </a>
                 <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/create' />">

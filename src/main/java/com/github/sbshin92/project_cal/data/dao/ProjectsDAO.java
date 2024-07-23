@@ -66,14 +66,14 @@ public interface ProjectsDAO {
 	 */
 	   @Select("SELECT project_id as projectId, user_id as userId, project_title as projectTitle, " +
 	            "project_description as projectDescription, project_status as projectStatus, " +
-	            "start_date as startDate, end_date as endDate, project_bar_color as projectBarColor " +
+	            "start_date as startDate, end_date as endDate " +
 	            "FROM projects WHERE project_id = #{projectId}")
 	    ProjectVO findById(@Param("projectId") int projectId);
 
 	   
 	   @Select("SELECT project_id as projectId, user_id as userId, project_title as projectTitle, " +
 	            "project_description as projectDescription, project_status as projectStatus, " +
-	            "start_date as startDate, end_date as endDate, project_bar_color as projectBarColor " +
+	            "start_date as startDate, end_date as endDate " +
 	            "FROM projects WHERE project_title LIKE CONCAT('%', #{projectTitle}, '%')")
 	    List<ProjectVO> findByProjectTitle(@Param("projectTitle") String projectTitle);
 	   
@@ -84,8 +84,8 @@ public interface ProjectsDAO {
 	 * @return 삽입된 행의 수
 	 */
 
-	@Insert("INSERT INTO projects (user_id, project_title, project_description, project_status, start_date, end_date, project_bar_color) "
-	        + " VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{projectStatus}, #{startDate}, #{endDate}, FLOOR(0 + RAND() * (16581375 - 0 + 1)))")
+	@Insert("INSERT INTO projects (user_id, project_title, project_description, project_status, start_date, end_date) "
+	        + " VALUES (#{userId}, #{projectTitle}, #{projectDescription}, #{projectStatus}, #{startDate}, #{endDate})")
 	@Options(useGeneratedKeys = true, keyProperty = "projectId")
 	int insert(ProjectVO project);
 

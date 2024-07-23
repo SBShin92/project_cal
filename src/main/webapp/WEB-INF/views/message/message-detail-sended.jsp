@@ -19,10 +19,10 @@
             <div class="p-4">
                 <div class="d-flex justify-content-between mb-4">
                     <div class="btn-group" role="group" aria-label="Message actions">
-                        <a class="btn btn-custom btn-outline-dark active" href="<c:url value='/message/received' />">
+                        <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/received' />">
                             <i class="fas fa-inbox me-2"></i>받은 쪽지
                         </a>
-                        <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/sended' />">
+                        <a class="btn btn-custom btn-outline-dark active" href="<c:url value='/message/sended' />">
                             <i class="fas fa-paper-plane me-2"></i>보낸 쪽지
                         </a>
                         <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/create' />">
