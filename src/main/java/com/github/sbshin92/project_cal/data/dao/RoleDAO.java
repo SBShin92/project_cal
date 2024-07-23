@@ -35,35 +35,7 @@ public interface RoleDAO {
             " FROM roles r " +
             " WHERE role_id = #{roleId}")
 	  RoleVO findById(@Param("roleId") int roleId);
-	  
-//	  @Select("SELECT r.role_id as roleId, "
-//	            + "r.user_id as userId, "
-//	            + "r.project_create as projectCreate, "
-//	            + "r.project_read as projectRead, "
-//	            + "r.project_update as projectUpdate, "
-//	            + "r.project_delete as projectDelete "
-//	            + "FROM roles r "
-//	            + "WHERE user_id = #{userId}")
-//	    RoleVO findByUserId(@Param("userId") int userId);
-//	  
-//	  
-//	  @Insert("INSERT INTO roles(user_id, project_create, project_read, project_update, project_delete) " +
-//	            "VALUES(#{userId}, #{projectCreate}, #{projectRead}, #{projectUpdate}, #{projectDelete}")
-//	    @Options(useGeneratedKeys = true, keyProperty = "roleId")
-//	  void insert(RoleVO role);
 
-	  @Update(" UPDATE roles SET " +
-			    " user_id = #{userId}, " +
-	            " project_create = #{projectCreate}, " +
-	            " project_read = #{projectRead}, " +
-	            " project_update = #{projectUpdate}, " +
-	            " project_delete = #{projectDelete}, " +
-	            " WHERE role_id = #{roleId}")
-	    void update(RoleVO role);
-
-	    @Delete("DELETE FROM roles WHERE role_id = #{roleId}")
-	    void delete(@Param("roleId") int roleId);
-	    
 	    
 	    @Select("SELECT r.role_id as roleId, "
 	            + "r.user_id as userId, "
@@ -80,6 +52,16 @@ public interface RoleDAO {
 	    @Options(useGeneratedKeys = true, keyProperty = "roleId")
 	    void insert(RoleVO role);
 
+
+	    @Update("UPDATE roles SET " +
+	            "user_id = #{userId}, " +
+	            "project_create = #{projectCreate}, " +
+	            "project_read = #{projectRead}, " +
+	            "project_update = #{projectUpdate}, " +
+	            "project_delete = #{projectDelete} " +
+	            "WHERE role_id = #{roleId}")
+	    void update(RoleVO role);
+	    
 	    @Update("UPDATE roles SET " +
 	            "project_create = #{projectCreate}, " +
 	            "project_read = #{projectRead}, " +
@@ -87,4 +69,7 @@ public interface RoleDAO {
 	            "project_delete = #{projectDelete} " +
 	            "WHERE user_id = #{userId}")
 	    void updateByUserId(RoleVO role);
-}
+	    
+	    @Delete("DELETE FROM roles WHERE role_id = #{roleId}")
+	    void delete(@Param("roleId") int roleId);
+	}
