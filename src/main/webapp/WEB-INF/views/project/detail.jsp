@@ -178,7 +178,7 @@
           <form action="<c:url value='/project/inviteMember'/>" method="post">
               <input type="hidden" name="projectId" value="${projectVO.projectId}">
               <select name="userId">
-                  <c:forEach var="user" items="${allUsers}">
+                  <c:forEach var="user" items="${availableUsers}">
                       <option value="${user.userId}">${user.userName}</option>
                   </c:forEach>
               </select>
@@ -269,7 +269,6 @@
 
   <script src="<c:url value='/javascript/detail.js'/>"></script>
   <script src="<c:url value='/javascript/edit.js'/>"></script>
-  <script src="<c:url value='/javascript/calendar.js'/>"></script>
   <script src="<c:url value='/javascript/main.js'/>"></script>
 </body>
 </html>

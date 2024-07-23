@@ -24,9 +24,8 @@ public class UserVO {
     private String userPosition;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    private boolean canCreateProject;  // 프로젝트 생성 권한을 나타내는 필드 추가
 
-    private RoleVO role;  // RoleVO와의 관계를 나타내는 필드
+    private RoleVO roleVO;  // RoleVO와의 관계를 나타내는 필드
     /**
      * 사용자가 프로젝트를 생성할 수 있는 권한이 있는지 확인합니다.
      * @return 프로젝트 생성 권한이 있으면 true, 없으면 false
@@ -41,7 +40,7 @@ public class UserVO {
      * @return 프로젝트 생성 권한이 있으면 true, 없으면 false
      */
     public boolean isCanCreateProject() {
-        return canCreateProject || "admin".equals(userAuthority) || (role != null && role.getProjectCreate());
+        return "admin".equals(userAuthority) || (roleVO != null && roleVO.getProjectCreate());
     }
 
     /**
@@ -49,7 +48,7 @@ public class UserVO {
      * @return 프로젝트 읽기 권한이 있으면 true, 없으면 false
      */
     public boolean isCanReadProject() {
-        return "admin".equals(userAuthority) || (role != null && role.getProjectRead());
+        return "admin".equals(userAuthority) || (roleVO != null && roleVO.getProjectRead());
     }
 
     /**
@@ -57,7 +56,7 @@ public class UserVO {
      * @return 프로젝트 수정 권한이 있으면 true, 없으면 false
      */
     public boolean isCanUpdateProject() {
-        return "admin".equals(userAuthority) || (role != null && role.getProjectUpdate());
+        return "admin".equals(userAuthority) || (roleVO != null && roleVO.getProjectUpdate());
     }
 
     /**
@@ -65,19 +64,19 @@ public class UserVO {
      * @return 프로젝트 삭제 권한이 있으면 true, 없으면 false
      */
     public boolean isCanDeleteProject() {
-        return "admin".equals(userAuthority) || (role != null && role.getProjectDelete());
+        return "admin".equals(userAuthority) || (roleVO != null && roleVO.getProjectDelete());
     }
 
     /**
      * 사용자의 역할을 설정합니다.
      */
-    public void setRole(RoleVO role) {
-        this.role = role;
+    public void setRole(RoleVO roleVO) {
+        this.roleVO = roleVO;
     }
 
     //사용자의 역할을 반환합니다.
     public RoleVO getRole() {
-        return role;
+        return roleVO;
     }
 
  
