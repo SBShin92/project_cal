@@ -46,10 +46,10 @@ public interface TaskService {
 	public List<TaskVO> getTasksByProjectId(Integer projectId);
 
 
-	//삭제 금지 ...plz ...0722 21:00
+	//삭제 금지 0723
 	public List<TaskVO> searchByTitle(TaskVO taskVO);
 	
-	//삭제 금지 ...plz ...0722 21:00
+	//삭제 금지 0723
 	public int getTotalTasksCount(TaskVO taskVO);
 	
 }

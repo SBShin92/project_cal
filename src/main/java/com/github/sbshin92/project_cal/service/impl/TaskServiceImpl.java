@@ -127,7 +127,7 @@ public class TaskServiceImpl implements TaskService {
 		return tasksDAO.searchByTitle(taskVO, new RowBounds(offset, size));
 	}
 	
-	//삭제금지 0722 21:00
+	//삭제금지 0723
 	@Override
 	public int getTotalTasksCount(TaskVO taskVO) {
 

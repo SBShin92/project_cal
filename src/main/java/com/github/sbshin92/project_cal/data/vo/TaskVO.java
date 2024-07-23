@@ -25,7 +25,7 @@ public class TaskVO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     
-    //추가함 삭제 금지 0722 21:00
+    //추가함 삭제 금지 0723
     private int page; // 페이지 세팅용 
 }
 

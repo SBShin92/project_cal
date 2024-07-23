@@ -118,7 +118,7 @@ public interface TasksDAO {
     public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
 
     
-    //삭제금지 0722 21:00
+    //삭제금지 0723
     //taskTitle로 테스크 조회
     @Select("SELECT task_id as taskId, " +
 	            "user_id as userId, " +
@@ -142,7 +142,7 @@ public interface TasksDAO {
     //AS 키워드를 사용하여 각 컬럼에 별칭을 부여
     //
     
-    //삭제금지 0722 21:00
+    //삭제금지 0723
     @Select("SELECT count(1)" + 
             "FROM tasks " +
 			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")

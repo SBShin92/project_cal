@@ -193,7 +193,7 @@ public class TaskController {
 		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	}
 	
-		//삭제 금지 ...plz ...0722 21:00
+		//삭제 금지 0723
 		// 해당 테스크, 프로젝트 타이틀 검색위한 모든 데이터 search
 		
 		@GetMapping("/SearchProjectTasks")
