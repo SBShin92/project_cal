@@ -166,21 +166,21 @@ public interface ProjectsDAO {
 	    @Delete("DELETE FROM projects_users WHERE user_id = #{userId} AND project_id = #{projectId}")
 	    int deleteProjectUser(@Param("userId") int userId, @Param("projectId") int projectId);
 	
-		 // 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 //0722 지원 추가
-		    @Select("SELECT project_id as projectId, "
-		    		+ "user_id as userId, "
-		    		+ "project_title as projectTitle, "
-		    		+ "project_description as projectDescription, "
-		    		+ "created_at as createdAt, "
-		    		+ "updated_at as updatedAt, "
-		    		+ "project_status as projectStatus, "
-		    		+ "start_date as startDate, "
-		    		+ "end_date as endDate "
-		    		+ " FROM projects WHERE project_title = #{projectTitle}")
-		    List<ProjectVO> searchedProjects(String projectTitle);
+	  //삭제 금지...0722 21:00 지원 추가
+	    // 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 
+	    @Select("SELECT project_id as projectId, "
+	    		+ "user_id as userId, "
+	    		+ "project_title as projectTitle, "
+	    		+ "project_description as projectDescription, "
+	    		+ "created_at as createdAt, "
+	    		+ "updated_at as updatedAt, "
+	    		+ "project_status as projectStatus, "
+	    		+ "start_date as startDate, "
+	    		+ "end_date as endDate "
+	    		+ " FROM projects WHERE project_title = #{projectTitle}")
+	    List<ProjectVO> searchedProjects(String projectTitle);
 }
-    
-		
+
 
 //	    // 멤버 추가
 //	    @Insert("INSERT INTO projects_users(user_id, project_id)" +

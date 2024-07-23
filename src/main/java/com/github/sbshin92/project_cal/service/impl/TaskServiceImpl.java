@@ -2,6 +2,7 @@ package com.github.sbshin92.project_cal.service.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,16 +104,41 @@ public class TaskServiceImpl implements TaskService {
         return tasksDAO.getTasksByProjectId(projectId);
     }
 
-	// searchByTitle for search
+	//삭제금지 0722 21:00 // searchByTitle for search
 	@Override
-	public List<TaskVO> searchByTitle(String taskTitle) {
+	public List<TaskVO> searchByTitle(TaskVO taskVO) {
 		  	// 검색어가 null이거나 비어있는 경우 처리
-		if (taskTitle == null || taskTitle.trim().isEmpty()) {
+		if (taskVO.getTaskTitle() == null || taskVO.getTaskTitle().trim().isEmpty()) {
 			return List.of();	//빈리스트 반환 또는 다른 적절한 처리 
 		}
 			// 검색어 전처리 (옵션)
-        String processedTitle = taskTitle.trim(); // 앞뒤 공백 제거
-            return tasksDAO.searchByTitle(processedTitle);
+        String processedTitle = taskVO.getTaskTitle().trim(); // 앞뒤 공백 제거
+	    taskVO.setTaskTitle(processedTitle);
+	    
+        //페이지 세팅
+        int page = 0;
+        int size = 10;
+        if(taskVO.getPage() != 0 ) {
+        	page = taskVO.getPage();
+        }
+        
+		int offset = (page - 1) * size;
+		
+		return tasksDAO.searchByTitle(taskVO, new RowBounds(offset, size));
+	}
+	
+	//삭제금지 0723
+	@Override
+	public int getTotalTasksCount(TaskVO taskVO) {
+
+	  	// 검색어가 null이거나 비어있는 경우 처리
+		if (taskVO.getTaskTitle() == null || taskVO.getTaskTitle().trim().isEmpty()) {
+			return 0;	//빈리스트 반환 또는 다른 적절한 처리 
+		}
+			// 검색어 전처리 (옵션)
+	    String processedTitle = taskVO.getTaskTitle().trim(); // 앞뒤 공백 제거
+	    taskVO.setTaskTitle(processedTitle);
+	    return tasksDAO.getTotalTasksCount(taskVO);
 	}
 
 	//

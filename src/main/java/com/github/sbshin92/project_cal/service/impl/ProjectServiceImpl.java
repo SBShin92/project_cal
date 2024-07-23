@@ -105,8 +105,8 @@ public class ProjectServiceImpl implements ProjectService {
 		return deleted;
 	}
 	
-	//지원 추가 0722
-		/*
+	
+		//삭제금지.. 0722 21:00
 		@Override
 		public List<ProjectVO> searchedProjects(String projectTitle) {
 		 	// 검색어가 projectTitle이거나 비어있는 경우 처리
@@ -117,21 +117,7 @@ public class ProjectServiceImpl implements ProjectService {
 		        String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거\
 			return projectsDAO.searchedProjects(processedTitle);
 		}
-		*/
-
-    //지원 추가 07 18 //22
-	@Override
-	public List<ProjectVO> searchedProjects(String projectTitle) {
-	 	// 검색어가 projectTitle이거나 비어있는 경우 처리
-			if (projectTitle == null || projectTitle.trim().isEmpty()) {
-				return List.of();	//빈리스트 반환 또는 다른 적절한 처리 
-			}
-				// 검색어 전처리 (옵션)
-	        String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거\
-		return projectsDAO.findByProjectTitle(processedTitle);
-	}
-	
-	
+		
 
     
 
@@ -163,7 +149,5 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean deleteProjectUser(int userId, int projectId) {
         return projectsDAO.deleteProjectUser(userId, projectId) > 0;
     }
-
-	
 
 }
