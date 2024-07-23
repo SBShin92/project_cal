@@ -1,30 +1,31 @@
 @charset "UTF-8";
 
 body {
-	font-family: '맑은 고딕', '돋움', '굴림', 'Arial', sans-serif;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
-	background-color: #f5f5f5;
+    font-family: '맑은 고딕', '돋움', '굴림', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5f5f5;
 }
 
 header {
-	background-color: #e6f3ff;
-	padding: 1rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	text-decoration: none;
+    background-color: #e6f3ff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
 }
 
 .top-nav {
-	background-color: #e6f3ff;
-	padding: 0.5rem;
-	display: flex;
-	justify-content: flex-start;
-	gap: 10px;
+    background-color: #e6f3ff;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .nav-btn {
@@ -42,10 +43,10 @@ header {
 }
 
 main {
-	display: flex;
-	flex: 1;
-	padding: 1rem;
-	height: 100vh;
+    display: flex;
+    flex: 1;
+    padding: 1rem;
+    height: calc(100vh - 120px); /* 헤더와 네비게이션 높이를 고려하여 조정 */
 }
 
 .calendar {
@@ -53,6 +54,7 @@ main {
 	background-color: #ffffff;
 	border-radius: 10px;
 	overflow: hidden;
+	width: 100%;
 }
 
 .calendar table {
@@ -62,12 +64,12 @@ main {
 }
 
 .calendar th, .calendar td {
-	border: 1px solid #e0e0e0;
-	padding: 10px;
-	text-align: left;
-	vertical-align: top;
-	width: 14.28%; /* 100% / 7 days */
-	height: 16.66%; /* 100% / 6 rows */
+    border: 1px solid #e0e0e0;
+    padding: 0.5rem;
+    text-align: left;
+    vertical-align: top;
+    width: 14.28%; /* 100% / 7 days */
+    height: 16.66%; /* 100% / 6 rows */
 }
 
 .calendar td {
@@ -116,17 +118,17 @@ main {
 
 
 .right-panel {
-	width: 20vw;
-	height: 84vh;
-	background-color: #ffffff;
-	padding: 1rem;
-	border-radius: 10px;
-	margin-left: 1rem;
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	overflow-y: scroll;
-	overflow-x: hidden;
+    width: 20%;
+    height: calc(100vh - 120px);
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
 }
 
 .create-project {
@@ -245,41 +247,10 @@ a {
 
 
 .calendar td {
-    height: 100px;
-    width: 14.28%;
+    height: 16.66%;
+    width: 10vw;
     vertical-align: top;
     padding: 5px;
-}
-
-.project-bars {
-    margin-top: 5px;
-}
-
-.project-bar {
-    height: 20px;
-    margin-bottom: 2px;
-    border-radius: 10px;
-    font-size: 12px;
-    line-height: 20px;
-    padding: 0 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #333;
-    border: 1px solid rgba(0,0,0,0.1);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.more-projects {
-    background-color: #f0f0f0;
-    text-align: center;
-    border-radius: 10px;
-    font-size: 12px;
-    line-height: 20px;
-    margin-top: 2px;
-    height: 20px;
-    width: 12vw;
-    vertical-align: top;
 }
 
 .project-bars {
@@ -298,7 +269,7 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: default;
-    max-width: 12vw;
+    width: 10vw;
     color: #333;
     border: 1px solid rgba(0,0,0,0.1);
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
@@ -311,5 +282,39 @@ a {
     font-size: 12px;
     line-height: 20px;
     margin-top: 2px;
-    cursor: default;
+    height: 20px;
+    width: 10vw;
+    vertical-align: top;
+}
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .calendar {
+        width: 100%;
+    }
+
+    .right-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 80%;
+        height: 100vh;
+        transform: translateX(100%);
+        z-index: 1000;
+    }
+
+    .right-panel.show {
+        transform: translateX(0);
+    }
+
+    .toggle-panel {
+        display: block;
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        z-index: 1001;
+    }
 }

@@ -45,7 +45,7 @@ public class MessageController {
 		List<MessageVO> messageVOs = messageService.getMessageListBySenderUserId(authUser.getUserId());
 		model.addAttribute("messageVOs", messageVOs);
 		model.addAttribute("url", "sended");
-		return "message/message-list";
+		return "message/message-list-sended";
 	}
 	
 	@GetMapping("/received/{messageId}")
@@ -60,7 +60,7 @@ public class MessageController {
 	public String sendedMessageDetailPage(@PathVariable("messageId") Integer messageId , Model model, HttpSession session) {
 		MessageVO messageVO = messageService.getMessage(messageId);
 		model.addAttribute("messageVO", messageVO);
-		return "message/message-detail";
+		return "message/message-detail-sended";
 	}
 	
 	@GetMapping("/create")

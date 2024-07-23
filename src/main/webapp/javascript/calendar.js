@@ -21,7 +21,72 @@ document.addEventListener('DOMContentLoaded', () => {
 	createCalendar(year, month);
 
 	setupMonthYearPicker(year, month);
+	
+	// 토글버튼
+	createProjectListToggleButton();
+	
 });
+
+// 프로젝트 리스트 토글버튼 생성
+function createProjectListToggleButton() {
+	const rightPanel = document.querySelector('.right-panel');
+    const main = document.querySelector('main');
+
+    // 토글 버튼 생성
+    const toggleButton = document.createElement('button');
+    toggleButton.textContent = '패널 열기';
+    toggleButton.classList.add('toggle-panel', 'btn', 'btn-primary');
+    main.appendChild(toggleButton);
+
+    // 패널 토글 함수
+    function togglePanel() {
+        rightPanel.classList.toggle('show');
+        toggleButton.textContent = rightPanel.classList.contains('show') ? '패널 닫기' : '패널 열기';
+    }
+
+    // 토글 버튼 이벤트 리스너
+    toggleButton.addEventListener('click', function(e) {
+        e.stopPropagation();  // 이벤트 버블링 방지
+        togglePanel();
+    });
+
+    // 패널 외부 클릭 시 패널 닫기
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && 
+            !rightPanel.contains(e.target) && 
+            !toggleButton.contains(e.target) && 
+            rightPanel.classList.contains('show')) {
+            togglePanel();
+        }
+    });
+
+    // 패널 내부 클릭 시 이벤트 전파 방지
+    rightPanel.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+
+    // 화면 크기 변경 감지
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            rightPanel.classList.remove('show');
+            toggleButton.style.display = 'none';
+        } else {
+            toggleButton.style.display = 'block';
+        }
+    });
+
+    // 초기 화면 크기에 따른 설정
+    if (window.innerWidth <= 768) {
+		if (rightPanel.querySelector('.card') != null) {
+			rightPanel.classList.add('show');			
+		}
+        toggleButton.style.display = 'block';
+    } else {
+        toggleButton.style.display = 'none';
+    }
+}
+
+
 
 function getProjectColor(projectId) {
 	return projectColors[projectId % projectColors.length];
