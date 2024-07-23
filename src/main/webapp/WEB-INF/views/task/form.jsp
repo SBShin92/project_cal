@@ -28,6 +28,9 @@
         <h1>${createTaskForm.taskId == 0 ? 'Create' : 'Edit'}Task</h1>
       </header>       
   </section>
+  
+   <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
+            돌아가기</a>
     <!--  createTaskForm.taskId가 0이면 /project_cal/tasks/createTask 호출(user,projectId 값이 필요함)
                            0이 아니면/ /project_cal/tasks/updateTask/'.concat(createTaskForm.taskId) -->
    
@@ -69,17 +72,20 @@
         </div>   
     </section>     
          
-        <footer> 
+       
+        <section class="project-content">    
           <div>
             <button type="submit">${createTaskForm.taskId == 0 ? 'Create' : 'Update'} Task</button>
           </div> 
+         </section>
           
+          <section class="project-content"> 
           <div>
           <a href="<c:url value='/project/${createTaskForm.projectId}'/>">
               <button type="button">Go Back</button>
           </a>
           </div>
-        </footer>
+          </section>
         
     </form>
   </div>

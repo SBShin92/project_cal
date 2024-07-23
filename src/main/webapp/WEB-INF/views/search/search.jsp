@@ -15,13 +15,19 @@
 </head>
 
 <body>
+      
     
   <div id="container">
 	<jsp:include page="/WEB-INF/includes/header.jsp" />
 	<jsp:include page="/WEB-INF/includes/nav.jsp" />
     
    <section class="project-content">
+        
         <h1>Task List</h1>
+          <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
+            돌아가기</a>
+     
+        
         <c:if test="${not empty searchedTasks}">
         <table border="1">
               <thead>
@@ -135,6 +141,9 @@
     </section>
     
   </div>
+  
+     
+      
   <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
   <script src="<c:url value='/javascript/main.js' />"></script>
   <script src="<c:url value='/javascript/calendar.js' />"></script>
