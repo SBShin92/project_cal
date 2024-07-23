@@ -2,6 +2,7 @@ package com.github.sbshin92.project_cal.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,11 @@ public class ProjectController {
             model.addAttribute("projectTasks", tasks);
             List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
             model.addAttribute("projectMembers",projectMembers);
+            List<UserVO> allUsers = projectService.getAllUsers();
+            // 추가 가능한 멤버 조회
+            List<UserVO> availableUsers = allUsers.stream().filter(user -> !projectService.isUserProjectMember(user.getUserId(),projectId))
+            												.collect(Collectors.toList());
+            model.addAttribute("availableUsers",availableUsers);
            
             return "project/detail";
         } catch (Exception e) {
@@ -122,6 +128,7 @@ public class ProjectController {
         }
     }
 
+    // 프로젝트 수정
     @PostMapping("update/{projectId}")
     public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
                                 BindingResult result, RedirectAttributes redirectAttributes) {
@@ -138,6 +145,7 @@ public class ProjectController {
         return "redirect:/project/" + projectId;
     }
 
+    // 프로젝트 삭제
     @PostMapping("/delete/{projectId}")
     public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
         try {
@@ -154,14 +162,25 @@ public class ProjectController {
     @PostMapping("/inviteMember")
     public String inviteMember(@RequestParam("projectId") int projectId, @RequestParam("userId") int userId,
     																	RedirectAttributes redirectAttributes){
-    	if(!projectService.isUserProjectMember(userId,projectId)) {
-    		projectService.addMemberProject(userId, projectId);
-    	} else {
-    		redirectAttributes.addFlashAttribute("errorMessage","User is no");
-    	}
-        
-        return "redirect:/project/" + projectId;
-    }
+    	
+   try {
+	   if(!projectService.isUserProjectMember(userId,projectId)) {
+		   boolean success = projectService.addMemberProject(userId, projectId);
+		   
+		 if(success) {
+			 redirectAttributes.addFlashAttribute("message","멤버 추가 성공했어용");
+		 } else {
+			 redirectAttributes.addFlashAttribute("message","멤버 추가 실패했어용");
+		 }
+	   } else {
+		   redirectAttributes.addFlashAttribute("error","찾을수없어요");
+	   }
+	   	return "redirect:/project/" + projectId;
+   	} catch(Exception e) {
+	   redirectAttributes.addFlashAttribute("error","멤버 추가중 오류발생");
+	   return "redirect:/project/" + projectId;
+   	 }
+  }
 
     // 멤버 삭제
     @PostMapping("/removeMember")

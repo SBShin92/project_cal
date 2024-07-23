@@ -22,8 +22,8 @@ public interface ProjectService {
 
 //	 // 멤버조회 및 멤버 추가
 	List<UserVO> getAllUsers(); // 전체 조회
-    boolean isUserProjectMember(int userId, int projectId); // 프로젝트에 추가되어있는 사람 조회
-    List<UserVO> getProjectMembers(int projectId);
+    boolean isUserProjectMember(int userId, int projectId); // 프로젝트에 추가할수있는 사람 조회
+    List<UserVO> getProjectMembers(int projectId); // 프로젝트에 들어있는 사람 조회
     boolean addMemberProject(int userId, int projectId); // 프로젝트에 멤버 추가
     boolean deleteProjectUser(Integer userId, int projectId); // 멤버 삭제
     public List<ProjectVO> searchedProjects(String projectTitle); // 지원 추가 0722// 프로젝트타이틀을 통한 프로젝트목록의 검색기능구현

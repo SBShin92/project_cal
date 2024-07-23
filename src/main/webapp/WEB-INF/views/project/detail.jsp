@@ -185,10 +185,11 @@
 			    <c:if test="${empty projectMembers}">
 			        <p>초대된 멤버가 없습니다</p>
 			    </c:if>
+			    
 			    <form action="<c:url value='/project/inviteMember'/>" method="post">
 			        <input type="hidden" name="projectId" value="${projectVO.projectId}">
 			        <select name="userId">
-			            <c:forEach var="user" items="${allUsers}">
+			            <c:forEach var="user" items="${availableUsers}">
 			                <option value="${user.userId}">${user.userName}</option>
 			            </c:forEach>
 			        </select>
