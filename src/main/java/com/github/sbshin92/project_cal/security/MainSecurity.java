@@ -6,17 +6,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.CustomUserDetailsService;
-import com.github.sbshin92.project_cal.service.TokenService;
+import com.github.sbshin92.project_cal.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -24,54 +23,69 @@ public class MainSecurity {
 
     private final CustomUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
+    private final UserService userService;
+//    private final TokenService tokenService;
 
-    public MainSecurity(CustomUserDetailsService userDetailsService, PasswordEncoder passwordEncoder, TokenService tokenService) {
+    public MainSecurity(CustomUserDetailsService userDetailsService, PasswordEncoder passwordEncoder,UserService userService) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
-        this.tokenService = tokenService;
+        this.userService = userService;
+//        this.tokenService = tokenService;
     }
     
     
     @Bean
-    public AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return (request, response, authentication) -> {
             String email = authentication.getName();
             System.out.println("Authenticated user: " + email); // 로그 추가
-            tokenService.sendTokenToEmail(email);
-            response.sendRedirect("/login/verify-token");
+            UserVO userVO = userService.getUserByEmail(email);
+            if(userVO != null) {
+//            tokenService.sendTokenToEmail(email);
+            request.getSession().setAttribute("userRole", "authUser");
+            System.out.println("Session attribute 'userRole' set to 'authUser'");
+            response.sendRedirect("/project_cal/calendar");
+            } else {
+            	response.sendRedirect("/login?error=true");
+            }
         };
     }
 
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,
-                                           ClientRegistrationRepository clientRegistrationRepository,
-                                           OAuth2AuthorizedClientRepository authorizedClientRepository) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                                         /*  ClientRegistrationRepository clientRegistrationRepository,
+                                           OAuth2AuthorizedClientRepository authorizedClientRepository) throws Exception { */
         http
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/css/**", "/js/**", "/join/**", "/login/**", "/oauth2/**", "/**").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/user/**").hasRole("admin")
+                .requestMatchers("/**").hasRole("authUser")
+                .requestMatchers("/calendar/**").hasRole("authUser")
+                .anyRequest().authenticated() 
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
-                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/")
                 .usernameParameter("email")
                 .defaultSuccessUrl("/calendar", true)
                 .failureUrl("/login?error=true")
+                .successHandler(customAuthenticationSuccessHandler())
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/")
-                .permitAll()
-            )
+                    .logoutSuccessUrl("/")
+                    .permitAll()		
+           
+                    /* )
             .oauth2Login(oauth2Login -> oauth2Login
                 .loginPage("/login")
                 .defaultSuccessUrl("/verify-token", true)
                 .failureUrl("/login?error=true")
                 .userInfoEndpoint(userInfo -> userInfo
                     .oidcUserService(new OidcUserService())
-                )
-                .successHandler(oAuth2AuthenticationSuccessHandler())
+                ) 
+                .successHandler(customAuthenticationSuccessHandler())  */
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
@@ -81,11 +95,14 @@ public class MainSecurity {
         return http.build();
     }
 
+   
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
         return new InMemoryClientRegistrationRepository(this.naverClientRegistration());
     }
 
+   
+    // 네이버 클라이언트 등록
     private ClientRegistration naverClientRegistration() {
         return ClientRegistration.withRegistrationId("naver")
             .clientId("fCbESEtEsGr2Lcs5w2Lp3")
@@ -99,5 +116,5 @@ public class MainSecurity {
             .userNameAttributeName("response.email")
             .clientName("Naver")
             .build();
-    }
+    }  
 }
