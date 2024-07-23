@@ -22,8 +22,8 @@ public interface TasksDAO {
 	//테스크 생성
 	//TaskVO 객체를 매개변수로 사용하며, 
 	//이 객체에는 userId, projectId, taskTitle, taskDescription 등의 세부 정보가 포함
-	@Insert("INSERT INTO tasks (user_id, project_id, task_title, task_description, task_status, task_priority, start_date, end_date) " 
-	        + "VALUES (#{userId}, #{projectId}, #{taskTitle}, #{taskDescription}, #{taskStatus}, #{taskPriority}, #{startDate}, #{endDate})")
+	@Insert("INSERT INTO tasks (user_id, project_id, task_title, task_description, task_status) " 
+	        + "VALUES (#{userId}, #{projectId}, #{taskTitle}, #{taskDescription}, #{taskStatus})")
 	public Integer insert(TaskVO taskVO);
 	// => 서비스들려서 컨트롤러의 insert메서드로 가기
 
@@ -35,10 +35,7 @@ public interface TasksDAO {
 			+ "task_description as taskDescription, "
 			+ "created_at as createdAt, "
 			+ "updated_at as updatedAt, "
-			+ "task_status as taskStatus, "
-			+ "task_priority as taskPriority, "
-			+ "start_date as startDate, "
-			+ "end_date as endDate "
+			+ "task_status as taskStatus "
 			+ "FROM tasks")
 	public List<TaskVO> findAll();
 
@@ -52,8 +49,7 @@ public interface TasksDAO {
 	//tasks 테이블에서 해당 레코드를 수정
 	 @Update("UPDATE tasks SET user_id = #{userId}, project_id = #{projectId}, " +
 		        "task_title = #{taskTitle}, task_description = #{taskDescription}, " +
-		        "task_status = #{taskStatus}, task_priority = #{taskPriority}, " +
-		        "start_date = #{startDate}, end_date = #{endDate} " +
+		        "task_status = #{taskStatus} " +
 		        "WHERE task_id = #{taskId}")
 		public int updateTask(TaskVO taskVo);
 
@@ -65,9 +61,6 @@ public interface TasksDAO {
 			+ "task_title as taskTitle, "
 			+ "task_description as taskDescription, "
 			+ "task_status as taskStatus, "
-			+ "task_priority as taskPriority, "
-			+ "start_date as startDate, "
-			+ "end_date as endDate, "
 			+ "created_at as createdAt, "
 			+ "updated_at as updatedAt "
 			+ "FROM tasks "
@@ -109,10 +102,7 @@ public interface TasksDAO {
 	            "task_description as taskDescription, " +
 	            "created_at as createdAt, " +
 	            "updated_at as updatedAt, " +
-	            "task_status as taskStatus, " +
-	            "task_priority as taskPriority, " +
-	            "start_date as startDate, " + 
-	            "end_date as endDate " +
+	            "task_status as taskStatus " +
 	            "FROM tasks " +
 	            "WHERE project_id = #{projectId}")
     public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
@@ -127,10 +117,7 @@ public interface TasksDAO {
 	            "task_description as taskDescription, " +
 	            "created_at as createdAt, " +
 	            "updated_at as updatedAt, " +
-	            "task_status as taskStatus, " +
-	            "task_priority as taskPriority, " +
-	            "start_date as startDate, " + 
-	            "end_date as endDate " +
+	            "task_status as taskStatus " +
 	            "FROM tasks " +
     			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")
     // taskTitle로 조회해서 리스트 불러오는 SearcByTitle()
@@ -143,6 +130,7 @@ public interface TasksDAO {
     //
     
     //삭제금지 0723
+    //taskTitle로 테스크 조회
     @Select("SELECT count(1)" + 
             "FROM tasks " +
 			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")

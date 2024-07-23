@@ -23,21 +23,30 @@ public class ProjectServiceImpl implements ProjectService {
 	private ProjectsDAO projectsDAO;
 
 	/**
-	 * 새 프로젝트를 조회 및 생성합니다.
+	 * 새 프로젝트를 생성합니다.
 	 * 
 	 * @param project 생성할 프로젝트 정보
 	 * @throws IOException 파일 업로드 중 오류 발생 시
 	 */
-
 	@Override
-	public List<ProjectVO> getAllProjects() {
-		return projectsDAO.findAll();
+	@Transactional // 트랜잭션 처리를 위한 어노테이션
+	public boolean createProject(ProjectVO project) throws IOException {
+		return 1 == projectsDAO.insert(project);
 	}
 
+	/**
+	 * 프로젝트 ID로 프로젝트를 조회합니다.
+	 * 
+	 * @param projectId 조회할 프로젝트 ID
+	 * @return 조회된 프로젝트 정보
+	 */
 	@Override
-	public List<ProjectVO> getProjectsWithPage(int page, int size) {
-		int offset = (page - 1) * size;
-		return projectsDAO.findAllWithRowBounds(new RowBounds(offset, size));
+	public ProjectVO getProjectById(int projectId) {
+
+		ProjectVO project = projectsDAO.findById(projectId);
+		if (project == null) {
+		}
+		return project;
 	}
 
 	@Override
@@ -45,23 +54,45 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectsDAO.getTotalProjectCount();
 	}
 
+	/**
+	 * 모든 프로젝트를 조회합니다.
+	 * 
+	 * @return 모든 프로젝트 목록
+	 */
 	@Override
-	public ProjectVO getProjectById(int projectId) {
-		return projectsDAO.findById(projectId);
+	public List<ProjectVO> getAllProjects() {
+		return projectsDAO.findAll();
 	}
+	
+	
 
 	@Override
-	@Transactional // 트랜잭션 처리를 위한 어노테이션
-	public boolean createProject(ProjectVO project) throws IOException {
-		return 1 == projectsDAO.insert(project);
+	public List<ProjectVO> getProjectsWithPage(int page, int size) {
+		int offset = (page - 1) * size;
+		return projectsDAO.findAllWithRowBounds(new RowBounds(offset, size));
 	}
 
+	/**
+	 * 프로젝트 정보를 업데이트합니다.
+	 * 
+	 * @param project 업데이트할 프로젝트 정보
+	 * @return 업데이트 성공 여부
+	 */
 	@Override
 	@Transactional
 	public boolean updateProject(ProjectVO project) {
-		return projectsDAO.update(project) > 0;
+//        validateProject(project);
+
+		boolean updated = projectsDAO.update(project) > 0;
+		return updated;
 	}
 
+	/**
+	 * 프로젝트를 삭제합니다.
+	 * 
+	 * @param projectId 삭제할 프로젝트 ID
+	 * @return 삭제 성공 여부
+	 */
 	@Override
 	@Transactional
 	public boolean deleteProject(int projectId) {
@@ -82,12 +113,11 @@ public class ProjectServiceImpl implements ProjectService {
 		
 //-------------------------------------------------------------------------------------	
 	/**
-	 * 프로젝트의 멤버 목록을 조회합니다.멤버조회 추가 삭제 
+	 * 프로젝트의 멤버 목록을 조회합니다.
 	 * 
 	 * @param projectId 조회할 프로젝트 ID
 	 * @return 프로젝트 멤버 목록
 	 */
-	//데이터베이스에 들어있는 모든 사원조회
 	@Override
     public List<UserVO> getAllUsers() {
         return projectsDAO.getAllUsers();
@@ -116,6 +146,5 @@ public class ProjectServiceImpl implements ProjectService {
 	public boolean deleteProjectUser(Integer userId, int projectId) {
 		return projectsDAO.deleteProjectUser(userId, projectId) > 0;
 	}
-
 
 }

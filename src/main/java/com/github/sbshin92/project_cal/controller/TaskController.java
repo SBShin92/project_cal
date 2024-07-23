@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,8 +45,6 @@ public class TaskController {
 								@RequestParam(required = false) Timestamp createdAt,
 								@RequestParam(required = false) Timestamp updatedAt,
 								@RequestParam(required = false) String taskStatus,
-								@RequestParam(defaultValue = "0") int taskPriority,
-								
 								HttpSession session, Model model) {
 
 		// 추가 0716 //사용자 아이디를 가져오는 메서드 필요
@@ -93,7 +90,8 @@ public class TaskController {
 
 	// 테스크 생성
 	@PostMapping("/createTask")
-	public String createTask(@ModelAttribute TaskVO taskVo, HttpSession session) {
+	public String createTask(@ModelAttribute TaskVO taskVo,
+							HttpSession session) {
 		// 추가 0716 //사용자 아이디를 가져오는 메서드 필요
 		UserVO userVO = (UserVO) session.getAttribute("authUser");
 		taskVo.setUserId(userVO.getUserId());
@@ -112,8 +110,10 @@ public class TaskController {
 
 	// 테스크 삭제
 	@PostMapping("/deleteTask/{taskId}")
-	public String deleteTask(@PathVariable int taskId, @RequestParam int projectId, @RequestParam int userId,
-			HttpSession httpsession) {
+	public String deleteTask(@PathVariable int taskId, 
+							@RequestParam int projectId, 
+							@RequestParam int userId,
+							HttpSession httpsession) {
 
 		// 로그인한 사용자가 이 task를 만든 사용자인지 체크 위함
 		// 1) 테스크를 생성한 사용자의 아이디 필요
@@ -133,7 +133,9 @@ public class TaskController {
 
 	// 테스크 수정
 	@PostMapping("/updateTask/{taskId}")
-	public String updateTask(@PathVariable int taskId, @ModelAttribute TaskVO taskVO, HttpSession session) {
+	public String updateTask(@PathVariable int taskId, 
+							@ModelAttribute TaskVO taskVO, 
+							HttpSession session) {
 
 		// 로그인한 사용자가 이 task를 만든 사용자인지 체크 후 수정
 		UserVO userVO = (UserVO) session.getAttribute("authUser");
@@ -151,7 +153,8 @@ public class TaskController {
 	// 해당 테스크 상세 페이지 조회 안에
 	// UsersTasks에 있는 멤버 조회
 	@GetMapping("/viewTask/{taskId}")
-	public String viewTask(@PathVariable int taskId, Model model) {
+	public String viewTask(@PathVariable int taskId, 
+							Model model) {
 		TaskVO task = taskService.findById(taskId);
 
 		// UserTasks에 있는 멤버 조회
@@ -164,9 +167,11 @@ public class TaskController {
 
 	// 해당 테스크에 멤버 추가
 	@PostMapping("/members/{taskId}")
-	public String addMemberToTask(@PathVariable int taskId, @RequestParam int userId, // task 생성한 userId
-			@RequestParam int addUserId, // 추가하고싶은 userId
-			@RequestParam int projectId, HttpSession httpsession) {
+	public String addMemberToTask(@PathVariable int taskId, 
+									@RequestParam int userId, // task 생성한 userId
+									@RequestParam int addUserId, // 추가하고싶은 userId
+									@RequestParam int projectId, 
+									HttpSession httpsession) {
 		try {
 			// 로그인한 사용자가 이 task를 만든 사용자인지 체크 후 추가
 			UserVO userVO = (UserVO) httpsession.getAttribute("authUser");
@@ -188,7 +193,8 @@ public class TaskController {
 
 	// 해당 테스크 멤버 삭제
 	@PostMapping("/deleteUsersTask/{taskId}")
-	public String deleteUsersTasksMember(@PathVariable int taskId, @RequestParam int userId) {
+	public String deleteUsersTasksMember(@PathVariable int taskId, 
+										@RequestParam int userId) {
 		taskService.deleteUsersTasksMember(taskId, userId);
 		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	}
