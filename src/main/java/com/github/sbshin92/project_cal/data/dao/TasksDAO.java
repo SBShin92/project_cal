@@ -146,7 +146,7 @@ public interface TasksDAO {
     @Select("SELECT count(1)" + 
             "FROM tasks " +
 			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")
-	// taskTitle로 조회해서 리스트 불러오는 SearcByTitle()
 	public int getTotalTasksCount(@Param("taskVO") TaskVO taskVO);
-    
+    // taskTitle로 조회해서 리스트를 불러오는 메서드, 소문자변환하고 부분일치검색을 수행한다
+    // 검색된 결과의 총 개수를 반환하는 메서드
 }
