@@ -73,8 +73,12 @@ public class ProjectController {
     }
 
     @GetMapping("/create")
-    public String createProjectForm(Model model) {
-        List<UserVO> allUsers = userService.getAllUsers(); // 사용자 목록을 가져와서 뷰에 추가
+    public String createProjectForm(Model model, HttpSession session) {
+    	UserVO authUser = (UserVO) session.getAttribute("authUser");
+        List<UserVO> allUsers = userService.getAllUsers().stream()
+        						.filter(user -> user.getUserId() != authUser.getUserId())
+        						.collect(Collectors.toList()); // 사용자 목록을 가져와서 뷰에 추가 
+        
         model.addAttribute("allUsers", allUsers);
         model.addAttribute("projectVO", new ProjectVO()); // 빈 ProjectVO 객체 추가
         return "project/form";
@@ -88,21 +92,22 @@ public class ProjectController {
                                 RedirectAttributes redirectAttributes,
                                 HttpSession session) throws IOException {
         try {
-            // userId 처리
-            int userId = 0;
-            if (userIdStr != null && !userIdStr.trim().isEmpty()) {
-                userId = Integer.parseInt(userIdStr);
-            }
-            projectVO.setUserId(userId);
-
+        		UserVO authUser = (UserVO) session.getAttribute("authUser");
+        		int userId = authUser.getUserId();
+        		projectVO.setUserId(userId);
+            
             // 프로젝트 생성
             projectService.createProject(projectVO);
             int projectId = projectVO.getProjectId(); // 생성된 프로젝트 ID 가져오기
+            
+            projectService.addMemberProject(userId, projectId);
 
             // 멤버 추가
             for (Integer memberId : members) {
+            	if(memberId != userId) {
                 projectService.addMemberProject(memberId, projectId);
             }
+         }
 
             // 파일 업로드
             fileService.saveFilesInProject(files, projectId);
