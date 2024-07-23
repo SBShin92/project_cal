@@ -22,6 +22,12 @@ public class CalendarServiceImpl implements CalendarService {
 		LocalDate intToLocalDate = LocalDate.of(year, month, date);
 		return calendarDAO.getListByDate(intToLocalDate);
 	}
+	
+	@Override
+	public List<ProjectVO> getProjectListByDateWithUserId(int year, int month, int date, int userId) {
+		LocalDate intToLocalDate = LocalDate.of(year, month, date);
+		return calendarDAO.getListByDateWithUserId(intToLocalDate, userId);
+	}
 
 	@Override
 	public List<ProjectVO> getProjectListByMonth(int year, int month) {
@@ -32,4 +38,14 @@ public class CalendarServiceImpl implements CalendarService {
 		
 		return calendarDAO.getListByMonth(startOfMonth, endOfMonth);
 	}
+
+	@Override
+	public List<ProjectVO> getProjectListByMonthWithUserId(int year, int month, int userId) {
+		YearMonth yearMonth = YearMonth.of(year, month);
+		LocalDate startOfMonth = yearMonth.atDay(1);
+		LocalDate endOfMonth = yearMonth.atEndOfMonth();
+		
+		return calendarDAO.getListByMonthWithUserId(startOfMonth, endOfMonth, userId);
+	}
+	
 }

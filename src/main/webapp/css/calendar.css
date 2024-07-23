@@ -117,6 +117,7 @@ main {
 
 .right-panel {
 	width: 20vw;
+	height: 84vh;
 	background-color: #ffffff;
 	padding: 1rem;
 	border-radius: 10px;
@@ -124,7 +125,8 @@ main {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .create-project {

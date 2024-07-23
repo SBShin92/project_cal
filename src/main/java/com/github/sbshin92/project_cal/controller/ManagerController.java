@@ -18,7 +18,6 @@ import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.ProjectService;
-import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @RequestMapping("/manager")
@@ -30,8 +29,6 @@ public class ManagerController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private RoleService roleService;
 
 	@GetMapping({ "", "/", "/project" })
 	public String managerProjectsPage(Model model, @RequestParam(defaultValue = "1") int page) {
@@ -43,9 +40,14 @@ public class ManagerController {
 	}
 	
 	@PostMapping("/project/delete/{projectId}")
-	public String managerProjectDeleteAction(@PathVariable("projectId") Integer projectId) {
+	public String managerProjectDeleteAction(@PathVariable("projectId") Integer projectId, 
+						@RequestParam(value = "page", required = false) Integer page,
+						Model model) {
 		projectService.deleteProject(projectId);
-		return "redirect:/manager/project";
+		if (page != null)
+			return "redirect:/manager/project?page=" + page;
+		else
+			return "redirect:/manager/project";
 	}
 	
 
