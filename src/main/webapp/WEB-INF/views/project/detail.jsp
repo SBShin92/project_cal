@@ -156,6 +156,17 @@
 						</tbody>
 					</table>
 				</div>
+        
+                 <nav>
+                  <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="?page=${param.page == 1 || param.page == null ? 1 : param.page - 1}&taskTitle=${taskTitle}">Previous</a></li>
+              
+                    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
+                      <li class="page-item"><a class="page-link" href="?page=${num.index}&taskTitle=${taskTitle}">${num.index}</a></li>
+                    </c:forEach>
+                    <li class="page-item"><a class="page-link" href="?page=${ totalPages != 10 ? (param.page == null ? 1 : param.page) : (param.page == null ? 1 : param.page) + 1}&taskTitle=${taskTitle}">Next</a></li>
+                  </ul>
+                </nav>
 			</section>
 
 			<!-- 프로젝트 멤버 목록 -->
