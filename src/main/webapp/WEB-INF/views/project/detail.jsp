@@ -124,19 +124,6 @@
 											<input type="hidden" name="taskId" value="${pt.taskId}" />
 											<!-- pk -->
 
-											<input type="hidden" name="userId" value="${pt.userId}" /> <input
-												type="hidden" name="projectId" value="${pt.projectId}" /> <input
-												type="hidden" name="taskTitle" value="${pt.taskTitle}" /> <input
-												type="hidden" name="taskDescription"
-												value="${pt.taskDescription}" /> <input type="hidden"
-												name="taskPriority" value="${pt.taskPriority}" /> <input
-												type="hidden" name="startDate" value="${pt.startDate}" /> <input
-												type="hidden" name="endDate" value="${pt.endDate}" />
-
-											<button type="submit"
-												onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
-												Edit</button>
-
 											<input type="hidden" name="userId" value="${pt.userId}" /> 
                                             <input type="hidden" name="projectId" value="${pt.projectId}" /> 
                                             <input type="hidden" name="taskTitle" value="${pt.taskTitle}" /> 

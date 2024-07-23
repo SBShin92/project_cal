@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>    
 <!DOCTYPE html>
 
 <!--  테스크 상세보기 페이지 -->
@@ -9,15 +10,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Task 상세뷰 페이지</title>
-
-<link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
-  type="text/css">
-
+<link type="text/css" rel="stylesheet" href='<c:url value="/css/calendar.css" />' />
+<link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
+<link type="text/css" rel="stylesheet"
+	href='<c:url value="/css/manager.css" />' />
 </head>
 <body>
   <div id="container">
 
-    <c:import url="/WEB-INF/includes/header.jsp" />
+  <jsp:include page="/WEB-INF/includes/header.jsp" />
+  <jsp:include page="/WEB-INF/includes/nav.jsp" />
 
     <section class="project-content">
       <h1>Task Details</h1>
@@ -82,8 +85,9 @@
       <input type="number" name="addUserId" value="">
       <button type="submit">멤버 추가</button>
     </form>
-    
+    </section>
    
+   <section class="project-content">
     <!-- Task Members List -->
     <h2>Task Members</h2>
     <table border="1">
@@ -117,10 +121,9 @@
 
   </div>
 
-  <script type="application/javascript"></script>
-
-
-
+  <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
+  <script src="<c:url value='/javascript/main.js' />"></script>
+  <script src="<c:url value='/javascript/calendar.js' />"></script>
 
 </body>
 </html>
