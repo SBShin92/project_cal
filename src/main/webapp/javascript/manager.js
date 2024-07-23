@@ -1,75 +1,75 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
-	toggleSidebar();
-	addDeleteFormListener();
-	searchUser();
-	updateUser();
+   toggleSidebar();
+   addDeleteFormListener();
+   searchUser();
+   updateUser();
 });
 
 function toggleSidebar() {
-	const menuToggle = document.querySelector('.menu-toggle');
-	const sidebar = document.getElementById('sidebar');
+   const menuToggle = document.querySelector('.menu-toggle');
+   const sidebar = document.getElementById('sidebar');
 
-	if (menuToggle && sidebar) {
-		menuToggle.addEventListener('click', function() {
-			sidebar.classList.toggle('active');
-		});
-	}
+   if (menuToggle && sidebar) {
+      menuToggle.addEventListener('click', function() {
+         sidebar.classList.toggle('active');
+      });
+   }
 }
 
 function addDeleteFormListener() {
-	document.querySelectorAll('.deleteForm').forEach(form => {
-		form.addEventListener('submit', function(e) {
-			e.preventDefault();
-			if (confirm('정말로 삭제하시겠습니까?')) {
-				this.submit();
-			}
-		});
-	});
+   document.querySelectorAll('.deleteForm').forEach(form => {
+      form.addEventListener('submit', function(e) {
+         e.preventDefault();
+         if (confirm('정말로 삭제하시겠습니까?')) {
+            this.submit();
+         }
+      });
+   });
 }
 
 function searchUser() {
-	const searchBar = document.querySelector('.search-bar');
-	if (searchBar) {
-		searchBar.addEventListener('input', function() {
-			const searchTerm = this.value.toLowerCase();
-			const rows = document.querySelectorAll('tbody tr');
+   const searchBar = document.querySelector('.search-bar');
+   if (searchBar) {
+      searchBar.addEventListener('input', function() {
+         const searchTerm = this.value.toLowerCase();
+         const rows = document.querySelectorAll('tbody tr');
 
-			rows.forEach(row => {
-				const text = row.textContent.toLowerCase();
-				row.style.display = text.includes(searchTerm) ? '' : 'none';
-			});
-		});
-	}
+         rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+         });
+      });
+   }
 }
 
 function updateUser() {
-	document.querySelectorAll('.btn-edit').forEach(button => {
-		button.addEventListener('click', function(e) {
-			const userId = this.dataset.userId;
-			const row = this.closest('tr');
-			const editableCells = row.querySelectorAll('.editable');
-			const permissionCheckboxes = row.querySelectorAll('.permissions input[type="checkbox"]');
+   document.querySelectorAll('.btn-edit').forEach(button => {
+      button.addEventListener('click', function(e) {
+         const userId = this.dataset.userId;
+         const row = this.closest('tr');
+         const editableCells = row.querySelectorAll('.editable');
+         const permissionCheckboxes = row.querySelectorAll('.permissions input[type="checkbox"]');
 
-			if (this.textContent === '수정') {
-				enterEditMode(editableCells, permissionCheckboxes, this);
-			} else {
-				saveChanges(userId, editableCells, permissionCheckboxes, this);
-			}
-		});
-	});
+         if (this.textContent === '수정') {
+            enterEditMode(editableCells, permissionCheckboxes, this);
+         } else {
+            saveChanges(userId, editableCells, permissionCheckboxes, this);
+         }
+      });
+   });
 }
 
 function enterEditMode(editableCells, permissionCheckboxes, button) {
-	editableCells.forEach(cell => {
-		const currentValue = cell.textContent;
-		cell.innerHTML = `<input type="text" value="${currentValue}">`;
-	});
-	permissionCheckboxes.forEach(checkbox => {
-		checkbox.disabled = false;
-	});
-	button.textContent = '저장';
+   editableCells.forEach(cell => {
+      const currentValue = cell.textContent;
+      cell.innerHTML = `<input type="text" value="${currentValue}">`;
+   });
+   permissionCheckboxes.forEach(checkbox => {
+      checkbox.disabled = false;
+   });
+   button.textContent = '저장';
 }
 
 
