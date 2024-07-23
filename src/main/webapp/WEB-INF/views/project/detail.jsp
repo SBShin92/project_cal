@@ -8,10 +8,13 @@
 <head>
 <meta charset="UTF-8">
 <title>${projectVO.projectTitle}</title>
-<link rel="stylesheet" href="<c:url value='/css/calendar.css'/>"
-	type="text/css">
-<link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
-	type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/calendar.css'/>" type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
+
+<!-- 이부분만 지원추가 0723 -->
+<link type="text/css" rel="stylesheet" href='<c:url value="/css/manager.css" />' />
+
+</head>
 </head>
 <body>
 	 <jsp:include page="/WEB-INF/includes/header.jsp" />
