@@ -1,11 +1,10 @@
 package com.github.sbshin92.project_cal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,8 +20,8 @@ public class UserController {
     private UserService userService;
     
     
-    @Autowired
-//    private BCryptPasswordEncoder passwordEncoder;
+    
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping
     public String join() {
@@ -58,11 +57,12 @@ public class UserController {
         user.setUserName(username);
         user.setUserEmail(email);
         user.setUserPassword(password);
-        user.setUserAuthority("ROLE_USER"); // 기본 권한 설정
+        user.setUserAuthority("AuthUser"); // 기본 권한 설정
+        user.setUserPosition("user");
 
         // 비밀번호를 암호화하여 설정
-//        String encodedPassword = passwordEncoder.encode(password);
-//        user.setUserPassword(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(password);
+        user.setUserPassword(encodedPassword);
 
         try {
             // 사용자 정보를 데이터베이스에 저장

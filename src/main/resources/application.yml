@@ -16,22 +16,55 @@ spring:
         max-file-size: 10MB
         max-request-size: 50MB
         location: c:\\uploads
-
   #스프링 시큐리티 설정
   security:
-     user:
-       name: user
-       password: 1234
+    user:
+      name: user
+      password: 1234
   web:
     resources:
       static-locations: classpath:/static/, classpath:/public/, classpath:/, classpath:/resources/, classpath:/META-INF/resources/, file:src/main/webapp/
+#이메일 토큰
+  oauth2:
+    client:
+      registration:
+        naver:
+          client-id: fCbESEtEsGr2Lcs5w2Lp3
+          client-secret: vS1egkAK42
+          redirect-uri: "http://localhost:8080/project_cal/login/oauth2/code/naver"
+          authorization-grant-type: authorization_code
+          scope: profile,email
+          client-name: Naver
+  provider:
+    naver:
+    authorization-uri: https://nid.naver.com/oauth2.0/authorize
+    token-uri: https://nid.naver.com/oauth2.0/token
+    user-info-uri: https://openapi.naver.com/v1/nid/me
+    user-name-attribute: response.email
+mail:
+  host: smtp.naver.com
+  port: 587
+  username: ${USER_EMAIL}
+  userpassword: ${USER_PASSWORD}
+  properties:
+    mail:
+     smtp:
+      auth: true
+      starttls:
+       enable: true
 server:
   servlet:
     session:
       cookie:
         name: PROJECTCAL_SESSIONID
       timeout: 20m # 세션 유효 시간 설정
-
 # 파일 경로 바꾸려면 util 클래스의 FilesUtility에서 확인
 file:
   upload-dir: /uploads
+#디버
+  logging:
+    level:
+    root: DEBUG
+
+upload-dir: /uploads
+

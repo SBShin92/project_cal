@@ -1,14 +1,14 @@
 const projectColors = [
-    "#A8E6CF", // 연한 민트
-    "#FFDFD3", // 연한 살구색
-    "#B8D8F5", // 연한 하늘색
-    "#FFD9DA", // 연한 분홍
-    "#E0BBE4", // 연한 라벤더
-    "#FFF5BA", // 연한 레몬
-    "#DCEDC1", // 연한 라임
-    "#C4E0F9", // 연한 파랑
-    "#FFCAAF", // 연한 복숭아
-    "#D5AAFF"  // 연한 보라
+	"#A8E6CF", // 연한 민트
+	"#FFDFD3", // 연한 살구색
+	"#B8D8F5", // 연한 하늘색
+	"#FFD9DA", // 연한 분홍
+	"#E0BBE4", // 연한 라벤더
+	"#FFF5BA", // 연한 레몬
+	"#DCEDC1", // 연한 라임
+	"#C4E0F9", // 연한 파랑
+	"#FFCAAF", // 연한 복숭아
+	"#D5AAFF"  // 연한 보라
 ];
 
 const today = new Date();
@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function getProjectColor(projectId) {
-    return projectColors[projectId % projectColors.length];
+
+	return projectColors[projectId % projectColors.length];
+
 };
 
 const createCalendar = async (year, month) => {
@@ -65,7 +67,7 @@ const createCalendar = async (year, month) => {
 			} else {
 				// 날짜를 문자열로 변환
 				let dateString = formatDate(new Date(year, month - 1, date));
-				
+
 				// td에 yyyyMMdd 속성 추가
 				td.setAttribute("data-date-str", dateString);
 
@@ -74,7 +76,7 @@ const createCalendar = async (year, month) => {
 					td.classList.add("sunday");
 				else if (j === 6)
 					td.classList.add("saturday");
-				
+
 				// 날짜 숫자 표시 태그
 				const divDate = document.createElement("div");
 				divDate.textContent = date;
@@ -88,13 +90,13 @@ const createCalendar = async (year, month) => {
 					const holidayName = holiday.find(h => h.locdate === dateString).dateName;
 					divDate.textContent += ` ${holidayName}`;
 				}
-				
+
 				// 날짜에 클릭 이벤트 추가(프로젝트 리스트 출력)
 				(function(date) {
 					td.addEventListener("click", () => {
 						const urlYearMonth = String(year) + String(month < 10 ? "0" + month : month);
 						const urlDate = String(date);
-						window.location.href = "calendar/" + urlYearMonth + "/" + urlDate;
+						window.location.href = "calendar/date/" + urlYearMonth + "/" + urlDate;
 					});
 				})(date);
 				td.appendChild(divDate);
@@ -137,92 +139,92 @@ const formatDate = (date) => {
 
 // 프로젝트 기간 바 생성
 /*const createProjectBars = (date) => {
-	const projectBarsContainer = document.createElement("div");
-	projectBarsContainer.className = "project-bars";
-	const formattedDate = formatDate(date);
-	projectList.forEach(project => {
-		if (formattedDate >= project.startDate && formattedDate <= project.endDate) {
-			const projectBar = document.createElement("div");
-			projectBar.className = "project-bar";
-			
-			if (formattedDate == project.startDate)
-				projectBar.classList.add("start-bar");
-			if (formattedDate == project.endDate)
-				projectBar.classList.add("end-bar");
-				
-			projectBar.style.backgroundColor = projectStatusToColor(project.projectStatus);
-			projectBar.title = project.title;
-			projectBarsContainer.appendChild(projectBar);
-		}
-	});
+   const projectBarsContainer = document.createElement("div");
+   projectBarsContainer.className = "project-bars";
+   const formattedDate = formatDate(date);
+   projectList.forEach(project => {
+	  if (formattedDate >= project.startDate && formattedDate <= project.endDate) {
+		 const projectBar = document.createElement("div");
+		 projectBar.className = "project-bar";
+		 
+		 if (formattedDate == project.startDate)
+			projectBar.classList.add("start-bar");
+		 if (formattedDate == project.endDate)
+			projectBar.classList.add("end-bar");
+		    
+		 projectBar.style.backgroundColor = projectStatusToColor(project.projectStatus);
+		 projectBar.title = project.title;
+		 projectBarsContainer.appendChild(projectBar);
+	  }
+   });
 
-	return projectBarsContainer;
+   return projectBarsContainer;
 };
 */
 // 예은 추가
 const createProjectBars = (date) => {
-    // 프로젝트 바를 담을 컨테이너 생성
-    const projectBarsContainer = document.createElement("div");
-    projectBarsContainer.className = "project-bars";
-    
-    // 주어진 날짜를 형식화 (예: "20240715" 형태로 변환)
-    const formattedDate = formatDate(date);
+	// 프로젝트 바를 담을 컨테이너 생성
+	const projectBarsContainer = document.createElement("div");
+	projectBarsContainer.className = "project-bars";
 
-    // 현재 날짜에 해당하는 프로젝트만 필터링
-    const dateProjects = projectList.filter(project =>
-        formattedDate >= project.startDate && formattedDate <= project.endDate
-    );
+	// 주어진 날짜를 형식화 (예: "20240715" 형태로 변환)
+	const formattedDate = formatDate(date);
 
-    // 한 번에 표시할 최대 프로젝트 수 설정
-    const maxVisibleProjects = 3;
-    
-    // 최대 표시 가능한 프로젝트 수만큼만 처리
-    dateProjects.slice(0, maxVisibleProjects).forEach((project) => {
-        // 각 프로젝트에 대한 바 요소 생성
-        const projectBar = document.createElement("div");
-        projectBar.className = "project-bar";
-        
-        // 프로젝트 ID를 기반으로 고유한 색상 지정
-        projectBar.style.backgroundColor = getProjectColor(project.id);
-        
-        // 프로젝트 제목을 바 내부에 표시
-        projectBar.textContent = project.title;
-        
-        // 마우스 오버 시 전체 제목을 툴팁으로 표시
-        projectBar.title = project.title;
-        
-        // 생성한 프로젝트 바를 컨테이너에 추가
-        projectBarsContainer.appendChild(projectBar);
-    });
+	// 현재 날짜에 해당하는 프로젝트만 필터링
+	const dateProjects = projectList.filter(project =>
+		formattedDate >= project.startDate && formattedDate <= project.endDate
+	);
 
-    // 표시할 수 있는 최대 수를 초과하는 프로젝트가 있다면
-    if (dateProjects.length > maxVisibleProjects) {
-        // '더 보기' 요소 생성
-        const moreProjectsDiv = document.createElement("div");
-        moreProjectsDiv.className = "more-projects";
-        // 초과된 프로젝트 수를 표시
-        moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects} more`;
-        // '더 보기' 요소를 컨테이너에 추가
-        projectBarsContainer.appendChild(moreProjectsDiv);
-    }
+	// 한 번에 표시할 최대 프로젝트 수 설정
+	const maxVisibleProjects = 3;
 
-    // 완성된 프로젝트 바 컨테이너 반환
-    return projectBarsContainer;
+	// 최대 표시 가능한 프로젝트 수만큼만 처리
+	dateProjects.slice(0, maxVisibleProjects).forEach((project) => {
+		// 각 프로젝트에 대한 바 요소 생성
+		const projectBar = document.createElement("div");
+		projectBar.className = "project-bar";
+
+		// 프로젝트 ID를 기반으로 고유한 색상 지정
+		projectBar.style.backgroundColor = getProjectColor(project.id);
+
+		// 프로젝트 제목을 바 내부에 표시
+		projectBar.textContent = project.title;
+
+		// 마우스 오버 시 전체 제목을 툴팁으로 표시
+		projectBar.title = project.title;
+
+		// 생성한 프로젝트 바를 컨테이너에 추가
+		projectBarsContainer.appendChild(projectBar);
+	});
+
+	// 표시할 수 있는 최대 수를 초과하는 프로젝트가 있다면
+	if (dateProjects.length > maxVisibleProjects) {
+		// '더 보기' 요소 생성
+		const moreProjectsDiv = document.createElement("div");
+		moreProjectsDiv.className = "more-projects";
+		// 초과된 프로젝트 수를 표시
+		moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects} more`;
+		// '더 보기' 요소를 컨테이너에 추가
+		projectBarsContainer.appendChild(moreProjectsDiv);
+	}
+
+	// 완성된 프로젝트 바 컨테이너 반환
+	return projectBarsContainer;
 };
 
 // 랜덤 색상 생성 (프로젝트 바 구분을 위해)
 /*
 function projectStatusToColor(projectStatus) {
-	let hex = "";
-	if (projectStatus === "none")
-		hex = "808080";
-	else if (projectStatus === "진행중")
-		hex = "FF0000";
-	else if (projectStatus === "완료")
-		hex = "000000";
-	else if (projectStatus === "보류")
-		hex = "000000";
-	return '#' + hex;
+   let hex = "";
+   if (projectStatus === "none")
+	  hex = "808080";
+   else if (projectStatus === "진행중")
+	  hex = "FF0000";
+   else if (projectStatus === "완료")
+	  hex = "000000";
+   else if (projectStatus === "보류")
+	  hex = "000000";
+   return '#' + hex;
 }
 */
 

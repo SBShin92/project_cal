@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
 	type="text/css">
+<title>Invite Member</title>
 </head>
 <body>
 	<h2>Invite Member</h2>
@@ -27,7 +28,7 @@
 			<tr>
 				<th>User ID</th>
 				<th>User Name</th>
-				<th>USer Email</th>
+				<th>User Email</th>
 				<th>User Position</th>
 				<th>Actions</th>
 			</tr>
@@ -41,16 +42,40 @@
 					<td>${user.userPosition}</td>
 					<td>
 						<form action="${pageContext.request.contextPath}/inviteMember/add"
-							method="post">
+							method="post" style="display:inline;">
 							<input type="hidden" name="userId" value="${user.userId}" />
 							<input type="hidden" name="projectId" value="${projectId}" /> 								
 							<button type="submit">Add</button>
 						</form>
-						<form
-							action="${pageContext.request.contextPath}/inviteMember/remove"
-							method="post">
+					</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+
+	<h3>Project Members</h3>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>User ID</th>
+				<th>User Name</th>
+				<th>User Email</th>
+				<th>User Position</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="user" items="${projectMembers}">
+				<tr>
+					<td>${user.userId}</td>
+					<td>${user.userName}</td>
+					<td>${user.userEmail}</td>
+					<td>${user.userPosition}</td>
+					<td>
+						<form action="${pageContext.request.contextPath}/inviteMember/remove"
+							method="post" style="display:inline;">
 							<input type="hidden" name="userId" value="${user.userId}" />
-							<input 	type="hidden" name="projectId" value="${projectId}" />
+							<input type="hidden" name="projectId" value="${projectId}" />
 							<button type="submit">Remove</button>
 						</form>
 					</td>
@@ -59,6 +84,4 @@
 		</tbody>
 	</table>
 </body>
-
-
 </html>

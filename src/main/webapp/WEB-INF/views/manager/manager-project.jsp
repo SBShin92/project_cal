@@ -49,8 +49,9 @@
 								<td>${ projectVO.projectStatus }</td>
 								<td  class="status-column">
 									<form class="deleteForm" action="<c:url value='/manager/project/delete/${ projectVO.projectId }' />" method="POST">
+										<input type="hidden" name="page" value="${param.page == null ? 1 : param.page}" />
 										<a class="btn" href="<c:url value='/project/${projectVO.projectId}' />">상세</a>
-										<input type="submit" class="btn" value="삭제">
+										<input type="submit" class="btn" value="삭제" />
 									</form>
 								</td>
 							</tr>
