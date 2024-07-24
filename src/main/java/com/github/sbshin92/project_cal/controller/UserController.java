@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
+import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Controller
@@ -18,6 +20,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private RoleService roleService;
     
     
     
@@ -72,6 +77,15 @@ public class UserController {
                 model.addAttribute("error", "회원가입에 실패했습니다. 다시 시도해주세요.");
                 return "login/join";
             }
+            
+            RoleVO roleVO = new RoleVO();
+            roleVO.setUserId(user.getUserId());
+            roleVO.setProjectCreate(false);
+            roleVO.setProjectUpdate(false);
+            roleVO.setProjectRead(false);
+            roleVO.setProjectDelete(false);
+            roleService.createRole(roleVO);
+            
         } catch (Exception e) {
             model.addAttribute("error", "회원가입 도중 오류가 발생했습니다. 다시 시도해주세요.");
             return "login/join";

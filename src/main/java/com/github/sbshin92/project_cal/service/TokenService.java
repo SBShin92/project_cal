@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.sbshin92.project_cal.data.dao.UsersDAO;
+
 @Service
 public class TokenService {
 	
@@ -16,12 +18,15 @@ public class TokenService {
 
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private UsersDAO usersDAO;
 
     private Map<String, String> tokenStore = new HashMap<>();
 
     public String generateToken() {
         String token = UUID.randomUUID().toString();
-        System.out.println("Generated Token: " + token); // 로그 추가
+        logger.info("생성된토큰:" + token);
         return token;
     }
 
@@ -29,8 +34,8 @@ public class TokenService {
     	try {
             String token = generateToken();
             tokenStore.put(email, token);
-            logger.info("Token generated for email: {}", email);
-            emailService.sendEmail(email, "Your Login Token", "Your login token is: " + token);
+            usersDAO.updateToken(email, token);
+            emailService.sendEmail(email, "토큰이 도착했습니다", "당신의 토큰은: " + token);
             logger.info("Email sent to: {}", email);
         } catch (Exception e) {
             logger.error("Error occurred while sending token to email: {}", email, e);
@@ -48,5 +53,13 @@ public class TokenService {
             }
         }
         return null;
+    }
+    
+    public void invalidateToken(String token) {
+    	String email = getEmailByToken(token);
+    	if(email != null) {
+    		tokenStore.remove(email);
+    		usersDAO.updateToken(email, token); // DB에서 토큰 무효화
+    	}
     }
 }

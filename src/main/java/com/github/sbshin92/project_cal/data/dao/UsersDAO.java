@@ -92,4 +92,8 @@ public interface UsersDAO {
             + "updated_at = CURRENT_TIMESTAMP "
             + "WHERE user_id = #{userId}")
     void update(UserVO user);
+    
+    // 로그인시 토큰을 위한 메서드
+    @Update("UPDATE users SET token = #{token} WHERE user_email = #{email}")
+    void updateToken(@Param("email")String email,@Param("token")String token);
 }

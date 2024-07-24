@@ -24,7 +24,7 @@ public class UserVO {
     private String userPosition;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-
+    private String token;
     private RoleVO roleVO;  // RoleVO와의 관계를 나타내는 필드
     /**
      * 사용자가 프로젝트를 생성할 수 있는 권한이 있는지 확인합니다.
