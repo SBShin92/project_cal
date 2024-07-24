@@ -38,11 +38,12 @@
                             <td class="editable" data-field="email">${user.userEmail}</td>
                             <td class="editable" data-field="authority">${user.userAuthority}</td>
                             <td class="permissions">
-                                <label><input type="checkbox" name="projectCreate" ${user.role.projectCreate ? 'checked' : ''} disabled> 생성</label>
-                                <label><input type="checkbox" name="projectRead" ${user.role.projectRead ? 'checked' : ''} disabled> 읽기</label>
-                                <label><input type="checkbox" name="projectUpdate" ${user.role.projectUpdate ? 'checked' : ''} disabled> 수정</label>
-                                <label><input type="checkbox" name="projectDelete" ${user.role.projectDelete ? 'checked' : ''} disabled> 삭제</label>
-                            </td>
+							    <label><input type="checkbox" name="projectCreate" ${user.role.projectCreate ? 'checked' : ''} disabled> 생성</label>
+							    <label><input type="checkbox" name="projectRead" ${user.role.projectRead ? 'checked' : ''} disabled> 읽기</label>
+							    <label><input type="checkbox" name="projectUpdate" ${user.role.projectUpdate ? 'checked' : ''} disabled> 수정</label>
+							    <label><input type="checkbox" name="projectDelete" ${user.role.projectDelete ? 'checked' : ''} disabled> 삭제</label>
+							    <label><input type="checkbox" name="isAdmin" data-user-id="${user.userId}" ${user.userAuthority == 'admin' ? 'checked' : ''} disabled> 관리자</label>
+							</td>
                             <td>
                                 <button class="btn btn-edit" data-user-id="${user.userId}">수정</button>
                                 <form id="deleteForm_${user.userId}" class="deleteForm" action="<c:url value='/manager/user/delete/${user.userId}'/>" method="post" style="display: inline;">

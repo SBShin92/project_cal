@@ -88,6 +88,10 @@ function updateUserInfo(row, user, role) {
         } else {
             console.warn(`Checkbox not found: ${name}`);
         }
+        const isAdminCheckbox = row.querySelector('input[name="isAdmin"]');
+    if (isAdminCheckbox) {
+        isAdminCheckbox.checked = user.userAuthority === 'admin';
+    }
     };
 
     updateCheckbox('projectCreate', role.projectCreate);
@@ -136,7 +140,6 @@ function enterEditMode(editableCells, permissionCheckboxes, button) {
     button.textContent = '저장';
 }
 
-
 function saveChanges(userId, editableCells, permissionCheckboxes, button) {
     const formData = new FormData();
     formData.append('userId', userId);
@@ -144,16 +147,17 @@ function saveChanges(userId, editableCells, permissionCheckboxes, button) {
     editableCells.forEach(cell => {
         const field = cell.dataset.field;
         const input = cell.querySelector('input');
-        if (field === 'position') {
-            formData.append('authority', input.value);  // 'position'을 'authority'로 변경
-        } else {
-            formData.append(field, input.value);
-        }
+        formData.append(field, input.value);
     });
 
     permissionCheckboxes.forEach(checkbox => {
         formData.append(checkbox.name, checkbox.checked);
     });
+
+    const isAdminCheckbox = document.querySelector(`input[name="isAdmin"][data-user-id="${userId}"]`);
+    if (isAdminCheckbox) {
+        formData.append('isAdmin', isAdminCheckbox.checked);
+    }
 
     fetch(`/project_cal/manager/user/edit/${userId}`, {
         method: 'POST',
@@ -168,13 +172,14 @@ function saveChanges(userId, editableCells, permissionCheckboxes, button) {
     .then(data => {
         alert('사용자 정보가 성공적으로 업데이트되었습니다.');
         updateCellsAfterSave(editableCells, permissionCheckboxes, formData, button);
-        loadUserData(); // 저장 후 최신 데이터로 갱신
+        loadUserData();
     })
     .catch(error => {
         console.error('Error:', error);
         alert('오류 발생: ' + error.message);
     });
 }
+
 function updateCellsAfterSave(editableCells, permissionCheckboxes, formData, button) {
     editableCells.forEach(cell => {
         const field = cell.dataset.field;

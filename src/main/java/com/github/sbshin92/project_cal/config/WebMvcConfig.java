@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.github.sbshin92.project_cal.interceptor.AdminAuthInterceptor;
 import com.github.sbshin92.project_cal.interceptor.MessageInterceptor;
 import com.github.sbshin92.project_cal.service.MessageService;
 
@@ -29,8 +30,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			.excludePathPatterns("/join/**")
 			.excludePathPatterns("/css/**")
 			.excludePathPatterns("/js/**");
+		
+		//예은추가
+		registry.addInterceptor(new AdminAuthInterceptor())
+        .addPathPatterns("/manager/**");
 	}
-
+	
 
 
 }

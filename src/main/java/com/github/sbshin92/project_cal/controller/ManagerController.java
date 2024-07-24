@@ -106,45 +106,46 @@ public class ManagerController {
 	        }
 	    }
 
-	 @PostMapping("/user/edit/{userId}")
-	 public ResponseEntity<?> updateUser(
-	         @PathVariable int userId,
-	         @RequestParam String name,
-	         @RequestParam String email,
-	         @RequestParam String authority,
-	         @RequestParam(required = false) Boolean projectCreate,
-	         @RequestParam(required = false) Boolean projectRead,
-	         @RequestParam(required = false) Boolean projectUpdate,
-	         @RequestParam(required = false) Boolean projectDelete
-	 ) {
-	     try {
-	         UserVO user = userService.getUserById(userId);
-	         if (user == null) {
-	             return ResponseEntity.badRequest().body("사용자를 찾을 수 없습니다.");
-	         }
+	  @PostMapping("/user/edit/{userId}")
+	    public ResponseEntity<?> updateUser(
+	            @PathVariable int userId,
+	            @RequestParam String name,
+	            @RequestParam String email,
+	            @RequestParam String authority,
+	            @RequestParam(required = false) Boolean projectCreate,
+	            @RequestParam(required = false) Boolean projectRead,
+	            @RequestParam(required = false) Boolean projectUpdate,
+	            @RequestParam(required = false) Boolean projectDelete,
+	            @RequestParam(required = false) Boolean isAdmin
+	    ) {
+	        try {
+	            UserVO user = userService.getUserById(userId);
+	            if (user == null) {
+	                return ResponseEntity.badRequest().body("사용자를 찾을 수 없습니다.");
+	            }
 
-	         user.setUserName(name);
-	         user.setUserEmail(email);
-	         user.setUserAuthority(authority);  // 여기를 setUserAuthority로 변경
+	            user.setUserName(name);
+	            user.setUserEmail(email);
+	            user.setUserAuthority(isAdmin != null && isAdmin ? "admin" : authority);
 
-	         RoleVO role = roleService.getRoleByUserId(userId);
-	         if (role == null) {
-	             role = new RoleVO();
-	             role.setUserId(userId);
-	         }
-	         role.setProjectCreate(projectCreate != null ? projectCreate : false);
-	         role.setProjectRead(projectRead != null ? projectRead : false);
-	         role.setProjectUpdate(projectUpdate != null ? projectUpdate : false);
-	         role.setProjectDelete(projectDelete != null ? projectDelete : false);
+	            RoleVO role = roleService.getRoleByUserId(userId);
+	            if (role == null) {
+	                role = new RoleVO();
+	                role.setUserId(userId);
+	            }
+	            role.setProjectCreate(projectCreate != null ? projectCreate : false);
+	            role.setProjectRead(projectRead != null ? projectRead : false);
+	            role.setProjectUpdate(projectUpdate != null ? projectUpdate : false);
+	            role.setProjectDelete(projectDelete != null ? projectDelete : false);
 
-	         userService.updateUser(user);
-	         roleService.createOrUpdateRole(role);
+	            userService.updateUser(user);
+	            roleService.createOrUpdateRole(role);
 
-	         return ResponseEntity.ok().body("사용자 정보가 성공적으로 업데이트되었습니다.");
-	     } catch (Exception e) {
-	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                              .body("사용자 정보 업데이트 중 오류가 발생했습니다: " + e.getMessage());
-	     }
+	            return ResponseEntity.ok().body("사용자 정보가 성공적으로 업데이트되었습니다.");
+	        } catch (Exception e) {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                                 .body("사용자 정보 업데이트 중 오류가 발생했습니다: " + e.getMessage());
+	        }
 	 }
 	
 }
