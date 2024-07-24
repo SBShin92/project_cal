@@ -18,7 +18,6 @@
             <input type="password" id="password" name="password"><br>
             <button type="submit">Login</button>
         </form>
-         <a href="${pageContext.request.contextPath}/oauth2/authorization/naver">Login with Naver</a>
         <a href="${pageContext.request.contextPath}/join">회원가입</a>
         <c:if test="${not empty error}">
             <div>${error}</div>

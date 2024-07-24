@@ -44,14 +44,17 @@ spring:
 mail:
   host: smtp.naver.com
   port: 587
-  username: ${USER_EMAIL}
-  userpassword: ${USER_PASSWORD}
+  username: himj9515
+  userpassword: himedia9515
   properties:
     mail:
      smtp:
       auth: true
       starttls:
        enable: true
+  connectiontimeout: 5000
+  timeout: 5000
+  writetimeout: 5000
 server:
   servlet:
     session:
@@ -61,7 +64,7 @@ server:
 # 파일 경로 바꾸려면 util 클래스의 FilesUtility에서 확인
 file:
   upload-dir: /uploads
-#디버
+#디버깅
   logging:
     level:
     root: DEBUG

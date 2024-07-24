@@ -10,10 +10,10 @@
 </head>
 <body>
     <h2>Verify Token</h2>
-    <form action="${pageContext.request.contextPath}/verify-token" method="post">
+    <form action="${pageContext.request.contextPath}/login/token" method="post">
         <label for="token">Token:</label>
-        <input type="text" id="token" name="token"><br>
-        <button type="submit">Verify</button>
+        <input type="text" id="token" name="token" required><br>
+        <button type="submit">확인</button>
     </form>
     <c:if test="${not empty error}">
         <div>${error}</div>
