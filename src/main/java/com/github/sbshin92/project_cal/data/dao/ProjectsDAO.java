@@ -163,9 +163,7 @@ public interface ProjectsDAO {
 	    
 	    
 	   //------------------------------------------------------------------------
-	    //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 
-	    //project paging 구현중..
-	    
+	    //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능     
 	    @Select("SELECT project_id as projectId, "
 	    		+ "user_id as userId, "
 	    		+ "project_title as projectTitle, "
@@ -180,7 +178,7 @@ public interface ProjectsDAO {
 	    List<ProjectVO> searchedProjects(String projectTitle, RowBounds rowBounds );
 	    // 프로젝트 검색 쿼리: lower 이하 조건문은 지정된 projectTitle을 포함하는 프로젝트 제목을 대소문자 구분 없이 검색
 	   
-	    // 0724
+	    //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능 
 	    @Select("SELECT count(1)" + 
 	            "FROM projects " +
 				"WHERE LOWER(project_title) LIKE CONCAT('%', LOWER(#{projectTitle}), '%')")

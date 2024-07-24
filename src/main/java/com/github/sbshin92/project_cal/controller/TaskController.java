@@ -199,15 +199,15 @@ public class TaskController {
 		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	}
 	
-		//0724
-		// 해당 테스크, 프로젝트 타이틀 검색위한 모든 데이터 search
-		// tasktitle :검색할 작업의 제목
-		// page: 페이지번호 (기본값을 1로 둠)
-		@GetMapping("/SearchProjectTasks")
-		public String SearchTask(@RequestParam("taskProjectTitle") String taskProjectTitle,
-								 @RequestParam(defaultValue = "1") int taskPage,
-								 @RequestParam(defaultValue = "1") int projectPage,
-								 Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
+			//0724
+			// 해당 테스크, 프로젝트 타이틀 검색위한 모든 데이터 search
+			// tasktitle :검색할 작업의 제목
+			// page: 페이지번호 (기본값을 1로 둠)
+			@GetMapping("/SearchProjectTasks")
+			public String SearchTask(@RequestParam("taskProjectTitle") String taskProjectTitle,
+									 @RequestParam(defaultValue = "1") int taskPage,
+									 @RequestParam(defaultValue = "1") int projectPage,
+									 Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 			//테스크 조회
 			//taskVO 객체 생성-> taskTitle 설정
 			TaskVO taskVO = new TaskVO();
