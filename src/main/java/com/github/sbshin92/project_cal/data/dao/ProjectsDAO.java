@@ -99,7 +99,7 @@ public interface ProjectsDAO {
 
 	   @Update("UPDATE projects SET project_title = #{projectTitle}, project_description = #{projectDescription}, " +
 	            "start_date = #{startDate}, end_date = #{endDate}, " +
-	            "project_status = #{projectStatus}, project_bar_color = #{projectBarColor} WHERE project_id = #{projectId}")
+	            "project_status = #{projectStatus} WHERE project_id = #{projectId}")
 	    int update(ProjectVO project);
 
 
