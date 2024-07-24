@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.sbshin92.project_cal.data.vo.FileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
+import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.FileService;
@@ -46,7 +47,13 @@ public class ProjectController {
     private UserService userService;
 
     @GetMapping("/{projectId}")
-    public String getProject(@PathVariable(required = false) Integer projectId, Model model) {
+    public String getProject(@PathVariable(required = false) Integer projectId, Model model, HttpSession session) {
+    	RoleVO roleVO = (RoleVO)session.getAttribute("authUserRole");
+    	UserVO authUser = (UserVO) session.getAttribute("authUser");
+    	// 읽기 권한이 없으니 넌 캘린더로 캘린더로 돌아가야 해
+    	if (!"admin".equals(authUser.getUserAuthority()) && !roleVO.getProjectRead()) {
+    		return "redirect:/calendar";
+    	}
         try {
             ProjectVO projectVO = projectService.getProjectById(projectId);
             if (projectVO == null) {
@@ -74,7 +81,12 @@ public class ProjectController {
 
     @GetMapping("/create")
     public String createProjectForm(Model model, HttpSession session) {
+    	RoleVO roleVO = (RoleVO)session.getAttribute("authUserRole");
     	UserVO authUser = (UserVO) session.getAttribute("authUser");
+    	// 쓰기 권한이 없으니 넌 캘린더로 캘린더로 돌아가야 해
+    	if (!"admin".equals(authUser.getUserAuthority()) && !roleVO.getProjectCreate()) {
+    		return "redirect:/calendar";
+    	}
         List<UserVO> allUsers = userService.getAllUsers().stream()
         						.filter(user -> user.getUserId() != authUser.getUserId())
         						.collect(Collectors.toList()); // 사용자 목록을 가져와서 뷰에 추가 
@@ -88,11 +100,16 @@ public class ProjectController {
     public String createProject(@RequestParam("userId") String userIdStr,
                                 @ModelAttribute ProjectVO projectVO,
                                 @RequestParam("projectFiles") MultipartFile[] files,
-                                @RequestParam("members") List<Integer> members,
+                                @RequestParam(value = "members", required = false) List<Integer> members,
                                 RedirectAttributes redirectAttributes,
                                 HttpSession session) throws IOException {
+    	RoleVO roleVO = (RoleVO)session.getAttribute("authUserRole");
+    	UserVO authUser = (UserVO) session.getAttribute("authUser");
+    	// 쓰기 권한이 없으니 넌 캘린더로 캘린더로 돌아가야 해
+    	if (!"admin".equals(authUser.getUserAuthority()) && !roleVO.getProjectCreate()) {
+    		return "redirect:/calendar";
+    	}
         try {
-        		UserVO authUser = (UserVO) session.getAttribute("authUser");
         		int userId = authUser.getUserId();
         		projectVO.setUserId(userId);
             
@@ -103,11 +120,13 @@ public class ProjectController {
             projectService.addMemberProject(userId, projectId);
 
             // 멤버 추가
+            if (members != null) {
             for (Integer memberId : members) {
             	if(memberId != userId) {
-                projectService.addMemberProject(memberId, projectId);
+	                projectService.addMemberProject(memberId, projectId);
+		            }
+		         }
             }
-         }
 
             // 파일 업로드
             fileService.saveFilesInProject(files, projectId);
@@ -122,24 +141,20 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/update/{projectId}")
-    public String updateProjectForm(@PathVariable int projectId, Model model) {
-        try {
-            model.addAttribute("project", projectService.getProjectById(projectId));
-            return "project/form";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
-            return "error/404";
-        }
-    }
-
     // 프로젝트 수정
     @PostMapping("update/{projectId}")
     public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
-                                BindingResult result, RedirectAttributes redirectAttributes) {
+                                BindingResult result, RedirectAttributes redirectAttributes, HttpSession session) {
         if (result.hasErrors()) {
             return "project/form";
         }
+        UserVO authUser = (UserVO)session.getAttribute("authUser");
+        RoleVO roleVO = (RoleVO)session.getAttribute("authUserRole");
+        ProjectVO projectVO = projectService.getProjectById(projectId);
+    	// 갱신 권한이 없으니 넌 캘린더로 캘린더로 돌아가야 해
+    	if (!"admin".equals(authUser.getUserAuthority()) && (!roleVO.getProjectUpdate() || authUser.getUserId() != projectVO.getUserId())) {
+    		return "redirect:/calendar";
+    	}
         project.setProjectId(projectId);
         boolean updated = projectService.updateProject(project);
         if (updated) {
@@ -152,7 +167,14 @@ public class ProjectController {
 
     // 프로젝트 삭제
     @PostMapping("/delete/{projectId}")
-    public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
+    public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes, HttpSession session) {
+    	RoleVO roleVO = (RoleVO)session.getAttribute("authUserRole");
+    	UserVO authUser = (UserVO)session.getAttribute("authUser");
+    	ProjectVO projectVO = projectService.getProjectById(projectId);
+    	// 삭제 권한이 없으니 넌 캘린더로 캘린더로 돌아가야 해
+    	if (!"admin".equals(authUser.getUserAuthority()) && (!roleVO.getProjectDelete() || authUser.getUserId() != projectVO.getUserId())) {
+    		return "redirect:/calendar";
+    	}
         try {
             projectService.deleteProject(projectId);
             redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
