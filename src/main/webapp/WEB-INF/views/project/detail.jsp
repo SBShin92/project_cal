@@ -86,7 +86,9 @@
             <thead>
               <tr>
                 <th>TaskID</th>
-                <th>TaskTitle</th>
+                <th>TaskTitle</th> 
+                <th>Task Creator User Name</th>
+                <th>Task Creator User Position</th>
                 <th>TaskStatus</th>
                 <th>&nbsp;</th>
               </tr>
@@ -99,8 +101,9 @@
                 <tr>
                   <td>${pt.taskId}</td>
                   <td>${pt.taskTitle}</td>
+                  <td>${userVO.userName}</td><!-- 수정필요 -->
+                  <td>${userVO.userPosition}</td><!-- 수정필요 --> 
                   <td>${pt.taskStatus}</td>
-
                   <td>
                       <form action="<c:url value='/tasks/viewTask/${pt.taskId}'/>"
                         method="get" style="display: inline;">

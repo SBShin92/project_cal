@@ -28,14 +28,14 @@
            <table border="1">
           <tr>
             <th>Task ID</th>
-            <th>Created At</th>
-            <th>Upated At</th>
+            <th>Task Creator User Name</th>
+            <th>Task Creator User Position</th>
             <th>Task Status</th>
           </tr>
           <tr>
             <td>${viewTask.taskId}</td>
-            <td><fmt:formatDate value="${viewTask.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-            <td><fmt:formatDate value="${viewTask.updatedAt == null ? '' : viewTask.updatedAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+            <td>${userVO.userName}</td><!-- 수정필요 -->
+            <td>${userVO.userPosition}</td><!-- 수정필요 -->
             <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
           </tr>
           <tr>

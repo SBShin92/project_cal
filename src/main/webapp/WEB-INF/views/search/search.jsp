@@ -27,11 +27,10 @@
                 <tr>
                   <th>TaskID</th>
                   <th>TaskTitle</th>
-                  <th>TaskDescription</th>
-                  <th>CreatedAt</th>
-                  <th>UpdatedAt</th>
+                  <th>Task Creator User Name</th>
+                  <th>Task Creator User Position</th>
                   <th>TaskStatus</th>
-                  <th>Action</th>
+                  <th>&nbsp;</th>
                 </tr>
               </thead>
             
@@ -41,10 +40,9 @@
                     <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
                     <tr>
                       <td>${st.taskId}</td>
-                      <td>${st.taskTitle}</td>
-                      <td>${st.taskDescription}</td>
-                      <td>${st.createdAt}</td>
-                      <td>${st.updatedAt}</td>
+                      <td>${st.taskTitle}</td> 
+                      <td>${userVO.userName}</td><!-- 수정필요 -->
+                      <td>${userVO.userPosition}</td><!-- 수정필요 -->
                       <td>${st.taskStatus}</td>
                       <td>
                         <form action="<c:url value='/tasks/viewTask/${st.taskId}' />"
@@ -86,14 +84,10 @@
               <thead>
                 <tr>
                   <th>projectId</th>
-                  <th>userId</th>
-                  <th>projectTitle</th>
-                  <th>projectDescription</th>
-                  <th>createdAt</th>
-                  <th>updatedAt</th>
+                  <th>projectTitle</th> 
+                  <th>project Creator User Name</th>
+                  <th>project Creator User Position</th>
                   <th>projectStatus</th>
-                  <th>startDate</th>
-                  <th>endDate</th>
                   <th>&nbsp;</th>
                 </tr>
               </thead>
@@ -104,22 +98,16 @@
                     <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
                     <tr>
                       <td>${sp.projectId }</td>
-                      <td>${sp.userId}</td>
                       <td>${sp.projectTitle}</td>
-                      <td>${sp.projectDescription}</td>
-                      <td>${sp.createdAt}</td>
-                      <td>${sp.updatedAt}</td>
-                      <td>${sp.projectStatus}</td>
-                      <td><fmt:formatDate value="${sp.startDate}"
-									pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                      <td><fmt:formatDate value="${sp.endDate}"
-									pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                      <td>${userVO.userName}</td><!-- 수정필요 -->
+                      <td>${userVO.userPosition}</td><!-- 수정필요 -->
+                      <td>${sp.projectStatus}</td> 
                       <td>
                         <form action="<c:url value='/project/${sp.projectId}' />"
                           method="get" style="display: inline;">
                           <button type="submit" class="btn btn-primary">상세 VIEW</button>
                         </form>
-                      </td>
+                      </td>          
                    </tr>
                    
                   </c:forEach>
