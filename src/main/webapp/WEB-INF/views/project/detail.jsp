@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="<c:url value='/css/main.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link rel="stylesheet" href="<c:url value='/css/task.css'/>" type="text/css"><!-- 0724추가 -->
 
 </head>
 <body>
@@ -66,7 +67,7 @@
         </c:if>
       </section>
 
-      <!-- task목록 띄우기 위해 추가한 내용 (지원 0718 03:00) -->
+      <!-- task목록0724 -->
       <section class="project-tasks" id="project-tasks">
 
         <h2>테스크 페이지</h2>
@@ -79,14 +80,13 @@
               <input type="hidden" name="projectId"
                 value="${projectVO.projectId}" />
               <!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
-              <button type="submit">새 테스크 생성</button>
+              <button type="submit" class="btn btn-secondary">새 테스크 생성</button>
             </form>
 
             <thead>
               <tr>
                 <th>TaskID</th>
                 <th>TaskTitle</th>
-                <th>TaskDescription</th>
                 <th>TaskStatus</th>
                 <th>&nbsp;</th>
               </tr>
@@ -99,13 +99,12 @@
                 <tr>
                   <td>${pt.taskId}</td>
                   <td>${pt.taskTitle}</td>
-                  <td>${pt.taskDescription}</td>
                   <td>${pt.taskStatus}</td>
 
                   <td>
                       <form action="<c:url value='/tasks/viewTask/${pt.taskId}'/>"
                         method="get" style="display: inline;">
-                        <button type="submit">상세VIEW</button>
+                        <button type="submit" class="btn btn-secondary">상세VIEW</button>
                       </form>
   
                       <form action="<c:url value='/tasks/createTaskForm'/>"
@@ -118,7 +117,7 @@
                                               <input type="hidden" name="taskTitle" value="${pt.taskTitle}" /> 
                                               <input type="hidden" name="taskDescription" value="${pt.taskDescription}" />
                                               
-                        <button type="submit" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
+                        <button type="submit" class="btn btn-secondary" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
                         EDIT</button>
   
                       </form>
@@ -128,7 +127,7 @@
                         <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
                         <input type="hidden" name="projectId" value="${pt.projectId}" />
                         <input type="hidden" name="userId" value="${pt.userId}" />
-                        <button type="submit"
+                        <button type="submit" class="btn btn-secondary"
                           onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">
                           DELETE</button>
                       </form>
@@ -140,19 +139,20 @@
           </table>
         </div>
           
-                 <!--지원 nav추가 0723 --> 
-                 <nav>
-                  <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="?page=${param.page == 1 || param.page == null ? 1 : param.page - 1}&taskTitle=${taskTitle}">Previous</a></li>
-              
-                    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
-                      <li class="page-item"><a class="page-link" href="?page=${num.index}&taskTitle=${taskTitle}">${num.index}</a></li>
-                    </c:forEach>
-                    <li class="page-item"><a class="page-link" href="?page=${ totalPages != 10 ? (param.page == null ? 1 : param.page) : (param.page == null ? 1 : param.page) + 1}&taskTitle=${taskTitle}">Next</a></li>
-                  </ul>
-                </nav>
-      </section>
-
+                 <!--0724-->
+    	    <nav>
+    		  <ul class="pagination">
+    		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li> <!-- 재세팅해준 파람이여기오게됨 -->
+    	
+    		    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
+    		      <li class="page-item"><a class="page-link" href="?taskPage=${num.index}&taskProjectTitle=${taskProjectTitle}">${num.index}</a></li>
+    		    </c:forEach>
+    		    <li class="page-item"><a class="page-link" href="?taskPage=${ totalPages != 10 ? (param.taskPage == null ? 1 : param.taskPage) : (param.taskPage == null ? 1 : param.taskPage) + 1}&taskProjectTitle=${taskProjectTitle}">Next</a></li>
+    		  </ul>
+    		</nav>
+        
+       </section> 
+     
       <!-- 프로젝트 멤버 목록 -->
       <section class="project-members">
           <h2>프로젝트 멤버</h2>

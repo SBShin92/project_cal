@@ -13,8 +13,10 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.CustomUserDetailsService;
+import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Configuration

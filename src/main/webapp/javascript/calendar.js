@@ -33,14 +33,13 @@ function createProjectListToggleButton() {
 
     // 토글 버튼 생성
     const toggleButton = document.createElement('button');
-    toggleButton.textContent = '패널 열기';
+    toggleButton.textContent = '패널 닫기';
     toggleButton.classList.add('toggle-panel', 'btn', 'btn-primary');
-    main.appendChild(toggleButton);
+    rightPanel.appendChild(toggleButton);
 
     // 패널 토글 함수
     function togglePanel() {
         rightPanel.classList.toggle('show');
-        toggleButton.textContent = rightPanel.classList.contains('show') ? '패널 닫기' : '패널 열기';
     }
 
     // 토글 버튼 이벤트 리스너
@@ -51,7 +50,7 @@ function createProjectListToggleButton() {
 
     // 패널 외부 클릭 시 패널 닫기
     document.addEventListener('click', function(e) {
-        if (window.innerWidth <= 768 && 
+        if (window.innerWidth <= 870 && 
             !rightPanel.contains(e.target) && 
             !toggleButton.contains(e.target) && 
             rightPanel.classList.contains('show')) {
@@ -66,7 +65,7 @@ function createProjectListToggleButton() {
 
     // 화면 크기 변경 감지
     window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
+        if (window.innerWidth > 870) {
             rightPanel.classList.remove('show');
             toggleButton.style.display = 'none';
         } else {
@@ -75,7 +74,7 @@ function createProjectListToggleButton() {
     });
 
     // 초기 화면 크기에 따른 설정
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 870) {
 		if (rightPanel.querySelector('.card') != null) {
 			rightPanel.classList.add('show');			
 		}

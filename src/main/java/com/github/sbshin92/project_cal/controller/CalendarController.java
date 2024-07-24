@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
+import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.CalendarService;
+import com.github.sbshin92.project_cal.service.RoleService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -35,15 +37,21 @@ public class CalendarController {
 		session.setAttribute("todayYear", localDate.getYear());
 		session.setAttribute("todayMonth", localDate.getMonthValue());
 		session.setAttribute("todayDate", localDate.getDayOfMonth() < 10 ? "0" + localDate.getDayOfMonth() : localDate.getDayOfMonth());
+		// 권한 확인
+		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		RoleVO authUserRole = (RoleVO)session.getAttribute("authUserRole");
+		if (!authUserRole.getProjectRead())
+			return "calendar/calendar";
+		
 		// 개인 스케쥴인지 확인
 		if (session.getAttribute("mySchedule") == null) {
 			session.setAttribute("mySchedule", "false");
 		}
 		
+		
 		// 개인일정 가져오기
 		String mySchedule = (String)session.getAttribute("mySchedule");
 		if ("true".equals(mySchedule)) {
-			UserVO authUser = (UserVO)session.getAttribute("authUser");
 			List<ProjectVO> monthLst = calendarService.getProjectListByMonthWithUserId((Integer)session.getAttribute("viewYear"), 
 											(Integer)session.getAttribute("viewMonth"), 
 											authUser.getUserId());
@@ -87,11 +95,17 @@ public class CalendarController {
 				throw new NumberFormatException();
 			session.setAttribute("viewYear", year);
 			session.setAttribute("viewMonth", month);
+			
+			// 권한 설정
+			UserVO authUser = (UserVO)session.getAttribute("authUser");
+			RoleVO authUserRole = (RoleVO)session.getAttribute("authUserRole");
+			if (!authUserRole.getProjectRead())
+				return "redirect:/calendar";
+			
 			// 개인일 때는 개인일정 목록만 나오게
 			String mySchedule = (String)session.getAttribute("mySchedule");
 			List<ProjectVO> lst = null;
 			if ("true".equals(mySchedule)) {
-				UserVO authUser = (UserVO)session.getAttribute("authUser");
 				lst = calendarService.getProjectListByDateWithUserId(year, month, date, authUser.getUserId());
 			} else {
 				lst = calendarService.getProjectListByDate(year, month, date);

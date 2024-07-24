@@ -74,6 +74,7 @@ var userCanDeleteProject = ${sessionScope.authUser.canDeleteProject};
 		<a class="today-button btn btn-dark"
 			href="<c:url value='/calendar/date/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">
 			Today</a>
+		<a class="btn btn-outline-primary" href="<c:url value='/calendar/scheduleSwitch' /> ">${ mySchedule == true ? "전체 프로젝트 보기" : "참여중인 프로젝트 보기"}</a>
 	</div>
 	<main>
 	
@@ -96,6 +97,7 @@ var userCanDeleteProject = ${sessionScope.authUser.canDeleteProject};
 			</table>
 		</section>
 		<aside class="right-panel">
+<<<<<<< HEAD
     <!-- 프로젝트 생성 버튼 추가 -->
     <c:if test="${sessionScope.authUser.canCreateProject}">
         <div class="create-project">
@@ -126,6 +128,36 @@ var userCanDeleteProject = ${sessionScope.authUser.canDeleteProject};
         </c:forEach>
     </c:if>
 </aside>
+
+		
+			<!-- 프로젝트 생성 버튼 추가 -->
+			<c:if test="${ sessionScope.authUserRole.projectCreate == true }">
+				<div class="create-project">
+					<a id="createProjectBtn" class="btn btn-primary"
+						href="<c:url value='/project/create' />">프로젝트 생성</a>
+				</div>
+			</c:if>
+			<c:if test="${ not empty viewDate }">
+				<p id="clicked-date">${ viewDate } 일의 프로젝트</p>
+			</c:if>
+			<c:if test="${ not empty projectListByDate }">
+			    <c:forEach items="${ projectListByDate }" var="vo" varStatus="status">
+			        <div class="card mb-3">
+			            <div class="card-body">
+			                <h5 class="card-title">
+			                    <a href="<c:url value='/project' />/${vo.projectId}">${ vo.projectTitle }</a>
+			                </h5>
+			                <p class="card-text">
+			                    <fmt:formatDate value="${vo.startDate}" pattern="MM/dd" />
+			                    ~
+			                    <fmt:formatDate value="${vo.endDate}" pattern="MM/dd" />
+			                </p>
+			            </div>
+			        </div>
+			    </c:forEach>
+			</c:if>
+		</aside>
+
 	</main>
 	 <script>
 	 	// 뜨는 위치 고쳐야함

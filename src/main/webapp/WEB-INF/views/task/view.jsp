@@ -13,51 +13,41 @@
 <link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/task.css'/>" type="text/css"><!-- 0724추가 -->
 </head>
 <body>
   <jsp:include page="/WEB-INF/includes/header.jsp" />
   <div id="container">
     <section class="project-content">
       <h1>Task Details</h1>
-      
-      <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
-            돌아가기</a>
             
       <div id="wrapper" class="editable">
         <!-- <div id="content"> -->
 
         <!-- Task Details -->
-        <table border="1">
-
-          <thead>
-            <tr>
-              <th>Task ID</th>
-              <th>User ID</th>
-              <th>Project ID</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Created At</th>
-              <th>Updated At</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>${viewTask.taskId}</td>
-              <td>${viewTask.userId}</td>
-              <td>${viewTask.projectId}</td>
-              <td>${viewTask.taskTitle}</td>
-              <td>${viewTask.taskDescription}</td>
-              <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
-              <td>${viewTask.createdAt}</td>
-              <td>${viewTask.updatedAt == null ? '' : viewTask.updatedAt}</td>
-              
-            </tr>
-          </tbody>
-
-          <!-- Add more task details as needed -->
+           <table border="1">
+          <tr>
+            <th>Task ID</th>
+            <th>Created At</th>
+            <th>Upated At</th>
+            <th>Task Status</th>
+          </tr>
+          <tr>
+            <td>${viewTask.taskId}</td>
+            <td><fmt:formatDate value="${viewTask.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+            <td><fmt:formatDate value="${viewTask.updatedAt == null ? '' : viewTask.updatedAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+            <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
+          </tr>
+          <tr>
+            <th>Task Title</th>
+            <th colspan="3">Task Description</th>
+          </tr>
+          <tr>
+            <td>${viewTask.taskTitle}</td>
+            <td colspan="3">${viewTask.taskDescription}</td>
+          </tr>
         </table>
+
 
       </div>
     </section>
@@ -78,8 +68,9 @@
     </section>
    
  
+    <section class="project-content">
     <!-- Task Members List -->
-    <h2>Task Members</h2>
+    <h2>Task Members List</h2>
     <table border="1">
       <thead>
         <tr>
@@ -107,8 +98,12 @@
 
       </tbody>
     </table>
- 
-
+    
+    <div>
+    <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
+            돌아가기</a>
+    </div>
+      
   </div>
 
   <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
