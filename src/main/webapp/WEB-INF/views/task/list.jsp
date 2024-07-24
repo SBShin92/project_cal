@@ -17,19 +17,14 @@
 <link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
-<link type="text/css" rel="stylesheet"
-	href='<c:url value="/css/manager.css" />' />
+<link rel="stylesheet" href="<c:url value='/css/task.css'/>" type="text/css"><!-- 0724추가 -->
 </head>
 
 <body>
 
   <jsp:include page="/WEB-INF/includes/header.jsp" />
   <div id="container">
-    <h1>Task List</h1>
-    <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
-            돌아가기</a>
-     
-    
+    <h1>Task List</h1> 
     <a href="<c:url value='/tasks/createTaskForm'/>">테스트 생성</a>
 
     <div id="wrapper">
@@ -94,8 +89,9 @@
       </div>
 
     </div>
-
+  
   </div>
+  
 <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
 </body>
 </html>
