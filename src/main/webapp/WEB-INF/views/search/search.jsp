@@ -7,26 +7,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Task List</title>
-<link type="text/css" rel="stylesheet" href='<c:url value="/css/calendar.css" />' />
+<link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
-<link type="text/css" rel="stylesheet"
-	href='<c:url value="/css/manager.css" />' />
+<link rel="stylesheet" href="<c:url value='/css/task.css'/>" type="text/css"><!-- 0724추가 -->
 </head>
 
 <body>
-      
-    
+  <jsp:include page="/WEB-INF/includes/header.jsp" />
+  
   <div id="container">
-	<jsp:include page="/WEB-INF/includes/header.jsp" />
-	<jsp:include page="/WEB-INF/includes/nav.jsp" />
-    
    <section class="project-content">
         
         <h1>Task List</h1>
-          <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
-            돌아가기</a>
-     
         
         <c:if test="${not empty searchedTasks}">
         <table border="1">
@@ -56,7 +49,7 @@
                       <td>
                         <form action="<c:url value='/tasks/viewTask/${st.taskId}' />"
                           method="get" style="display: inline;">
-                          <button type="submit">상세 VIEW</button>
+                          <button type="submit" class="btn btn-primary">상세 VIEW</button>
                         </form>
                       </td>
                    </tr>
@@ -124,7 +117,7 @@
                       <td>
                         <form action="<c:url value='/project/${sp.projectId}' />"
                           method="get" style="display: inline;">
-                          <button type="submit">상세 VIEW</button>
+                          <button type="submit" class="btn btn-primary">상세 VIEW</button>
                         </form>
                       </td>
                    </tr>
@@ -139,7 +132,7 @@
         <p>No Projects Found. </p>
      </c:if>
      
-     	<!--0724-->
+     		<!--0724-->
 	    <nav>
 		  <ul class="pagination">
 		    <li class="page-item"><a class="page-link" href="?projectPage=${param.projectPage == 1 || param.projectPage == null ? 1 : param.projectPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li>
@@ -152,13 +145,13 @@
 		</nav>     
     </section>
     
+   <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
+            돌아가기</a> 
   </div>
   
-     
-      
   <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
   <script src="<c:url value='/javascript/main.js' />"></script>
   <script src="<c:url value='/javascript/calendar.js' />"></script>
-  
+
 </body>
 </html>

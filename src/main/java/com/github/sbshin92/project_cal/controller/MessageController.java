@@ -38,6 +38,15 @@ public class MessageController {
 		return "message/message-list";
 	}
 	
+	@GetMapping("/alarm")
+	public String alarmMessageListPage(Model model, HttpSession session) {
+		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		List<MessageVO> messageVOs = messageService.getMessageListByReceiverUserId(authUser.getUserId());
+		model.addAttribute("messageVOs", messageVOs);
+		model.addAttribute("url", "alarm");
+		return "message/message-list-alarm";
+	}
+	
 	@GetMapping("/sended")
 	public String sendedMessagePage(Model model, HttpSession session) {
 		
@@ -54,6 +63,14 @@ public class MessageController {
 		MessageVO messageVO = messageService.getMessageWithReadCheck(messageId);
 		model.addAttribute("messageVO", messageVO);
 		return "message/message-detail";
+	}
+	
+	@GetMapping("/alarm/{messageId}")
+	public String alarmMessageDetailPage(@PathVariable("messageId") Integer messageId , Model model, HttpSession session) {
+		
+		MessageVO messageVO = messageService.getMessageWithReadCheck(messageId);
+		model.addAttribute("messageVO", messageVO);
+		return "message/message-detail-alarm";
 	}
 	
 	@GetMapping("/sended/{messageId}")

@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="<c:url value='/css/main.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link rel="stylesheet" href="<c:url value='/css/task.css'/>" type="text/css"><!-- 0724추가 -->
 
 </head>
 <body>
@@ -79,7 +80,7 @@
               <input type="hidden" name="projectId"
                 value="${projectVO.projectId}" />
               <!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
-              <button type="submit">새 테스크 생성</button>
+              <button type="submit" class="btn btn-secondary">새 테스크 생성</button>
             </form>
 
             <thead>
@@ -105,7 +106,7 @@
                   <td>
                       <form action="<c:url value='/tasks/viewTask/${pt.taskId}'/>"
                         method="get" style="display: inline;">
-                        <button type="submit">상세VIEW</button>
+                        <button type="submit" class="btn btn-secondary">상세VIEW</button>
                       </form>
   
                       <form action="<c:url value='/tasks/createTaskForm'/>"
@@ -118,7 +119,7 @@
                                               <input type="hidden" name="taskTitle" value="${pt.taskTitle}" /> 
                                               <input type="hidden" name="taskDescription" value="${pt.taskDescription}" />
                                               
-                        <button type="submit" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
+                        <button type="submit" class="btn btn-secondary" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
                         EDIT</button>
   
                       </form>
@@ -128,7 +129,7 @@
                         <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
                         <input type="hidden" name="projectId" value="${pt.projectId}" />
                         <input type="hidden" name="userId" value="${pt.userId}" />
-                        <button type="submit"
+                        <button type="submit" class="btn btn-secondary"
                           onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">
                           DELETE</button>
                       </form>

@@ -23,6 +23,7 @@ public class MessageVO {
     private String messageDescription;
     private String readStatus;
     private Timestamp createdAt;
+    private Boolean isAlarm;
     
     // 조인용 필드
     private String senderUserName;

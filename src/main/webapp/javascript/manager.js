@@ -67,39 +67,6 @@ function setupUserEditing() {
 
 
 
-function updateUserInfo(row, user, role) {
-    const updateField = (selector, value) => {
-        const element = row.querySelector(selector);
-        if (element) {
-            element.textContent = value;
-        } else {
-            console.warn(`Element not found: ${selector}`);
-        }
-    };
-
-    updateField('[data-field="name"]', user.userName);
-    updateField('[data-field="email"]', user.userEmail);
-    updateField('[data-field="position"]', user.userPosition);
-    updateField('[data-field="authority"]', user.userAuthority);
-    
-    const updateCheckbox = (name, checked) => {
-        const checkbox = row.querySelector(`input[name="${name}"]`);
-        if (checkbox) {
-            checkbox.checked = checked;
-        } else {
-            console.warn(`Checkbox not found: ${name}`);
-        }
-        const isAdminCheckbox = row.querySelector('input[name="isAdmin"]');
-    if (isAdminCheckbox) {
-        isAdminCheckbox.checked = user.userAuthority === 'admin';
-    }
-    };
-
-    updateCheckbox('projectCreate', role.projectCreate);
-    updateCheckbox('projectRead', role.projectRead);
-    updateCheckbox('projectUpdate', role.projectUpdate);
-    updateCheckbox('projectDelete', role.projectDelete);
-}
 
 function loadUserData() {
     const userRows = document.querySelectorAll('tbody tr');
@@ -129,24 +96,6 @@ function loadUserData() {
             });
     });
 }
-
-function enterEditMode(editableCells, permissionCheckboxes, button) {
-    editableCells.forEach(cell => {
-        const currentValue = cell.textContent;
-        cell.innerHTML = `<input type="text" value="${currentValue}">`;
-		if (cell.dataset.field == 'authority') {
-		    var inputs = cell.getElementsByTagName('input');
-		    for (var i = 0; i < inputs.length; i++) {
-		        inputs[i].disabled = true;
-		    }
-		}
-    });
-    permissionCheckboxes.forEach(checkbox => {
-        checkbox.disabled = false;
-    });
-    button.textContent = '저장';
-}
-
 function saveChanges(userId, editableCells, permissionCheckboxes, button) {
     const formData = new FormData();
     formData.append('userId', userId);
@@ -164,6 +113,8 @@ function saveChanges(userId, editableCells, permissionCheckboxes, button) {
     const isAdminCheckbox = document.querySelector(`input[name="isAdmin"][data-user-id="${userId}"]`);
     if (isAdminCheckbox) {
         formData.append('isAdmin', isAdminCheckbox.checked);
+        // 관리자 체크박스 상태에 따라 authority 설정
+        formData.set('authority', isAdminCheckbox.checked ? 'admin' : 'user');
     }
 
     fetch(`/project_cal/manager/user/edit/${userId}`, {
@@ -185,6 +136,57 @@ function saveChanges(userId, editableCells, permissionCheckboxes, button) {
         console.error('Error:', error);
         alert('오류 발생: ' + error.message);
     });
+}
+
+function updateUserInfo(row, user, role) {
+    const updateField = (selector, value) => {
+        const element = row.querySelector(selector);
+        if (element) {
+            element.textContent = value;
+        } else {
+            console.warn(`Element not found: ${selector}`);
+        }
+    };
+
+    updateField('[data-field="name"]', user.userName);
+    updateField('[data-field="email"]', user.userEmail);
+    updateField('[data-field="position"]', user.userPosition);
+    updateField('[data-field="authority"]', user.userAuthority);
+    
+    const updateCheckbox = (name, checked) => {
+        const checkbox = row.querySelector(`input[name="${name}"]`);
+        if (checkbox) {
+            checkbox.checked = checked;
+        } else {
+            console.warn(`Checkbox not found: ${name}`);
+        }
+    };
+
+    updateCheckbox('projectCreate', role.projectCreate);
+    updateCheckbox('projectRead', role.projectRead);
+    updateCheckbox('projectUpdate', role.projectUpdate);
+    updateCheckbox('projectDelete', role.projectDelete);
+
+    const isAdminCheckbox = row.querySelector('input[name="isAdmin"]');
+    if (isAdminCheckbox) {
+        isAdminCheckbox.checked = user.userAuthority === 'admin';
+    }
+}
+function enterEditMode(editableCells, permissionCheckboxes, button) {
+    editableCells.forEach(cell => {
+        const currentValue = cell.textContent;
+        cell.innerHTML = `<input type="text" value="${currentValue}">`;
+		if (cell.dataset.field == 'authority') {
+		    var inputs = cell.getElementsByTagName('input');
+		    for (var i = 0; i < inputs.length; i++) {
+		        inputs[i].disabled = true;
+		    }
+		}
+    });
+    permissionCheckboxes.forEach(checkbox => {
+        checkbox.disabled = false;
+    });
+    button.textContent = '저장';
 }
 
 function updateCellsAfterSave(editableCells, permissionCheckboxes, formData, button) {

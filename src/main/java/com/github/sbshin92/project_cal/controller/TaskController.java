@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.sbshin92.project_cal.data.vo.MessageVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.data.vo.UsersTasksVO;
+import com.github.sbshin92.project_cal.service.MessageService;
 import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.TaskService;
 
@@ -31,6 +33,9 @@ public class TaskController {
 
 	@Autowired
 	private ProjectService projectService;
+	
+	@Autowired
+	private MessageService messageService;
 
 	// 테스크 생성 및 수정을 위해
 	// 이 폼에서 같이 사용
@@ -94,8 +99,22 @@ public class TaskController {
 							HttpSession session) {
 		// 추가 0716 //사용자 아이디를 가져오는 메서드 필요
 		UserVO userVO = (UserVO) session.getAttribute("authUser");
+		ProjectVO projectVO = projectService.getProjectById(taskVo.getProjectId());
 		taskVo.setUserId(userVO.getUserId());
-		taskService.insert(taskVo);
+		boolean success = (1 == taskService.insert(taskVo));
+		if (success) {
+			String title = "태스크가 생성되었습니다.";
+			String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[생성된 태스크]: " + taskVo.getTaskTitle();
+			
+			MessageVO sendMessageVO = MessageVO.builder()
+										.senderUserId(userVO.getUserId())
+										.receiverUserId(projectVO.getUserId())
+										.messageTitle(title)
+										.messageDescription(description)
+										.isAlarm(true)
+										.build();
+			messageService.sendMessage(sendMessageVO);
+		}
 		return "redirect:/project/" + taskVo.getProjectId(); // 페이지를 리다이렉트 매핑된 url을 찾으러가야함
 	}
 
@@ -105,7 +124,6 @@ public class TaskController {
 		List<TaskVO> tasks = taskService.findAll();
 		model.addAttribute("listTasks", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
 		return "search/search";
-
 	}
 
 	// 테스크 삭제
@@ -120,11 +138,25 @@ public class TaskController {
 		// userId
 		// 2) 로그인한 사용자의 아이디 필요
 		UserVO userVO = (UserVO) httpsession.getAttribute("authUser");
+		ProjectVO projectVO = projectService.getProjectById(projectId);
+		TaskVO taskVO = taskService.findById(taskId);
 
 		if (userId == userVO.getUserId()) {
-			taskService.deleteTask(taskId);
+			boolean success = (1 == taskService.deleteTask(taskId));
+			
+			if (success) {
+				String title = "태스크가 삭제되었습니다.";
+				String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[삭제된 태스크]: " + taskVO.getTaskTitle();
+				MessageVO sendMessageVO = MessageVO.builder()
+											.senderUserId(userVO.getUserId())
+											.receiverUserId(projectVO.getUserId())
+											.messageTitle(title)
+											.messageDescription(description)
+											.isAlarm(true)
+											.build();
+				messageService.sendMessage(sendMessageVO);
+			}
 			return "redirect:/project/" + projectId;
-
 		} else {
 			return "redirect:/project/" + projectId;
 		}
@@ -142,7 +174,23 @@ public class TaskController {
 
 		if (taskVO.getUserId() == userVO.getUserId()) {
 			taskVO.setTaskId(taskId);
-			taskService.updateTask(taskVO);
+			ProjectVO projectVO = projectService.getProjectById(taskVO.getProjectId());
+			boolean success = (1 == taskService.updateTask(taskVO));
+			if (success) {
+				String title = "태스크에 변경사항이 있습니다.";
+				String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[변경된 태스크]: " + taskVO.getTaskTitle();
+				
+				MessageVO sendMessageVO = MessageVO.builder()
+											.senderUserId(userVO.getUserId())
+											.receiverUserId(projectVO.getUserId())
+											.messageTitle(title)
+											.messageDescription(description)
+											.isAlarm(true)
+											.build();
+				messageService.sendMessage(sendMessageVO);
+			}
+			
+			
 			return "redirect:/project/" + taskVO.getProjectId();
 		} else {
 			return "redirect:/project/" + taskVO.getProjectId();
