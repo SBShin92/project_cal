@@ -199,7 +199,7 @@ public class TaskController {
 		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	}
 	
-		//삭제 금지 0723
+		//0724
 		// 해당 테스크, 프로젝트 타이틀 검색위한 모든 데이터 search
 		// tasktitle :검색할 작업의 제목
 		// page: 페이지번호 (기본값을 1로 둠)
@@ -219,16 +219,14 @@ public class TaskController {
 			model.addAttribute("searchedTasks", searchedTasks); // 최종 뷰에 보내기 위한 작업
 			model.addAttribute("tasksCount", taskService.getTotalTasksCount(taskVO)); //리스트 총카운트(작업 총 개수 설정)
 			model.addAttribute("totalPages", (searchedTasks.size()));
-			
-
+			//
 			//프로젝트 조회 
 			//검색된 프로젝트목록도 attribute통해 모델에 추가 
 			List<ProjectVO> searchedProjects = projectService.searchedProjects(taskProjectTitle, projectPage);
 			model.addAttribute("searchedProjects", searchedProjects);  
 			model.addAttribute("projectCount", projectService.getTotalProjectsCount(taskProjectTitle)); //리스트 총카운트(작업 총 개수 설정)
 			model.addAttribute("totalProjectPages", (searchedProjects.size()));
-			
-			
+			//
 			//검색시 사용했던 타이틀 재세팅 
 			//다시 세팅해줌으로써 taskProjectTitle대로 검색할수 있게 뜨도록 하는것
 			model.addAttribute("taskProjectTitle", taskProjectTitle);  

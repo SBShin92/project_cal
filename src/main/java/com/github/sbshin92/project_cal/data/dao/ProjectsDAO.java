@@ -163,7 +163,7 @@ public interface ProjectsDAO {
 	    
 	    
 	   //------------------------------------------------------------------------
-	    //삭제금지 0723 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 
+	    //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 
 	    //project paging 구현중..
 	    @Select("SELECT project_id as projectId, "
 	    		+ "user_id as userId, "
@@ -179,7 +179,7 @@ public interface ProjectsDAO {
 	    List<ProjectVO> searchedProjects(String projectTitle, RowBounds rowBounds );
 	    
 	   
-	    //삭제금지 0723
+	    // 0724
 	    //taskTitle로 테스크 조회
 	    @Select("SELECT count(1)" + 
 	            "FROM projects " +

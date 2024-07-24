@@ -137,7 +137,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 //------------------------------------------------------------------------
-		//지원 추가 삭제금지 0723
+		//0724
 		@Override
 		public List<ProjectVO> searchedProjects(String projectTitle, int page) {
 		 	// 검색어가 projectTitle이거나 비어있는 경우 처리
@@ -156,7 +156,7 @@ public class ProjectServiceImpl implements ProjectService {
 			return projectsDAO.searchedProjects(processedTitle, new RowBounds(offset, size));
 		}
 
-		//삭제금지 0723
+		//0724
 		@Override
 		public int getTotalProjectsCount(String projectTitle) {
 

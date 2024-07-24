@@ -71,7 +71,7 @@
         <p>No Tasks Found. </p>
      </c:if>
      
-     	<!-- 삭제금지 0723-->
+     	<!--0724-->
 	    <nav>
 		  <ul class="pagination">
 		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li> <!-- 재세팅해준 파람이여기오게됨 -->
@@ -139,7 +139,7 @@
         <p>No Projects Found. </p>
      </c:if>
      
-     	<!-- 삭제금지 0723-->
+     	<!--0724-->
 	    <nav>
 		  <ul class="pagination">
 		    <li class="page-item"><a class="page-link" href="?projectPage=${param.projectPage == 1 || param.projectPage == null ? 1 : param.projectPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li>
