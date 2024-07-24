@@ -77,19 +77,39 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// 유저 수정 기능
-	@Override
-	@Transactional
-	public void updateUser(UserVO user) {
-		try {
-			usersDAO.update(user);
-			if (user.getRole() != null) {
-				roleDAO.update(user.getRole());
-			}
-		} catch (DataAccessException e) {
-			throw new RuntimeException("사용자 정보 업데이트 중 오류 발생", e);
-		}
+	  @Override
+	    @Transactional
+	    public void updateUser(UserVO user) {
+	        try {
+	            // 기존 사용자 정보 조회
+	            UserVO existingUser = usersDAO.findByUserId(user.getUserId());
+	            if (existingUser == null) {
+	                throw new RuntimeException("사용자를 찾을 수 없습니다.");
+	            }
 
-	}
+	            // 관리자 권한 변경 확인
+	            if (!existingUser.getUserAuthority().equals(user.getUserAuthority())) {
+	                // 관리자 권한이 변경되었을 경우 로깅 또는 추가 처리
+	                System.out.println("사용자 ID " + user.getUserId() + "의 권한이 " 
+	                    + existingUser.getUserAuthority() + "에서 " + user.getUserAuthority() + "로 변경되었습니다.");
+	            }
+
+	            // 사용자 정보 업데이트
+	            usersDAO.update(user);
+
+	            // 역할 정보 업데이트
+	            if (user.getRole() != null) {
+	                RoleVO existingRole = roleDAO.findByUserId(user.getUserId());
+	                if (existingRole == null) {
+	                    roleDAO.insert(user.getRole());
+	                } else {
+	                    roleDAO.update(user.getRole());
+	                }
+	            }
+	        } catch (DataAccessException e) {
+	            throw new RuntimeException("사용자 정보 업데이트 중 오류 발생", e);
+	        }
+	    }
 
 	@Override
 	public UserVO getUserById(int userId) {
