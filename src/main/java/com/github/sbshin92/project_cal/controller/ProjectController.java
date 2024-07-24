@@ -46,7 +46,9 @@ public class ProjectController {
     private UserService userService;
 
     @GetMapping("/{projectId}")
-    public String getProject(@PathVariable(required = false) Integer projectId, Model model) {
+    public String getProject(@PathVariable(required = false) Integer projectId,
+    						@RequestParam(defaultValue = "1") int taskPage,
+    						Model model) {
         try {
             ProjectVO projectVO = projectService.getProjectById(projectId);
             if (projectVO == null) {
@@ -55,8 +57,15 @@ public class ProjectController {
             model.addAttribute("projectVO", projectVO);
             List<FileVO> fileVOs = fileService.getFileListByProjectId(projectId);
             model.addAttribute("fileVOs", fileVOs);
-            List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
+            
+            TaskVO taskVO = new TaskVO();
+            taskVO.setProjectId(projectId);
+			taskVO.setPage(taskPage);
+            List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId(),taskVO);
             model.addAttribute("projectTasks", tasks);
+			model.addAttribute("tasksCount", taskService.getTotalTasksCountByProjectId(projectId)); //리스트 총카운트(작업 총 개수 설정)
+			model.addAttribute("totalPages", (tasks.size()));
+
             List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
             model.addAttribute("projectMembers",projectMembers);
             List<UserVO> allUsers = projectService.getAllUsers();
@@ -67,6 +76,7 @@ public class ProjectController {
            
             return "project/detail";
         } catch (Exception e) {
+        	e.printStackTrace();
             model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
             return "error/404";
         }

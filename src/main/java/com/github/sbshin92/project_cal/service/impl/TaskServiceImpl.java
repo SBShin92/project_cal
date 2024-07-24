@@ -97,12 +97,29 @@ public class TaskServiceImpl implements TaskService {
 	
 	//기능 추가 getTasksByProjectId
 	@Override
-	 public List<TaskVO> getTasksByProjectId(Integer projectId) {
+	 public List<TaskVO> getTasksByProjectId(Integer projectId,TaskVO taskVO) {
         if (projectId == null) {
             throw new IllegalArgumentException("Project ID cannot be null");
+        } 
+        
+        //페이지 세팅
+        int page = 0;
+        int size = 10;
+        if(taskVO.getPage() != 0 ) {
+        	page = taskVO.getPage();
         }
-        return tasksDAO.getTasksByProjectId(projectId);
+        
+		int offset = (page - 1) * size;
+		
+        return tasksDAO.getTasksByProjectId(projectId, new RowBounds(offset, size));
     }
+	
+	//삭제금지 0723
+		@Override
+		public int getTotalTasksCountByProjectId(int projectId) {
+	        
+		    return tasksDAO.getTotalTasksCountByProjectId(projectId);
+		}
 
 	//삭제금지 0722 21:00 // searchByTitle for search
 	@Override
@@ -141,6 +158,7 @@ public class TaskServiceImpl implements TaskService {
 	    return tasksDAO.getTotalTasksCount(taskVO);
 	}
 
+	
 	//
 	
     

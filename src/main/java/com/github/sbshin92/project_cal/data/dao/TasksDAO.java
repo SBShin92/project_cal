@@ -57,13 +57,15 @@ public interface TasksDAO {
 	 //task 상세 view 내용 조회 -> taskId를 기준으로 해당 task의 상세 뷰를 가져옵니다.
 	@Select("SELECT task_id as taskId, "
 			+ "user_id as userId, "
+			+ "(select user_name from users where user_id = a.user_id limit 1) as userName, "
+			+ "(select user_position from users where user_id = a.user_id limit 1) as userPosition, "
 			+ "project_id as projectId, "
 			+ "task_title as taskTitle, "
 			+ "task_description as taskDescription, "
 			+ "task_status as taskStatus, "
 			+ "created_at as createdAt, "
 			+ "updated_at as updatedAt "
-			+ "FROM tasks "
+			+ "FROM tasks a "
 			+ "WHERE task_id = #{taskId}")
 	public TaskVO findById(@Param("taskId") int taskId);
 	
@@ -96,16 +98,17 @@ public interface TasksDAO {
 
     //projectId로 테스크 조회
     @Select("SELECT task_id as taskId, " +
-	            "user_id as userId, " +
-	            "project_id as projectId, " +
-	            "task_title as taskTitle, " +
-	            "task_description as taskDescription, " +
-	            "created_at as createdAt, " +
-	            "updated_at as updatedAt, " +
-	            "task_status as taskStatus " +
-	            "FROM tasks " +
-	            "WHERE project_id = #{projectId}")
-    public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId);
+			"(select user_name from users where user_id = a.user_id limit 1) as userName, " +
+			"(select user_position from users where user_id = a.user_id limit 1) as userPosition, " +
+            "project_id as projectId, " +
+            "task_title as taskTitle, " +
+            "task_description as taskDescription, " +
+            "created_at as createdAt, " +
+            "updated_at as updatedAt, " +
+            "task_status as taskStatus " +
+            "FROM tasks a " + 
+            "WHERE project_id = #{projectId}")
+    public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId, RowBounds rowBounds);
 
     
     //삭제금지 0723
@@ -135,6 +138,13 @@ public interface TasksDAO {
             "FROM tasks " +
 			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")
 	public int getTotalTasksCount(@Param("taskVO") TaskVO taskVO);
+    
+    //삭제금지 0723
+    //taskTitle로 테스크 조회
+    @Select("SELECT count(1)" + 
+            "FROM tasks " +
+    		"WHERE project_id = #{projectId}")
+	public int getTotalTasksCountByProjectId(int projectId);
     // taskTitle로 조회해서 리스트를 불러오는 메서드, 소문자변환하고 부분일치검색을 수행한다
     // 검색된 결과의 총 개수를 반환하는 메서드
 }

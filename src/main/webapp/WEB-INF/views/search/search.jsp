@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>    
+<%@ page import="com.github.sbshin92.project_cal.data.vo.UserVO" %> 
+<%
+	UserVO userVO = (UserVO) session.getAttribute("authUser");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +27,16 @@
         <h1>Task List</h1>
         
         <c:if test="${not empty searchedTasks}">
+        <%=userVO.getUserAuthority() %>
+        <br/>
+        
+        <%=userVO.getUserPosition() %>
+        <br/>
+        <%=userVO.getUserEmail() %>
+        <br/>
+        <%=userVO.getUserId() %>
+        <br/>
+        <%=userVO.getUserName() %>
         <table border="1">
               <thead>
                 <tr>
@@ -47,8 +62,14 @@
                       <td>
                         <form action="<c:url value='/tasks/viewTask/${st.taskId}' />"
                           method="get" style="display: inline;">
-                          <button type="submit" class="btn btn-primary">상세 VIEW</button>
-                        </form>
+                           <% 
+                           	if(userVO.getUserAuthority().equals("admin")){
+                           %>
+                          		<button type="submit" class="btn btn-primary">상세 VIEW</button>
+                          	<% 
+                           	}
+                           %>              
+                        </form>   
                       </td>
                    </tr>
                    

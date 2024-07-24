@@ -7,6 +7,8 @@ import lombok.Data;
 public class TaskVO {
 	private int taskId;
     private int userId;
+    private String userName;
+    private String userPosition;
     private int projectId;
     private String taskTitle;
     private String taskDescription;

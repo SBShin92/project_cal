@@ -2,6 +2,10 @@
   pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>
+<%@ page import="com.github.sbshin92.project_cal.data.vo.UserVO" %>
+<%
+	UserVO userVO = (UserVO) session.getAttribute("authUser");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -101,15 +105,18 @@
                 <tr>
                   <td>${pt.taskId}</td>
                   <td>${pt.taskTitle}</td>
-                  <td>${userVO.userName}</td><!-- 수정필요 -->
-                  <td>${userVO.userPosition}</td><!-- 수정필요 --> 
+                  <td>${pt.userName}</td><!-- 수정필요 -->
+                  <td>${pt.userPosition}</td><!-- 수정필요 --> 
                   <td>${pt.taskStatus}</td>
                   <td>
                       <form action="<c:url value='/tasks/viewTask/${pt.taskId}'/>"
                         method="get" style="display: inline;">
                         <button type="submit" class="btn btn-secondary">상세VIEW</button>
                       </form>
-  
+  						
+  						<% 
+                           if(userVO.getUserAuthority().equals("admin")){
+                           %> 
                       <form action="<c:url value='/tasks/createTaskForm'/>"
                         method="get" style="display: inline;">
                         <input type="hidden" name="taskId" value="${pt.taskId}" />
@@ -119,12 +126,11 @@
                                               <input type="hidden" name="projectId" value="${pt.projectId}" /> 
                                               <input type="hidden" name="taskTitle" value="${pt.taskTitle}" /> 
                                               <input type="hidden" name="taskDescription" value="${pt.taskDescription}" />
-                                              
+                                             
                         <button type="submit" class="btn btn-secondary" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
                         EDIT</button>
-  
                       </form>
-  
+                      
                       <form action="<c:url value='/tasks/deleteTask/${pt.taskId}'/>"
                         method="post" style="display: inline;">
                         <!--  <input type="hidden" name="_method" value="DELETE"/> 없애도 됨 -->
@@ -134,6 +140,10 @@
                           onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">
                           DELETE</button>
                       </form>
+                      
+                      <% 
+                         }
+                      %> 
 
                   </td>
                   </tr>
@@ -145,12 +155,12 @@
                  <!--0724-->
     	    <nav>
     		  <ul class="pagination">
-    		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li> <!-- 재세팅해준 파람이여기오게됨 -->
+    		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}">Previous</a></li> <!-- 재세팅해준 파람이여기오게됨 -->
     	
     		    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
-    		      <li class="page-item"><a class="page-link" href="?taskPage=${num.index}&taskProjectTitle=${taskProjectTitle}">${num.index}</a></li>
+    		      <li class="page-item"><a class="page-link" href="?taskPage=${num.index}">${num.index}</a></li>
     		    </c:forEach>
-    		    <li class="page-item"><a class="page-link" href="?taskPage=${ totalPages != 10 ? (param.taskPage == null ? 1 : param.taskPage) : (param.taskPage == null ? 1 : param.taskPage) + 1}&taskProjectTitle=${taskProjectTitle}">Next</a></li>
+    		    <li class="page-item"><a class="page-link" href="?taskPage=${ totalPages != 10 ? (param.taskPage == null ? 1 : param.taskPage) : (param.taskPage == null ? 1 : param.taskPage) + 1}">Next</a></li>
     		  </ul>
     		</nav>
         
@@ -245,7 +255,8 @@
           <h2>첨부 파일</h2>
           <ul id="editFileList">
             <c:forEach var="file" items="${fileVOs}">
-              <li>${file.originalFileName}(${file.fileSize} bytes) <input
+              <li>${file.originalFileName}(${file.fileSize} bytes) 
+              	<input
                 type="checkbox" name="deleteFiles" value="${file.fileId}">
                 삭제
               </li>
