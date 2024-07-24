@@ -10,7 +10,11 @@
 	<nav class="top-nav">
 		<a class="nav-btn" href="<c:url value='/calendar/scheduleSwitch' /> ">참여/전체 프로젝트</a>
 		<button class="nav-btn" id="message-btn">쪽지함 (${ sessionScope.messageUnreadCount })</button>
-		<a href="<c:url value='/manager' />" class="nav-btn btn-dark">관리자페이지</a>
+		
+		<c:if test="${authUser.userAuthority == 'admin'}">
+            <a href="<c:url value='/manager' />" class="nav-btn btn-dark">관리자페이지</a>
+        </c:if>
+        
 	</nav>
 
 
