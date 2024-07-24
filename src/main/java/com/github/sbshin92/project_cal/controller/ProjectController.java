@@ -72,15 +72,32 @@ public class ProjectController {
         }
     }
 
+//    @GetMapping("/create")
+//    public String createProjectForm(Model model, HttpSession session) {
+//    	UserVO authUser = (UserVO) session.getAttribute("authUser");
+//        List<UserVO> allUsers = userService.getAllUsers().stream()
+//        						.filter(user -> user.getUserId() != authUser.getUserId())
+//        						.collect(Collectors.toList()); // 사용자 목록을 가져와서 뷰에 추가 
+//        
+//        model.addAttribute("allUsers", allUsers);
+//        model.addAttribute("projectVO", new ProjectVO()); // 빈 ProjectVO 객체 추가
+//        return "project/form";
+//    }
+    
+
     @GetMapping("/create")
     public String createProjectForm(Model model, HttpSession session) {
-    	UserVO authUser = (UserVO) session.getAttribute("authUser");
+        UserVO authUser = (UserVO) session.getAttribute("authUser");
+        if (authUser == null || !authUser.isCanCreateProject()) {
+            return "redirect:/calendar";  // 권한이 없으면 캘린더 페이지로 리다이렉트
+        }
+        
         List<UserVO> allUsers = userService.getAllUsers().stream()
-        						.filter(user -> user.getUserId() != authUser.getUserId())
-        						.collect(Collectors.toList()); // 사용자 목록을 가져와서 뷰에 추가 
+            .filter(user -> user.getUserId() != authUser.getUserId())
+            .collect(Collectors.toList());
         
         model.addAttribute("allUsers", allUsers);
-        model.addAttribute("projectVO", new ProjectVO()); // 빈 ProjectVO 객체 추가
+        model.addAttribute("projectVO", new ProjectVO());
         return "project/form";
     }
 

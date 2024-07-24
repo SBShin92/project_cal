@@ -13,6 +13,12 @@
 <link type="text/css" rel="stylesheet" href='<c:url value="/css/calendar.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 <title>OurCalendar</title>
+<script>
+var userCanReadProject = ${sessionScope.authUser.canReadProject};
+var userCanCreateProject = ${sessionScope.authUser.canCreateProject};
+var userCanUpdateProject = ${sessionScope.authUser.canUpdateProject};
+var userCanDeleteProject = ${sessionScope.authUser.canDeleteProject};
+</script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/includes/header.jsp" />
@@ -90,32 +96,36 @@
 			</table>
 		</section>
 		<aside class="right-panel">
-		
-			<!-- 프로젝트 생성 버튼 추가 -->
-			<div class="create-project">
-				<a id="createProjectBtn" class="btn btn-primary"
-					href="<c:url value='/project/create' />">프로젝트 생성</a>
-			</div>
-			<c:if test="${ not empty viewDate }">
-				<p id="clicked-date">${ viewDate } 일의 프로젝트</p>
-			</c:if>
-			<c:if test="${ not empty projectListByDate }">
-			    <c:forEach items="${ projectListByDate }" var="vo" varStatus="status">
-			        <div class="card mb-3">
-			            <div class="card-body">
-			                <h5 class="card-title">
-			                    <a href="<c:url value='/project' />/${vo.projectId}">${ vo.projectTitle }</a>
-			                </h5>
-			                <p class="card-text">
-			                    <fmt:formatDate value="${vo.startDate}" pattern="MM/dd" />
-			                    ~
-			                    <fmt:formatDate value="${vo.endDate}" pattern="MM/dd" />
-			                </p>
-			            </div>
-			        </div>
-			    </c:forEach>
-			</c:if>
-		</aside>
+    <!-- 프로젝트 생성 버튼 추가 -->
+    <c:if test="${sessionScope.authUser.canCreateProject}">
+        <div class="create-project">
+            <a id="createProjectBtn" class="btn btn-primary" href="<c:url value='/project/create' />">프로젝트 생성</a>
+        </div>
+    </c:if>
+
+    <c:if test="${not empty viewDate}">
+        <p id="clicked-date">${viewDate} 일의 프로젝트</p>
+    </c:if>
+
+    <c:if test="${sessionScope.authUser.canReadProject and not empty projectListByDate}">
+        <c:forEach items="${projectListByDate}" var="vo" varStatus="status">
+            <c:if test="${sessionScope.authUser.canReadProject}">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="<c:url value='/project' />/${vo.projectId}">${vo.projectTitle}</a>
+                        </h5>
+                        <p class="card-text">
+                            <fmt:formatDate value="${vo.startDate}" pattern="MM/dd" />
+                            ~
+                            <fmt:formatDate value="${vo.endDate}" pattern="MM/dd" />
+                        </p>
+                    </div>
+                </div>
+            </c:if>
+        </c:forEach>
+    </c:if>
+</aside>
 	</main>
 	 <script>
 	 	// 뜨는 위치 고쳐야함
