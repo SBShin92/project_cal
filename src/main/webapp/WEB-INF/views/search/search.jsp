@@ -49,7 +49,7 @@
                       <td>
                         <form action="<c:url value='/tasks/viewTask/${st.taskId}' />"
                           method="get" style="display: inline;">
-                          <button type="submit">상세 VIEW</button>
+                          <button type="submit" class="btn btn-primary">상세 VIEW</button>
                         </form>
                       </td>
                    </tr>
@@ -117,7 +117,7 @@
                       <td>
                         <form action="<c:url value='/project/${sp.projectId}' />"
                           method="get" style="display: inline;">
-                          <button type="submit">상세 VIEW</button>
+                          <button type="submit" class="btn btn-primary">상세 VIEW</button>
                         </form>
                       </td>
                    </tr>
