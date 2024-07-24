@@ -139,19 +139,20 @@
           </table>
         </div>
           
-                 <!--지원 nav추가 0723 --> 
-                 <nav>
-                  <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="?page=${param.page == 1 || param.page == null ? 1 : param.page - 1}&taskTitle=${taskTitle}">Previous</a></li>
-              
-                    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
-                      <li class="page-item"><a class="page-link" href="?page=${num.index}&taskTitle=${taskTitle}">${num.index}</a></li>
-                    </c:forEach>
-                    <li class="page-item"><a class="page-link" href="?page=${ totalPages != 10 ? (param.page == null ? 1 : param.page) : (param.page == null ? 1 : param.page) + 1}&taskTitle=${taskTitle}">Next</a></li>
-                  </ul>
-                </nav>
-      </section>
-
+                 <!--0724-->
+    	    <nav>
+    		  <ul class="pagination">
+    		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li> <!-- 재세팅해준 파람이여기오게됨 -->
+    	
+    		    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
+    		      <li class="page-item"><a class="page-link" href="?taskPage=${num.index}&taskProjectTitle=${taskProjectTitle}">${num.index}</a></li>
+    		    </c:forEach>
+    		    <li class="page-item"><a class="page-link" href="?taskPage=${ totalPages != 10 ? (param.taskPage == null ? 1 : param.taskPage) : (param.taskPage == null ? 1 : param.taskPage) + 1}&taskProjectTitle=${taskProjectTitle}">Next</a></li>
+    		  </ul>
+    		</nav>
+        
+       </section> 
+     
       <!-- 프로젝트 멤버 목록 -->
       <section class="project-members">
           <h2>프로젝트 멤버</h2>

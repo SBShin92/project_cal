@@ -28,9 +28,9 @@
            <table border="1">
           <tr>
             <th>Task ID</th>
-            <th>테스크 생성일</th>
-            <th>테스크 수정일</th>
-            <th>진행상황</th>
+            <th>Created At</th>
+            <th>Upated At</th>
+            <th>Task Status</th>
           </tr>
           <tr>
             <td>${viewTask.taskId}</td>
@@ -39,8 +39,8 @@
             <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
           </tr>
           <tr>
-            <th>테스트 제목</th>
-            <th colspan="3">테스크 내용</th>
+            <th>Task Title</th>
+            <th colspan="3">Task Description</th>
           </tr>
           <tr>
             <td>${viewTask.taskTitle}</td>
