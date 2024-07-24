@@ -1,8 +1,11 @@
 package com.github.sbshin92.project_cal.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +24,6 @@ import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
 @RequestMapping("/manager")
 @Controller
 public class ManagerController {
@@ -34,6 +35,9 @@ public class ManagerController {
 	
 	@Autowired
 	private RoleService roleService;
+	
+	 private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
+
 	
 
 	@GetMapping({ "", "/", "/project" })
@@ -56,15 +60,6 @@ public class ManagerController {
 			return "redirect:/manager/project";
 	}
 	
-
-	@GetMapping({ "/user" })
-	public String managerUsersPage(Model model) {
-		List<UserVO> userVOs = userService.getAllUsers();
-		model.addAttribute("userVOs", userVOs);
-
-		return "manager/manager-user";
-	}
-
 	// 유저 삭제
 	@PostMapping("/user/delete/{userId}")
 	public String deleteUser(@PathVariable Integer userId) {
@@ -76,118 +71,80 @@ public class ManagerController {
 		return "redirect:/manager/user";
 	}
 
-	// 유저 수정
-//	@PostMapping("/user/edit/{userId}")
-//	public Map<String, Object> editUser(@PathVariable int userId, @RequestParam String name, @RequestParam String email,
-//			@RequestParam String position, @RequestParam String authority) {
-//		Map<String, Object> response = new HashMap<>();
-//		try {
-//// 사용자 정보 업데이트 로직
-//			UserVO user = userService.getUserById(userId);
-//			if (user != null) {
-//				user.setUserName(name);
-//				user.setUserEmail(email);
-//				user.setUserAuthority(authority);
-//				user.setUserPosition(position);
-//				userService.updateUser(user);
-//				response.put("success", true);
-//				response.put("message", "사용자 정보가 업데이트되었습니다.");
-//			} else {
-//				response.put("success", false);
-//				response.put("message", "사용자를 찾을 수 없습니다.");
-//			}
-//		} catch (Exception e) {
-//			response.put("success", false);
-//			response.put("message", "사용자 정보 업데이트 중 오류가 발생했습니다.");
-//		}
-//		return response;
-//	}
 	
-	 // 기존 역할을 수정하고 역할 목록 페이지로 리다이렉트
-//	@PostMapping("/user/edit/{userId}")
-//	public String updateUser(@PathVariable int userId,
-//	                         @RequestParam String name,
-//	                         @RequestParam String email,
-//	                         @RequestParam String position,
-//	                         @RequestParam String authority,
-//	                         @RequestParam(required = false) Boolean projectCreate,
-//	                         @RequestParam(required = false) Boolean projectRead,
-//	                         @RequestParam(required = false) Boolean projectUpdate,
-//	                         @RequestParam(required = false) Boolean projectDelete,
-//	                         RedirectAttributes redirectAttributes) {
-//	    try {
-//	        UserVO user = userService.getUserById(userId);
-//	        if (user == null) {
-//	            redirectAttributes.addFlashAttribute("error", "사용자를 찾을 수 없습니다.");
-//	            return "redirect:/manager/user";
-//	        }
-//
-//	        user.setUserName(name);
-//	        user.setUserEmail(email);
-//	        user.setUserPosition(position);
-//	        user.setUserAuthority(authority);
-//
-//	        RoleVO role = roleService.getRoleByUserId(userId);
-//	        if (role == null) {
-//	            role = new RoleVO();
-//	            role.setUserId(userId);
-//	        }
-//	        role.setProjectCreate(projectCreate != null && projectCreate);
-//	        role.setProjectRead(projectRead != null && projectRead);
-//	        role.setProjectUpdate(projectUpdate != null && projectUpdate);
-//	        role.setProjectDelete(projectDelete != null && projectDelete);
-//
-//	        userService.updateUser(user);
-//	        roleService.createOrUpdateRole(role);
-//
-//	        redirectAttributes.addFlashAttribute("message", "사용자 정보가 성공적으로 업데이트되었습니다.");
-//	    } catch (Exception e) {
-//	        redirectAttributes.addFlashAttribute("error", "사용자 정보 업데이트 중 오류가 발생했습니다: " + e.getMessage());
-//	    }
-//	    return "redirect:/manager/user";
-//	}
-	
-	@PostMapping("/user/edit/{userId}")
-	public ResponseEntity<?> updateUser(
-	    @PathVariable int userId,
-	    @RequestParam String name,
-	    @RequestParam String email,
-	    @RequestParam String position,
-	    @RequestParam(required = false) Boolean projectCreate,
-	    @RequestParam(required = false) Boolean projectRead,
-	    @RequestParam(required = false) Boolean projectUpdate,
-	    @RequestParam(required = false) Boolean projectDelete
-	) {
-	    try {
-	        UserVO user = userService.getUserById(userId);
-	        if (user == null) {
-	            return ResponseEntity.badRequest().body("사용자를 찾을 수 없습니다.");
-	        }
-
-	        user.setUserName(name);
-	        user.setUserEmail(email);
-	        user.setUserPosition(position);
-
-	        RoleVO role = roleService.getRoleByUserId(userId);
-	        if (role == null) {
-	            role = new RoleVO();
-	            role.setUserId(userId);
-	        }
-	        role.setProjectCreate(projectCreate != null ? projectCreate : false);
-	        role.setProjectRead(projectRead != null ? projectRead : false);
-	        role.setProjectUpdate(projectUpdate != null ? projectUpdate : false);
-	        role.setProjectDelete(projectDelete != null ? projectDelete : false);
-
-	        userService.updateUser(user);
-	        roleService.createOrUpdateRole(role);
-
-	        return ResponseEntity.ok().body("사용자 정보가 성공적으로 업데이트되었습니다.");
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                             .body("사용자 정보 업데이트 중 오류가 발생했습니다: " + e.getMessage());
+	 @GetMapping("/user")
+	    public String managerUsersPage(Model model) {
+	        List<UserVO> userVOs = userService.getAllUsers();
+	        model.addAttribute("userVOs", userVOs);
+	        return "manager/manager-user";
 	    }
-	}
-	
 
-	    
+	 @GetMapping("/user/{userId}")
+	    public ResponseEntity<?> getUser(@PathVariable int userId) {
+	        logger.debug("Received request for user with ID: {}", userId);
+	        logger.info("Received request for user with ID: {}", userId);
+	        try {
+	            UserVO user = userService.getUserById(userId);
+	            if (user == null) {
+	                logger.warn("User not found with ID: {}", userId);
+	                return ResponseEntity.notFound().build();
+	            }
+	            RoleVO role = roleService.getRoleByUserId(userId);
+	            if (role == null) {
+	                logger.info("Role not found for user ID: {}. Creating default role.", userId);
+	                role = new RoleVO();
+	                role.setUserId(userId);
+	            }
+	            Map<String, Object> response = new HashMap<>();
+	            response.put("user", user);
+	            response.put("role", role);
+	            return ResponseEntity.ok(response);
+	        } catch (Exception e) {
+	            logger.error("Error retrieving user with ID: {}", userId, e);
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                                 .body("Error: " + e.getMessage());
+	        }
+	    }
+
+	 @PostMapping("/user/edit/{userId}")
+	 public ResponseEntity<?> updateUser(
+	         @PathVariable int userId,
+	         @RequestParam String name,
+	         @RequestParam String email,
+	         @RequestParam String authority,
+	         @RequestParam(required = false) Boolean projectCreate,
+	         @RequestParam(required = false) Boolean projectRead,
+	         @RequestParam(required = false) Boolean projectUpdate,
+	         @RequestParam(required = false) Boolean projectDelete
+	 ) {
+	     try {
+	         UserVO user = userService.getUserById(userId);
+	         if (user == null) {
+	             return ResponseEntity.badRequest().body("사용자를 찾을 수 없습니다.");
+	         }
+
+	         user.setUserName(name);
+	         user.setUserEmail(email);
+	         user.setUserAuthority(authority);  // 여기를 setUserAuthority로 변경
+
+	         RoleVO role = roleService.getRoleByUserId(userId);
+	         if (role == null) {
+	             role = new RoleVO();
+	             role.setUserId(userId);
+	         }
+	         role.setProjectCreate(projectCreate != null ? projectCreate : false);
+	         role.setProjectRead(projectRead != null ? projectRead : false);
+	         role.setProjectUpdate(projectUpdate != null ? projectUpdate : false);
+	         role.setProjectDelete(projectDelete != null ? projectDelete : false);
+
+	         userService.updateUser(user);
+	         roleService.createOrUpdateRole(role);
+
+	         return ResponseEntity.ok().body("사용자 정보가 성공적으로 업데이트되었습니다.");
+	     } catch (Exception e) {
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                              .body("사용자 정보 업데이트 중 오류가 발생했습니다: " + e.getMessage());
+	     }
+	 }
+	
 }

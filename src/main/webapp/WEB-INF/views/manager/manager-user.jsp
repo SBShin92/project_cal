@@ -36,7 +36,7 @@
                             <td>${user.userId}</td>
                             <td class="editable" data-field="name">${user.userName}</td>
                             <td class="editable" data-field="email">${user.userEmail}</td>
-                            <td class="editable" data-field="position">${user.userPosition}</td>
+                            <td class="editable" data-field="authority">${user.userAuthority}</td>
                             <td class="permissions">
                                 <label><input type="checkbox" name="projectCreate" ${user.role.projectCreate ? 'checked' : ''} disabled> 생성</label>
                                 <label><input type="checkbox" name="projectRead" ${user.role.projectRead ? 'checked' : ''} disabled> 읽기</label>
@@ -55,6 +55,8 @@
             </table>
         </div>
     </div>
+    
     <script src="<c:url value='/javascript/manager.js'/>"></script>
+    
 </body>
 </html>
