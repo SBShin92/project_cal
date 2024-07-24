@@ -8,7 +8,6 @@
 	</div>
 	
 	<nav class="top-nav">
-		<a class="nav-btn" href="<c:url value='/calendar/scheduleSwitch' /> ">참여/전체 프로젝트</a>
 		<button class="nav-btn" id="message-btn">쪽지함 (${ sessionScope.messageUnreadCount })</button>
 		
 		<c:if test="${authUser.userAuthority == 'admin'}">

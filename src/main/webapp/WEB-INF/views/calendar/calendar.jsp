@@ -68,6 +68,7 @@
 		<a class="today-button btn btn-dark"
 			href="<c:url value='/calendar/date/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">
 			Today</a>
+		<a class="btn btn-outline-primary" href="<c:url value='/calendar/scheduleSwitch' /> ">${ mySchedule == true ? "전체 프로젝트 보기" : "참여중인 프로젝트 보기"}</a>
 	</div>
 	<main>
 	
