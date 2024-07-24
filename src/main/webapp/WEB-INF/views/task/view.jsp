@@ -25,37 +25,29 @@
         <!-- <div id="content"> -->
 
         <!-- Task Details -->
-        <table border="1">
-
-          <thead>
-            <tr>
-              <th>Task ID</th>
-              <th>User ID</th>
-              <th>Project ID</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Created At</th>
-              <th>Updated At</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>${viewTask.taskId}</td>
-              <td>${viewTask.userId}</td>
-              <td>${viewTask.projectId}</td>
-              <td>${viewTask.taskTitle}</td>
-              <td>${viewTask.taskDescription}</td>
-              <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
-              <td>${viewTask.createdAt}</td>
-              <td>${viewTask.updatedAt == null ? '' : viewTask.updatedAt}</td>
-              
-            </tr>
-          </tbody>
-
-          <!-- Add more task details as needed -->
+           <table border="1">
+          <tr>
+            <th>Task ID</th>
+            <th>테스크 생성일</th>
+            <th>테스크 수정일</th>
+            <th>진행상황</th>
+          </tr>
+          <tr>
+            <td>${viewTask.taskId}</td>
+            <td><fmt:formatDate value="${viewTask.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+            <td><fmt:formatDate value="${viewTask.updatedAt == null ? '' : viewTask.updatedAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+            <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
+          </tr>
+          <tr>
+            <th>테스트 제목</th>
+            <th colspan="3">테스크 내용</th>
+          </tr>
+          <tr>
+            <td>${viewTask.taskTitle}</td>
+            <td colspan="3">${viewTask.taskDescription}</td>
+          </tr>
         </table>
+
 
       </div>
     </section>
@@ -76,8 +68,9 @@
     </section>
    
  
+    <section class="project-content">
     <!-- Task Members List -->
-    <h2>Task Members</h2>
+    <h2>Task Members List</h2>
     <table border="1">
       <thead>
         <tr>
@@ -105,10 +98,12 @@
 
       </tbody>
     </table>
- 
+    
+    <div>
     <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
             돌아가기</a>
-
+    </div>
+      
   </div>
 
   <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>

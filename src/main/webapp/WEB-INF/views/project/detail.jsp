@@ -67,7 +67,7 @@
         </c:if>
       </section>
 
-      <!-- task목록 띄우기 위해 추가한 내용 (지원 0718 03:00) -->
+      <!-- task목록0724 -->
       <section class="project-tasks" id="project-tasks">
 
         <h2>테스크 페이지</h2>
@@ -87,7 +87,6 @@
               <tr>
                 <th>TaskID</th>
                 <th>TaskTitle</th>
-                <th>TaskDescription</th>
                 <th>TaskStatus</th>
                 <th>&nbsp;</th>
               </tr>
@@ -100,7 +99,6 @@
                 <tr>
                   <td>${pt.taskId}</td>
                   <td>${pt.taskTitle}</td>
-                  <td>${pt.taskDescription}</td>
                   <td>${pt.taskStatus}</td>
 
                   <td>
