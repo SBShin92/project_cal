@@ -19,13 +19,13 @@
                 <i class="fas fa-envelope me-2"></i>${sessionScope.authUser.userName} 님의 메시지함
             </h1>
             <div class="btn-group mb-4" role="group" aria-label="Message actions">
-            	<a class="btn btn-custom btn-outline-danger" href="<c:url value='/message/alarm' />">
+                <a class="btn btn-custom btn-outline-danger active" href="<c:url value='/message/alarm' />">
                     <i class="fas fa-cake-candles me-2"></i>알람
                 </a>
                 <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/received' />">
                     <i class="fas fa-inbox me-2"></i>받은 쪽지
                 </a>
-                <a class="btn btn-custom btn-outline-dark active" href="<c:url value='/message/sended' />">
+                <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/sended' />">
                     <i class="fas fa-paper-plane me-2"></i>보낸 쪽지
                 </a>
                 <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/create' />">
@@ -35,15 +35,15 @@
             <div class="card">
                 <ul class="list-group list-group-flush">
                     <c:forEach var="messageVO" items="${messageVOs}">
-                    	<c:if test="${ messageVO.isAlarm == false }">
-                        <li class="list-group-item">
-                        	<div class="row">
-						    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none col-8">
-						        <i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}
-						    </a>
-						    <span class="col-4"><fmt:formatDate value="${messageVO.createdAt}" pattern="MM/dd HH:mm" />, ${messageVO.readStatus}</span>
-						    </div>
-						</li>
+                    	<c:if test="${ messageVO.isAlarm == true }">
+	                        <li class="list-group-item">
+	                        	<div class="row">
+							    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none text-danger col-8">
+							        <i class="fas fa-cake-candles me-2"></i>${messageVO.messageTitle}
+							    </a>
+							    <span class="col-4"><fmt:formatDate value="${messageVO.createdAt}" pattern="MM/dd HH:mm" />, ${messageVO.readStatus}</span>
+							    </div>
+							</li>
 						</c:if>
                     </c:forEach>
                 </ul>
