@@ -18,6 +18,7 @@ public interface MessagesDAO {
 			+ " m.message_title as messageTitle, "
 			+ " m.message_description as messageDescription, "
 			+ " m.read_status as readStatus, "
+			+ " m.is_alarm as isAlarm, "
 			+ " m.created_at as createdAt, "
 			+ " su.user_name as senderUserName, "
 			+ " ru.user_name as receiverUserName "
@@ -33,6 +34,7 @@ public interface MessagesDAO {
 			+ " m.message_title as messageTitle, "
 			+ " m.message_description as messageDescription, "
 			+ " m.read_status as readStatus, "
+			+ " m.is_alarm as isAlarm, "
 			+ " m.created_at as createdAt, "
 			+ " su.user_name as senderUserName, "
 			+ " ru.user_name as receiverUserName "
@@ -48,6 +50,7 @@ public interface MessagesDAO {
 			+ " m.message_title as messageTitle, "
 			+ " m.message_description as messageDescription, "
 			+ " m.read_status as readStatus, "
+			+ " m.is_alarm as isAlarm, "
 			+ " m.created_at as createdAt, "
 			+ " su.user_name as senderUserName, "
 			+ " ru.user_name as receiverUserName "
@@ -56,8 +59,8 @@ public interface MessagesDAO {
 	public MessageVO getMessageByMessageId(Integer messageId);
 	
 		
-	@Insert("INSERT INTO messages(sender_user_id, receiver_user_id, message_title, message_description) "
-			+ " VALUES(#{senderUserId}, #{receiverUserId}, #{messageTitle}, #{messageDescription})")
+	@Insert("INSERT INTO messages(sender_user_id, receiver_user_id, message_title, message_description, is_alarm) "
+			+ " VALUES(#{senderUserId}, #{receiverUserId}, #{messageTitle}, #{messageDescription}, #{isAlarm})")
 	public Integer insert(MessageVO messageVO);
 	
 	
@@ -67,9 +70,9 @@ public interface MessagesDAO {
 	public Integer updateReadStatusRead(Integer messageId);
 
 	
-	@Update("UPDATE messages "
-			+ " SET read_status = 'unread' "
-			+ " WHERE message_id = #{messageId}")
-	public Integer updateReadStatusUnRead(Integer messageId);
+//	@Update("UPDATE messages "
+//			+ " SET read_status = 'unread' "
+//			+ " WHERE message_id = #{messageId}")
+//	public Integer updateReadStatusUnRead(Integer messageId);
 	
 }
