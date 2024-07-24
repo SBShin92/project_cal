@@ -14,12 +14,13 @@
 	</nav>
 
 
-	<div class="search-div">
-		<form action="<c:url value='/tasks/SearchProjectTasks'/>" method="get" class="search-form">
-			<input type="text" name="taskTitle" placeholder="search projects, tasks" required>
-			<button type="submit" class="btn btn-dark">검색</button>
-		</form>
-	</div>
+	<!--0724 지원 수정 --> 
+	<div class="search-div"> 
+  		<form action="<c:url value='/tasks/SearchProjectTasks'/>" method="get" class="search-form">
+  			<input type="text" name="taskProjectTitle" placeholder="search projects, tasks" required>
+  			<button type="submit" class="btn btn-dark">검색</button>
+  		</form>
+   </div>
 	
 	<div class="user-profile-container">
 		<div class="user-profile">${sessionScope.userName != null ? sessionScope.userName : '사용자'}	▼</div>

@@ -163,7 +163,7 @@ public interface ProjectsDAO {
 	    
 	    
 	   //------------------------------------------------------------------------
-	    //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능     
+	  //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능     
 	    @Select("SELECT project_id as projectId, "
 	    		+ "user_id as userId, "
 	    		+ "project_title as projectTitle, "
