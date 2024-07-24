@@ -92,10 +92,12 @@
 		<aside class="right-panel">
 		
 			<!-- 프로젝트 생성 버튼 추가 -->
-			<div class="create-project">
-				<a id="createProjectBtn" class="btn btn-primary"
-					href="<c:url value='/project/create' />">프로젝트 생성</a>
-			</div>
+			<c:if test="${ sessionScope.authUserRole.projectCreate == true }">
+				<div class="create-project">
+					<a id="createProjectBtn" class="btn btn-primary"
+						href="<c:url value='/project/create' />">프로젝트 생성</a>
+				</div>
+			</c:if>
 			<c:if test="${ not empty viewDate }">
 				<p id="clicked-date">${ viewDate } 일의 프로젝트</p>
 			</c:if>

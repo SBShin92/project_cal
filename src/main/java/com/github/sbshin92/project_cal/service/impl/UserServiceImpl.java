@@ -82,8 +82,8 @@ public class UserServiceImpl implements UserService {
 	public void updateUser(UserVO user) {
 		try {
 			usersDAO.update(user);
-			if (user.getRole() != null) {
-				roleDAO.update(user.getRole());
+			if (user.getRoleVO() != null) {
+				roleDAO.update(user.getRoleVO());
 			}
 		} catch (DataAccessException e) {
 			throw new RuntimeException("사용자 정보 업데이트 중 오류 발생", e);

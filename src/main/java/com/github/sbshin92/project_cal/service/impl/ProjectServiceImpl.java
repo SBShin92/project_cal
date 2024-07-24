@@ -65,8 +65,6 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectsDAO.findAll();
 	}
 	
-	
-
 	@Override
 	public List<ProjectVO> getProjectsWithPage(int page, int size) {
 		int offset = (page - 1) * size;
