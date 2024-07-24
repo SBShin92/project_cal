@@ -100,7 +100,7 @@ const createCalendar = async (year, month) => {
    monthString += month.toString();
 
    // 클릭한 date는 몇일?
-   const getClickedDate = document.getElementById("view-date");
+   const getClickedDate = document.getElementById("clicked-date");
    let clickedDate = 0;
    if (getClickedDate !== null) {
       clickedDate = parseInt(getClickedDate.textContent);

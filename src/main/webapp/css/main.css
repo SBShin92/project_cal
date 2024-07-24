@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+body {
+    font-family: '맑은 고딕', '돋움', '굴림', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #e6f3ff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: black;
+	margin-left: 1vw;
+	text-decoration: none;
+}
+
+.top-nav {
+    background-color: #e6f3ff;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+	background-color: transparent;
+	border: none;
+	padding: 10px 15px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	border-radius: 5px;
+	text-decoration: none;
+}
+
+.nav-btn:hover {
+	background-color: #d0e6ff;
+}
+
+main {
+    display: flex;
+    flex: 1;
+    padding: 1rem;
+    height: calc(100vh - 120px); /* 헤더와 네비게이션 높이를 고려하여 조정 */
+}
+
+.user-profile-container {
+  margin-right: 1vw;
+  position: relative;
+}
+
+.user-profile {
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.user-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: none;
+}
+
+.menu-item {
+  display: block;
+  padding: 5px 5px;
+  color: #333;
+  text-decoration: none;
+}
+
+.menu-item:hover {
+  background-color: #fdb03e;
+}
