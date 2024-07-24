@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
+import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 
 /**
@@ -160,7 +161,9 @@ public interface ProjectsDAO {
 	    List<UserVO> getProjectMembers(@Param("projectId") int projectId);
 	    
 	    
-	    //0723지원 프로젝트 타이틀로 인한 프로젝트 검색 기능 구현 
+	    
+	   //------------------------------------------------------------------------
+	    //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능     
 	    @Select("SELECT project_id as projectId, "
 	    		+ "user_id as userId, "
 	    		+ "project_title as projectTitle, "
@@ -172,25 +175,13 @@ public interface ProjectsDAO {
 	    		+ "end_date as endDate "
 	    		+ "FROM projects " 
 	    		+ "WHERE LOWER(project_title) LIKE CONCAT('%',LOWER(#{projectTitle}), '%')")
-	    List<ProjectVO> searchedProjects(String projectTitle);
-	    
-	    
-	    
-	    /*
-	    //project paging 구현중..
-	    @Select("SELECT project_id as projectId, "
-	    		+ "user_id as userId, "
-	    		+ "project_title as projectTitle, "
-	    		+ "project_description as projectDescription, "
-	    		+ "created_at as createdAt, "
-	    		+ "updated_at as updatedAt, "
-	    		+ "project_status as projectStatus, "
-	    		+ "start_date as startDate, "
-	    		+ "end_date as endDate "
-	    		+ "FROM projects " 
-	    		+ "WHERE LOWER(project_title) LIKE CONCAT('%',LOWER(#{projectTitle}), '%')")
-	    List<ProjectVO> searchedProjects(@Param("projectVO") ProjectVO prjocectVO, RowBounds rowBounds);
-	    
-	    @SELECT conut(1)""
-	    */
-}
+	    List<ProjectVO> searchedProjects(String projectTitle, RowBounds rowBounds );
+	    // 프로젝트 검색 쿼리: lower 이하 조건문은 지정된 projectTitle을 포함하는 프로젝트 제목을 대소문자 구분 없이 검색
+	   
+	    //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능 
+	    @Select("SELECT count(1)" + 
+	            "FROM projects " +
+				"WHERE LOWER(project_title) LIKE CONCAT('%', LOWER(#{projectTitle}), '%')")
+		public int getTotalProjectsCount(String projectTitle);
+	    //전체 프로젝트 수 쿼리 
+}	    

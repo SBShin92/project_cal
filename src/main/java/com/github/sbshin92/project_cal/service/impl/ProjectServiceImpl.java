@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
+import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.ProjectService;
 
@@ -99,18 +100,6 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectsDAO.delete(projectId) > 0;
 	}
 	
-	//삭제금지.. 0722 21:00
-	@Override
-	public List<ProjectVO> searchedProjects(String projectTitle) {
-	 	// 검색어가 projectTitle이거나 비어있는 경우 처리
-			if (projectTitle == null || projectTitle.trim().isEmpty()) {
-				return List.of();	//빈리스트 반환 또는 다른 적절한 처리 
-			}
-				// 검색어 전처리 (옵션)
-	        String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
-		return projectsDAO.searchedProjects(processedTitle);
-	}
-		
 //-------------------------------------------------------------------------------------	
 	/**
 	 * 프로젝트의 멤버 목록을 조회합니다.
@@ -147,4 +136,38 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectsDAO.deleteProjectUser(userId, projectId) > 0;
 	}
 
+//------------------------------------------------------------------------
+		//0724
+		@Override
+		public List<ProjectVO> searchedProjects(String projectTitle, int page) {
+		 	// 검색어(projectTitle) 유효성 검사: 검색어가 projectTitle이거나 비어있는 경우 처리
+				if (projectTitle == null || projectTitle.trim().isEmpty()) {
+					return List.of();	//빈리스트 반환 또는 다른 적절한 처리 
+				}
+				
+				// 검색어 전처리 (옵션)
+		        String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
+		        
+		        //페이지 세팅
+		        int size = 10; //페이지 크기를 10으로 설정
+				int offset = (page - 1) * size; //오프셋을 계산(현재 페이지 번호에 따라).
+				
+			//처리된 검색어와 RowBounds 객체(페이징을 위해)를 사용하여 projectsDAO의 searchedProjects 메소드를 호출	
+			return projectsDAO.searchedProjects(processedTitle, new RowBounds(offset, size));
+		}
+
+		//0724
+		@Override
+		public int getTotalProjectsCount(String projectTitle) {
+
+			  	// 검색어(projectTitle) 유효성 검사// 검색어가 null이거나 비어있는 경우 처리
+				if (projectTitle == null || projectTitle.trim().isEmpty()) {
+					return 0;	//빈리스트 반환
+				}
+				// 검색어 전처리 (옵션)
+			    String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
+			    //projectsDAO의 getTotalProjectsCount 메소드를 호출하여 총 프로젝트 수를 가져옴
+			    return projectsDAO.getTotalProjectsCount(projectTitle);
+		}	
+		
 }

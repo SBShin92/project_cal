@@ -24,10 +24,9 @@
     <section class="project-content">
       <h1>Task Details</h1>
       
-      <a href="<c:url value='/project/${viewTask.projectId}'/>">
-            <button type="button">Go Back</button>
-      </a>
-
+      <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
+            돌아가기</a>
+            
       <div id="wrapper" class="editable">
         <!-- <div id="content"> -->
 
@@ -82,7 +81,7 @@
     </form>
     </section>
    
-   <section class="project-content">
+ 
     <!-- Task Members List -->
     <h2>Task Members</h2>
     <table border="1">
@@ -112,7 +111,7 @@
 
       </tbody>
     </table>
-    </section>
+ 
 
   </div>
 

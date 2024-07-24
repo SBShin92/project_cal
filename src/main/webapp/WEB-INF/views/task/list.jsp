@@ -29,6 +29,10 @@
     <jsp:include page="/WEB-INF/includes/nav.jsp" />
 
     <h1>Task List</h1>
+    <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
+            돌아가기</a>
+     
+    
     <a href="<c:url value='/tasks/createTaskForm'/>">테스트 생성</a>
 
     <div id="wrapper">

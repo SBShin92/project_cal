@@ -15,13 +15,19 @@
 </head>
 
 <body>
+      
     
   <div id="container">
 	<jsp:include page="/WEB-INF/includes/header.jsp" />
 	<jsp:include page="/WEB-INF/includes/nav.jsp" />
     
    <section class="project-content">
+        
         <h1>Task List</h1>
+          <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
+            돌아가기</a>
+     
+        
         <c:if test="${not empty searchedTasks}">
         <table border="1">
               <thead>
@@ -32,9 +38,6 @@
                   <th>CreatedAt</th>
                   <th>UpdatedAt</th>
                   <th>TaskStatus</th>
-                  <th>taskPriority</th>
-                  <th>startDate</th>
-                  <th>endDate</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -50,9 +53,6 @@
                       <td>${st.createdAt}</td>
                       <td>${st.updatedAt}</td>
                       <td>${st.taskStatus}</td>
-                      <td>${st.taskPriority}</td>
-                      <td>${st.startDate}</td>
-                      <td>${st.endDate}</td>
                       <td>
                         <form action="<c:url value='/tasks/viewTask/${st.taskId}' />"
                           method="get" style="display: inline;">
@@ -71,15 +71,15 @@
         <p>No Tasks Found. </p>
      </c:if>
      
-     	<!-- 삭제금지 0722 21:00 -->
+     	<!--0724-->
 	    <nav>
 		  <ul class="pagination">
-		    <li class="page-item"><a class="page-link" href="?page=${param.page == 1 || param.page == null ? 1 : param.page - 1}&taskTitle=${taskTitle}">Previous</a></li>
+		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li> <!-- 재세팅해준 파람이여기오게됨 -->
 	
 		    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
-		      <li class="page-item"><a class="page-link" href="?page=${num.index}&taskTitle=${taskTitle}">${num.index}</a></li>
+		      <li class="page-item"><a class="page-link" href="?taskPage=${num.index}&taskProjectTitle=${taskProjectTitle}">${num.index}</a></li>
 		    </c:forEach>
-		    <li class="page-item"><a class="page-link" href="?page=${ totalPages != 10 ? (param.page == null ? 1 : param.page) : (param.page == null ? 1 : param.page) + 1}&taskTitle=${taskTitle}">Next</a></li>
+		    <li class="page-item"><a class="page-link" href="?taskPage=${ totalPages != 10 ? (param.taskPage == null ? 1 : param.taskPage) : (param.taskPage == null ? 1 : param.taskPage) + 1}&taskProjectTitle=${taskProjectTitle}">Next</a></li>
 		  </ul>
 		</nav>
      </section>  
@@ -138,9 +138,24 @@
      <c:if test="${empty searchedProjects}">
         <p>No Projects Found. </p>
      </c:if>
+     
+     	<!--0724-->
+	    <nav>
+		  <ul class="pagination">
+		    <li class="page-item"><a class="page-link" href="?projectPage=${param.projectPage == 1 || param.projectPage == null ? 1 : param.projectPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li>
+	
+		    <c:forEach begin="1" end="${(projectCount / 10) + 1}" varStatus="num">
+		      <li class="page-item"><a class="page-link" href="?projectPage=${num.index}&taskProjectTitle=${taskProjectTitle}">${num.index}</a></li>
+		    </c:forEach>
+		    <li class="page-item"><a class="page-link" href="?projectPage=${ totalProjectPages != 10 ? (param.projectPage == null ? 1 : param.projectPage) : (param.projectPage == null ? 1 : param.projectPage) + 1}&taskProjectTitle=${taskProjectTitle}">Next</a></li>
+		  </ul>
+		</nav>     
     </section>
     
   </div>
+  
+     
+      
   <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
   <script src="<c:url value='/javascript/main.js' />"></script>
   <script src="<c:url value='/javascript/calendar.js' />"></script>
