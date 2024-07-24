@@ -128,6 +128,7 @@ public class ManagerController {
 	            user.setUserName(name);
 	            user.setUserEmail(email);
 	            user.setUserPosition(position);
+	            user.setUserAuthority(authority);
 	            user.setUserAuthority(isAdmin != null && isAdmin ? "admin" : authority);
 
 	            RoleVO role = roleService.getRoleByUserId(userId);
