@@ -9,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.sbshin92.project_cal.data.dao.RoleDAO;
 import com.github.sbshin92.project_cal.data.dao.UsersDAO;
-import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
-import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Service
@@ -97,5 +95,29 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+/* 토큰 조회 및 삭제
+	@Override
+	public UserVO findByToken(String token) {
+		return usersDAO.findByToken(token);
+	}
+
+	@Override
+	public void deleteToken(int userId) {
+		usersDAO.deleteToken(userId);
+		
+	}
+// 비밀번호 리셋
+	@Override
+	public boolean sendPasswordResetToken(String email) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean resetPassword(String token, String newPassword) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+*/
 
 }
