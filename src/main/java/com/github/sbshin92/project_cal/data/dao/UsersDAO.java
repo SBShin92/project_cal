@@ -96,4 +96,11 @@ public interface UsersDAO {
     // 로그인시 토큰을 위한 메서드
     @Update("UPDATE users SET token = #{token} WHERE user_email = #{email}")
     void updateToken(@Param("email")String email,@Param("token")String token);
+    
+    // 비밀번호 초기화를 위한 메서드
+    @Update("UPDATE users SET password_reset_token = #{token} WHERE user_email = #{email}")
+    void updatePasswordResetToken(@Param("email")String email, @Param("token") String token);
+    
+    @Update("UPDATE users SET user_password = #{password} WHERE password_reset_token = #{token}")
+    void updatePasswordByToken(@Param("token")String token, @Param("password")String password);
 }

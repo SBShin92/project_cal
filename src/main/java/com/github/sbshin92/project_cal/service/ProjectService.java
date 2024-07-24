@@ -16,7 +16,7 @@ public interface ProjectService {
     Integer getTotalProjectCount();    
     
 	public ProjectVO getProjectById(int projectId); // 프로젝트 아이디로 프로젝트 조회	
-	public boolean createProject(ProjectVO project) throws IOException; // 생성
+	public boolean createProject(ProjectVO project) throws IOException;
 	public boolean updateProject(ProjectVO project); // 수정
 	public boolean deleteProject(int projectId); // 삭제
 
@@ -28,4 +28,5 @@ public interface ProjectService {
     boolean deleteProjectUser(Integer userId, int projectId); // 멤버 삭제
     public List<ProjectVO> searchedProjects(String projectTitle, int page); //0724 프로젝트타이틀을 통한 프로젝트목록 검색
     public int getTotalProjectsCount(String projectTitle);  //0724 프로젝트타이틀을 통한 프로젝트목록 검색
+	public boolean createProject(ProjectVO project, List<Integer> memberIds) throws IOException; // 멤버 추가시 알람기능
 }

@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.sbshin92.project_cal.data.dao.ProjectsDAO;
+import com.github.sbshin92.project_cal.data.dao.UsersDAO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
-import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
+import com.github.sbshin92.project_cal.service.NotificationService;
 import com.github.sbshin92.project_cal.service.ProjectService;
 
 /**
@@ -22,6 +23,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private ProjectsDAO projectsDAO;
+	
+	@Autowired
+	private UsersDAO usersDAO;
+	
+	@Autowired
+	private NotificationService notificationService;
 
 	/**
 	 * 새 프로젝트를 생성합니다.
@@ -29,12 +36,13 @@ public class ProjectServiceImpl implements ProjectService {
 	 * @param project 생성할 프로젝트 정보
 	 * @throws IOException 파일 업로드 중 오류 발생 시
 	 */
+	
 	@Override
 	@Transactional // 트랜잭션 처리를 위한 어노테이션
 	public boolean createProject(ProjectVO project) throws IOException {
 		return 1 == projectsDAO.insert(project);
 	}
-
+	
 	/**
 	 * 프로젝트 ID로 프로젝트를 조회합니다.
 	 * 
@@ -124,8 +132,19 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	// 프로젝트에 멤버 추가
 	@Override
+	@Transactional
 	public boolean addMemberProject(int userId, int projectId) {
-		return projectsDAO.addMemberProject(userId, projectId) > 0;
+		boolean isAdded = projectsDAO.addMemberProject(userId, projectId) > 0;
+		
+		if(isAdded) {
+			UserVO member = usersDAO.findById(userId);
+			ProjectVO project = projectsDAO.findById(projectId);
+			UserVO sender = usersDAO.findById(project.getUserId());
+			String content = "축하드립니다 " + member.getUserName() + "님" + project.getProjectTitle() + "프로젝트에 참여하게되었습니다";
+			notificationService.sendNotification(sender,member,"프로젝트 초대", content);
+			
+		}
+		return isAdded;
 	}
 
 	// 프로젝트에서 멤버 삭제
@@ -158,15 +177,47 @@ public class ProjectServiceImpl implements ProjectService {
 			@Override
 			public int getTotalProjectsCount(String projectTitle) {
 
-				  	// 검색어(projectTitle) 유효성 검사// 검색어가 null이거나 비어있는 경우 처리
-					if (projectTitle == null || projectTitle.trim().isEmpty()) {
-						return 0;	//빈리스트 반환
-					}
-					// 검색어 전처리 (옵션)
-				    String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
-				    //projectsDAO의 getTotalProjectsCount 메소드를 호출하여 총 프로젝트 수를 가져옴
-				    return projectsDAO.getTotalProjectsCount(projectTitle);
-			}	
-			
+
+			  	// 검색어(projectTitle) 유효성 검사// 검색어가 null이거나 비어있는 경우 처리
+				if (projectTitle == null || projectTitle.trim().isEmpty()) {
+					return 0;	//빈리스트 반환
+				}
+				// 검색어 전처리 (옵션)
+			    String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
+			    //projectsDAO의 getTotalProjectsCount 메소드를 호출하여 총 프로젝트 수를 가져옴
+			    return projectsDAO.getTotalProjectsCount(projectTitle);
+		}
 		
-}
+		
+		// 멤버 추가시 알람
+		@Override
+		@Transactional // 트랜잭션 처리를 위한 어노테이션
+		public boolean createProject(ProjectVO project, List<Integer> memberIds) throws IOException {
+			boolean isCreated = projectsDAO.insert(project) > 0;
+			
+			if(isCreated) {
+				for(Integer memberId : memberIds) {
+					projectsDAO.addMemberProject(memberId, project.getProjectId());
+					UserVO member = usersDAO.findById(memberId);
+					UserVO sender = usersDAO.findById(project.getUserId());
+					String contnet = member.getUserName() + "님" + project.getProjectTitle()+"프로젝트에 추가되었습니다";
+					notificationService.sendNotification(sender,member,"프로젝트 초대", contnet);
+				}
+			}
+			
+			return isCreated;
+		}	
+
+//
+//				  	// 검색어(projectTitle) 유효성 검사// 검색어가 null이거나 비어있는 경우 처리
+//					if (projectTitle == null || projectTitle.trim().isEmpty()) {
+//						return 0;	//빈리스트 반환
+//					}
+//					// 검색어 전처리 (옵션)
+//				    String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
+//				    //projectsDAO의 getTotalProjectsCount 메소드를 호출하여 총 프로젝트 수를 가져옴
+//				    return projectsDAO.getTotalProjectsCount(projectTitle);
+//			}	
+			
+
+}	

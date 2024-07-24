@@ -91,8 +91,9 @@ public class MessageController {
 			HttpSession session) {
 		UserVO authUser = (UserVO)session.getAttribute("authUser");
 		// 받는이에 아무것도 적지 않았을 때, 유저확인 오류의 처리
-		if (receiverUserNameOrEmail == null || authUser == null)
+		if (receiverUserNameOrEmail == null || authUser == null) {
 			return "redirect:/message/sended";
+		}
 		
 		UserVO userVO = null;
 		if (receiverUserNameOrEmail.contains("@")) {
