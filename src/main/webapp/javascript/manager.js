@@ -79,6 +79,7 @@ function updateUserInfo(row, user, role) {
 
     updateField('[data-field="name"]', user.userName);
     updateField('[data-field="email"]', user.userEmail);
+    updateField('[data-field="position"]', user.userPosition);
     updateField('[data-field="authority"]', user.userAuthority);
     
     const updateCheckbox = (name, checked) => {
@@ -133,6 +134,12 @@ function enterEditMode(editableCells, permissionCheckboxes, button) {
     editableCells.forEach(cell => {
         const currentValue = cell.textContent;
         cell.innerHTML = `<input type="text" value="${currentValue}">`;
+		if (cell.dataset.field == 'authority') {
+		    var inputs = cell.getElementsByTagName('input');
+		    for (var i = 0; i < inputs.length; i++) {
+		        inputs[i].disabled = true;
+		    }
+		}
     });
     permissionCheckboxes.forEach(checkbox => {
         checkbox.disabled = false;

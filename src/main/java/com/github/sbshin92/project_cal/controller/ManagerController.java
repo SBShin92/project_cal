@@ -111,6 +111,7 @@ public class ManagerController {
 	            @PathVariable int userId,
 	            @RequestParam String name,
 	            @RequestParam String email,
+	            @RequestParam String position,
 	            @RequestParam String authority,
 	            @RequestParam(required = false) Boolean projectCreate,
 	            @RequestParam(required = false) Boolean projectRead,
@@ -126,6 +127,7 @@ public class ManagerController {
 
 	            user.setUserName(name);
 	            user.setUserEmail(email);
+	            user.setUserPosition(position);
 	            user.setUserAuthority(isAdmin != null && isAdmin ? "admin" : authority);
 
 	            RoleVO role = roleService.getRoleByUserId(userId);

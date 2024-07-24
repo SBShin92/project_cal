@@ -15,7 +15,7 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
 	        UserVO user = (UserVO) session.getAttribute("authUser");
 
 	        if (user == null || !"admin".equals(user.getUserAuthority())) {
-	            response.sendRedirect("/access-denied");
+	            response.sendRedirect("/project_cal/access-denied");
 	            return false;
 	        }
 	        return true;

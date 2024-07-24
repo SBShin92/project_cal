@@ -7,11 +7,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="<c:url value='/css/detail.css'/>"
+<link rel="stylesheet" href="<c:url value='/css/main.css'/>"
 	type="text/css">
 <title>Invite Member</title>
 </head>
 <body>
+	<jsp:include page="/WEB-INF/includes/header.jsp" />
 	<h2>Invite Member</h2>
 
 	<c:if test="${not empty message}">

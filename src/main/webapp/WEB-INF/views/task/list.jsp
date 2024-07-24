@@ -14,7 +14,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Task List</title>
-<link type="text/css" rel="stylesheet" href='<c:url value="/css/calendar.css" />' />
+<link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
 <link type="text/css" rel="stylesheet"
@@ -23,11 +23,8 @@
 
 <body>
 
+  <jsp:include page="/WEB-INF/includes/header.jsp" />
   <div id="container">
-
-    <jsp:include page="/WEB-INF/includes/header.jsp" />
-    <jsp:include page="/WEB-INF/includes/nav.jsp" />
-
     <h1>Task List</h1>
     <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
             돌아가기</a>
@@ -99,6 +96,6 @@
     </div>
 
   </div>
-
+<script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
 </body>
 </html>

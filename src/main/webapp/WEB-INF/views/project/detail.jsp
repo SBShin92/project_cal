@@ -8,17 +8,13 @@
 <head>
 <meta charset="UTF-8">
 <title>${projectVO.projectTitle}</title>
-<link rel="stylesheet" href="<c:url value='/css/calendar.css'/>" type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/main.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
+<link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 
-<!-- 이부분만 지원추가 0723 -->
-<link type="text/css" rel="stylesheet" href='<c:url value="/css/manager.css" />' />
-
-</head>
 </head>
 <body>
    <jsp:include page="/WEB-INF/includes/header.jsp" />
-  <jsp:include page="/WEB-INF/includes/nav.jsp" />
 
   <div id="projectViewMode" class="project-detail"
     data-project-id="${projectVO.projectId}">
@@ -191,10 +187,6 @@
 
     <footer>
       <div class="footer-content">
-        <div class="back-to-calendar">
-          <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로
-            돌아가기</a>
-        </div>
         <div class="button-group">
           <button id="editButton" class="btn btn-primary">수정</button>
           <form
@@ -267,6 +259,8 @@
     </div>
   </form>
 
+  <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
+  <script src="<c:url value='/javascript/main.js' />"></script>
   <script src="<c:url value='/javascript/detail.js'/>"></script>
   <script src="<c:url value='/javascript/edit.js'/>"></script>
   <script src="<c:url value='/javascript/main.js'/>"></script>

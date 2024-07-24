@@ -10,17 +10,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Task 상세뷰 페이지</title>
-<link type="text/css" rel="stylesheet" href='<c:url value="/css/calendar.css" />' />
+<link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
-<link type="text/css" rel="stylesheet" href='<c:url value="/css/manager.css" />' />
 </head>
 <body>
-  <div id="container">
-
   <jsp:include page="/WEB-INF/includes/header.jsp" />
-  <jsp:include page="/WEB-INF/includes/nav.jsp" />
-
+  <div id="container">
     <section class="project-content">
       <h1>Task Details</h1>
       

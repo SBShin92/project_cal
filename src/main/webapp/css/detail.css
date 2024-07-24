@@ -112,9 +112,16 @@ h1, h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  float: right;
 }
 
+footer {
+  display: flex;
+  align-items: center;
+  float: right;
+  gap: 1vw;
+  justify-content: space-between;
+}
 
   
   header {
@@ -132,6 +139,7 @@ h1, h2 {
   
   .button-group {
     display: flex;
+    gap: 1vw;
     justify-content: space-between;
   }
 

@@ -10,17 +10,13 @@
 <head>
 <meta charset="UTF-8">
 <title>${project.projectId == null ? '새 프로젝트 생성' : '프로젝트 수정'}</title>
-<link rel="stylesheet" href="<c:url value='/css/calendar.css'/>"
-	type="text/css">
-<link rel="stylesheet" href="<c:url value='/css/form.css'/>"
-	type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/main.css'/>" type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/form.css'/>" type="text/css">
+<link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
 </head>
 <body>
+	<jsp:include page="/WEB-INF/includes/header.jsp" />
 	<div class="page-container">
-		<jsp:include page="/WEB-INF/includes/header.jsp" />
-		<jsp:include page="/WEB-INF/includes/nav.jsp" />
-
-
 	    <div class="project-form">
 	        <h1>새 프로젝트 생성</h1>
 	        <form action="<c:url value='/project/create'/>" method="post" enctype="multipart/form-data">
@@ -72,12 +68,13 @@
 	
 				<footer>
 					<button type="submit" class="btn btn-primary">프로젝트 생성</button>
-					<a href="<c:url value='/calendar'/>" class="btn">취소</a>
+					<a href="<c:url value='/calendar'/>" class="btn btn-secondary">취소</a>
 				</footer>
 			</form>
 		</div>
 	</div>
 
+	<script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
 	<script src="<c:url value='/javascript/form.js'/>"></script>
 	<script src="<c:url value='/javascript/calendar.js'/>"></script>
 	<script src="<c:url value='/javascript/main.js'/>"></script>

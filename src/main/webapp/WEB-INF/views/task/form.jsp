@@ -9,17 +9,14 @@
   <head>
     <meta charset="UTF-8">
     <title>${createTaskForm.taskId == 0 ? 'Create' : 'Edit'}Task</title>
-    <link type="text/css" rel="stylesheet" href='<c:url value="/css/calendar.css" />' />
+    <link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
     <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
     <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
-    <link type="text/css" rel="stylesheet"
-      href='<c:url value="/css/manager.css" />' />
   </head> 
    
 <body>
-    
   <jsp:include page="/WEB-INF/includes/header.jsp" />
-  <jsp:include page="/WEB-INF/includes/nav.jsp" />
+    
 
   <div id="container"> 
   
