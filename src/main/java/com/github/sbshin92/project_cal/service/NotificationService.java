@@ -1,6 +1,10 @@
 package com.github.sbshin92.project_cal.service;
 
 
+
+
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +18,19 @@ public class NotificationService {
 	@Autowired
 	private MessagesDAO messagesDAO;
 	
-	public void sendNotification(UserVO recipient, String content) {
+	public void sendNotification(UserVO sender, UserVO recipient,String title, String content) {
+		
 		MessageVO message = new MessageVO();
+		message.setSenderUserId(sender.getUserId());
 		message.setReceiverUserId(recipient.getUserId());
-		message.setMessageTitle("프로젝트 초대알림");
+		message.setMessageTitle(title);
 		message.setMessageDescription(content);
-		message.setReadStatus("unread");
+		message.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		message.setReadStatus("읽지않음");
+		message.setIsAlarm(true);
+
 		messagesDAO.insert(message);
+
 	}
 
 }

@@ -139,8 +139,9 @@ public class ProjectServiceImpl implements ProjectService {
 		if(isAdded) {
 			UserVO member = usersDAO.findById(userId);
 			ProjectVO project = projectsDAO.findById(projectId);
+			UserVO sender = usersDAO.findById(project.getUserId());
 			String content = "축하드립니다 " + member.getUserName() + "님" + project.getProjectTitle() + "프로젝트에 참여하게되었습니다";
-			notificationService.sendNotification(member, content);
+			notificationService.sendNotification(sender,member,"프로젝트 초대", content);
 			
 		}
 		return isAdded;
@@ -198,24 +199,25 @@ public class ProjectServiceImpl implements ProjectService {
 				for(Integer memberId : memberIds) {
 					projectsDAO.addMemberProject(memberId, project.getProjectId());
 					UserVO member = usersDAO.findById(memberId);
+					UserVO sender = usersDAO.findById(project.getUserId());
 					String contnet = member.getUserName() + "님" + project.getProjectTitle()+"프로젝트에 추가되었습니다";
-					notificationService.sendNotification(member, contnet);
+					notificationService.sendNotification(sender,member,"프로젝트 초대", contnet);
 				}
 			}
 			
 			return isCreated;
-		
+		}	
 
-
-				  	// 검색어(projectTitle) 유효성 검사// 검색어가 null이거나 비어있는 경우 처리
-					if (projectTitle == null || projectTitle.trim().isEmpty()) {
-						return 0;	//빈리스트 반환
-					}
-					// 검색어 전처리 (옵션)
-				    String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
-				    //projectsDAO의 getTotalProjectsCount 메소드를 호출하여 총 프로젝트 수를 가져옴
-				    return projectsDAO.getTotalProjectsCount(projectTitle);
-			}	
+//
+//				  	// 검색어(projectTitle) 유효성 검사// 검색어가 null이거나 비어있는 경우 처리
+//					if (projectTitle == null || projectTitle.trim().isEmpty()) {
+//						return 0;	//빈리스트 반환
+//					}
+//					// 검색어 전처리 (옵션)
+//				    String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
+//				    //projectsDAO의 getTotalProjectsCount 메소드를 호출하여 총 프로젝트 수를 가져옴
+//				    return projectsDAO.getTotalProjectsCount(projectTitle);
+//			}	
 			
 
 }	
