@@ -113,8 +113,8 @@
                     <tr>
                       <td>${sp.projectId }</td>
                       <td>${sp.projectTitle}</td>
-                      <td>${sp.userName}</td><!--0725 -->
-                      <td>${sp.userPosition}</td><!--0725 -->
+                      <td>${userVO.userName}</td><!--0725 -->
+                      <td>${userVO.userPosition}</td><!--0725 -->
                       <td>${sp.projectStatus}</td> 
                       <td>
                         <form action="<c:url value='/project/${sp.projectId}' />"
