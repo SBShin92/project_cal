@@ -38,10 +38,13 @@
                     	<c:if test="${ messageVO.isAlarm == true }">
 	                        <li class="list-group-item">
 	                        	<div class="row">
-							    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none text-danger col-8">
-							        <i class="fas fa-cake-candles me-2"></i>${messageVO.messageTitle}
-							    </a>
-							    <span class="col-4"><fmt:formatDate value="${messageVO.createdAt}" pattern="MM/dd HH:mm" />, ${messageVO.readStatus}</span>
+								    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none text-danger col-8">
+								    	<c:choose>
+								    		<c:when test="${ messageVO.readStatus.equals('unread') }"><b><i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}</b></c:when>
+								    		<c:otherwise><i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}</c:otherwise>
+								    	</c:choose>
+								    </a>
+								    <span class="col-4"><fmt:formatDate value="${messageVO.createdAt}" pattern="MM/dd HH:mm" />, ${messageVO.readStatus}</span>
 							    </div>
 							</li>
 						</c:if>

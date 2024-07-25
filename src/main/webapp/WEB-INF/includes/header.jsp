@@ -19,7 +19,14 @@
 				</form>
 			</div>
 		</c:if>
-	    <button class="nav-btn btn-sky" id="message-btn">Message (${ sessionScope.messageUnreadCount })</button>
+		<c:choose>
+			<c:when test="${ sessionScope.messageUnreadCount != 0 }">
+				<button class="nav-btn btn-sky" id="message-btn">Message <span class="text-danger"><b>${ sessionScope.messageUnreadCount }</b></span></button>
+			</c:when>
+			<c:otherwise>
+				<button class="nav-btn btn-sky" id="message-btn"><span><b>Message ${ sessionScope.messageUnreadCount }</b></span></button>
+			</c:otherwise>
+		</c:choose>
 	    
 	    <c:if test="${authUser.userAuthority == 'admin'}">
 	      <a href="<c:url value='/manager' />" class="nav-btn btn-sky">관리자페이지</a>

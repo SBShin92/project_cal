@@ -104,11 +104,10 @@ public class MessageController {
 		
 		if (userVO != null) {
 			messageVO.setReceiverUserId(userVO.getUserId());
-			// TODO: 보내는 이는 1번으로 고정, 세션 완성 시 수정하자
 			messageVO.setSenderUserId(authUser.getUserId());
+			messageVO.setIsAlarm(false);
 			messageService.sendMessage(messageVO);
 			
-			// TODO: 메세지를 DB에 저장 실패 시 처리?
 		}
 		return "redirect:/message/sended";
 	}
