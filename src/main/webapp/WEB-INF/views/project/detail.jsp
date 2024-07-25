@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="<c:url value='/css/main.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value='/css/task.css'/>" type="text/css"><!-- 0724추가 -->
 
 </head>
@@ -176,7 +177,7 @@
           <ul id="memberList">
               <c:forEach var="member" items="${projectMembers}">
                   <li>
-                      ${member.userName}
+                      <i class="fa-brands fa-square-web-awesome-stroke"></i>${member.userName}
                       <form action="<c:url value='/project/removeMember'/>" method="post" style="display: inline;">
                           <input type="hidden" name="projectId" value="${projectVO.projectId}">
                           <input type="hidden" name="userId" value="${member.userId}">

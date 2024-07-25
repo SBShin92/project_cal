@@ -62,8 +62,8 @@ public class ProjectController {
 			model.addAttribute("projectVO", projectVO);
 			List<FileVO> fileVOs = fileService.getFileListByProjectId(projectId);
 			model.addAttribute("fileVOs", fileVOs);
-			List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
-			model.addAttribute("projectTasks", tasks);
+//			List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
+//			model.addAttribute("projectTasks", tasks);
 			List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
 			model.addAttribute("projectMembers", projectMembers);
 			List<UserVO> allUsers = projectService.getAllUsers();

@@ -13,7 +13,7 @@
 	  
 		<c:if test="${ sessionScope.authUserRole.projectRead == true }">
 			<div class="search-div">
-				<form action="<c:url value='/tasks/SearchProjectTasks'/>" method="get" class="search-form">
+				<form action="<c:url value='/SearchProjectTasks'/>" method="get" class="search-form">
 					<input type="text" name="taskProjectTitle" placeholder="search projects, tasks" required>
 					<button type="submit" class="btn-search">검색</button>
 				</form>

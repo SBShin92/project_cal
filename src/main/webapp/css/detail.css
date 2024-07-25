@@ -116,7 +116,7 @@ h1, h2 {
 }
 
 footer {
-  display: flex;
+  display: block;
   align-items: center;
   float: right;
   gap: 1vw;
@@ -150,3 +150,5 @@ textarea#projectDescription {
     box-sizing: border-box;
     resize: vertical;
 }
+
+
