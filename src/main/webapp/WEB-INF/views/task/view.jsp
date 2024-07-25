@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>    
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%> 
+<!-- 0725 추가 -->
+<%@ page import="com.github.sbshin92.project_cal.data.vo.UserVO" %> 
+   
 <!DOCTYPE html>
 
 <!--  테스크 상세보기 페이지 -->
@@ -33,71 +36,24 @@
             <th>Task Status</th>
           </tr>
           <tr>
-            <td>${viewTask.taskId}</td>
-            <td>${userVO.userName}</td><!-- 수정필요 -->
-            <td>${userVO.userPosition}</td><!-- 수정필요 -->
-            <td>${viewTask.taskStatus == null ? '' : viewTask.taskStatus}</td>
+            <td>${Task.taskId}</td>
+            <td>${Task.userName}</td><!-- 수정필요 -->
+            <td>${Task.userPosition}</td><!-- 수정필요 -->
+            <td>${Task.taskStatus == null ? '' : Task.taskStatus}</td>
           </tr>
           <tr>
             <th>Task Title</th>
             <th colspan="3">Task Description</th>
           </tr>
           <tr>
-            <td>${viewTask.taskTitle}</td>
-            <td colspan="3">${viewTask.taskDescription}</td>
+            <td>${Task.taskTitle}</td>
+            <td colspan="3">${Task.taskDescription}</td>
           </tr>
         </table>
 
 
       </div>
     </section>
-    
-    <section class="project-content">
-    <!-- Add Member Form -->
-    <h2>Add Member to Task</h2>
-    <form id="addMemberForm"
-      action="<c:url value='/tasks/members/${viewTask.taskId}' />"
-      method="POST">
-      <input type="hidden" name="taskId" value="${viewTask.taskId}">
-      <input type="hidden" name="projectId" value="${viewTask.projectId}"> 
-      <input type="hidden" name="userId" value="${viewTask.userId}"> 
-      <label for="addUserId">User ID:</label> 
-      <input type="number" name="addUserId" value="">
-      <button type="submit">멤버 추가</button>
-    </form>
-    </section>
-   
- 
-    <section class="project-content">
-    <!-- Task Members List -->
-    <h2>Task Members List</h2>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>User ID</th>
-          <th>User Name</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        <c:forEach var="member" items="${usersTasks}">
-          <tr>
-            <td>${member.userId}</td>
-            <td>${member.userName}</td>
-            <td>
-              <form
-                action="<c:url value='/tasks/deleteUsersTask/${viewTask.taskId}'/>"
-                method="post">
-                <input type="hidden" name="userId" value="${member.userId}" />
-                <button type="submit" onclick="return confirm('Are you sure you want to remove this member?')">Remove</button>
-              </form>
-            </td>
-          </tr>
-        </c:forEach>
-
-      </tbody>
-    </table>
     
     <div>
     <a href="<c:url value='/calendar'/>" class="btn btn-secondary">캘린더로

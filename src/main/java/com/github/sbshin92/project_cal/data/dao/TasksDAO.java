@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
-import com.github.sbshin92.project_cal.data.vo.UsersTasksVO;
 
 //데이터베이스 연결: TasksDAO 메서드 내에서 데이터베이스 연결을 설정해야 합니다. 
 // 이를 위해 MyBatis 설정 파일과 데이터베이스 연결 정보를 구성해야 합니다.
@@ -68,34 +67,8 @@ public interface TasksDAO {
 			+ "FROM tasks a "
 			+ "WHERE task_id = #{taskId}")
 	public TaskVO findById(@Param("taskId") int taskId);
-	
-	
-	// UserTasks// 테스크멤버 추가
-	//addMemberToTask 메서드는 특정 작업에 사용자를 멤버로 추가하는것
-    @Insert("INSERT INTO users_tasks (user_id, task_id, project_id) VALUES (#{userId}, #{taskId}, #{projectId})")
-    public int addMemberToTask(int userId,  int taskId, int projectId);
-    
-	//UserTasks에 있는 멤버 조회
-    //getUserTasksMember 메서드는 UserTasks와 관련된 멤버를 조회
-	@Select("SELECT a.user_id as userId, "
-			+ " 	(select user_name from users where user_id = a.user_id limit 1)  as userName "
-			+ " FROM users_tasks a"
-			+ " WHERE task_id = #{taskId}")    
-	public List<UsersTasksVO> getUserTasksMember(int taskId);
-	
- 	//users_tasks 테이블-> 어떤users가 어떤 tasks를 가지고있는지 확인하기 위한 테이블 설정
-	//프로젝트멤버들 전원 (user_id,project_id는 pk값으로묶어둠 )
-  	// 특정 사용자가 특정 task의 멤버인지 확인 (?)
-    @Select("SELECT COUNT(*) > 0 FROM users_tasks " +
-            "WHERE user_id = #{userId} AND task_id = #{taskId}")
-    public boolean isUserTaskMember(@Param("userId") Integer userId, @Param("taskId") Integer taskId);
 
-    
-	//UserTasks //테스크 멤버 삭제
-	 @Delete("DELETE FROM users_tasks WHERE task_id = #{taskId} and user_id = #{userId}")
-	public int deleteUsersTasksMember(int taskId, int userId);
-	    
-
+	
 	//0725 
     //projectId로 task목록 조회 => project/detail.jsp로
     @Select("SELECT task_id as taskId, " +
@@ -150,6 +123,5 @@ public interface TasksDAO {
             "FROM tasks " +
 			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")
 	public int getTotalTasksCount(@Param("taskVO") TaskVO taskVO);
-    
     
 }
