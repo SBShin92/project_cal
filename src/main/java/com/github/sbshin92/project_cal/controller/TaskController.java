@@ -162,22 +162,20 @@ public class TaskController {
 			return "redirect:/access-denied";
 		}
 
-		if (userId == userVO.getUserId()) {
-			boolean success = (1 == taskService.deleteTask(taskId));
 
-			if (success) {
-				String title = "태스크가 삭제되었습니다.";
-				String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[삭제된 태스크]: "
-						+ taskVO.getTaskTitle();
-				MessageVO sendMessageVO = MessageVO.builder().senderUserId(userVO.getUserId())
-						.receiverUserId(projectVO.getUserId()).messageTitle(title).messageDescription(description)
-						.isAlarm(true).build();
-				messageService.sendMessage(sendMessageVO);
-			}
-			return "redirect:/project/" + projectId;
-		} else {
-			return "redirect:/project/" + projectId;
+		boolean success = (1 == taskService.deleteTask(taskId));
+
+		if (success) {
+			String title = "태스크가 삭제되었습니다.";
+			String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[삭제된 태스크]: "
+					+ taskVO.getTaskTitle();
+			MessageVO sendMessageVO = MessageVO.builder().senderUserId(userVO.getUserId())
+					.receiverUserId(projectVO.getUserId()).messageTitle(title).messageDescription(description)
+					.isAlarm(true).build();
+			messageService.sendMessage(sendMessageVO);
 		}
+		return "redirect:/project/" + projectId;
+		
 
 	}
 
