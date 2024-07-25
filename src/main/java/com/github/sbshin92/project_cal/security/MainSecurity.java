@@ -58,8 +58,8 @@ public class MainSecurity {
                                            OAuth2AuthorizedClientRepository authorizedClientRepository) throws Exception { */
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/css/**", "/js/**", "/join/**", "/login/**", "/oauth2/**","/**").permitAll()
-                .requestMatchers("/password/**").permitAll()            
+                .requestMatchers("/css/**", "/js/**", "/join/**", "/login/**", "/oauth2/**","/**","/password/resetrequest**\"").permitAll()          
+                .requestMatchers("/password/reset**").permitAll()
                 .anyRequest().authenticated() 
             )
             .formLogin(formLogin -> formLogin
@@ -72,17 +72,19 @@ public class MainSecurity {
                 .permitAll()
             )
             .logout(logout -> logout
-            	.logoutUrl("/logout")
             	.addLogoutHandler(new CustomLogoutHandler())
-            	.logoutSuccessUrl("/login?logout")
+            	.logoutUrl("/logout")
+            	.logoutSuccessHandler((request, response, authentication) -> {
+            		request.getSession().invalidate();
+            		response.sendRedirect("/login?logout");
+            	})
                 .invalidateHttpSession(true) // 세션 무효화
-                .deleteCookies("JSESSIONID") // 세션쿠키 삭제
+                .deleteCookies("JSESSIONID","authUser") // 세션쿠키 삭제
                 .permitAll()
    
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .invalidSessionUrl("/login?invalid")
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false)
                 .expiredUrl("/login?expired")

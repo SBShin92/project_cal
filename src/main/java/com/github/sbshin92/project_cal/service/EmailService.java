@@ -23,7 +23,7 @@ public class EmailService {
     		
     		helper.setTo(to);
     		helper.setSubject(subject);
-    		helper.setText(body);
+    		helper.setText(body,true);
     		helper.setFrom("himj9515@naver.com");
     		
     		mailSender.send(message);

@@ -31,15 +31,10 @@ public interface UserService {
 
 	void updateUser(UserVO user);
 	
-	// 토큰 관련
-//	UserVO findByToken(String token);
-//	void deleteToken(int userId);
-	
 	// 비밀번호 리셋
-//	boolean sendPasswordResetToken(String email);
-//	boolean alidatePasswordResetToken(String token);
-	boolean validatePasswordResetToken(String token);
-	boolean resetPassword(String token, String newPassword);
 	void createPasswordResetTokenForUser(String email);
-	Timestamp calculateExpiryDate(int expiryTimeInMinutes);
+    boolean validatePasswordResetToken(String token);
+    boolean resetPassword(String token, String password);
+    Timestamp calculateExpiryDate(int expiryTimeInMinutes);
+    void sendResetTokenEmail(String email, String token);
 }
