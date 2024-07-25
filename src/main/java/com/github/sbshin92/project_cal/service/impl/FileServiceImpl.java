@@ -58,6 +58,11 @@ public class FileServiceImpl implements FileService {
 		}
     	return isSuccess;
     }
+
+	@Override
+	public FileVO getFileById(Integer fileId) {
+		
+		return filesDAO.findByFileId(fileId);
+	}
 	
-    
 }

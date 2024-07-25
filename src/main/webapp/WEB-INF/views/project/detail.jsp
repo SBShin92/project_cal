@@ -208,14 +208,18 @@
     <footer>
       <div class="footer-content">
         <div class="button-group">
-          <button id="editButton" class="btn btn-primary">수정</button>
-          <form
-            action="<c:url value='/project/delete/${projectVO.projectId}'/>"
-            method="post" style="display: inline;">
-            <input type="hidden" name="_method" value="delete" />
-            <button type="submit" class="btn btn-danger"
-              onclick="return confirm('정말로 이 프로젝트를 삭제하시겠습니까?');">삭제</button>
-          </form>
+          <c:if test="${ authUser.userAuthority.equals('admin') || authUserRole.projectUpdate == true }">
+          	<button id="editButton" class="btn btn-primary">수정</button>
+          </c:if>
+          <c:if test="${ authUser.userAuthority.equals('admin') || authUserRole.projectDelete == true }">
+	          <form
+	            action="<c:url value='/project/delete/${projectVO.projectId}'/>"
+	            method="post" style="display: inline;">
+	            <input type="hidden" name="_method" value="delete" />
+	            <button type="submit" class="btn btn-danger"
+	              onclick="return confirm('정말로 이 프로젝트를 삭제하시겠습니까?');">삭제</button>
+	          </form>
+          </c:if>
         </div>
       </div>
     </footer>
