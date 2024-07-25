@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.sbshin92.project_cal.data.vo.FileVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
+import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.FileService;
@@ -33,194 +34,214 @@ import jakarta.validation.Valid;
 @RequestMapping("/project")
 public class ProjectController {
 
-    @Autowired
-    private ProjectService projectService;
+	@Autowired
+	private ProjectService projectService;
 
-    @Autowired
-    private TaskService taskService;
+	@Autowired
+	private TaskService taskService;
 
-    @Autowired
-    private FileService fileService;
+	@Autowired
+	private FileService fileService;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @GetMapping("/{projectId}")
-    public String getProject(@PathVariable(required = false) Integer projectId,
-    						@RequestParam(defaultValue = "1") int taskPage,
-    						Model model) {
-        try {
-            ProjectVO projectVO = projectService.getProjectById(projectId);
-            if (projectVO == null) {
-                throw new Exception("Project not found");
-            }
-            model.addAttribute("projectVO", projectVO);
-            List<FileVO> fileVOs = fileService.getFileListByProjectId(projectId);
-            model.addAttribute("fileVOs", fileVOs);
-            
-            
-            //0725 지원 getTasksByProjectId에 페이징기능위한 추가 
-            TaskVO taskVO = new TaskVO();
-            taskVO.setProjectId(projectId);
-			taskVO.setPage(taskPage);
-            List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId(),taskVO);
-            model.addAttribute("projectTasks", tasks);
-			model.addAttribute("tasksCount", taskService.getTotalTasksCountByProjectId(projectId)); //0725추가함
-			model.addAttribute("totalPages", (tasks.size()));//0725추가함
+	@GetMapping("/{projectId}")
+	public String getProject(@PathVariable(required = false) Integer projectId, Model model, HttpSession session) {
+		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
+		UserVO authUser = (UserVO) session.getAttribute("authUser");
+		// 넌 프로젝트 읽기 권한이 없어
+		if (!"admin".equals(authUser.getUserAuthority()) && !roleVO.getProjectRead()) {
+			return "redirect:/access-denied";
+		}
+		try {
+			ProjectVO projectVO = projectService.getProjectById(projectId);
+			if (projectVO == null) {
+				throw new Exception("Project not found");
+			}
+			model.addAttribute("projectVO", projectVO);
+			List<FileVO> fileVOs = fileService.getFileListByProjectId(projectId);
+			model.addAttribute("fileVOs", fileVOs);
+			List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
+			model.addAttribute("projectTasks", tasks);
+			List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
+			model.addAttribute("projectMembers", projectMembers);
+			List<UserVO> allUsers = projectService.getAllUsers();
+			// 추가 가능한 멤버 조회
+			List<UserVO> availableUsers = allUsers.stream()
+					.filter(user -> !projectService.isUserProjectMember(user.getUserId(), projectId))
+					.collect(Collectors.toList());
+			model.addAttribute("availableUsers", availableUsers);
 
-			
-            List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
-            model.addAttribute("projectMembers",projectMembers);
-            List<UserVO> allUsers = projectService.getAllUsers();
-            // 추가 가능한 멤버 조회
-            List<UserVO> availableUsers = allUsers.stream().filter(user -> !projectService.isUserProjectMember(user.getUserId(),projectId))
-            												.collect(Collectors.toList());
-            model.addAttribute("availableUsers",availableUsers);
-           
-            return "project/detail";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
-            return "error/404";
-        }
-    }
+			return "project/detail";
+		} catch (Exception e) {
+			model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
+			return "error/404";
+		}
+	}
 
-    @GetMapping("/create")
-    public String createProjectForm(Model model, HttpSession session) {
-    	UserVO authUser = (UserVO) session.getAttribute("authUser");
-        List<UserVO> allUsers = userService.getAllUsers().stream()
-        						.filter(user -> user.getUserId() != authUser.getUserId())
-        						.collect(Collectors.toList()); // 사용자 목록을 가져와서 뷰에 추가 
-        
-        model.addAttribute("allUsers", allUsers);
-        model.addAttribute("projectVO", new ProjectVO()); // 빈 ProjectVO 객체 추가
-        return "project/form";
-    }
+	@GetMapping("/create")
+	public String createProjectForm(Model model, HttpSession session) {
+		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
+		UserVO authUser = (UserVO) session.getAttribute("authUser");
+		// 넌 프로젝트 쓰기 권한이 없어
+		if (!"admin".equals(authUser.getUserAuthority()) && !roleVO.getProjectCreate()) {
+			return "redirect:/access-denied";
+		}
+		List<UserVO> allUsers = userService.getAllUsers().stream()
+				.filter(user -> user.getUserId() != authUser.getUserId()).collect(Collectors.toList()); // 사용자 목록을 가져와서
+																										// 뷰에 추가
 
-    @PostMapping("/create")
-    public String createProject(@RequestParam("userId") String userIdStr,
-                                @ModelAttribute ProjectVO projectVO,
-                                @RequestParam("projectFiles") MultipartFile[] files,
-                                @RequestParam("members") List<Integer> members,
-                                RedirectAttributes redirectAttributes,
-                                HttpSession session) throws IOException {
-        try {
-        		UserVO authUser = (UserVO) session.getAttribute("authUser");
-        		int userId = authUser.getUserId();
-        		projectVO.setUserId(userId);
-            
-            // 프로젝트 생성
-            projectService.createProject(projectVO);
-            int projectId = projectVO.getProjectId(); // 생성된 프로젝트 ID 가져오기
-            
-            projectService.addMemberProject(userId, projectId);
+		model.addAttribute("allUsers", allUsers);
+		model.addAttribute("projectVO", new ProjectVO()); // 빈 ProjectVO 객체 추가
+		return "project/form";
+	}
 
-            // 멤버 추가
-            for (Integer memberId : members) {
-            	if(memberId != userId) {
-                projectService.addMemberProject(memberId, projectId);
-            }
-         }
+	@PostMapping("/create")
+	public String createProject(@RequestParam("userId") String userIdStr, @ModelAttribute ProjectVO projectVO,
+			@RequestParam("projectFiles") MultipartFile[] files,
+			@RequestParam(value = "members", required = false) List<Integer> members,
+			RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
+		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
+		UserVO authUser = (UserVO) session.getAttribute("authUser");
+		// 넌 프로젝트 쓰기 권한이 없어
+		if (!"admin".equals(authUser.getUserAuthority()) && !roleVO.getProjectCreate()) {
+			return "redirect:/access-denied";
+		}
+		try {
+			int userId = authUser.getUserId();
+			projectVO.setUserId(userId);
 
-            // 파일 업로드
-            fileService.saveFilesInProject(files, projectId);
-            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
-            return "redirect:/project/" + projectId;
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
-            return "project/form";
-        } catch (NumberFormatException e) {
-            redirectAttributes.addFlashAttribute("error", "유효하지 않은 사용자 ID입니다.");
-            return "project/form";
-        }
-    }
+			// 프로젝트 생성
+			projectService.createProject(projectVO);
+			int projectId = projectVO.getProjectId(); // 생성된 프로젝트 ID 가져오기
 
-    @GetMapping("/update/{projectId}")
-    public String updateProjectForm(@PathVariable int projectId, Model model) {
-        try {
-            model.addAttribute("project", projectService.getProjectById(projectId));
-            return "project/form";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
-            return "error/404";
-        }
-    }
+			projectService.addMemberProject(userId, projectId);
 
-    // 프로젝트 수정
-    @PostMapping("update/{projectId}")
-    public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
-                                BindingResult result, RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            return "project/form";
-        }
-        project.setProjectId(projectId);
-        boolean updated = projectService.updateProject(project);
-        if (updated) {
-            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
-        } else {
-            redirectAttributes.addFlashAttribute("error", "프로젝트 수정에 실패했습니다.");
-        }
-        return "redirect:/project/" + projectId;
-    }
+			// 멤버 추가
+			if (members != null) {
+				for (Integer memberId : members) {
+					if (memberId != userId) {
+						projectService.addMemberProject(memberId, projectId);
+					}
+				}
+			}
 
-    // 프로젝트 삭제
-    @PostMapping("/delete/{projectId}")
-    public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes) {
-        try {
-            projectService.deleteProject(projectId);
-            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
-        }
-        return "redirect:/calendar";
-    }
+			// 파일 업로드
+			fileService.saveFilesInProject(files, projectId);
+			redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 생성되었습니다.");
+			return "redirect:/project/" + projectId;
+		} catch (IOException e) {
+			redirectAttributes.addFlashAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
+			return "project/form";
+		} catch (NumberFormatException e) {
+			redirectAttributes.addFlashAttribute("error", "유효하지 않은 사용자 ID입니다.");
+			return "project/form";
+		}
+	}
 
+	// 프로젝트 수정
+	@PostMapping("update/{projectId}")
+	public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
+			BindingResult result, RedirectAttributes redirectAttributes, HttpSession session) {
+		if (result.hasErrors()) {
+			return "project/form";
+		}
+		UserVO authUser = (UserVO) session.getAttribute("authUser");
+		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
+		ProjectVO projectVO = projectService.getProjectById(projectId);
+		// 넌 프로젝트 수정 권한이 없어 혹은 너가 만든것도 아닌데
+		if (!"admin".equals(authUser.getUserAuthority())
+				&& (!roleVO.getProjectUpdate() || authUser.getUserId() != projectVO.getUserId())) {
+			return "redirect:/access-denied";
+		}
+		project.setProjectId(projectId);
+		boolean updated = projectService.updateProject(project);
+		if (updated) {
+			redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
+		} else {
+			redirectAttributes.addFlashAttribute("error", "프로젝트 수정에 실패했습니다.");
+		}
+		return "redirect:/project/" + projectId;
+	}
 
-    // 멤버 추가
-    @PostMapping("/inviteMember")
-    public String inviteMember(@RequestParam("projectId") int projectId, @RequestParam("userId") int userId,
-    																	RedirectAttributes redirectAttributes){
-    	
-   try {
-	   if(!projectService.isUserProjectMember(userId,projectId)) {
-		   boolean success = projectService.addMemberProject(userId, projectId);
-		   
-		 if(success) {
-			 redirectAttributes.addFlashAttribute("message","멤버 추가 성공했어용");
-		 } else {
-			 redirectAttributes.addFlashAttribute("message","멤버 추가 실패했어용");
-		 }
-	   } else {
-		   redirectAttributes.addFlashAttribute("error","찾을수없어요");
-	   }
-	   	return "redirect:/project/" + projectId;
-   	} catch(Exception e) {
-	   redirectAttributes.addFlashAttribute("error","멤버 추가중 오류발생");
-	   return "redirect:/project/" + projectId;
-   	 }
-  }
+	// 프로젝트 삭제
+	@PostMapping("/delete/{projectId}")
+	public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes,
+			HttpSession session) {
+		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
+		UserVO authUser = (UserVO) session.getAttribute("authUser");
+		ProjectVO projectVO = projectService.getProjectById(projectId);
+		// 삭제 권한이 없으니 넌 캘린더로 캘린더로 돌아가야 해
+		if (!"admin".equals(authUser.getUserAuthority())
+				&& (!roleVO.getProjectDelete() || authUser.getUserId() != projectVO.getUserId())) {
+			return "redirect:/access-denied";
+		}
+		try {
+			projectService.deleteProject(projectId);
+			redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("errorMessage", "삭제할 프로젝트를 찾을 수 없습니다.");
+		}
+		return "redirect:/calendar";
+	}
 
-    // 멤버 삭제
-    @PostMapping("/removeMember")
-    public String removeMember(@RequestParam("projectId") int projectId, @RequestParam("userId") int userId,
-    							RedirectAttributes redirectAttributes) {  
- 
-    try {
-    	if( projectService.isUserProjectMember(userId, projectId)) {
-    		boolean success = projectService.deleteProjectUser(userId, projectId);
-    	if(success) {
-    		redirectAttributes.addFlashAttribute("message","멤버 삭제 성공");
-    		
-    	} else {
-    		redirectAttributes.addFlashAttribute("error","멤버 삭제 실패");	
-    	}
-    	
-    	} else {
-    		redirectAttributes.addFlashAttribute("error","존재하지 않거나 프로젝트멤버가 아닙니다");
-    	}
-        
-    } catch(Exception e) {
-    		redirectAttributes.addFlashAttribute("error","멤버 삭제중 에러 발생");
-    }
-    return "redirect:/project/" + projectId;
-}
+	// 멤버 추가
+	@PostMapping("/inviteMember")
+	public String inviteMember(@RequestParam("projectId") int projectId, @RequestParam("userId") int userId,
+			RedirectAttributes redirectAttributes, HttpSession session) {
+		ProjectVO projectVO = projectService.getProjectById(projectId);
+		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		// 멤버추가는 관리자와 팀장만 가능해
+		if (!"admin".equals(authUser.getUserAuthority()) && projectVO.getUserId() != authUser.getUserId()) {
+			return "redirect:/access-denied";
+		}
+		try {
+			if (!projectService.isUserProjectMember(userId, projectId)) {
+				boolean success = projectService.addMemberProject(userId, projectId);
+
+				if (success) {
+					redirectAttributes.addFlashAttribute("message", "멤버 추가 성공했어용");
+				} else {
+					redirectAttributes.addFlashAttribute("message", "멤버 추가 실패했어용");
+				}
+			} else {
+				redirectAttributes.addFlashAttribute("error", "찾을수없어요");
+			}
+			return "redirect:/project/" + projectId;
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "멤버 추가중 오류발생");
+			return "redirect:/project/" + projectId;
+		}
+	}
+
+	// 멤버 삭제
+	@PostMapping("/removeMember")
+	public String removeMember(@RequestParam("projectId") int projectId, @RequestParam("userId") int userId,
+			RedirectAttributes redirectAttributes, HttpSession session) {
+		ProjectVO projectVO = projectService.getProjectById(projectId);
+		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		// 멤버추가는 관리자와 팀장만 가능해
+		if (!"admin".equals(authUser.getUserAuthority()) && projectVO.getUserId() != authUser.getUserId()) {
+			return "redirect:/access-denied";
+		}
+		try {
+			if (projectService.isUserProjectMember(userId, projectId)) {
+				boolean success = projectService.deleteProjectUser(userId, projectId);
+				if (success) {
+					redirectAttributes.addFlashAttribute("message", "멤버 삭제 성공");
+
+				} else {
+					redirectAttributes.addFlashAttribute("error", "멤버 삭제 실패");
+				}
+
+			} else {
+				redirectAttributes.addFlashAttribute("error", "존재하지 않거나 프로젝트멤버가 아닙니다");
+			}
+
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("error", "멤버 삭제중 에러 발생");
+		}
+		return "redirect:/project/" + projectId;
+	}
 }

@@ -33,7 +33,7 @@ public class TaskController {
 
 	@Autowired
 	private ProjectService projectService;
-	
+
 	@Autowired
 	private MessageService messageService;
 
@@ -65,7 +65,13 @@ public class TaskController {
 		// - taskVo.setUserId(auth.userId);
 		// - 추후에 테스크수정은 테스크생성자만 할수 있으므로
 		// - 마찬가지로 authuser로 사용 해야한다.
-
+		
+		// 프로젝트 멤버 아니면 태스크 생성 권한이 없어
+		ProjectVO projectVO = projectService.getProjectById(projectId);
+		if (!"admin".equals(userVO.getUserAuthority()) && !projectService.isUserProjectMember(userVO.getUserId(), projectId)) {
+			return "redirect:/access-denied";
+		}
+		
 		// 추가 0716 if-else 문??
 		if (taskId == 0) {
 			// 생성로직
@@ -77,14 +83,14 @@ public class TaskController {
 		} else {
 			// 수정로직
 			TaskVO existingTask = taskService.findById(taskId);
-			if (existingTask != null && existingTask.getUserId() == userId) {
+			if (existingTask != null && existingTask.getUserId() == userId || "admin".equals(userVO.getUserAuthority())) {
 				// 현재 사용자가 테스크 생성자인 경우에만 수정 허용
 				taskVo = existingTask;
 				model.addAttribute("createTaskForm", taskVo);
 			} else {
 				// 권한이 없는 경우 에러 처리
 				model.addAttribute("error", "이 태스크를 수정할 권한이 없습니다.");
-				return "error/404";
+				return "redirect:/access-denied";
 			}
 		}
 
@@ -95,24 +101,27 @@ public class TaskController {
 
 	// 테스크 생성
 	@PostMapping("/createTask")
-	public String createTask(@ModelAttribute TaskVO taskVo,
-							HttpSession session) {
+	public String createTask(@ModelAttribute TaskVO taskVo, HttpSession session) {
 		// 추가 0716 //사용자 아이디를 가져오는 메서드 필요
 		UserVO userVO = (UserVO) session.getAttribute("authUser");
 		ProjectVO projectVO = projectService.getProjectById(taskVo.getProjectId());
 		taskVo.setUserId(userVO.getUserId());
+
+		// 프로젝트 멤버 아니면 태스크 생성 권한이 없어
+		if (!"admin".equals(userVO.getUserAuthority())
+				&& !projectService.isUserProjectMember(userVO.getUserId(), projectVO.getProjectId())) {
+			return "redirect:/access-denied";
+		}
+
 		boolean success = (1 == taskService.insert(taskVo));
 		if (success) {
 			String title = "태스크가 생성되었습니다.";
-			String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[생성된 태스크]: " + taskVo.getTaskTitle();
-			
-			MessageVO sendMessageVO = MessageVO.builder()
-										.senderUserId(userVO.getUserId())
-										.receiverUserId(projectVO.getUserId())
-										.messageTitle(title)
-										.messageDescription(description)
-										.isAlarm(true)
-										.build();
+			String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[생성된 태스크]: "
+					+ taskVo.getTaskTitle();
+
+			MessageVO sendMessageVO = MessageVO.builder().senderUserId(userVO.getUserId())
+					.receiverUserId(projectVO.getUserId()).messageTitle(title).messageDescription(description)
+					.isAlarm(true).build();
 			messageService.sendMessage(sendMessageVO);
 		}
 		return "redirect:/project/" + taskVo.getProjectId(); // 페이지를 리다이렉트 매핑된 url을 찾으러가야함
@@ -120,7 +129,7 @@ public class TaskController {
 
 	// 테스크 조회
 	@GetMapping("/listTasks")
-	public String listTasks(Model model) { //attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
+	public String listTasks(Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 		List<TaskVO> tasks = taskService.findAll();
 		model.addAttribute("listTasks", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
 		return "search/search";
@@ -128,10 +137,8 @@ public class TaskController {
 
 	// 테스크 삭제
 	@PostMapping("/deleteTask/{taskId}")
-	public String deleteTask(@PathVariable int taskId, 
-							@RequestParam int projectId, 
-							@RequestParam int userId,
-							HttpSession httpsession) {
+	public String deleteTask(@PathVariable int taskId, @RequestParam int projectId, @RequestParam int userId,
+			HttpSession httpsession) {
 
 		// 로그인한 사용자가 이 task를 만든 사용자인지 체크 위함
 		// 1) 테스크를 생성한 사용자의 아이디 필요
@@ -141,19 +148,22 @@ public class TaskController {
 		ProjectVO projectVO = projectService.getProjectById(projectId);
 		TaskVO taskVO = taskService.findById(taskId);
 
+		// 관리자와 본인과 팀장이 아니면 태스크 삭제 권한이 없어,
+		if (!"admin".equals(userVO.getUserAuthority()) && taskVO.getUserId() != userVO.getUserId()
+				&& projectVO.getUserId() != userVO.getUserId()) {
+			return "redirect:/access-denied";
+		}
+
 		if (userId == userVO.getUserId()) {
 			boolean success = (1 == taskService.deleteTask(taskId));
-			
+
 			if (success) {
 				String title = "태스크가 삭제되었습니다.";
-				String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[삭제된 태스크]: " + taskVO.getTaskTitle();
-				MessageVO sendMessageVO = MessageVO.builder()
-											.senderUserId(userVO.getUserId())
-											.receiverUserId(projectVO.getUserId())
-											.messageTitle(title)
-											.messageDescription(description)
-											.isAlarm(true)
-											.build();
+				String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[삭제된 태스크]: "
+						+ taskVO.getTaskTitle();
+				MessageVO sendMessageVO = MessageVO.builder().senderUserId(userVO.getUserId())
+						.receiverUserId(projectVO.getUserId()).messageTitle(title).messageDescription(description)
+						.isAlarm(true).build();
 				messageService.sendMessage(sendMessageVO);
 			}
 			return "redirect:/project/" + projectId;
@@ -165,44 +175,38 @@ public class TaskController {
 
 	// 테스크 수정
 	@PostMapping("/updateTask/{taskId}")
-	public String updateTask(@PathVariable int taskId, 
-							@ModelAttribute TaskVO taskVO, 
-							HttpSession session) {
+	public String updateTask(@PathVariable int taskId, @ModelAttribute TaskVO taskVO, HttpSession session) {
 
 		// 로그인한 사용자가 이 task를 만든 사용자인지 체크 후 수정
 		UserVO userVO = (UserVO) session.getAttribute("authUser");
+		ProjectVO projectVO = projectService.getProjectById(taskVO.getProjectId());
 
-		if (taskVO.getUserId() == userVO.getUserId()) {
-			taskVO.setTaskId(taskId);
-			ProjectVO projectVO = projectService.getProjectById(taskVO.getProjectId());
-			boolean success = (1 == taskService.updateTask(taskVO));
-			if (success) {
-				String title = "태스크에 변경사항이 있습니다.";
-				String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[변경된 태스크]: " + taskVO.getTaskTitle();
-				
-				MessageVO sendMessageVO = MessageVO.builder()
-											.senderUserId(userVO.getUserId())
-											.receiverUserId(projectVO.getUserId())
-											.messageTitle(title)
-											.messageDescription(description)
-											.isAlarm(true)
-											.build();
-				messageService.sendMessage(sendMessageVO);
-			}
-			
-			
-			return "redirect:/project/" + taskVO.getProjectId();
-		} else {
-			return "redirect:/project/" + taskVO.getProjectId();
+		// 관리자와 본인과 팀장이 아니면 태스크 삭제 권한이 없어,
+		if (!"admin".equals(userVO.getUserAuthority()) && taskVO.getUserId() != userVO.getUserId()
+				&& projectVO.getUserId() != userVO.getUserId()) {
+			return "redirect:/access-denied";
 		}
 
+		taskVO.setTaskId(taskId);
+		boolean success = (1 == taskService.updateTask(taskVO));
+		if (success) {
+			String title = "태스크에 변경사항이 있습니다.";
+			String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[변경된 태스크]: "
+					+ taskVO.getTaskTitle();
+
+			MessageVO sendMessageVO = MessageVO.builder().senderUserId(userVO.getUserId())
+					.receiverUserId(projectVO.getUserId()).messageTitle(title).messageDescription(description)
+					.isAlarm(true).build();
+			messageService.sendMessage(sendMessageVO);
+		}
+
+		return "redirect:/project/" + taskVO.getProjectId();
 	}
 
 	// 해당 테스크 상세 페이지 조회 안에
 	// UsersTasks에 있는 멤버 조회
 	@GetMapping("/viewTask/{taskId}")
-	public String viewTask(@PathVariable int taskId, 
-							Model model) {
+	public String viewTask(@PathVariable int taskId, Model model) {
 		TaskVO task = taskService.findById(taskId);
 
 		// UserTasks에 있는 멤버 조회
@@ -215,11 +219,9 @@ public class TaskController {
 
 	// 해당 테스크에 멤버 추가
 	@PostMapping("/members/{taskId}")
-	public String addMemberToTask(@PathVariable int taskId, 
-									@RequestParam int userId, // task 생성한 userId
-									@RequestParam int addUserId, // 추가하고싶은 userId
-									@RequestParam int projectId, 
-									HttpSession httpsession) {
+	public String addMemberToTask(@PathVariable int taskId, @RequestParam int userId, // task 생성한 userId
+			@RequestParam int addUserId, // 추가하고싶은 userId
+			@RequestParam int projectId, HttpSession httpsession) {
 		try {
 			// 로그인한 사용자가 이 task를 만든 사용자인지 체크 후 추가
 			UserVO userVO = (UserVO) httpsession.getAttribute("authUser");
@@ -241,47 +243,9 @@ public class TaskController {
 
 	// 해당 테스크 멤버 삭제
 	@PostMapping("/deleteUsersTask/{taskId}")
-	public String deleteUsersTasksMember(@PathVariable int taskId, 
-										@RequestParam int userId) {
+	public String deleteUsersTasksMember(@PathVariable int taskId, @RequestParam int userId) {
 		taskService.deleteUsersTasksMember(taskId, userId);
 		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
 	}
-	
-			//0724
-			// 해당 테스크, 프로젝트 타이틀 검색위한 모든 데이터 search
-			// tasktitle :검색할 작업의 제목
-			// page: 페이지번호 (기본값을 1로 둠)
-			@GetMapping("/SearchProjectTasks")
-			public String SearchTask(@RequestParam("taskProjectTitle") String taskProjectTitle,
-									 @RequestParam(defaultValue = "1") int taskPage,
-									 @RequestParam(defaultValue = "1") int projectPage,
-									 Model model) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
-			//테스크 조회
-			//taskVO 객체 생성-> taskTitle 설정
-			TaskVO taskVO = new TaskVO();
-			taskVO.setTaskTitle(taskProjectTitle);
-			taskVO.setPage(taskPage);
-			//서비스 호출하여 제목으로 작업을 검색
-			List<TaskVO> searchedTasks = taskService.searchByTitle(taskVO);
-			//겁색된 작업목록을 attribute통해 모델에 추가
-			model.addAttribute("searchedTasks", searchedTasks); // 최종 뷰에 보내기 위한 작업
-			model.addAttribute("tasksCount", taskService.getTotalTasksCount(taskVO)); //리스트 총카운트(작업 총 개수 설정)
-			model.addAttribute("totalPages", (searchedTasks.size()));
-			//
-			//프로젝트 조회 
-			//검색된 프로젝트목록도 attribute통해 모델에 추가 
-			List<ProjectVO> searchedProjects = projectService.searchedProjects(taskProjectTitle, projectPage);
-			model.addAttribute("searchedProjects", searchedProjects);  
-			model.addAttribute("projectCount", projectService.getTotalProjectsCount(taskProjectTitle)); //리스트 총카운트(작업 총 개수 설정)
-			model.addAttribute("totalProjectPages", (searchedProjects.size()));
-			//
-			//검색시 사용했던 타이틀 재세팅 
-			//다시 세팅해줌으로써 taskProjectTitle대로 검색할수 있게 뜨도록 하는것
-			model.addAttribute("taskProjectTitle", taskProjectTitle);  
-			
-			return "search/search"; //검색 결과를 보여줄 jsp 페이지로 리다이렉트
-		}
-	
-		
-		
+
 }
