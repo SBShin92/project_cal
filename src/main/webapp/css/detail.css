@@ -149,8 +149,7 @@ textarea#projectDescription {
 }
 
 
-.btn-delete {
-  background-color: #ff4d4d;
+.btn-outline-primary {
   position: absolute;
   left: 10vw;
 
@@ -165,5 +164,40 @@ textarea#projectDescription {
 position: absolute;
   left: 1vw;
 }
+
+.project-members-container {
+  margin-bottom: 2vw;
+}
+
+
+.members-header {
+  display: flex;
+
+  align-items: center;
+  margin-bottom: 1vw;
+ 
+}
+
+.member-invite-form {
+display: flex;
+  align-items: center;
+  margin-left : 5vw;
+}
+
+
+
+.member-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.custom-font {
+	font-family: 맑은고딕, Arial, sans-serif;
+	font-size: 16px;
+}
+
+
+
+
 
 
