@@ -1,5 +1,6 @@
 package com.github.sbshin92.project_cal.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.github.sbshin92.project_cal.data.vo.UserVO;
@@ -36,6 +37,9 @@ public interface UserService {
 	
 	// 비밀번호 리셋
 //	boolean sendPasswordResetToken(String email);
-//	boolean resetPassword(String token, String newPassword);
-	
+//	boolean alidatePasswordResetToken(String token);
+	boolean validatePasswordResetToken(String token);
+	boolean resetPassword(String token, String newPassword);
+	void createPasswordResetTokenForUser(String email);
+	Timestamp calculateExpiryDate(int expiryTimeInMinutes);
 }

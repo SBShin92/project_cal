@@ -1,6 +1,7 @@
 package com.github.sbshin92.project_cal.data.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -98,9 +99,25 @@ public interface UsersDAO {
     void updateToken(@Param("email")String email,@Param("token")String token);
     
     // 비밀번호 초기화를 위한 메서드
-    @Update("UPDATE users SET password_reset_token = #{token} WHERE user_email = #{email}")
-    void updatePasswordResetToken(@Param("email")String email, @Param("token") String token);
+//    @Update("UPDATE users SET password_reset_token = #{token} WHERE user_email = #{email}")
+//    void updatePasswordResetToken(@Param("email")String email, @Param("token") String token);
+//    
+//    @Update("UPDATE users SET user_password = #{password} WHERE password_reset_token = #{token}")
+//    void updatePasswordByToken(@Param("token")String token, @Param("password")String password);
+ 
+    @Update("UPDATE users SET user_password = #{password} WHERE token = #{token}")
+    void updatePasswordByToken(@Param("token") String token, @Param("password") String password);
     
-    @Update("UPDATE users SET user_password = #{password} WHERE password_reset_token = #{token}")
-    void updatePasswordByToken(@Param("token")String token, @Param("password")String password);
+    @Select("SELECT user_id as userId,"
+    		+" user_name as userName,"
+    		+" user_email as userEmail,"
+    		+" user_password as userPassword,"
+    		+" user_authority as userAuthority,"
+    		+ "user_position as userPosition,"
+    		+ "created_at as createdAt,"
+    		+ "updated_at as updatedAt,"
+    		+ "token as token,"
+    		+ "token_expiry_date as tokenExpiryDate"
+    		+ "FROM users WHERE token = #{token}")
+    Optional<UserVO> findByToken(@Param("token") String token);
 }

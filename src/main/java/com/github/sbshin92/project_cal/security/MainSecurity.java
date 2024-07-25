@@ -13,10 +13,8 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.CustomUserDetailsService;
-import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Configuration
@@ -60,10 +58,8 @@ public class MainSecurity {
                                            OAuth2AuthorizedClientRepository authorizedClientRepository) throws Exception { */
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/css/**", "/js/**", "/join/**", "/login/**", "/oauth2/**", "/**").permitAll()
-                .requestMatchers("/user/**").hasRole("admin")
-                .requestMatchers("/**").hasRole("authUser")
-                .requestMatchers("/calendar/**").hasRole("authUser")
+                .requestMatchers("/css/**", "/js/**", "/join/**", "/login/**", "/oauth2/**","/**").permitAll()
+                .requestMatchers("/password/**").permitAll()            
                 .anyRequest().authenticated() 
             )
             .formLogin(formLogin -> formLogin
@@ -76,26 +72,35 @@ public class MainSecurity {
                 .permitAll()
             )
             .logout(logout -> logout
-                    .logoutSuccessUrl("/")
-                    .permitAll()		
-           
-                    /* )
-            .oauth2Login(oauth2Login -> oauth2Login
-                .loginPage("/login")
-                .defaultSuccessUrl("/verify-token", true)
-                .failureUrl("/login?error=true")
-                .userInfoEndpoint(userInfo -> userInfo
-                    .oidcUserService(new OidcUserService())
-                ) 
-                .successHandler(customAuthenticationSuccessHandler())  */
+            	.logoutUrl("/logout")
+            	.addLogoutHandler(new CustomLogoutHandler())
+            	.logoutSuccessUrl("/login?logout")
+                .invalidateHttpSession(true) // 세션 무효화
+                .deleteCookies("JSESSIONID") // 세션쿠키 삭제
+                .permitAll()
+   
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .invalidSessionUrl("/login?invalid")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)
+                .expiredUrl("/login?expired")
             )
+       
+         /*   .oauth2Login(oauth2Login -> oauth2Login
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/verify-token", true)
+                    .failureUrl("/login?error=true")
+                    .userInfoEndpoint(userInfo -> userInfo
+                        .oidcUserService(new OidcUserService())
+                    ) 
+                    .successHandler(customAuthenticationSuccessHandler())  */
             .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
+    
 
    
     @Bean

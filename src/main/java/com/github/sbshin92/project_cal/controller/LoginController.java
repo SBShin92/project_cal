@@ -83,11 +83,11 @@ public class LoginController {
     	return mw;
     }
     
-    @RequestMapping("/logout")
-    public String logout(HttpSession session) {
-        session.removeAttribute("authUser");
-        session.removeAttribute("userName");
-        session.invalidate();
-        return "redirect:/";
-    }
+//    @PostMapping("/logout")
+//    public String logout(HttpSession session) {
+//        session.removeAttribute("authUser");
+//        session.removeAttribute("userName");
+//        session.invalidate();
+//        return "redirect:/logout";
+//    }
 }

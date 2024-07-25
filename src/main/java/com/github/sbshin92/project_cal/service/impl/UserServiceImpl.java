@@ -1,6 +1,10 @@
 package com.github.sbshin92.project_cal.service.impl;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -21,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private RoleDAO roleDAO;
+	
 
 	@Override
 	public List<UserVO> getAllUsers() {
@@ -127,19 +132,59 @@ public class UserServiceImpl implements UserService {
 	public void deleteToken(int userId) {
 		usersDAO.deleteToken(userId);
 		
-	}
+	} */
+	
+	
 // 비밀번호 리셋
-	@Override
-	public boolean sendPasswordResetToken(String email) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
+	
 	@Override
-	public boolean resetPassword(String token, String newPassword) {
-		// TODO Auto-generated method stub
+	public void createPasswordResetTokenForUser(String email) {
+		Optional<UserVO> userOVO = Optional.ofNullable(usersDAO.findByEmail(email));
+		if(userOVO.isPresent()) {
+			UserVO user = userOVO.get();
+			String token = UUID.randomUUID().toString();
+			user.setToken(token);
+			user.setTokenExpiryDate(calculateExpiryDate(24 * 60)); // 24 hours
+			usersDAO.save(user);
+		}
+			
+		}
+
+	public boolean validatePasswordResetToken(String token) {
+		Optional<UserVO> userOVO = usersDAO.findByToken(token);
+		if(userOVO.isPresent()) {
+			UserVO user = userOVO.get();
+			return !isTokenExpired(user);
+		}
 		return false;
 	}
-*/
+	 
+		@Override
+		public Timestamp calculateExpiryDate(int expiryTimeInMinutes) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Timestamp(System.currentTimeMillis()));
+			cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+			return new Timestamp(cal.getTime().getTime());
+		}
+
+		@Override
+	public boolean resetPassword(String token, String newPassword) {
+		Optional<UserVO> userOVO = usersDAO.findByToken(token);
+			if(userOVO.isPresent()) {
+				UserVO user = userOVO.get();
+				if(!isTokenExpired(user)) {
+					user.setUserPassword(newPassword);
+					user.setToken(null);
+					user.setTokenExpiryDate(null);
+					usersDAO.save(user);
+				}
+			}
+			return false;
+		}
+		
+	private boolean isTokenExpired(UserVO user) {
+      return user.getTokenExpiryDate().before(new Timestamp(System.currentTimeMillis()));
+   }
 
 }

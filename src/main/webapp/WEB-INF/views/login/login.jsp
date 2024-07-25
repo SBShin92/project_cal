@@ -19,6 +19,7 @@
             <button type="submit">Login</button>
         </form>
         <a href="${pageContext.request.contextPath}/join">회원가입</a>
+        <a href="${pageContext.request.contextPath}/passwordreset">비밀번호 초기화</a>
         <c:if test="${not empty error}">
             <div>${error}</div>
         </c:if>
