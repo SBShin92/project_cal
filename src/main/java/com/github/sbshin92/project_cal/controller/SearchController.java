@@ -30,9 +30,10 @@ public class SearchController {
 	// page: 페이지번호 (기본값을 1로 둠)
 	@GetMapping("/SearchProjectTasks")
 	public String SearchTask(@RequestParam("taskProjectTitle") String taskProjectTitle,
-			@RequestParam(defaultValue = "1") int taskPage, @RequestParam(defaultValue = "1") int projectPage,
-			Model model,
-			HttpSession session) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
+							@RequestParam(defaultValue = "1") int taskPage, 
+							@RequestParam(defaultValue = "1") int projectPage,
+							Model model,
+							HttpSession session) { // attribute 때문에 파라미터를 담기위해 모델선언(박스같은 개념)
 		
 		// 프로젝트 읽기 권한이 없으면 검색도 안되지
 		UserVO authUser = (UserVO)session.getAttribute("authUser");

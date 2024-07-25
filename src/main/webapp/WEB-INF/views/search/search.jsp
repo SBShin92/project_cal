@@ -113,8 +113,8 @@
                     <tr>
                       <td>${sp.projectId }</td>
                       <td>${sp.projectTitle}</td>
-                      <td>${userVO.userName}</td><!--0725 -->
-                      <td>${userVO.userPosition}</td><!--0725 -->
+                      <td>${sp.userName}</td><!--0725 -->
+                      <td>${sp.userPosition}</td><!--0725 -->
                       <td>${sp.projectStatus}</td> 
                       <td>
                         <form action="<c:url value='/project/${sp.projectId}' />"
@@ -134,7 +134,7 @@
         <p>No Projects Found. </p>
      </c:if>
      
-     		<!--0724-->
+     	<!--0725-->
 	    <nav>
 		  <ul class="pagination">
 		    <li class="page-item"><a class="page-link" href="?projectPage=${param.projectPage == 1 || param.projectPage == null ? 1 : param.projectPage - 1}&taskProjectTitle=${taskProjectTitle}">Previous</a></li>

@@ -166,7 +166,7 @@ public class ProjectServiceImpl implements ProjectService {
 			        String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
 			        
 			        //페이지 세팅
-			        int size = 10; //페이지 크기를 10으로 설정
+			        int size = 10; //페이지 크기를 10으로 설정   
 					int offset = (page - 1) * size; //오프셋을 계산(현재 페이지 번호에 따라).
 					
 				//처리된 검색어와 RowBounds 객체(페이징을 위해)를 사용하여 projectsDAO의 searchedProjects 메소드를 호출	

@@ -37,4 +37,5 @@ public class ProjectVO {
   
     // 조인용 필드
     private String userName;
+    private String userPosition; //0725
 }

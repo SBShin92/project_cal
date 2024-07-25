@@ -120,7 +120,7 @@
   						<%-- 테스크생성자와 팀장만 여기 edit, delete 권한 있게 하기위해 적음
                            if(userVO.getUserAuthority().equals("admin")){
                            --%> 
-                           
+                    
                       <form action="<c:url value='/tasks/createTaskForm'/>"
                         method="get" style="display: inline;">
                         <input type="hidden" name="taskId" value="${pt.taskId}" />
@@ -144,11 +144,12 @@
                           onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">
                           DELETE</button>
                       </form>
-                      
-                      <!-- 추가함 0725 -->
+                          
+                          <!-- 추가함 0725 -->
                       <%-- 
                          }
-                      --%> 
+                      --%>   
+              
 
                   </td>
                   </tr>

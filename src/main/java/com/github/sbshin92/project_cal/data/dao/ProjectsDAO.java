@@ -163,9 +163,10 @@ public interface ProjectsDAO {
 	    
 	    
 	   //------------------------------------------------------------------------
-	  //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능     
+	  //0725 projectTitle로 테스크 조회 => search.jsp로     
 	    @Select("SELECT project_id as projectId, "
-	    		+ "user_id as userId, "
+	    		+ "(select user_name from users where user_id = p.user_id limit 1) as userName, " //0725
+				+ "(select user_position from users where user_id = p.user_id limit 1) as userPosition, " //0725
 	    		+ "project_title as projectTitle, "
 	    		+ "project_description as projectDescription, "
 	    		+ "created_at as createdAt, "
@@ -173,15 +174,15 @@ public interface ProjectsDAO {
 	    		+ "project_status as projectStatus, "
 	    		+ "start_date as startDate, "
 	    		+ "end_date as endDate "
-	    		+ "FROM projects " 
-	    		+ "WHERE LOWER(project_title) LIKE CONCAT('%',LOWER(#{projectTitle}), '%')")
-	    List<ProjectVO> searchedProjects(String projectTitle, RowBounds rowBounds );
+	    		+ "FROM projects p " 
+	    		+ "WHERE LOWER(project_title) LIKE CONCAT('%',LOWER(#{projectTitle}),'%')")
+	    List<ProjectVO> searchedProjects(@Param("projectTitle") String projectTitle, RowBounds rowBounds );
 	    // 프로젝트 검색 쿼리: lower 이하 조건문은 지정된 projectTitle을 포함하는 프로젝트 제목을 대소문자 구분 없이 검색
 	   
 	    //0724 프로젝트 타이틀로 인한 프로젝트 검색 기능 
-	    @Select("SELECT count(1)" + 
+	    @Select("SELECT count(1) " + 
 	            "FROM projects " +
-				"WHERE LOWER(project_title) LIKE CONCAT('%', LOWER(#{projectTitle}), '%')")
+				"WHERE LOWER(project_title) LIKE CONCAT('%', LOWER(#{projectTitle}),'%')")
 		public int getTotalProjectsCount(String projectTitle);
 	    //전체 프로젝트 수 쿼리 
 }	    

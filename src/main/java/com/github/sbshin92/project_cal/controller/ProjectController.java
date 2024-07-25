@@ -47,7 +47,10 @@ public class ProjectController {
 	private UserService userService;
 
 	@GetMapping("/{projectId}")
-	public String getProject(@PathVariable(required = false) Integer projectId, Model model, HttpSession session) {
+	public String getProject(@PathVariable(required = false) Integer projectId,
+							@RequestParam(defaultValue = "1") int taskPage,//0725
+							Model model, 
+							HttpSession session) {
 		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
 		UserVO authUser = (UserVO) session.getAttribute("authUser");
 		// 넌 프로젝트 읽기 권한이 없어
@@ -62,8 +65,16 @@ public class ProjectController {
 			model.addAttribute("projectVO", projectVO);
 			List<FileVO> fileVOs = fileService.getFileListByProjectId(projectId);
 			model.addAttribute("fileVOs", fileVOs);
-//			List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId());
-//			model.addAttribute("projectTasks", tasks);
+			
+			//0725 프로젝트내 테스크페이지목록 페이징처리 추가
+			TaskVO taskVO = new TaskVO();
+			taskVO.setProjectId(projectId);
+			taskVO.setPage(taskPage);
+			List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId(), taskVO);
+			model.addAttribute("projectTasks", tasks);
+			model.addAttribute("tasksCount", taskService.getTotalTasksCountByProjectId(projectId));
+			model.addAttribute("totalPages", (tasks.size()));
+			
 			List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
 			model.addAttribute("projectMembers", projectMembers);
 			List<UserVO> allUsers = projectService.getAllUsers();
