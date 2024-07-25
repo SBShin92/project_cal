@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.sbshin92.project_cal.data.dao.TasksDAO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
-import com.github.sbshin92.project_cal.data.vo.UsersTasksVO;
 import com.github.sbshin92.project_cal.service.TaskService;
 
 @Service
@@ -54,47 +53,9 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskVO findById(int taskId) {
         return tasksDAO.findById(taskId);
-    }    
-
+    }  
     
     
-    //테스크 멤버 추가
-    @Override
-    @Transactional
-    public int addMemberToTask(int userId, int taskId , int projectId) {
-        // 1. 유효성 검사(null체크)
-        if (userId == 0 || taskId == 0) {
-            throw new IllegalArgumentException("User ID and Task ID cannot be 0");
-        }
-
-        // 2. 이미 멤버인지 확인
-        if (isUserTaskMember(userId, taskId)) {
-            throw new IllegalStateException("User is already a member of this task");
-        }
-
-        // 3. 멤버 추가
-        return tasksDAO.addMemberToTask(userId, taskId, projectId);
-    }
-
-	// UserTasks에 있는 멤버 조회
-	public List<UsersTasksVO> getUserTasksMember(int taskId){
-        return tasksDAO.getUserTasksMember(taskId);
-	}
-    
-    //멤버가 테스크에 있는지 조회
-    @Override
-    public boolean isUserTaskMember(Integer userId, Integer taskId) {
-        return tasksDAO.isUserTaskMember(userId, taskId);
-    }
-    
-	//해당 테스크 멤버 삭제
-	public int deleteUsersTasksMember(int taskId, int userId) {
-        return tasksDAO.deleteUsersTasksMember(taskId, userId);
-    }
-    
-	
-	
-	
 	//0725 기능 추가 getTasksByProjectId
 	@Override
 	 public List<TaskVO> getTasksByProjectId(Integer projectId,TaskVO taskVO) {
@@ -158,9 +119,4 @@ public class TaskServiceImpl implements TaskService {
 	    taskVO.setTaskTitle(processedTitle);
 	    return tasksDAO.getTotalTasksCount(taskVO);
 	}
-
-	
-	//
-	
-    
 }    

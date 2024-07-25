@@ -77,7 +77,7 @@
           
         <section class="project-content"> 
           <div>
-            <a href="<c:url value='/project/${createTaskForm.projectId}'/>" class="btn btn-secondary"> Go Back</button> </a>
+            <a href="<c:url value='/project/${createTaskForm.projectId}'/>" class="btn btn-secondary"> Go Back </a>
           </div>
         </section>
         

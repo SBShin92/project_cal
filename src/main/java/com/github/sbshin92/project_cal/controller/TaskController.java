@@ -17,7 +17,6 @@ import com.github.sbshin92.project_cal.data.vo.MessageVO;
 import com.github.sbshin92.project_cal.data.vo.ProjectVO;
 import com.github.sbshin92.project_cal.data.vo.TaskVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
-import com.github.sbshin92.project_cal.data.vo.UsersTasksVO;
 import com.github.sbshin92.project_cal.service.MessageService;
 import com.github.sbshin92.project_cal.service.ProjectService;
 import com.github.sbshin92.project_cal.service.TaskService;
@@ -134,6 +133,15 @@ public class TaskController {
 		model.addAttribute("listTasks", tasks); // 최종 뷰에 보내기 위한 작업(여기선 list.jsp)위해 모델 안의.attribute에 담는작업
 		return "search/search";
 	}
+	
+	// 0725 수정함 해당테스크Id로 조회한 해당 테스크 관련 상세 페이지 조회 	
+	@GetMapping("/viewTask/{taskId}")
+	public String viewTask(@PathVariable int taskId, Model model) {
+		TaskVO task = taskService.findById(taskId);
+		model.addAttribute("Task", task);
+		
+		return "task/view";
+	}
 
 	// 테스크 삭제
 	@PostMapping("/deleteTask/{taskId}")
@@ -202,50 +210,5 @@ public class TaskController {
 
 		return "redirect:/project/" + taskVO.getProjectId();
 	}
-
-	// 해당 테스크 상세 페이지 조회 안에
-	// UsersTasks에 있는 멤버 조회
-	@GetMapping("/viewTask/{taskId}")
-	public String viewTask(@PathVariable int taskId, Model model) {
-		TaskVO task = taskService.findById(taskId);
-
-		// UserTasks에 있는 멤버 조회
-		List<UsersTasksVO> usersTasksVO = taskService.getUserTasksMember(taskId);
-		model.addAttribute("viewTask", task);
-		model.addAttribute("usersTasks", usersTasksVO);
-
-		return "task/view";
-	}
-
-	// 해당 테스크에 멤버 추가
-	@PostMapping("/members/{taskId}")
-	public String addMemberToTask(@PathVariable int taskId, @RequestParam int userId, // task 생성한 userId
-			@RequestParam int addUserId, // 추가하고싶은 userId
-			@RequestParam int projectId, HttpSession httpsession) {
-		try {
-			// 로그인한 사용자가 이 task를 만든 사용자인지 체크 후 추가
-			UserVO userVO = (UserVO) httpsession.getAttribute("authUser");
-
-			if (userId == userVO.getUserId()) {
-				taskService.addMemberToTask(addUserId, taskId, projectId);
-				return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
-
-			} else {
-				return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
-	}
-
-	// 해당 테스크 멤버 삭제
-	@PostMapping("/deleteUsersTask/{taskId}")
-	public String deleteUsersTasksMember(@PathVariable int taskId, @RequestParam int userId) {
-		taskService.deleteUsersTasksMember(taskId, userId);
-		return "redirect:/tasks/viewTask/" + String.valueOf(taskId);
-	}
-
+	
 }
