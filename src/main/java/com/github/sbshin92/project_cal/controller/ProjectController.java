@@ -114,7 +114,7 @@ public class ProjectController {
 
 	@PostMapping("/create")
 	public String createProject(@RequestParam("userId") String userIdStr, @ModelAttribute ProjectVO projectVO,
-			@RequestParam("projectFiles") MultipartFile[] files,
+			@RequestParam(value = "projectFiles", required = false) MultipartFile[] files,
 			@RequestParam(value = "members", required = false) List<Integer> members,
 			RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
 		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");

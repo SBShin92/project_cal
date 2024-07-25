@@ -62,7 +62,7 @@ public class FilesController {
 	}
 	
 	@PostMapping("/upload/{projectId}")
-	public String fileUpload(@RequestParam("projectFiles") MultipartFile[] files, @PathVariable("projectId") Integer projectId) {
+	public String fileUpload(@RequestParam(value = "projectFiles", required = false) MultipartFile[] files, @PathVariable("projectId") Integer projectId) {
 		try {
 			fileService.saveFilesInProject(files, projectId);
 		} catch (IOException e) {
