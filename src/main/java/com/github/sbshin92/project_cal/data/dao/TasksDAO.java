@@ -96,8 +96,8 @@ public interface TasksDAO {
 	public int deleteUsersTasksMember(int taskId, int userId);
 	    
 
-	//0725 서브쿼리위해 쿼리수정 
-    //projectId로 테스크 조회
+	//0725 
+    //projectId로 task목록 조회 => project/detail.jsp로
     @Select("SELECT task_id as taskId, " +
 			"(select user_name from users where user_id = a.user_id limit 1) as userName, " + //0725
 			"(select user_position from users where user_id = a.user_id limit 1) as userPosition, " + //0725
@@ -111,19 +111,30 @@ public interface TasksDAO {
             "WHERE project_id = #{projectId}")
     public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId, RowBounds rowBounds);
     
+    //0725
+    //project 목록 조회
+    @Select("SELECT count(1)" + 
+            "FROM tasks " +
+    		"WHERE project_id = #{projectId}")
+	public int getTotalTasksCountByProjectId(int projectId);
+    // taskTitle로 조회해서 리스트를 불러오는 메서드, 소문자변환하고 부분일치검색을 수행한다
+    // 검색된 결과의 총 개수를 반환하는 메서드
     
-    //삭제금지 0723
-    //taskTitle로 테스크 조회
+    
+    
+    //0725
+    //taskTitle로 테스크 조회 => search.jsp로 
     @Select("SELECT task_id as taskId, " +
-	            "user_id as userId, " +
-	            "project_id as projectId, " +
-	            "task_title as taskTitle, " +
-	            "task_description as taskDescription, " +
-	            "created_at as createdAt, " +
-	            "updated_at as updatedAt, " +
-	            "task_status as taskStatus " +
-	            "FROM tasks " +
-    			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")
+    		"(select user_name from users where user_id = a.user_id limit 1) as userName, " +//0725
+			"(select user_position from users where user_id = a.user_id limit 1) as userPosition, " +//0725
+            "project_id as projectId, " +
+            "task_title as taskTitle, " +
+            "task_description as taskDescription, " +
+            "created_at as createdAt, " +
+            "updated_at as updatedAt, " +
+            "task_status as taskStatus " +
+            "FROM tasks a " +
+    		"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")
     // taskTitle로 조회해서 리스트 불러오는 SearcByTitle()
 	public List<TaskVO> searchByTitle(@Param("taskVO") TaskVO taskVO, RowBounds rowBounds);
     //LOWER() 함수를 사용하여 테이블의 task_title 컬럼과 입력받은 taskTitle 파라미터를 모두 소문자로 변환합니다.   
@@ -133,19 +144,12 @@ public interface TasksDAO {
     //AS 키워드를 사용하여 각 컬럼에 별칭을 부여
     //
     
-    //삭제금지 0723
+    //0725
     //taskTitle로 테스크 조회
-    @Select("SELECT count(1)" + 
+    @Select("SELECT count(1) " + 
             "FROM tasks " +
 			"WHERE LOWER(task_title) LIKE CONCAT('%', LOWER(#{taskVO.taskTitle}), '%')")
 	public int getTotalTasksCount(@Param("taskVO") TaskVO taskVO);
     
-    //삭제금지 0723
-    //taskTitle로 테스크 조회
-    @Select("SELECT count(1)" + 
-            "FROM tasks " +
-    		"WHERE project_id = #{projectId}")
-	public int getTotalTasksCountByProjectId(int projectId);
-    // taskTitle로 조회해서 리스트를 불러오는 메서드, 소문자변환하고 부분일치검색을 수행한다
-    // 검색된 결과의 총 개수를 반환하는 메서드
+    
 }

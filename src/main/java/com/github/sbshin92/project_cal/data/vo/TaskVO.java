@@ -7,8 +7,6 @@ import lombok.Data;
 public class TaskVO {
 	private int taskId;
     private int userId;
-    private String userName;//0725 추가함
-    private String userPosition;//0725 추가함
     private int projectId;
     private String taskTitle;
     private String taskDescription;
@@ -16,8 +14,9 @@ public class TaskVO {
     private Timestamp updatedAt;
     private String taskStatus;
   
-    //추가함 삭제 금지 0723
+    //조인용 필드 및 추가
+    private String userName;//0725
+    private String userPosition;//0725
     private int page; // 페이지 세팅용 
 }
 
-//수정함 0718
