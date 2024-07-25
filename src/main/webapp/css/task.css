@@ -12,7 +12,7 @@ ul {
 }
 
 a {
-	color: white;
+
 	text-decoration: none;
 }
 
@@ -45,9 +45,7 @@ a {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.menu-item {
-	padding: 10px 0;
-}
+
 
 
 
@@ -94,7 +92,7 @@ th {
 
 .btn {
 	padding: 10px 15px;
-	background-color: #4285f4;
+	
 	color: white;
 	border: none;
 	cursor: pointer;

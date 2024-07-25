@@ -16,22 +16,9 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/includes/header.jsp" />
-	<div class="move-buttons">
-		<c:choose>
-			<c:when test="${ sessionScope.viewMonth <= 1 }">
-				<a class="prev-button btn btn-dark"
-					href="<c:url value='/calendar/date/${ sessionScope.viewYear - 1 }12' />">◀
-				</a>
-			</c:when>
-			<c:otherwise>
-				<a class="prev-button btn btn-dark"
-					href="<c:url value='/calendar/date/${ sessionScope.viewYear }${sessionScope.viewMonth - 1 }' />">◀
-				</a>
-			</c:otherwise>
-		</c:choose>
-		
-		<button id="monthYearSelector" class="view-date nav-btn">${ sessionScope.viewYear }년 ${ sessionScope.viewMonth }월</button>
-		<div id="monthYearPicker" style="display: none;">
+	
+	<div id= navigation>
+		<div id="monthYearPicker">
 			<select id="yearSelect">
 				<!-- 년도 옵션들은 JavaScript로 동적 생성 -->
 			</select>
@@ -51,24 +38,43 @@
 			</select>
 			<button id="applyDateButton">적용</button>
 		</div>
+	
+	<div class="move-buttons">
+		<c:choose>
+			<c:when test="${ sessionScope.viewMonth <= 1 }">
+				<a class="prev-button btn btn-sky"
+					href="<c:url value='/calendar/date/${ sessionScope.viewYear - 1 }12' />">◀
+				</a>
+			</c:when>
+			<c:otherwise>
+				<a class="prev-button btn btn-sky"
+					href="<c:url value='/calendar/date/${ sessionScope.viewYear }${sessionScope.viewMonth - 1 }' />">◀
+				</a>
+			</c:otherwise>
+		</c:choose>
+		
+		<button id="monthYearSelector" class="view-date nav-btn">${ sessionScope.viewYear }년 ${ sessionScope.viewMonth }월</button>
 		
 		<c:choose>
 			<c:when test="${ sessionScope.viewMonth >= 12 }">
-				<a class="next-button btn btn-dark"
+				<a class="next-button btn btn-sky"
 					href="<c:url value='/calendar/date/${ sessionScope.viewYear + 1 }1' />">
 					▶</a>
 			</c:when>
+			
 			<c:otherwise>
-				<a class="next-button btn btn-dark"
+				<a class="next-button btn btn-sky"
 					href="<c:url value='/calendar/date/${ sessionScope.viewYear }${sessionScope.viewMonth + 1 }' />">
 					▶</a>
 			</c:otherwise>
 		</c:choose>
 
-		<a class="today-button btn btn-dark"
+
+		<a class="today-button btn btn-outline-primary"
 			href="<c:url value='/calendar/date/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">
 			Today</a>
 		<a class="btn btn-outline-primary" href="<c:url value='/calendar/scheduleSwitch' /> ">${ mySchedule == true ? "전체 프로젝트 보기" : "참여중인 프로젝트 보기"}</a>
+	</div>
 	</div>
 	<main>
 	

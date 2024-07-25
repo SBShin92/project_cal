@@ -41,7 +41,7 @@
         <h2>상세 내용</h2>
         <div id="projectDescription" class="editable"
           data-field="projectDescription">
-          <p>${projectVO.projectDescription}</p>
+          <pre>${projectVO.projectDescription}</pre>
         </div>
         <!-- 이미지 부분 -->
         <!--div id="projectImages" -->
@@ -272,7 +272,7 @@
 
       <footer>
         <button type="submit" id="saveButton" class="btn btn-primary">저장</button>
-        <button type="button" id="cancelButton" class="btn btn-secondary">취소</button>
+        <button type="button" id="cancelButton" class="btn btn-secondary">취소</bustton>
       </footer>
     </div>
   </form>
@@ -281,6 +281,7 @@
   <script src="<c:url value='/javascript/main.js' />"></script>
   <script src="<c:url value='/javascript/detail.js'/>"></script>
   <script src="<c:url value='/javascript/edit.js'/>"></script>
-  <script src="<c:url value='/javascript/main.js'/>"></script>
+  	<script src="<c:url value='/javascript/calendar.js'/>"></script>
+  
 </body>
 </html>
