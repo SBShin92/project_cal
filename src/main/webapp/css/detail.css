@@ -41,9 +41,7 @@ header {
   border-radius: 8px 8px 0 0;
 }
 
-h1, h2 {
-  margin-bottom: 10px;
-}
+
 .projectViewMode h1 {
   padding: 15px;
   margin: -20px -20px 20px -20px;
@@ -84,7 +82,6 @@ h1, h2 {
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s, transform 0.1s;
 }
 
 .btn-primary {
@@ -150,4 +147,23 @@ textarea#projectDescription {
     box-sizing: border-box;
     resize: vertical;
 }
+
+
+.btn-delete {
+  background-color: #ff4d4d;
+  position: absolute;
+  left: 10vw;
+
+}
+
+
+.btn-add {
+  background-color: #fbb9c8;
+ 
+}
+#memberList ul {
+position: absolute;
+  left: 1vw;
+}
+
 

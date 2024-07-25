@@ -27,7 +27,7 @@
   <div id="projectViewMode" class="project-detail"
     data-project-id="${projectVO.projectId}">
     <header>
-      <h1 id="projectTitle">프로젝트 제목 : ${projectVO.projectTitle}</h1>
+      <h3 id="projectTitle">프로젝트 : ${projectVO.projectTitle}</h3>
       <p id="projectDate">
         프로젝트 기간:
         <fmt:formatDate value="${projectVO.startDate}" pattern="yyyy-MM-dd" />
@@ -39,7 +39,7 @@
 
     <main>
       <section class="project-content">
-        <h2>상세 내용</h2>
+        <h3>상세 내용</h3>
         <div id="projectDescription" class="editable"
           data-field="projectDescription">
           <pre>${projectVO.projectDescription}</pre>
@@ -50,7 +50,7 @@
 
 
       <section class="project-files">
-        <h2>첨부 파일</h2>
+        <h3>첨부 파일</h3>
         <ul id="fileList">
           <c:forEach var="file" items="${fileVOs}">
             <li><a href="<c:url value='/files/download/${file.fileId}'/>">${file.originalFileName}</a>
@@ -76,7 +76,7 @@
 
       <!-- task목록0725 전체적으로 수정함 -->
       <section class="project-tasks" id="project-tasks">
-        <h2>테스크 페이지</h2>
+        <h3>테스크 페이지</h3>
         <div>
           <table border="1">
           
@@ -172,16 +172,17 @@
       </section> 
      
       <!-- 프로젝트 멤버 목록 -->
-      <section class="project-members">
-          <h2>프로젝트 멤버</h2>
+      <section class="project-members" id="member-list">
+          <h3>프로젝트 멤버</h3>
           <ul id="memberList">
               <c:forEach var="member" items="${projectMembers}">
-                  <li>
-                      <i class="fa-brands fa-square-web-awesome-stroke"></i>${member.userName}
-                      <form action="<c:url value='/project/removeMember'/>" method="post" style="display: inline;">
+                  <li class="member-item">
+                  <span class="member-name">
+                      <i class="fa-brands fa-square-web-awesome-stroke"></i>${member.userName}</span>
+                      <form action="<c:url value='/project/removeMember'/>" method="post" class="member-delete-form" style="display: inline;">
                           <input type="hidden" name="projectId" value="${projectVO.projectId}">
                           <input type="hidden" name="userId" value="${member.userId}">
-                          <button type="submit">삭제</button>
+                          <button type="submit" class="btn-delete">삭제</button>
                       </form>
                   </li>
               </c:forEach>
@@ -189,14 +190,14 @@
           <c:if test="${empty projectMembers}">
               <p>초대된 멤버가 없습니다</p>
           </c:if>
-          <form action="<c:url value='/project/inviteMember'/>" method="post">
+          <form action="<c:url value='/project/inviteMember'/>" method="post"class="member-invite-form">
               <input type="hidden" name="projectId" value="${projectVO.projectId}">
-              <select name="userId">
+              <select name="userId" class="member-select">
                   <c:forEach var="user" items="${availableUsers}">
                       <option value="${user.userId}">${user.userName}</option>
                   </c:forEach>
               </select>
-              <button type="submit">멤버 추가</button>
+              <button type="submit" class="btn-add">멤버 추가</button>
           </form>
       </section>
 
@@ -224,10 +225,10 @@
     method="post" style="display: none;">
     <div class="project-detail" data-project-id="${projectVO.projectId}">
       <header>
-        <h1>
-          프로젝트 제목: <input type="text" name="projectTitle"
+        <h3>
+          프로젝트 : <input type="text" name="projectTitle"
             id="editProjectTitle" value="${projectVO.projectTitle}" required>
-        </h1>
+        </h3>
         <p>
           프로젝트 기간: <input type="date" name="startDate"
             value="<fmt:formatDate value="${projectVO.startDate}" pattern="yyyy-MM-dd" />"
@@ -251,13 +252,13 @@
 
       <main>
         <section class="project-content">
-          <h2>상세 내용</h2>
+          <h3>상세 내용</h3>
           <textarea id="projectDescription" name="projectDescription"
-            rows="4" required>${projectVO.projectDescription}</textarea>
+            rows="25" required>${projectVO.projectDescription}</textarea>
         </section>
 
         <section class="project-files">
-          <h2>첨부 파일</h2>
+          <h3>첨부 파일</h3>
           <ul id="editFileList">
             <c:forEach var="file" items="${fileVOs}">
               <li>${file.originalFileName}(${file.fileSize} bytes) 
@@ -268,13 +269,17 @@
             </c:forEach>
           </ul>
           <input type="file" name="newFiles" multiple>
-        </section>
-      </main>
 
+        </section>
+        
       <footer>
         <button type="submit" id="saveButton" class="btn btn-primary">저장</button>
         <button type="button" id="cancelButton" class="btn btn-secondary">취소</bustton>
       </footer>
+        
+      </main>
+
+   
     </div>
   </form>
 
