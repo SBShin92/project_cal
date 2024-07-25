@@ -20,8 +20,9 @@ public class messageServiceImpl implements MessageService {
 	@Override
 	public MessageVO getMessageWithReadCheck(Integer messageId) {
 		MessageVO messageVO = messagesDAO.getMessageByMessageId(messageId);
-		if ("unread".equals(messageVO.getReadStatus()))
+		if ("unread".equals(messageVO.getReadStatus())) {
 			messagesDAO.updateReadStatusRead(messageId);
+		}
 		return messageVO;
 	}
 	
@@ -44,5 +45,5 @@ public class messageServiceImpl implements MessageService {
 	public boolean sendMessage(MessageVO messageVO) {
 		return 1 == messagesDAO.insert(messageVO);
 	}
-
+	
 }

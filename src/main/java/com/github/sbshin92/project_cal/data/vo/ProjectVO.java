@@ -2,10 +2,8 @@ package com.github.sbshin92.project_cal.data.vo;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,13 +21,12 @@ import lombok.Setter;
 @Data
 public class ProjectVO {
     private int projectId;
-    private int userId;
+    private Integer userId;
     private String projectTitle;
     private String projectDescription;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String projectStatus;
-    private int projectBarColor;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
@@ -40,4 +37,5 @@ public class ProjectVO {
   
     // 조인용 필드
     private String userName;
+    private String userPosition; //0725
 }

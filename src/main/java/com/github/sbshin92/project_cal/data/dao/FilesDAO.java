@@ -31,7 +31,7 @@ public interface FilesDAO {
 			+ " 	uploaded_at as uploadedAt "
 			+ " FROM files "
 			+ " WHERE file_id = #{fileId} ")
-	public List<FileVO> findByFileId(int fileId);
+	public FileVO findByFileId(int fileId);
 
 	@Select("SELECT file_id as fileId, "
 			+ " 	project_id as projectId, "

@@ -9,17 +9,20 @@
 <head>
 <meta charset="UTF-8">
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<title>쪽지함</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+<title>메시지함</title>
 </head>
 <body>
     <div class="container py-5">
         <div class="message-box p-4">
             <h1 class="message-title mb-4">
-                <i class="fas fa-envelope me-2"></i>${sessionScope.authUser.userName} 님의 쪽지함
+                <i class="fas fa-envelope me-2"></i>${sessionScope.authUser.userName} 님의 메시지함
             </h1>
             <div class="btn-group mb-4" role="group" aria-label="Message actions">
-                <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/received' />">
+            	<a class="btn btn-custom btn-outline-danger" href="<c:url value='/message/alarm' />">
+                    <i class="fas fa-cake-candles me-2"></i>알람
+                </a>
+                <a class="btn btn-custom btn-outline-dark active" href="<c:url value='/message/received' />">
                     <i class="fas fa-inbox me-2"></i>받은 쪽지
                 </a>
                 <a class="btn btn-custom btn-outline-dark" href="<c:url value='/message/sended' />">
@@ -32,14 +35,19 @@
             <div class="card">
                 <ul class="list-group list-group-flush">
                     <c:forEach var="messageVO" items="${messageVOs}">
-                        <li class="list-group-item">
-                        	<div class="row">
-						    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none col-8">
-						        <i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}
-						    </a>
-						    <span class="col-4"><fmt:formatDate value="${messageVO.createdAt}" pattern="MM/dd HH:mm" />, ${messageVO.readStatus}</span>
-						    </div>
-						</li>
+                    	<c:if test="${ messageVO.isAlarm == false }">
+	                        <li class="list-group-item">
+	                        	<div class="row">  
+								    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none col-8">
+								    	<c:choose>
+								    		<c:when test="${ messageVO.readStatus.equals('unread') }"><b><i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}</b></c:when>
+								    		<c:otherwise><i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}</c:otherwise>
+								    	</c:choose>
+								    </a>
+								    <span class="col-4"><fmt:formatDate value="${messageVO.createdAt}" pattern="MM/dd HH:mm" />, ${messageVO.readStatus}</span>
+							    </div>
+							</li>
+						</c:if>
                     </c:forEach>
                 </ul>
             </div>

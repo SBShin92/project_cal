@@ -7,93 +7,139 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.sbshin92.project_cal.data.dao.RoleDAO;
 import com.github.sbshin92.project_cal.data.dao.UsersDAO;
+import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UsersDAO usersDAO;
-	
 	@Autowired
-//	private  PasswordEncoder passwordEncoder; // 패스워드 암호화를 위한 메서드
+	private UsersDAO usersDAO;
 
+	@Autowired
+	private RoleDAO roleDAO;
 
-    @Override
+	@Override
 	public List<UserVO> getAllUsers() {
-        List<UserVO> lst = usersDAO.findAll();
-        return lst;
-    }
-    
-    
-    @Override
+		List<UserVO> lst = usersDAO.findAll();
+		return lst;
+	}
+
+	@Override
 	public UserVO getUserByUserId(Integer userId) {
 		return usersDAO.findByUserId(userId);
 	}
-    
+
 	@Override
 	public UserVO getUserByUserName(String userName) {
 		return usersDAO.findByUserName(userName);
 	}
-	
 
 	/**
-     * 새 사용자를 추가합니다.
-     * @param userVO 추가할 사용자 정보
-     * @return 사용자 추가 성공 여부
-     */
-    @Override
-    @Transactional
-    public boolean addUser(UserVO userVO) {
-    	try {
-//    	String encodePassword = passwordEncoder.encode(userVO.getUserPassword());
-//    		userVO.setUserPassword(encodePassword);
-    		String Password = userVO.getUserPassword();
-    		userVO.setUserPassword(Password);
-    	
-        return 1 == usersDAO.save(userVO);
-    } catch(DataAccessException e) {
-    	e.printStackTrace();
-    }
-		return false;
-  }
+	 * 새 사용자를 추가합니다.
+	 * 
+	 * @param userVO 추가할 사용자 정보
+	 * @return 사용자 추가 성공 여부
+	 */
+	@Override
+	@Transactional
+	public boolean addUser(UserVO userVO) {
+		try {
+			String Password = userVO.getUserPassword();
+			userVO.setUserPassword(Password);
 
-    /**
-     * 사용자 이름으로 사용자를 조회합니다.
-     * @param username 조회할 사용자의 이름
-     * @return 조회된 사용자 정보, 없으면 null
-     */
-    @Override
-    public UserVO getUserByEmail(String email) {
-        return usersDAO.findByEmail(email);
-    }
-    
-    // 유저 삭제 기능
-    @Override
-    public boolean deleteUser(Integer userId) {
-        return usersDAO.deleteByUserId(userId) > 0;
-    }
-    // 유저 수정 기능
-    @Override
+			return 1 == usersDAO.save(userVO);
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * 사용자 이름으로 사용자를 조회합니다.
+	 * 
+	 * @param username 조회할 사용자의 이름
+	 * @return 조회된 사용자 정보, 없으면 null
+	 */
+	@Override
+	public UserVO getUserByEmail(String email) {
+		return usersDAO.findByEmail(email);
+	}
+
+	// 유저 삭제 기능
+	@Override
+	public boolean deleteUser(Integer userId) {
+		return usersDAO.deleteByUserId(userId) > 0;
+	}
+
+	// 유저 수정 기능
+
+	  @Override
     @Transactional
-    public boolean updateUser(int userId, String userName, String userEmail, String userAuthority, String userPosition) {
+    public void updateUser(UserVO user) {
         try {
-            return usersDAO.updateUser(userId, userName, userEmail, userAuthority, userPosition) > 0;
+            // 기존 사용자 정보 조회
+            UserVO existingUser = usersDAO.findByUserId(user.getUserId());
+            if (existingUser == null) {
+                throw new RuntimeException("사용자를 찾을 수 없습니다.");
+            }
+
+            // 관리자 권한 변경 확인
+            if (!existingUser.getUserAuthority().equals(user.getUserAuthority())) {
+                // 관리자 권한이 변경되었을 경우 로깅 또는 추가 처리
+                System.out.println("사용자 ID " + user.getUserId() + "의 권한이 " 
+                    + existingUser.getUserAuthority() + "에서 " + user.getUserAuthority() + "로 변경되었습니다.");
+            }
+
+            // 사용자 정보 업데이트
+            usersDAO.update(user);
+
+            // 역할 정보 업데이트
+            if (user.getRoleVO() != null) {
+                RoleVO existingRole = roleDAO.findByUserId(user.getUserId());
+                if (existingRole == null) {
+                    roleDAO.insert(user.getRoleVO());
+                } else {
+                    roleDAO.update(user.getRoleVO());
+                }
+            }
         } catch (DataAccessException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("사용자 정보 업데이트 중 오류 발생", e);
         }
     }
-    
-    @Override
-    public UserVO getUserById(int userId) {
-        return usersDAO.findByUserId(userId);
-    }
 
-    @Override
-    public void updateUser(UserVO user) {
-        usersDAO.update(user);
-    }
+	@Override
+	public UserVO getUserById(int userId) {
+		return usersDAO.findByUserId(userId);
+	}
+
+
+/* 토큰 조회 및 삭제
+	@Override
+	public UserVO findByToken(String token) {
+		return usersDAO.findByToken(token);
+	}
+
+	@Override
+	public void deleteToken(int userId) {
+		usersDAO.deleteToken(userId);
+		
+	}
+// 비밀번호 리셋
+	@Override
+	public boolean sendPasswordResetToken(String email) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean resetPassword(String token, String newPassword) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+*/
+
 }

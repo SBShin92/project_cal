@@ -1,16 +1,17 @@
 package com.github.sbshin92.project_cal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
+import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Controller
@@ -20,9 +21,12 @@ public class UserController {
     @Autowired
     private UserService userService;
     
-    
     @Autowired
-//    private BCryptPasswordEncoder passwordEncoder;
+    private RoleService roleService;
+    
+    
+    
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping
     public String join() {
@@ -58,11 +62,12 @@ public class UserController {
         user.setUserName(username);
         user.setUserEmail(email);
         user.setUserPassword(password);
-        user.setUserAuthority("ROLE_USER"); // 기본 권한 설정
+        user.setUserAuthority("AuthUser"); // 기본 권한 설정
+        user.setUserPosition("user");
 
         // 비밀번호를 암호화하여 설정
-//        String encodedPassword = passwordEncoder.encode(password);
-//        user.setUserPassword(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(password);
+        user.setUserPassword(encodedPassword);
 
         try {
             // 사용자 정보를 데이터베이스에 저장
@@ -72,6 +77,15 @@ public class UserController {
                 model.addAttribute("error", "회원가입에 실패했습니다. 다시 시도해주세요.");
                 return "login/join";
             }
+            
+            RoleVO roleVO = new RoleVO();
+            roleVO.setUserId(user.getUserId());
+            roleVO.setProjectCreate(false);
+            roleVO.setProjectUpdate(false);
+            roleVO.setProjectRead(false);
+            roleVO.setProjectDelete(false);
+            roleService.createRole(roleVO);
+            
         } catch (Exception e) {
             model.addAttribute("error", "회원가입 도중 오류가 발생했습니다. 다시 시도해주세요.");
             return "login/join";

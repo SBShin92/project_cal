@@ -18,6 +18,9 @@ public class FileServiceImpl implements FileService {
 
 	@Autowired
 	private FilesDAO filesDAO;
+	
+	@Autowired
+	private FilesUtility filesUtility;
 
 	
     @Override
@@ -30,20 +33,18 @@ public class FileServiceImpl implements FileService {
 	@Override
     public boolean saveFilesInProject(MultipartFile[] multipartFiles, Integer projectId) throws IOException {
     	boolean isSuccess = true;
-    	if (multipartFiles[0].isEmpty())
+    	if (multipartFiles == null || multipartFiles[0].isEmpty())
     		return isSuccess;
 		for (MultipartFile file: multipartFiles) {
 			// 각 파일명 구하기
 			String originalFileName = file.getOriginalFilename();
 			String extName = originalFileName.substring(originalFileName.lastIndexOf("."));
-			String saveFileName = FilesUtility.getFileNameByTimeMillis(extName);
-			
+			String saveFileName = filesUtility.getFileNameByTimeMillis(extName);
 			// 파일 사이즈
 			Long fileSize = file.getSize();
 			
 			// 로컬에 파일 저장
-			FilesUtility.writeFile(file, saveFileName);
-			
+			filesUtility.writeFile(file, saveFileName);
 			// 저장 정보 DB에 저장
 			FileVO fileVO = FileVO.builder()
 								.projectId(projectId)
@@ -58,6 +59,11 @@ public class FileServiceImpl implements FileService {
 		}
     	return isSuccess;
     }
+
+	@Override
+	public FileVO getFileById(Integer fileId) {
+		
+		return filesDAO.findByFileId(fileId);
+	}
 	
-    
 }

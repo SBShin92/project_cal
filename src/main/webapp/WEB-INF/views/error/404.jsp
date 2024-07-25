@@ -66,7 +66,7 @@
         <p>당신이 찾는 페이지를 발견하지 못했어요.</p>
         <img class="character" src="<c:url value='/assets/images/skull.png' />" alt="귀여운 해골 캐릭터">
         <p>걱정마세요! 홈으로 돌아가면 새로운 모험을 시작할 수 있어요.</p>
-        <a href="<c:url value='/login' />" class="button">홈으로 돌아가기</a>
+        <a href="<c:url value='/calendar' />" class="button">홈으로 돌아가기</a>
     </div>
 </body>
 </html>

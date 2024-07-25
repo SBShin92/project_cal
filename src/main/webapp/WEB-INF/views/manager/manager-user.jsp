@@ -26,6 +26,7 @@
                         <th>이름</th>
                         <th>이메일</th>
                         <th>직책</th>
+                        <th>권한</th>
                         <th>프로젝트 권한</th>
                         <th>작업</th>
                     </tr>
@@ -37,12 +38,14 @@
                             <td class="editable" data-field="name">${user.userName}</td>
                             <td class="editable" data-field="email">${user.userEmail}</td>
                             <td class="editable" data-field="position">${user.userPosition}</td>
+                            <td class="editable" data-field="authority">${user.userAuthority}</td>
                             <td class="permissions">
-                                <label><input type="checkbox" name="projectCreate" ${user.role.projectCreate ? 'checked' : ''} disabled> 생성</label>
-                                <label><input type="checkbox" name="projectRead" ${user.role.projectRead ? 'checked' : ''} disabled> 읽기</label>
-                                <label><input type="checkbox" name="projectUpdate" ${user.role.projectUpdate ? 'checked' : ''} disabled> 수정</label>
-                                <label><input type="checkbox" name="projectDelete" ${user.role.projectDelete ? 'checked' : ''} disabled> 삭제</label>
-                            </td>
+							    <label><input type="checkbox" name="projectCreate" ${user.roleVO.projectCreate ? 'checked' : ''} disabled> 생성</label>
+							    <label><input type="checkbox" name="projectRead" ${user.roleVO.projectRead ? 'checked' : ''} disabled> 읽기</label>
+							    <label><input type="checkbox" name="projectUpdate" ${user.roleVO.projectUpdate ? 'checked' : ''} disabled> 수정</label>
+							    <label><input type="checkbox" name="projectDelete" ${user.roleVO.projectDelete ? 'checked' : ''} disabled> 삭제</label>
+							    <label><input type="checkbox" name="isAdmin" data-user-id="${user.userId}" ${user.userAuthority == 'admin' ? 'checked' : ''} disabled> 관리자</label>
+							</td>
                             <td>
                                 <button class="btn btn-edit" data-user-id="${user.userId}">수정</button>
                                 <form id="deleteForm_${user.userId}" class="deleteForm" action="<c:url value='/manager/user/delete/${user.userId}'/>" method="post" style="display: inline;">
@@ -55,6 +58,8 @@
             </table>
         </div>
     </div>
+    
     <script src="<c:url value='/javascript/manager.js'/>"></script>
+    
 </body>
 </html>

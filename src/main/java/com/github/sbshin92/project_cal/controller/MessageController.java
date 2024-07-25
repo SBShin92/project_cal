@@ -38,6 +38,15 @@ public class MessageController {
 		return "message/message-list";
 	}
 	
+	@GetMapping("/alarm")
+	public String alarmMessageListPage(Model model, HttpSession session) {
+		UserVO authUser = (UserVO)session.getAttribute("authUser");
+		List<MessageVO> messageVOs = messageService.getMessageListByReceiverUserId(authUser.getUserId());
+		model.addAttribute("messageVOs", messageVOs);
+		model.addAttribute("url", "alarm");
+		return "message/message-list-alarm";
+	}
+	
 	@GetMapping("/sended")
 	public String sendedMessagePage(Model model, HttpSession session) {
 		
@@ -45,7 +54,7 @@ public class MessageController {
 		List<MessageVO> messageVOs = messageService.getMessageListBySenderUserId(authUser.getUserId());
 		model.addAttribute("messageVOs", messageVOs);
 		model.addAttribute("url", "sended");
-		return "message/message-list";
+		return "message/message-list-sended";
 	}
 	
 	@GetMapping("/received/{messageId}")
@@ -56,11 +65,19 @@ public class MessageController {
 		return "message/message-detail";
 	}
 	
+	@GetMapping("/alarm/{messageId}")
+	public String alarmMessageDetailPage(@PathVariable("messageId") Integer messageId , Model model, HttpSession session) {
+		
+		MessageVO messageVO = messageService.getMessageWithReadCheck(messageId);
+		model.addAttribute("messageVO", messageVO);
+		return "message/message-detail-alarm";
+	}
+	
 	@GetMapping("/sended/{messageId}")
 	public String sendedMessageDetailPage(@PathVariable("messageId") Integer messageId , Model model, HttpSession session) {
 		MessageVO messageVO = messageService.getMessage(messageId);
 		model.addAttribute("messageVO", messageVO);
-		return "message/message-detail";
+		return "message/message-detail-sended";
 	}
 	
 	@GetMapping("/create")
@@ -74,8 +91,9 @@ public class MessageController {
 			HttpSession session) {
 		UserVO authUser = (UserVO)session.getAttribute("authUser");
 		// 받는이에 아무것도 적지 않았을 때, 유저확인 오류의 처리
-		if (receiverUserNameOrEmail == null || authUser == null)
+		if (receiverUserNameOrEmail == null || authUser == null) {
 			return "redirect:/message/sended";
+		}
 		
 		UserVO userVO = null;
 		if (receiverUserNameOrEmail.contains("@")) {
@@ -86,11 +104,10 @@ public class MessageController {
 		
 		if (userVO != null) {
 			messageVO.setReceiverUserId(userVO.getUserId());
-			// TODO: 보내는 이는 1번으로 고정, 세션 완성 시 수정하자
 			messageVO.setSenderUserId(authUser.getUserId());
+			messageVO.setIsAlarm(false);
 			messageService.sendMessage(messageVO);
 			
-			// TODO: 메세지를 DB에 저장 실패 시 처리?
 		}
 		return "redirect:/message/sended";
 	}

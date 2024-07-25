@@ -1,10 +1,6 @@
 package com.github.sbshin92.project_cal.data.vo;
 
 import java.sql.Timestamp;
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import lombok.Data;
 
 @Data
@@ -17,13 +13,10 @@ public class TaskVO {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String taskStatus;
-    private int taskPriority;
-    
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date startDate;
-    
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
+  
+    //조인용 필드 및 추가
+    private String userName;//0725
+    private String userPosition;//0725
+    private int page; // 페이지 세팅용 
 }
 
-//수정함 0718
