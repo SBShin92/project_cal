@@ -13,6 +13,12 @@
 <link rel="stylesheet" href="<c:url value='/css/main.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/form.css'/>" type="text/css">
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </head>
 <body>
 	<jsp:include page="/WEB-INF/includes/header.jsp" />
@@ -27,12 +33,33 @@
 						id="projectTitle" name="projectTitle" required="required" />
 				</div>
 	
-				<div class="form-group">
-					<label for="projectDescription">프로젝트 설명:</label>
-					<textarea id="projectDescription" name="projectDescription" rows="4"
-						required="required"></textarea>
-				</div>
-	
+				
+        <div class="form-group">
+          <label for="projectDescription">프로젝트 설명:</label>
+          <div class="card">
+            <div class="card-header">
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group me-2" role="group">
+                  <button type="button" class="btn btn-outline-secondary" data-command="bold"><i class="fas fa-bold"></i></button>
+                  <button type="button" class="btn btn-outline-secondary" data-command="italic"><i class="fas fa-italic"></i></button>
+                  <button type="button" class="btn btn-outline-secondary" data-command="underline"><i class="fas fa-underline"></i></button>
+                </div>
+                <div class="btn-group me-2" role="group">
+                  <button type="button" class="btn btn-outline-secondary" data-command="justifyLeft"><i class="fas fa-align-left"></i></button>
+                  <button type="button" class="btn btn-outline-secondary" data-command="justifyCenter"><i class="fas fa-align-center"></i></button>
+                  <button type="button" class="btn btn-outline-secondary" data-command="justifyRight"><i class="fas fa-align-right"></i></button>
+                </div>
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-outline-secondary" data-command="insertImage"><i class="fas fa-image"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="editor" class="editor" contenteditable="true">${projectVO.projectDescription}</div>
+              <textarea id="projectDescription" name="projectDescription" rows="25" required></textarea>
+            </div>
+          </div>
+        </div>
 				<div class="form-group">
 					<label for="projectStatus">프로젝트 상태:</label> <select
 						id="projectStatus" name="projectStatus" required>
@@ -78,6 +105,7 @@
 	<script src="<c:url value='/javascript/form.js'/>"></script>
 	<script src="<c:url value='/javascript/calendar.js'/>"></script>
 	<script src="<c:url value='/javascript/main.js'/>"></script>
+	  <script src="<c:url value='/javascript/edit.js'/>"></script>
 
 </body>
 </html>

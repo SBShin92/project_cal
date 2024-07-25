@@ -1,10 +1,10 @@
-
-//프로젝트 상세페이지 수정
 document.addEventListener('DOMContentLoaded', function() {
     const editButton = document.getElementById('editButton');
     const cancelButton = document.getElementById('cancelButton');
     const editForm = document.getElementById('projectEditForm');
     const viewMode = document.getElementById('projectViewMode');
+    const editor = document.getElementById('editor');
+    const projectDescriptionInput = document.getElementById('projectDescription');
 
     editButton.addEventListener('click', function(e) {
         e.preventDefault();
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     editForm.addEventListener('submit', function(event) {
         let isValid = true;
-        
+
         // 필수 필드 검사
         const requiredFields = editForm.querySelectorAll('[required]');
         requiredFields.forEach(field => {
@@ -39,32 +39,34 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('종료일은 시작일보다 늦어야 합니다.');
         }
 
+        // 에디터 내용을 hidden input에 복사
+        if (editor && projectDescriptionInput) {
+            projectDescriptionInput.value = editor.innerHTML;
+            console.log("Editor content saved: ", projectDescriptionInput.value);
+        }
+
         if (!isValid) {
             event.preventDefault();
             alert('모든 필수 항목을 올바르게 입력해주세요.');
         }
     });
-});
 
-   // 파일 업로드 처리
-    function handleFileUpload(event) {
-        event.preventDefault();
-        if (!fileInput.files.length) {
-            alert('파일을 선택해주세요.');
-            return;
-        }
-        const formData = new FormData();
-        formData.append('file', fileInput.files[0]);
-        formData.append('projectId', projectId);
-
-        fetch('/api/projects/upload-file', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('File uploaded:', data);
-            // 파일 목록 업데이트 로직 추가
-        })
-        .catch(error => console.error('Error:', error));
+    // 툴바 기능 구현
+    
+    const toolbar = document.querySelector('.btn-toolbar');
+    if (toolbar && editor) {
+        toolbar.addEventListener('click', function(e) {
+            const button = e.target.closest('button');
+            if (button) {
+                e.preventDefault();
+                const command = button.dataset.command;
+                if (command === 'insertImage') {s
+                    const url = prompt('Enter the image URL:');
+                    if (url) document.execCommand(command, false, url);
+                } else {
+                    document.execCommand(command, false, null);
+                }
+            }
+        });
     }
+});

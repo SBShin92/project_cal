@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -152,30 +154,71 @@ public class ProjectController {
 	}
 
 	// 프로젝트 수정
+//	@PostMapping("update/{projectId}")
+//	public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
+//			BindingResult result, RedirectAttributes redirectAttributes, HttpSession session) {
+//
+//
+//		if (result.hasErrors()) {
+//			return "project/form";
+//		}
+//		UserVO authUser = (UserVO) session.getAttribute("authUser");
+//		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
+//		ProjectVO projectVO = projectService.getProjectById(projectId);
+//		// 넌 프로젝트 수정 권한이 없어 혹은 너가 만든것도 아닌데
+//		if (!"admin".equals(authUser.getUserAuthority())
+//				&& (!roleVO.getProjectUpdate() || authUser.getUserId() != projectVO.getUserId())) {
+//			return "redirect:/access-denied";
+//		}
+//
+//
+//	    
+//		project.setProjectId(projectId);
+//		boolean updated = projectService.updateProject(project);
+//		if (updated) {
+//			redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
+//		} else {
+//			redirectAttributes.addFlashAttribute("error", "프로젝트 수정에 실패했습니다.");
+//		}
+//		return "redirect:/project/" + projectId;
+//	}
+//	
 	@PostMapping("update/{projectId}")
-	public String updateProject(@PathVariable int projectId, @Valid @ModelAttribute ProjectVO project,
-			BindingResult result, RedirectAttributes redirectAttributes, HttpSession session) {
-		if (result.hasErrors()) {
-			return "project/form";
-		}
-		UserVO authUser = (UserVO) session.getAttribute("authUser");
-		RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
-		ProjectVO projectVO = projectService.getProjectById(projectId);
-		// 넌 프로젝트 수정 권한이 없어 혹은 너가 만든것도 아닌데
-		if (!"admin".equals(authUser.getUserAuthority())
-				&& (!roleVO.getProjectUpdate() || authUser.getUserId() != projectVO.getUserId())) {
-			return "redirect:/access-denied";
-		}
-		project.setProjectId(projectId);
-		boolean updated = projectService.updateProject(project);
-		if (updated) {
-			redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
-		} else {
-			redirectAttributes.addFlashAttribute("error", "프로젝트 수정에 실패했습니다.");
-		}
-		return "redirect:/project/" + projectId;
-	}
+	public String updateProject(@PathVariable int projectId, 
+	                            @Valid @ModelAttribute ProjectVO project,
+	                            BindingResult result, 
+	                            RedirectAttributes redirectAttributes, 
+	                            HttpSession session) {
 
+
+	    if (result.hasErrors()) {
+	        return "project/form";
+	    }
+
+	    UserVO authUser = (UserVO) session.getAttribute("authUser");
+	    RoleVO roleVO = (RoleVO) session.getAttribute("authUserRole");
+	    ProjectVO existingProject = projectService.getProjectById(projectId);
+
+	    if (!"admin".equals(authUser.getUserAuthority())
+	            && (!roleVO.getProjectUpdate() || authUser.getUserId() != existingProject.getUserId())) {
+	        return "redirect:/access-denied";
+	    }
+
+	    
+	    
+	    
+	    project.setProjectId(projectId);
+	    boolean updated = projectService.updateProject(project);
+	    
+	    if (updated) {
+	        redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
+	    } else {
+	        redirectAttributes.addFlashAttribute("error", "프로젝트 수정에 실패했습니다.");
+	    }
+	    
+	    return "redirect:/project/" + projectId;
+	}
+	
 	// 프로젝트 삭제
 	@PostMapping("/delete/{projectId}")
 	public String deleteProject(@PathVariable int projectId, RedirectAttributes redirectAttributes,

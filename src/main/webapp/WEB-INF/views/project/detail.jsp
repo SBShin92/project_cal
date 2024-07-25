@@ -20,6 +20,10 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value='/css/task.css'/>" type="text/css"><!-- 0724추가 -->
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <body>
    <jsp:include page="/WEB-INF/includes/header.jsp" />
@@ -72,7 +76,8 @@
         <h3>상세 내용</h3>
         <div id="projectDescription" class="editable"
           data-field="projectDescription">
-          <pre class="custom-font">${projectVO.projectDescription}</pre>
+          <pre class="custom-font" rows="30">${projectVO.projectDescription}</pre>
+          <input type="hidden" id="projectDescription" name="projectDescription">
         </div>
             <div class="footer-content">
         <div class="button-group">
@@ -222,7 +227,7 @@
 
   <form id="projectEditForm"
     action="<c:url value='/project/update/${projectVO.projectId}'/>"
-    method="post" style="display: none;">
+    method="post" enctype="multipart/form-data"  style="display: none;">
     <div class="project-detail" data-project-id="${projectVO.projectId}">
       <header>
         <h3>
@@ -253,8 +258,33 @@
       <main>
         <section class="project-content">
           <h3>상세 내용</h3>
-          <textarea id="projectDescription" name="projectDescription"
+            <div class="card">
+        <div class="card-header">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group me-2" role="group">
+                    <button type="button" class="btn btn-outline-secondary" data-command="bold"><i class="fas fa-bold"></i></button>
+                    <button type="button" class="btn btn-outline-secondary" data-command="italic"><i class="fas fa-italic"></i></button>
+                    <button type="button" class="btn btn-outline-secondary" data-command="underline"><i class="fas fa-underline"></i></button>
+                </div>
+                <div class="btn-group me-2" role="group">
+                    <button type="button" class="btn btn-outline-secondary" data-command="justifyLeft"><i class="fas fa-align-left"></i></button>
+                    <button type="button" class="btn btn-outline-secondary" data-command="justifyCenter"><i class="fas fa-align-center"></i></button>
+                    <button type="button" class="btn btn-outline-secondary" data-command="justifyRight"><i class="fas fa-align-right"></i></button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary" data-command="insertImage"><i class="fas fa-image"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="editor" class="form-control" contenteditable="true" >
+               <textarea id="projectDescription" name="projectDescription"
             rows="25" required>${projectVO.projectDescription}</textarea>
+            <input type="hidden" id="projectDescription" name="projectDescription">
+             </div>
+        </div>
+    </div>
+        
         </section>
 
         <section class="project-files">
