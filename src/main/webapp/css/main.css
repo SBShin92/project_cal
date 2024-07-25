@@ -31,7 +31,7 @@ header {
     padding: 0.5rem;
     display: flex;
     justify-content: flex-start;
-    flex-wrap: wrap;
+	float: right;
 }
 
 .nav-btn {
@@ -42,6 +42,19 @@ header {
 	transition: background-color 0.3s;
 	border-radius: 5px;
 	text-decoration: none;
+}
+
+.btn-sky {
+  color: #2c3e50;
+  background-color: #e0f7fa;
+  border-color: #81d4fa;
+}
+
+.btn-search {
+  color: #ffffff;
+  background-color: #4a90e2;
+  border-color: #3a7bd5;
+  transition: all 0.3s ease;
 }
 
 .nav-btn:hover {
@@ -63,7 +76,12 @@ main {
 .user-profile {
   cursor: pointer;
   padding: 5px 10px;
+
 }
+.nav-btn, .user-profile {
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
 
 .user-menu {
   position: absolute;
@@ -75,6 +93,12 @@ main {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   display: none;
 }
+
+.search-div {
+  margin-top: 0.4vw;  /* 상단 여백 추가 */
+}
+
+
 
 .menu-item {
   display: block;

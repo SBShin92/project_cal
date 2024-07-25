@@ -35,7 +35,7 @@
         <h2>상세 내용</h2>
         <div id="projectDescription" class="editable"
           data-field="projectDescription">
-          <p>${projectVO.projectDescription}</p>
+          <pre>${projectVO.projectDescription}</pre>
         </div>
         <!-- 이미지 부분 -->
         <!--div id="projectImages" -->
