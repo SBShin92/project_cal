@@ -58,14 +58,17 @@ public class ProjectController {
             List<FileVO> fileVOs = fileService.getFileListByProjectId(projectId);
             model.addAttribute("fileVOs", fileVOs);
             
+            
+            //0725 지원 getTasksByProjectId에 페이징기능위한 추가 
             TaskVO taskVO = new TaskVO();
             taskVO.setProjectId(projectId);
 			taskVO.setPage(taskPage);
             List<TaskVO> tasks = taskService.getTasksByProjectId(projectVO.getProjectId(),taskVO);
             model.addAttribute("projectTasks", tasks);
-			model.addAttribute("tasksCount", taskService.getTotalTasksCountByProjectId(projectId)); //리스트 총카운트(작업 총 개수 설정)
-			model.addAttribute("totalPages", (tasks.size()));
+			model.addAttribute("tasksCount", taskService.getTotalTasksCountByProjectId(projectId)); //0725추가함
+			model.addAttribute("totalPages", (tasks.size()));//0725추가함
 
+			
             List<UserVO> projectMembers = projectService.getProjectMembers(projectId);
             model.addAttribute("projectMembers",projectMembers);
             List<UserVO> allUsers = projectService.getAllUsers();
@@ -76,7 +79,6 @@ public class ProjectController {
            
             return "project/detail";
         } catch (Exception e) {
-        	e.printStackTrace();
             model.addAttribute("errorMessage", "프로젝트를 찾을 수 없습니다.");
             return "error/404";
         }

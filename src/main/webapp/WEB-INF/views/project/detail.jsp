@@ -2,10 +2,12 @@
   pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>
+
+<!-- 0725 여기 추가함  -->
 <%@ page import="com.github.sbshin92.project_cal.data.vo.UserVO" %>
-<%
+<%--
 	UserVO userVO = (UserVO) session.getAttribute("authUser");
-%>
+%> --%>
 
 <!DOCTYPE html>
 <html>
@@ -71,13 +73,12 @@
         </c:if>
       </section>
 
-      <!-- task목록0724 -->
+      <!-- task목록0725 전체적으로 수정함 -->
       <section class="project-tasks" id="project-tasks">
-
         <h2>테스크 페이지</h2>
         <div>
-          <!-- Content -->
           <table border="1">
+          
             <form action="<c:url value='/tasks/createTaskForm'/>" method="get"
               style="display: inline;">
               <!--  원래는 로그인한 사용자의 아이디를 담아야한다 (보내야한다) -->
@@ -105,8 +106,8 @@
                 <tr>
                   <td>${pt.taskId}</td>
                   <td>${pt.taskTitle}</td>
-                  <td>${pt.userName}</td><!-- 수정필요 -->
-                  <td>${pt.userPosition}</td><!-- 수정필요 --> 
+                  <td>${pt.userName}</td><!-- 수정함 0725 -->
+                  <td>${pt.userPosition}</td><!-- 수정함 0725 -->
                   <td>${pt.taskStatus}</td>
                   <td>
                       <form action="<c:url value='/tasks/viewTask/${pt.taskId}'/>"
@@ -114,19 +115,21 @@
                         <button type="submit" class="btn btn-secondary">상세VIEW</button>
                       </form>
   						
-  						<% 
+                      <!-- 추가함 0725 -->
+  						<%-- 테스크생성자와 팀장만 여기 edit, delete 권한 있게 하기위해 적음
                            if(userVO.getUserAuthority().equals("admin")){
-                           %> 
+                           --%> 
+                           
                       <form action="<c:url value='/tasks/createTaskForm'/>"
                         method="get" style="display: inline;">
                         <input type="hidden" name="taskId" value="${pt.taskId}" />
                         <!-- pk -->
   
                         <input type="hidden" name="userId" value="${pt.userId}" /> 
-                                              <input type="hidden" name="projectId" value="${pt.projectId}" /> 
-                                              <input type="hidden" name="taskTitle" value="${pt.taskTitle}" /> 
-                                              <input type="hidden" name="taskDescription" value="${pt.taskDescription}" />
-                                             
+                        <input type="hidden" name="projectId" value="${pt.projectId}" /> 
+                        <input type="hidden" name="taskTitle" value="${pt.taskTitle}" /> 
+                        <input type="hidden" name="taskDescription" value="${pt.taskDescription}" />
+                       
                         <button type="submit" class="btn btn-secondary" onclick="return confirm('정말 이 task를 수정 하시겠습니까? Are you sure you want to edit this task?')">
                         EDIT</button>
                       </form>
@@ -141,21 +144,23 @@
                           DELETE</button>
                       </form>
                       
-                      <% 
+                      <!-- 추가함 0725 -->
+                      <%-- 
                          }
-                      %> 
+                      --%> 
 
                   </td>
                   </tr>
                 </c:forEach>
               </tbody>
+              
           </table>
         </div>
           
-                 <!--0724-->
+         <!--0725 재수정함 -->
     	    <nav>
     		  <ul class="pagination">
-    		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}">Previous</a></li> <!-- 재세팅해준 파람이여기오게됨 -->
+    		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}">Previous</a></li> 
     	
     		    <c:forEach begin="1" end="${(tasksCount / 10) + 1}" varStatus="num">
     		      <li class="page-item"><a class="page-link" href="?taskPage=${num.index}">${num.index}</a></li>
@@ -163,8 +168,7 @@
     		    <li class="page-item"><a class="page-link" href="?taskPage=${ totalPages != 10 ? (param.taskPage == null ? 1 : param.taskPage) : (param.taskPage == null ? 1 : param.taskPage) + 1}">Next</a></li>
     		  </ul>
     		</nav>
-        
-       </section> 
+      </section> 
      
       <!-- 프로젝트 멤버 목록 -->
       <section class="project-members">

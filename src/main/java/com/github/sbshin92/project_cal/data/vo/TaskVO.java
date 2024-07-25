@@ -7,22 +7,15 @@ import lombok.Data;
 public class TaskVO {
 	private int taskId;
     private int userId;
-    private String userName;
-    private String userPosition;
+    private String userName;//0725 추가함
+    private String userPosition;//0725 추가함
     private int projectId;
     private String taskTitle;
     private String taskDescription;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String taskStatus;
-   // private int taskPriority; 지울예정
-    
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
-    //private Date startDate;
-    
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
-    //private Date endDate;
-    
+  
     //추가함 삭제 금지 0723
     private int page; // 페이지 세팅용 
 }

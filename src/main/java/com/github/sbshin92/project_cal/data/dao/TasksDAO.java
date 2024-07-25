@@ -53,12 +53,12 @@ public interface TasksDAO {
 		        "WHERE task_id = #{taskId}")
 		public int updateTask(TaskVO taskVo);
 
-
+	 //0725 서브쿼리위해 쿼리수정
 	 //task 상세 view 내용 조회 -> taskId를 기준으로 해당 task의 상세 뷰를 가져옵니다.
 	@Select("SELECT task_id as taskId, "
 			+ "user_id as userId, "
-			+ "(select user_name from users where user_id = a.user_id limit 1) as userName, "
-			+ "(select user_position from users where user_id = a.user_id limit 1) as userPosition, "
+			+ "(select user_name from users where user_id = a.user_id limit 1) as userName, " //0725
+			+ "(select user_position from users where user_id = a.user_id limit 1) as userPosition, " //0725
 			+ "project_id as projectId, "
 			+ "task_title as taskTitle, "
 			+ "task_description as taskDescription, "
@@ -96,10 +96,11 @@ public interface TasksDAO {
 	public int deleteUsersTasksMember(int taskId, int userId);
 	    
 
+	//0725 서브쿼리위해 쿼리수정 
     //projectId로 테스크 조회
     @Select("SELECT task_id as taskId, " +
-			"(select user_name from users where user_id = a.user_id limit 1) as userName, " +
-			"(select user_position from users where user_id = a.user_id limit 1) as userPosition, " +
+			"(select user_name from users where user_id = a.user_id limit 1) as userName, " + //0725
+			"(select user_position from users where user_id = a.user_id limit 1) as userPosition, " + //0725
             "project_id as projectId, " +
             "task_title as taskTitle, " +
             "task_description as taskDescription, " +
@@ -109,7 +110,7 @@ public interface TasksDAO {
             "FROM tasks a " + 
             "WHERE project_id = #{projectId}")
     public List<TaskVO> getTasksByProjectId(@Param("projectId") Integer projectId, RowBounds rowBounds);
-
+    
     
     //삭제금지 0723
     //taskTitle로 테스크 조회

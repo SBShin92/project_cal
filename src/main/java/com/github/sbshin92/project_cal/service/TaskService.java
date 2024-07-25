@@ -37,15 +37,13 @@ public interface TaskService {
 	 //3)특정 프로젝트에 속한 모든 태스크를 조회합니다.
      //@param projectId 조회할 프로젝트의 ID
      //@return 해당 프로젝트의 모든 태스크 리스트
-	public List<TaskVO> getTasksByProjectId(Integer projectId, TaskVO taskVO);
+	public List<TaskVO> getTasksByProjectId(Integer projectId, TaskVO taskVO);//추가0725
+	//0725 추가
+	public int getTotalTasksCountByProjectId(int projectId);
 	
-	//삭제 금지 0724
-		public int getTotalTasksCountByProjectId(int projectId);
-
-
-	//삭제 금지 0723 테스크 서치기능
+	//테스크 서치기능
 	public List<TaskVO> searchByTitle(TaskVO taskVO);
-	//삭제 금지 0723
+	//테스크 서치기능
 	public int getTotalTasksCount(TaskVO taskVO);
 	
 	

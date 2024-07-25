@@ -2,10 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>    
+
+<!-- 0725 추가 -->
 <%@ page import="com.github.sbshin92.project_cal.data.vo.UserVO" %> 
-<%
+<%--
 	UserVO userVO = (UserVO) session.getAttribute("authUser");
-%>
+--%>
 
 <!DOCTYPE html>
 <html>
@@ -27,24 +29,15 @@
         <h1>Task List</h1>
         
         <c:if test="${not empty searchedTasks}">
-        <%=userVO.getUserAuthority() %>
-        <br/>
         
-        <%=userVO.getUserPosition() %>
-        <br/>
-        <%=userVO.getUserEmail() %>
-        <br/>
-        <%=userVO.getUserId() %>
-        <br/>
-        <%=userVO.getUserName() %>
         <table border="1">
               <thead>
                 <tr>
-                  <th>TaskID</th>
-                  <th>TaskTitle</th>
+                  <th>Task ID</th>
+                  <th>Task Title</th>
                   <th>Task Creator User Name</th>
                   <th>Task Creator User Position</th>
-                  <th>TaskStatus</th>
+                  <th>Task Status</th>
                   <th>&nbsp;</th>
                 </tr>
               </thead>
@@ -56,19 +49,19 @@
                     <tr>
                       <td>${st.taskId}</td>
                       <td>${st.taskTitle}</td> 
-                      <td>${userVO.userName}</td><!-- 수정필요 -->
-                      <td>${userVO.userPosition}</td><!-- 수정필요 -->
+                      <td>${st.userName}</td><!--0725 -->
+                      <td>${st.userPosition}</td><!--0725 -->
                       <td>${st.taskStatus}</td>
                       <td>
                         <form action="<c:url value='/tasks/viewTask/${st.taskId}' />"
                           method="get" style="display: inline;">
-                           <% 
+                           <%-- 예시로 연습해본것 여기다 실제 구현할예정 아님 나중에 edit, delete에 구현할예정..
                            	if(userVO.getUserAuthority().equals("admin")){
-                           %>
+                           --%>
                           		<button type="submit" class="btn btn-primary">상세 VIEW</button>
-                          	<% 
+                          	<%-- 
                            	}
-                           %>              
+                           --%>              
                         </form>   
                       </td>
                    </tr>
@@ -120,8 +113,8 @@
                     <tr>
                       <td>${sp.projectId }</td>
                       <td>${sp.projectTitle}</td>
-                      <td>${userVO.userName}</td><!-- 수정필요 -->
-                      <td>${userVO.userPosition}</td><!-- 수정필요 -->
+                      <td>${sp.userName}</td><!--0725 -->
+                      <td>${sp.userPosition}</td><!--0725 -->
                       <td>${sp.projectStatus}</td> 
                       <td>
                         <form action="<c:url value='/project/${sp.projectId}' />"
