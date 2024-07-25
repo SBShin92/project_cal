@@ -57,6 +57,10 @@ public class ProjectController {
 		if (!"admin".equals(authUser.getUserAuthority()) && !roleVO.getProjectRead()) {
 			return "redirect:/access-denied";
 		}
+		// 프로젝트 멤버인지 확인
+		if ("admin".equals(authUser.getUserAuthority()) || projectService.isUserProjectMember(authUser.getUserId(), projectId))
+			model.addAttribute("isProjectMember", true);
+			
 		try {
 			ProjectVO projectVO = projectService.getProjectById(projectId);
 			if (projectVO == null) {

@@ -18,6 +18,9 @@ public class FileServiceImpl implements FileService {
 
 	@Autowired
 	private FilesDAO filesDAO;
+	
+	@Autowired
+	private FilesUtility filesUtility;
 
 	
     @Override
@@ -36,14 +39,12 @@ public class FileServiceImpl implements FileService {
 			// 각 파일명 구하기
 			String originalFileName = file.getOriginalFilename();
 			String extName = originalFileName.substring(originalFileName.lastIndexOf("."));
-			String saveFileName = FilesUtility.getFileNameByTimeMillis(extName);
-			
+			String saveFileName = filesUtility.getFileNameByTimeMillis(extName);
 			// 파일 사이즈
 			Long fileSize = file.getSize();
 			
 			// 로컬에 파일 저장
-			FilesUtility.writeFile(file, saveFileName);
-			
+			filesUtility.writeFile(file, saveFileName);
 			// 저장 정보 DB에 저장
 			FileVO fileVO = FileVO.builder()
 								.projectId(projectId)

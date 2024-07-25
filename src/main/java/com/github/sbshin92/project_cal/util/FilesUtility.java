@@ -20,22 +20,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FilesUtility {
+	
 	@Value("${file.upload-dir}")
-	private static String FILE_PATH;
+	private String FILE_PATH;
 
 	private FilesUtility() {
 	}
 
-	public static String getFileNameByTimeMillis(String extName) {
+	public String getFileNameByTimeMillis(String extName) {
 		Calendar cal = Calendar.getInstance();
 		return String.valueOf(cal.getTimeInMillis()) + extName.toLowerCase();
 
 	}
 
-	public static void writeFile(MultipartFile multipartFile, String saveFileName) throws IOException {
+	public void writeFile(MultipartFile multipartFile, String saveFileName) throws IOException {
 
 		byte[] fileData = multipartFile.getBytes();
-		Path filePath = Paths.get(FILE_PATH + "/" + saveFileName);
+		Path filePath = Paths.get(FILE_PATH, saveFileName);
 		Files.write(filePath, fileData);
 
 		// This is a Unix, Linux or Mac system.

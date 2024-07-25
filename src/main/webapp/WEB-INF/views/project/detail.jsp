@@ -106,11 +106,8 @@
           <p>업로드된 파일이 없습니다.</p>
         </c:if>
         <c:if test="${isProjectMember}">
-          <form action="<c:url value='/files/upload'/>" method="post"
-            enctype="multipart/form-data">
-            <input type="hidden" name="projectId"
-              value="${projectVO.projectId}"> <input type="file"
-              name="file" multiple>
+          <form action="<c:url value='/files/upload/${projectVO.projectId }'/>" method="post" enctype="multipart/form-data">
+            <input type="file" name="projectFiles" multiple>
             <button type="submit">파일 업로드</button>
           </form>
         </c:if>
