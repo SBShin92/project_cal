@@ -38,12 +38,54 @@
     </header>
 
     <main>
+         <!-- 프로젝트 멤버 목록 -->
+      <section class="project-members-container" id="member-list">
+ <div class="members-header">
+    <h3>프로젝트 멤버</h3>
+    <form action="<c:url value='/project/inviteMember'/>" method="post" class="member-invite-form">
+      <input type="hidden" name="projectId" value="${projectVO.projectId}">
+      <select name="userId" class="member-select">
+        <c:forEach var="user" items="${availableUsers}">
+          <option value="${user.userId}">${user.userName}</option>
+        </c:forEach>
+      </select>
+      <button type="submit" class="btn-add">멤버 추가</button>
+    </form>
+  </div>
+          <ul id="memberList">
+              <c:forEach var="member" items="${projectMembers}">
+                  <li class="member-item">
+                  <span class="member-name">
+                      <i class="fa-brands fa-square-web-awesome-stroke"></i>${member.userName}</span>
+                      <form action="<c:url value='/project/removeMember'/>" method="post" class="member-delete-form" style="display: inline;">
+                          <input type="hidden" name="projectId" value="${projectVO.projectId}">
+                          <input type="hidden" name="userId" value="${member.userId}">
+                          <button type="submit" class="btn-outline-primary">삭제</button>
+                      </form>
+                  </li>
+              </c:forEach>
+          </ul>
+          
+      </section>
+    
       <section class="project-content">
         <h3>상세 내용</h3>
         <div id="projectDescription" class="editable"
           data-field="projectDescription">
-          <pre>${projectVO.projectDescription}</pre>
+          <pre class="custom-font">${projectVO.projectDescription}</pre>
         </div>
+            <div class="footer-content">
+        <div class="button-group">
+          <button id="editButton" class="btn btn-primary">수정</button>
+          <form
+            action="<c:url value='/project/delete/${projectVO.projectId}'/>"
+            method="post" style="display: inline;">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" class="btn btn-danger"
+              onclick="return confirm('정말로 이 프로젝트를 삭제하시겠습니까?');">삭제</button>
+          </form>
+        </div>
+      </div>
         <!-- 이미지 부분 -->
         <!--div id="projectImages" -->
       </section>
@@ -172,53 +214,13 @@
     		</nav>
       </section> 
      
-      <!-- 프로젝트 멤버 목록 -->
-      <section class="project-members" id="member-list">
-          <h3>프로젝트 멤버</h3>
-          <ul id="memberList">
-              <c:forEach var="member" items="${projectMembers}">
-                  <li class="member-item">
-                  <span class="member-name">
-                      <i class="fa-brands fa-square-web-awesome-stroke"></i>${member.userName}</span>
-                      <form action="<c:url value='/project/removeMember'/>" method="post" class="member-delete-form" style="display: inline;">
-                          <input type="hidden" name="projectId" value="${projectVO.projectId}">
-                          <input type="hidden" name="userId" value="${member.userId}">
-                          <button type="submit" class="btn-delete">삭제</button>
-                      </form>
-                  </li>
-              </c:forEach>
-          </ul>
-          <c:if test="${empty projectMembers}">
-              <p>초대된 멤버가 없습니다</p>
-          </c:if>
-          <form action="<c:url value='/project/inviteMember'/>" method="post"class="member-invite-form">
-              <input type="hidden" name="projectId" value="${projectVO.projectId}">
-              <select name="userId" class="member-select">
-                  <c:forEach var="user" items="${availableUsers}">
-                      <option value="${user.userId}">${user.userName}</option>
-                  </c:forEach>
-              </select>
-              <button type="submit" class="btn-add">멤버 추가</button>
-          </form>
-      </section>
-
+ 
 
     </main>
 
-    <footer>
-      <div class="footer-content">
-        <div class="button-group">
-          <button id="editButton" class="btn btn-primary">수정</button>
-          <form
-            action="<c:url value='/project/delete/${projectVO.projectId}'/>"
-            method="post" style="display: inline;">
-            <input type="hidden" name="_method" value="delete" />
-            <button type="submit" class="btn btn-danger"
-              onclick="return confirm('정말로 이 프로젝트를 삭제하시겠습니까?');">삭제</button>
-          </form>
-        </div>
-      </div>
-    </footer>
+
+  
+
   </div>
 
   <form id="projectEditForm"
