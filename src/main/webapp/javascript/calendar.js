@@ -66,10 +66,8 @@ function createProjectListToggleButton() {
 	window.addEventListener('resize', function() {
 		if (window.innerWidth > 870) {
 			toggleButton.style.display = "none";
-			togglePanel();
 		} else {
 			toggleButton.style.display = "flex";
-			togglePanel();
 		}
 	});
 
