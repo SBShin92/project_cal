@@ -19,11 +19,11 @@ public class EmailService {
     	
     	try {
     		MimeMessage message = mailSender.createMimeMessage();
-    		MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    		MimeMessageHelper helper = new MimeMessageHelper(message, true,"UTF-8");
     		
     		helper.setTo(to);
     		helper.setSubject(subject);
-    		helper.setText(body);
+    		helper.setText(body,true);
     		helper.setFrom("himj9515@naver.com");
     		
     		mailSender.send(message);

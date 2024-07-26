@@ -12,11 +12,10 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
-import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.CustomUserDetailsService;
-import com.github.sbshin92.project_cal.service.RoleService;
 import com.github.sbshin92.project_cal.service.UserService;
 
 @Configuration
@@ -26,13 +25,13 @@ public class MainSecurity {
     private final CustomUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
-//    private final TokenService tokenService;
+
 
     public MainSecurity(CustomUserDetailsService userDetailsService, PasswordEncoder passwordEncoder,UserService userService) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
-//        this.tokenService = tokenService;
+
     }
     
     
@@ -43,7 +42,6 @@ public class MainSecurity {
             System.out.println("Authenticated user: " + email); // 로그 추가
             UserVO userVO = userService.getUserByEmail(email);
             if(userVO != null) {
-//            tokenService.sendTokenToEmail(email);
             request.getSession().setAttribute("userRole", "authUser");
             System.out.println("Session attribute 'userRole' set to 'authUser'");
             response.sendRedirect("/project_cal/calendar");
@@ -60,10 +58,8 @@ public class MainSecurity {
                                            OAuth2AuthorizedClientRepository authorizedClientRepository) throws Exception { */
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/css/**", "/js/**", "/join/**", "/login/**", "/oauth2/**", "/**").permitAll()
-                .requestMatchers("/user/**").hasRole("admin")
-                .requestMatchers("/**").hasRole("authUser")
-                .requestMatchers("/calendar/**").hasRole("authUser")
+                .requestMatchers("/css/**", "/js/**", "/join/**", "/login/**", "/oauth2/**","/**","/password/resetrequest**\"").permitAll()          
+                .requestMatchers("/password/reset**").permitAll()
                 .anyRequest().authenticated() 
             )
             .formLogin(formLogin -> formLogin
@@ -76,26 +72,33 @@ public class MainSecurity {
                 .permitAll()
             )
             .logout(logout -> logout
-                    .logoutSuccessUrl("/")
-                    .permitAll()		
-           
-                    /* )
-            .oauth2Login(oauth2Login -> oauth2Login
-                .loginPage("/login")
-                .defaultSuccessUrl("/verify-token", true)
-                .failureUrl("/login?error=true")
-                .userInfoEndpoint(userInfo -> userInfo
-                    .oidcUserService(new OidcUserService())
-                ) 
-                .successHandler(customAuthenticationSuccessHandler())  */
-            )
+                    .logoutUrl("/perform_logout")
+                    .logoutSuccessUrl("/login?logout")
+                    .addLogoutHandler(new SecurityContextLogoutHandler())
+                    .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
+                    .permitAll()
+                )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)
+                .expiredUrl("/login?expired")
             )
+       
+         /*   .oauth2Login(oauth2Login -> oauth2Login
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/verify-token", true)
+                    .failureUrl("/login?error=true")
+                    .userInfoEndpoint(userInfo -> userInfo
+                        .oidcUserService(new OidcUserService())
+                    ) 
+                    .successHandler(customAuthenticationSuccessHandler())  */
             .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
+    
 
    
     @Bean

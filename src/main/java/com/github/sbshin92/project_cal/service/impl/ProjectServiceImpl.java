@@ -149,8 +149,18 @@ public class ProjectServiceImpl implements ProjectService {
 
 	// 프로젝트에서 멤버 삭제
 	@Override
+	@Transactional
 	public boolean deleteProjectUser(Integer userId, int projectId) {
-		return projectsDAO.deleteProjectUser(userId, projectId) > 0;
+		boolean isDeleted = projectsDAO.deleteProjectUser(userId, projectId) > 0;
+		
+		if(isDeleted) {
+			UserVO member = usersDAO.findById(userId);
+			ProjectVO project = projectsDAO.findById(projectId);
+			UserVO sender = usersDAO.findById(project.getUserId());
+			String content = "아쉽습니다" + member.getUserName() + "님이"  + project.getProjectTitle() + "프로젝트에 함께 하지못하게되었습니다";
+			notificationService.sendNotification(sender, member, "프로젝트 하차", content);
+		}
+		return isDeleted;
 	}
 
 //------------------------------------------------------------------------
@@ -207,17 +217,4 @@ public class ProjectServiceImpl implements ProjectService {
 			
 			return isCreated;
 		}	
-
-//
-//				  	// 검색어(projectTitle) 유효성 검사// 검색어가 null이거나 비어있는 경우 처리
-//					if (projectTitle == null || projectTitle.trim().isEmpty()) {
-//						return 0;	//빈리스트 반환
-//					}
-//					// 검색어 전처리 (옵션)
-//				    String processedTitle = projectTitle.trim(); // 앞뒤 공백 제거
-//				    //projectsDAO의 getTotalProjectsCount 메소드를 호출하여 총 프로젝트 수를 가져옴
-//				    return projectsDAO.getTotalProjectsCount(projectTitle);
-//			}	
-			
-
 }	
