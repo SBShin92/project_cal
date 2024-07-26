@@ -244,7 +244,7 @@ const createProjectBars = (date) => {
 		const moreProjectsDiv = document.createElement("div");
 		moreProjectsDiv.className = "more-projects";
 		// 초과된 프로젝트 수를 표시
-		moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects} more`;
+		moreProjectsDiv.textContent = `+${dateProjects.length - maxVisibleProjects}`;
 		// '더 보기' 요소를 컨테이너에 추가
 		projectBarsContainer.appendChild(moreProjectsDiv);
 	}
