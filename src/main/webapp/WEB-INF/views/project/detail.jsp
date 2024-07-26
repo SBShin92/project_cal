@@ -55,13 +55,21 @@
           <ul id="memberList">
               <c:forEach var="member" items="${projectMembers}">
                   <li class="member-item">
-                  <span class="member-name">
-                      <i class="fa-brands fa-square-web-awesome-stroke"></i>${member.userName}</span>
-                      <form action="<c:url value='/project/removeMember'/>" method="post" class="member-delete-form" style="display: inline;">
+                  	<span class="member-name">
+                      <c:if test="${member.userId == projectVO.userId }">
+                      	<i class="fa-brands fa-square-web-awesome-stroke" style="color: hotpink;"></i>
+                      </c:if>
+                      [${member.userPosition}]
+                      ${member.userName}
+                      ${member.userEmail}
+                  	</span>
+	              	<form action="<c:url value='/project/removeMember'/>" method="post" class="member-delete-form">
+                     <c:if test="${member.userId != projectVO.userId }">
                           <input type="hidden" name="projectId" value="${projectVO.projectId}">
                           <input type="hidden" name="userId" value="${member.userId}">
-                          <button type="submit" class="btn-outline-primary">삭제</button>
-                      </form>
+                          <button type="submit" class="btn-outline-primary delete-button">삭제</button>
+                     </c:if>
+                     </form>
                   </li>
               </c:forEach>
           </ul>

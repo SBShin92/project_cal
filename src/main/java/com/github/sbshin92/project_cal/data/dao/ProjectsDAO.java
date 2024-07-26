@@ -151,13 +151,16 @@ public interface ProjectsDAO {
 	    @Insert("INSERT INTO projects_users(user_id, project_id) VALUES (#{userId}, #{projectId})")
 	    int addMemberProject(@Param("userId") int userId, @Param("projectId") int projectId);
 
+	    @Insert("INSERT INTO projects_users(user_id, project_id, project_leader) VALUES (#{userId}, #{projectId}, 1)")
+	    int addMemberProjectLeader(@Param("userId") int userId, @Param("projectId") int projectId);
+
 	    @Delete("DELETE FROM projects_users WHERE user_id = #{userId} AND project_id = #{projectId}")
 	    int deleteProjectUser(@Param("userId") int userId, @Param("projectId") int projectId);
 	
 	    @Select("SELECT u.user_id as userId, u.user_name as userName, u.user_email as userEmail, u.user_position as userPosition " +
 	    		"FROM users u " +
 	    		"JOIN projects_users pu ON u.user_id = pu.user_id " +
-	    		"WHERE pu.project_id = #{projectId}")
+	    		"WHERE pu.project_id = #{projectId} ORDER BY pu.project_leader DESC, pu.created_at ASC")
 	    List<UserVO> getProjectMembers(@Param("projectId") int projectId);
 	    
 	    

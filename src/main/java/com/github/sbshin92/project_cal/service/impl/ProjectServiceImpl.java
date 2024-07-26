@@ -146,6 +146,22 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return isAdded;
 	}
+	
+	// 프로젝트에 본인 입장
+		@Override
+		@Transactional
+		public boolean addMemberProjectLeader(int userId, int projectId) {
+			boolean isAdded = projectsDAO.addMemberProjectLeader(userId, projectId) > 0;
+			if(isAdded) {
+				UserVO member = usersDAO.findById(userId);
+				ProjectVO project = projectsDAO.findById(projectId);
+				UserVO sender = usersDAO.findById(project.getUserId());
+				String content = "축하드립니다 " + member.getUserName() + "님" + project.getProjectTitle() + "프로젝트를 생성했습니다";
+				notificationService.sendNotification(sender,member,"프로젝트 초대", content);
+			}
+			return isAdded;
+		}
+	
 
 	// 프로젝트에서 멤버 삭제
 	@Override

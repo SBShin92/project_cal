@@ -131,7 +131,7 @@ public class ProjectController {
 			projectService.createProject(projectVO);
 			int projectId = projectVO.getProjectId(); // 생성된 프로젝트 ID 가져오기
 
-			projectService.addMemberProject(userId, projectId);
+			projectService.addMemberProjectLeader(userId, projectId);
 
 			// 멤버 추가
 			if (members != null) {

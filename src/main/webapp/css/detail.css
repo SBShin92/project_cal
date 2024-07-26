@@ -186,10 +186,27 @@ display: flex;
 
 
 
-.member-list {
+#memberList {
   list-style-type: none;
   padding: 0;
 }
+.member-item {
+    display: flex;
+    align-items: center; /* 요소들을 세로 방향으로 중앙 정렬 */
+    justify-content: space-between; /* 요소들을 양쪽으로 분산 */
+    margin-bottom: 10px; /* 필요에 따라 조정 */
+}
+.member-delete-form {
+    display: flex;
+    align-items: center; /* 버튼을 세로 방향으로 중앙 정렬 */
+    justify-content: space-between; /* 요소들을 양쪽으로 분산 */
+    width: 100%;
+}
+
+.delete-button {
+	margin-left:100px;
+}
+
 
 .custom-font {
 	font-family: 맑은고딕, Arial, sans-serif;

@@ -25,6 +25,7 @@ public interface ProjectService {
     boolean isUserProjectMember(int userId, int projectId); // 프로젝트에 추가할수있는 사람 조회
     List<UserVO> getProjectMembers(int projectId); // 프로젝트에 들어있는 사람 조회
     boolean addMemberProject(int userId, int projectId); // 프로젝트에 멤버 추가
+    public boolean addMemberProjectLeader(int userId, int projectId); // 프로젝트 멤버 본인 추가
     boolean deleteProjectUser(Integer userId, int projectId); // 멤버 삭제
     public List<ProjectVO> searchedProjects(String projectTitle, int page); //0725
     public int getTotalProjectsCount(String projectTitle);  //0725
