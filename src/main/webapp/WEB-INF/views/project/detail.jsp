@@ -263,21 +263,6 @@
           <textarea id="projectDescription" name="projectDescription"
             rows="25" required>${projectVO.projectDescription}</textarea>
         </section>
-
-        <section class="project-files">
-          <h3>첨부 파일</h3>
-          <ul id="editFileList">
-            <c:forEach var="file" items="${fileVOs}">
-              <li>${file.originalFileName}(${file.fileSize} bytes) 
-              	<input
-                type="checkbox" name="deleteFiles" value="${file.fileId}">
-                삭제
-              </li>
-            </c:forEach>
-          </ul>
-          <input type="file" name="newFiles" multiple>
-
-        </section>
         
       <footer>
         <button type="submit" id="saveButton" class="btn btn-primary">저장</button>
