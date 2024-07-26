@@ -238,6 +238,10 @@ main {
 		flex-direction: column;
 	}
 	
+	.move-buttons {
+	margin-left: 0;
+}
+	
 	#monthYearPicker {
 		text-align: center;
 	}

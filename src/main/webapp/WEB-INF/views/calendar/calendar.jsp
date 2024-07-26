@@ -12,6 +12,7 @@
 <link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/css/calendar.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 <title>OurCalendar</title>
 </head>
 <body>
@@ -75,7 +76,7 @@
 			<a class="today-button btn btn-outline-primary"	href="<c:url value='/calendar/date/${ sessionScope.todayYear }${sessionScope.todayMonth }/${ sessionScope.todayDate }' />">
 				Today
 			</a>
-			<a class="btn btn-outline-primary" href="<c:url value='/calendar/scheduleSwitch' /> ">
+			<a class="change-button btn btn-outline-primary" href="<c:url value='/calendar/scheduleSwitch' /> ">
 				${ mySchedule == true ? "전체 프로젝트 보기" : "참여중인 프로젝트 보기"}
 			</a>
 			

@@ -62,12 +62,15 @@ function createProjectListToggleButton() {
 		e.stopPropagation();
 	});
 
+	const changeButton = document.getElementsByClassName("change-button")[0];
+	
 	// 화면 크기 변경 감지
 	window.addEventListener('resize', function() {
 		if (window.innerWidth > 870) {
 			toggleButton.style.display = "none";
 		} else {
 			toggleButton.style.display = "flex";
+			changeButton.innerHTML = "<i class='fas fa-arrows-rotate'></i>";
 		}
 	});
 
@@ -77,6 +80,9 @@ function createProjectListToggleButton() {
 	if (window.innerWidth <= 870 && getClickedDate != null) {
 		toggleButton.style.display = "flex";
 		togglePanel();
+	}
+	if (window.innerWidth <= 870) {
+		changeButton.innerHTML = "<i class='fas fa-arrows-rotate'></i>";		
 	}
 }
 
