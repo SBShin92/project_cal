@@ -39,7 +39,7 @@
                         <li class="list-group-item">
                         	<div class="row">
 						    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none col-8">
-						        <i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}
+						        <i class="fas fa-paper-plane me-2"></i>${messageVO.messageTitle}
 						    </a>
 						    <span class="col-4"><fmt:formatDate value="${messageVO.createdAt}" pattern="MM/dd HH:mm" />, ${messageVO.readStatus}</span>
 						    </div>
@@ -49,6 +49,16 @@
                 </ul>
             </div>
         </div>
+        <nav>
+		  <ul class="pagination mx-4">
+		  <c:if test="${param.page > 1 }">
+		    <li class="page-item"><a class="page-link" href="?page=${param.page - 1}">Previous</a></li>
+		  </c:if>
+		  <c:if test="${totalPages == 10}">
+		    <li class="page-item"><a class="page-link" href="?page=${param.page == null ? 2 : param.page + 1}">Next</a></li>
+		  </c:if>
+		  </ul>
+		</nav>
     </div>
 <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
 </body>

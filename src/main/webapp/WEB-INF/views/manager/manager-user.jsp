@@ -8,9 +8,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로젝트 관리 시스템 - 사용자 관리</title>
-    <link type="text/css" rel="stylesheet" href='<c:url value="/css/manager.css" />' />
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href='<c:url value="/css/manager.css" />' />
+	<link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
+	
 </head>
 <body>
+	<jsp:include page="/WEB-INF/includes/header.jsp" />
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="메뉴 토글">☰</button>
     <div class="container">
         <jsp:include page="/WEB-INF/includes/manager-nav.jsp" />
@@ -60,6 +65,7 @@
     </div>
     
     <script src="<c:url value='/javascript/manager.js'/>"></script>
+    <script src="<c:url value='/javascript/calendar.js' />"></script>
     
 </body>
 </html>

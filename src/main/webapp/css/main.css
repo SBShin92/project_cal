@@ -26,6 +26,15 @@ header {
 	text-decoration: none;
 }
 
+.logo-link {
+	text-decoration: none;
+	color: deeppink;
+}
+
+.logo-link:hover {
+	color: hotpink;
+}
+
 .top-nav {
     background-color: #e6f3ff;
     padding: 0.5rem;

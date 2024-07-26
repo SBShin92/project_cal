@@ -200,9 +200,10 @@ public class UserServiceImpl implements UserService {
 			@Override
 		    public void sendResetTokenEmail(String email, String token) {
 		        String resetUrl = "http://localhost:8080/project_cal/password/verifytoken";
-		        String message = "<p>비밀번호를 재설정하려면 다음 링크를 클릭하고 토큰을 입력하세요:</p>" + 
+		        String message = "<p><b>비밀번호를 재설정하려면 다음 링크를 클릭하고 토큰을 입력하세요:</b></p>" + 
 		                         "<p><a href=\"" + resetUrl + "\">" + resetUrl + "</a></p>" +
-		                         "<p>토큰: " + token + "</p>";
+		                         "<p><b>토큰:</b></p>"
+		                         + token;
 		        
 		        try {
 		        	MimeMessage mimeMessage = mailSender.createMimeMessage();

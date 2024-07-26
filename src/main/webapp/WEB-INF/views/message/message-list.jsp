@@ -40,7 +40,7 @@
 	                        	<div class="row">  
 								    <a href="<c:url value='/message/${url}/${messageVO.messageId}' />" class="text-decoration-none col-8">
 								    	<c:choose>
-								    		<c:when test="${ messageVO.readStatus.equals('unread') }"><b><i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}</b></c:when>
+								    		<c:when test="${ messageVO.readStatus.equals('unread') }"><b><i class="fas fa-inbox me-2"></i>${messageVO.messageTitle}</b></c:when>
 								    		<c:otherwise><i class="fas fa-envelope-open-text me-2"></i>${messageVO.messageTitle}</c:otherwise>
 								    	</c:choose>
 								    </a>
@@ -52,6 +52,16 @@
                 </ul>
             </div>
         </div>
+        <nav>
+		  <ul class="pagination mx-4">
+		  <c:if test="${param.page > 1 }">
+		    <li class="page-item"><a class="page-link" href="?page=${param.page - 1}">Previous</a></li>
+		  </c:if>
+		  <c:if test="${totalPages == 10}">
+		    <li class="page-item"><a class="page-link" href="?page=${param.page == null ? 2 : param.page + 1}">Next</a></li>
+		  </c:if>
+		  </ul>
+		</nav>
     </div>
 <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
 </body>

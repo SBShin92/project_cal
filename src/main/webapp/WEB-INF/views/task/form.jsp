@@ -9,9 +9,9 @@
   <head>
     <meta charset="UTF-8">
     <title>${createTaskForm.taskId == 0 ? 'Create' : 'Edit'}Task</title>
-    <link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
     <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
-    <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
     <link rel="stylesheet" href="<c:url value='/css/taskform.css'/>" type="text/css"><!-- 0724추가 -->
   </head> 
    
@@ -22,9 +22,9 @@
   <div id="container"> 
   
   <section class="project-content">
-      <header>
+      <div class="task-title">
         <h1>${createTaskForm.taskId == 0 ? 'Create' : 'Edit'}Task</h1>
-      </header>       
+      </div>       
   </section>
  
     <!--  createTaskForm.taskId가 0이면 /project_cal/tasks/createTask 호출(user,projectId 값이 필요함)
@@ -44,7 +44,7 @@
     <section class="project-content">
     <div class="form-group">
         <label for="taskTitle">Title:</label>
-        <input type="text" name="taskTitle" value="${createTaskForm.taskTitle}" />
+        <input class="input-title" type="text" name="taskTitle" value="${createTaskForm.taskTitle}" />
     </div>
    
     <div class="form-group">

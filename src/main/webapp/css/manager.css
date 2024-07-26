@@ -12,22 +12,22 @@ ul {
 }
 
 a {
-	color: white;
+	color: #222;
 	text-decoration: none;
 }
 
 .container {
 	display: flex;
-	height: 100vh;
+	height: 95vh;
 }
 
 .sidebar {
 	width: 200px;
-	background-color: #4285f4;
-	color: white;
+	color: #222;
 	padding: 20px;
 	transition: all 0.3s;
 	position: relative;
+	background: linear-gradient(0deg, rgba(0,132,255,1) 0%, rgba(131,174,213,1) 46%, rgba(230,243,255,1) 100%);
 }
 
 .main-content {
@@ -45,13 +45,13 @@ a {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.menu-item {
+.manager-menu-item {
 	padding: 10px 0;
 }
 
 
 
-.menu-item:hover {
+.manager-menu-item:hover {
 	background-color: #5a95f5;
 }
 
@@ -60,6 +60,9 @@ a {
 	bottom: 5vh;
 }
 
+.foot a {
+	color: white;
+}
 
 table {
 	width: 100%;
@@ -70,7 +73,7 @@ table {
 
 th, td {
 	border: 1px solid #ddd;
-	padding: 12px;
+	padding: 9px;
 	text-align: left;
 }
 

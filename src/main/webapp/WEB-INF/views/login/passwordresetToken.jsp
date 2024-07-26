@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href='<c:url value="/css/login.css" />' />
+    <link type="text/css" rel="stylesheet" href="<c:url value="/css/token.css" />" />
     <title>OurCalendar - 비밀번호 초기화 토큰 입력</title>
 </head>
 <body>

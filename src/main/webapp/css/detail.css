@@ -211,6 +211,8 @@ display: flex;
 .custom-font {
 	font-family: 맑은고딕, Arial, sans-serif;
 	font-size: 16px;
+	overflow: auto;
+	word-break: break-word;
 }
 
 
