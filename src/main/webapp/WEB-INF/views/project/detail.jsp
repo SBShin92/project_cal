@@ -5,10 +5,7 @@
 
 <!-- 0725 여기 추가함  -->
 <%@ page import="com.github.sbshin92.project_cal.data.vo.UserVO" %>
-<%
-	UserVO userVO = (UserVO) session.getAttribute("authUser");
-%> 
-
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,8 +56,8 @@
                       <c:if test="${member.userId == projectVO.userId }">
                       	<i class="fa-brands fa-square-web-awesome-stroke" style="color: hotpink;"></i>
                       </c:if>
-                      [${member.userPosition}]
-                      ${member.userName}
+                      [${member.userPosition}]<br/>
+                      ${member.userName}<br/>
                       ${member.userEmail}
                   	</span>
 	              	<form action="<c:url value='/project/removeMember'/>" method="post" class="member-delete-form">
@@ -71,6 +68,7 @@
                      </c:if>
                      </form>
                   </li>
+                     <hr/>
               </c:forEach>
           </ul>
           
@@ -165,9 +163,9 @@
   						
                       <!-- 추가함 0725 테스크생성자와 팀장만 여기 edit, delete 권한 있게 하기위해 적음 -->
   						
-  						<%
-                          if(userVO.getUserAuthority().equals("admin")){ 
-                        %>
+
+                        
+                        <c:if test="${ authUser.userAuthority.equals('admin') || pt.userName.equals(authUser.userName) || projectVO.userId == authUser.userId }">
                            
                     
                       <form action="<c:url value='/tasks/createTaskForm'/>"
@@ -193,11 +191,8 @@
                           onclick="return confirm('정말 이 task를 삭제하시겠습니까? Are you sure you want to delete this task?')">
                           DELETE</button>
                       </form>
-                          
-                          <!-- 추가함 0725 -->
-                      <%
-                         }
-                      %>   
+                      
+                      </c:if>
               
 
                   </td>

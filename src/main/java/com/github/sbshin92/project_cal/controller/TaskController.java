@@ -66,8 +66,15 @@ public class TaskController {
 		// - 마찬가지로 authuser로 사용 해야한다.
 		
 		// 프로젝트 멤버 아니면 태스크 생성 권한이 없어
+		
+		
 		ProjectVO projectVO = projectService.getProjectById(projectId);
-		if (!"admin".equals(userVO.getUserAuthority()) && !projectService.isUserProjectMember(userVO.getUserId(), projectId)) {
+		TaskVO tv = taskService.findById(taskId);
+		// 관리자와 본인과 팀장이 아니면 태스크 삭제 권한이 없어
+		
+		
+		if (!"admin".equals(userVO.getUserAuthority()) && tv.getUserId() != userVO.getUserId()
+				&& projectVO.getUserId() != userVO.getUserId()) {
 			return "redirect:/access-denied";
 		}
 		
@@ -78,11 +85,10 @@ public class TaskController {
 			taskVo.setTaskId(taskId);
 			taskVo.setProjectId(projectId);
 			model.addAttribute("createTaskForm", taskVo);
-
 		} else {
 			// 수정로직
 			TaskVO existingTask = taskService.findById(taskId);
-			if (existingTask != null && existingTask.getUserId() == userId || "admin".equals(userVO.getUserAuthority())) {
+			if (existingTask.getUserId() == userVO.getUserId() || "admin".equals(userVO.getUserAuthority())) {
 				// 현재 사용자가 테스크 생성자인 경우에만 수정 허용
 				taskVo = existingTask;
 				model.addAttribute("createTaskForm", taskVo);
@@ -92,6 +98,7 @@ public class TaskController {
 				return "redirect:/access-denied";
 			}
 		}
+		
 
 		// 모델 어트리뷰트에 담고 보내주기
 		// model.addAttribute("createTaskForm", taskVo);
