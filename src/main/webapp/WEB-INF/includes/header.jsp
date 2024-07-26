@@ -4,7 +4,7 @@
 <%@ page session="true"%>
 <header>
 	<div class="logo">
-		<a href="<c:url value='/calendar'/>">CompanyCal</a>
+		<a href="<c:url value='/calendar'/>" class="logo-link"><i class="fa-regular fa-calendar-days"></i> Rose Cal</a>
 	</div>
 	
 	

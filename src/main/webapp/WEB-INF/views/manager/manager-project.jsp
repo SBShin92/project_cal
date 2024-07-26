@@ -8,12 +8,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link type="text/css" rel="stylesheet"
-	href='<c:url value="/css/manager.css" />' />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href='<c:url value="/css/manager.css" />' />
+<link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
 
 <title>OurCalendar</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/includes/header.jsp" />
 	<button class="menu-toggle" onclick="toggleMenu()">☰</button>
 	<div class="container">
 		<jsp:include page="/WEB-INF/includes/manager-nav.jsp" />
@@ -73,5 +75,6 @@
 		</div>
 	</div>
 	<script src="<c:url value='/javascript/manager.js'/>"></script>
+	<script src="<c:url value='/javascript/calendar.js' />"></script>
 </body>
 </html>

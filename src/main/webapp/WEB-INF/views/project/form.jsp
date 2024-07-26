@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="<c:url value='/css/main.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/form.css'/>" type="text/css">
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/includes/header.jsp" />

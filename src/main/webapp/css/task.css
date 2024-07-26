@@ -16,9 +16,21 @@ a {
 	text-decoration: none;
 }
 
-.container {
-	display: flex;
+#container {
+	margin-top: 50px;
 	height: 100vh;
+}
+
+.project-content {
+	background-color: #f5f5f5;
+	padding: 5px;
+}
+.form-group {
+	padding: 5px;
+}
+
+.task-title {
+	background-color: #f5f5f5;
 }
 
 .sidebar {

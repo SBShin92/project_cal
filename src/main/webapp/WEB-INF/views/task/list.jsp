@@ -16,6 +16,7 @@
 <title>Task List</title>
 <link type="text/css" rel="stylesheet" href='<c:url value="/css/main.css" />' />
 <link type="text/css" rel="stylesheet" href='<c:url value="/bootstrap-5.1.3/css/bootstrap.min.css" />' />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value='/css/detail.css'/>" type="text/css">
 <link rel="stylesheet" href="<c:url value='/css/task.css'/>" type="text/css"><!-- 0724추가 -->
 </head>
@@ -93,5 +94,6 @@
   </div>
   
 <script src="<c:url value='/bootstrap-5.1.3/js/bootstrap.min.js' />"></script>
+<script src="<c:url value='/javascript/calendar.js' />"></script>
 </body>
 </html>
