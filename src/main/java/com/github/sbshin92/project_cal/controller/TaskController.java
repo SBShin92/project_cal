@@ -70,12 +70,21 @@ public class TaskController {
 		
 		ProjectVO projectVO = projectService.getProjectById(projectId);
 		TaskVO tv = taskService.findById(taskId);
+		
+		List<UserVO> userMemberVOs = projectService.getProjectMembers(projectId);
 		// 관리자와 본인과 팀장이 아니면 태스크 삭제 권한이 없어
 		
 		
-		if (!"admin".equals(userVO.getUserAuthority()) && tv.getUserId() != userVO.getUserId()
-				&& projectVO.getUserId() != userVO.getUserId()) {
-			return "redirect:/access-denied";
+		if (!"admin".equals(userVO.getUserAuthority()) && projectVO.getUserId() != userVO.getUserId()) {
+			boolean flag = false;
+			for (UserVO userMemverVO: userMemberVOs) {
+				if (userMemverVO.getUserId() == userVO.getUserId()) {
+					flag = true;
+					break ;
+				}
+			}
+			if (flag == false)
+				return "redirect:/access-denied";
 		}
 		
 		// 추가 0716 if-else 문??
@@ -88,7 +97,7 @@ public class TaskController {
 		} else {
 			// 수정로직
 			TaskVO existingTask = taskService.findById(taskId);
-			if (existingTask.getUserId() == userVO.getUserId() || "admin".equals(userVO.getUserAuthority())) {
+			if (existingTask.getUserId() == userVO.getUserId() || "admin".equals(userVO.getUserAuthority()) || projectVO.getUserId() == userVO.getUserId()) {
 				// 현재 사용자가 테스크 생성자인 경우에만 수정 허용
 				taskVo = existingTask;
 				model.addAttribute("createTaskForm", taskVo);
@@ -123,7 +132,7 @@ public class TaskController {
 		if (success) {
 			String title = "태스크가 생성되었습니다.";
 			String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[생성된 태스크]: "
-					+ taskVo.getTaskTitle();
+					+ taskVo.getTaskTitle() + "<br/>[진행 상태]: " + taskVo.getTaskStatus();
 
 			MessageVO sendMessageVO = MessageVO.builder().senderUserId(userVO.getUserId())
 					.receiverUserId(projectVO.getUserId()).messageTitle(title).messageDescription(description)
@@ -205,7 +214,7 @@ public class TaskController {
 		if (success) {
 			String title = "태스크에 변경사항이 있습니다.";
 			String description = "[대상 프로젝트]: " + projectVO.getProjectTitle() + "<br/>[변경된 태스크]: "
-					+ taskVO.getTaskTitle();
+					+ taskVO.getTaskTitle() + "<br/>[진행 상태]: " + taskVO.getTaskStatus();
 
 			MessageVO sendMessageVO = MessageVO.builder().senderUserId(userVO.getUserId())
 					.receiverUserId(projectVO.getUserId()).messageTitle(title).messageDescription(description)
