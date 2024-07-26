@@ -5,9 +5,9 @@
 
 <!-- 0725 여기 추가함  -->
 <%@ page import="com.github.sbshin92.project_cal.data.vo.UserVO" %>
-<%--
+<%
 	UserVO userVO = (UserVO) session.getAttribute("authUser");
-%> --%>
+%> 
 
 <!DOCTYPE html>
 <html>
@@ -163,10 +163,12 @@
                         <button type="submit" class="btn btn-secondary">상세VIEW</button>
                       </form>
   						
-                      <!-- 추가함 0725 -->
-  						<%-- 테스크생성자와 팀장만 여기 edit, delete 권한 있게 하기위해 적음
-                           if(userVO.getUserAuthority().equals("admin")){
-                           --%> 
+                      <!-- 추가함 0725 테스크생성자와 팀장만 여기 edit, delete 권한 있게 하기위해 적음 -->
+  						
+  						<%
+                          if(userVO.getUserAuthority().equals("admin")){ 
+                        %>
+                           
                     
                       <form action="<c:url value='/tasks/createTaskForm'/>"
                         method="get" style="display: inline;">
@@ -193,9 +195,9 @@
                       </form>
                           
                           <!-- 추가함 0725 -->
-                      <%-- 
+                      <%
                          }
-                      --%>   
+                      %>   
               
 
                   </td>
