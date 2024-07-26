@@ -80,7 +80,7 @@
         <h3>상세 내용</h3>
         <div id="projectDescription" class="editable"
           data-field="projectDescription">
-          <pre class="custom-font">${projectVO.projectDescription}</pre>
+          <p class="custom-font">${projectVO.projectDescription}</p>
         </div>
             <div class="footer-content">
         <div class="button-group">
