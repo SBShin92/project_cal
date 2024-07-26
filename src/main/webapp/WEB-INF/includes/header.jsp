@@ -29,7 +29,7 @@
 	<div class="user-profile-container">
 		<div class="user-profile">${sessionScope.userName != null ? sessionScope.userName : '사용자'}	▼</div>
 		<div class="user-menu" style="display: none;">
-			<a href="<c:url value='/perform_logout'/>" class="menu-item" id="logoutButton">로그아웃</a>
+			<a href="<c:url value="/logout" />" class="menu-item" id="logoutButton">로그아웃</a>
 		</div>
 	</div>
 </header>

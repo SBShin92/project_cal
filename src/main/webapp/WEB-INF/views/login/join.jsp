@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href='<c:url value="/css/login.css" />' />
+    <link type="text/css" rel="stylesheet" href="<c:url value="/css/join.css" />" />
     <title>회원가입</title>
 </head>
 <body>

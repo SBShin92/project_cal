@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -12,6 +14,7 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 import com.github.sbshin92.project_cal.data.vo.UserVO;
@@ -34,6 +37,11 @@ public class MainSecurity {
 
     }
     
+    @Bean
+    public SessionRegistry sessionRegistry() {
+    	return new SessionRegistryImpl();
+    }
+    
     
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
@@ -44,7 +52,7 @@ public class MainSecurity {
             if(userVO != null) {
             request.getSession().setAttribute("userRole", "authUser");
             System.out.println("Session attribute 'userRole' set to 'authUser'");
-            response.sendRedirect("/project_cal/calendar");
+            response.sendRedirect("/project_cal/");
             } else {
             	response.sendRedirect("/login?error=true");
             }
@@ -72,18 +80,22 @@ public class MainSecurity {
                 .permitAll()
             )
             .logout(logout -> logout
-                    .logoutUrl("/perform_logout")
-                    .logoutSuccessUrl("/login?logout")
-                    .addLogoutHandler(new SecurityContextLogoutHandler())
-                    .deleteCookies("JSESSIONID")
-                    .invalidateHttpSession(true)
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .invalidateHttpSession(true) // 세션 무효화
+                    .deleteCookies("authUser") // JSESSIONID 쿠키 삭제 및 세션과 연관된 쿠키 삭제
+                    .addLogoutHandler(new SecurityContextLogoutHandler()) // 로그아웃 핸들러추가
+                    .addLogoutHandler(new CookieClearingLogoutHandler("authUser")) // 쿠키제거 추가 핸들러
+                    .addLogoutHandler(new CustomLogoutHandler())
                     .permitAll()
+                
                 )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .maximumSessions(1)
-                .maxSessionsPreventsLogin(false)
+                .maxSessionsPreventsLogin(true)
                 .expiredUrl("/login?expired")
+                .sessionRegistry(sessionRegistry())
             )
        
          /*   .oauth2Login(oauth2Login -> oauth2Login

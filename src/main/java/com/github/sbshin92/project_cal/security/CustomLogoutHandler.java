@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class CustomLogoutHandler implements LogoutHandler {
+	
 	  @Override
 	  public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 	        HttpSession session = request.getSession(false);
