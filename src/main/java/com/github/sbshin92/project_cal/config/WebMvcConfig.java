@@ -32,7 +32,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			.excludePathPatterns("/login")
 			.excludePathPatterns("/join/**")
 			.excludePathPatterns("/password/**")
-			.excludePathPatterns("/perform_logout")
+//			.excludePathPatterns("/performlogout")
 			.excludePathPatterns("/css/**")
 			.excludePathPatterns("/js/**");
 		

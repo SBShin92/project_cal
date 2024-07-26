@@ -32,10 +32,11 @@
 	      <a href="<c:url value='/manager' />" class="nav-btn btn-sky">관리자페이지</a>
 	    </c:if>
 	    
-	    <div class="user-profile">${sessionScope.userName != null ? sessionScope.userName : '사용자'} ▼</div>
-	    <div class="user-menu" style="display: none;">
-	      <a href="<c:url value='/login/logout'/>" class="menu-item" id="logoutButton">로그아웃</a>
-	    </div>
+
+		<div class="user-profile">${sessionScope.userName != null ? sessionScope.userName : '사용자'}	▼</div>
+		<div class="user-menu" style="display: none;">
+			<a href="<c:url value="/logout" />" class="menu-item" id="logoutButton">로그아웃</a>
+		</div>
 	  </nav>
 	</div>
 </header>
