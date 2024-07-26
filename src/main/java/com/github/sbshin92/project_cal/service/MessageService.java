@@ -9,5 +9,12 @@ public interface MessageService {
 	public MessageVO getMessage(Integer messageId);
 	public List<MessageVO> getMessageListByReceiverUserId(Integer receiverUserId);
 	public List<MessageVO> getMessageListBySenderUserId(Integer senderUserId);
+	
+	public List<MessageVO> getMessageListByReceiverUserIdWithRowBounds(int page, int size, int receivedUserId);
+	public List<MessageVO> getAlarmListByReceiverUserIdWithRowBounds(int page, int size, int receivedUserId);
+	public List<MessageVO> getMessageListBySenderUserIdWithRowBounds(int page, int size, int sendedUserId);
+	
+	public Integer getMessageCountByReceiverUserId(int receivedUserId);
+	
 	public boolean sendMessage(MessageVO messageVO);
 }

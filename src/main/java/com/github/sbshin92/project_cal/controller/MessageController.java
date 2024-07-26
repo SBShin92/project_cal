@@ -29,29 +29,32 @@ public class MessageController {
 	private UserService userService;
 	
 	@GetMapping({"", "/", "/received"})
-	public String receivedMessageListPage(Model model, HttpSession session) {
+	public String receivedMessageListPage(Model model, HttpSession session, @RequestParam(defaultValue = "1") int page) {
 		
 		UserVO authUser = (UserVO)session.getAttribute("authUser");
-		List<MessageVO> messageVOs = messageService.getMessageListByReceiverUserId(authUser.getUserId());
+		List<MessageVO> messageVOs = messageService.getMessageListByReceiverUserIdWithRowBounds(page, 10, authUser.getUserId());
+		model.addAttribute("totalPages", messageVOs.size());
 		model.addAttribute("messageVOs", messageVOs);
 		model.addAttribute("url", "received");
 		return "message/message-list";
 	}
 	
 	@GetMapping("/alarm")
-	public String alarmMessageListPage(Model model, HttpSession session) {
+	public String alarmMessageListPage(Model model, HttpSession session, @RequestParam(defaultValue = "1") int page) {
 		UserVO authUser = (UserVO)session.getAttribute("authUser");
-		List<MessageVO> messageVOs = messageService.getMessageListByReceiverUserId(authUser.getUserId());
+		List<MessageVO> messageVOs = messageService.getAlarmListByReceiverUserIdWithRowBounds(page, 10, authUser.getUserId());
+		model.addAttribute("totalPages", messageVOs.size());
 		model.addAttribute("messageVOs", messageVOs);
 		model.addAttribute("url", "alarm");
 		return "message/message-list-alarm";
 	}
 	
 	@GetMapping("/sended")
-	public String sendedMessagePage(Model model, HttpSession session) {
+	public String sendedMessagePage(Model model, HttpSession session, @RequestParam(defaultValue = "1") int page) {
 		
 		UserVO authUser = (UserVO)session.getAttribute("authUser");
-		List<MessageVO> messageVOs = messageService.getMessageListBySenderUserId(authUser.getUserId());
+		List<MessageVO> messageVOs = messageService.getMessageListBySenderUserIdWithRowBounds(page, 10, authUser.getUserId());
+		model.addAttribute("totalPages", messageVOs.size());
 		model.addAttribute("messageVOs", messageVOs);
 		model.addAttribute("url", "sended");
 		return "message/message-list-sended";
