@@ -140,8 +140,8 @@ public class ProjectServiceImpl implements ProjectService {
 			UserVO member = usersDAO.findById(userId);
 			ProjectVO project = projectsDAO.findById(projectId);
 			UserVO sender = usersDAO.findById(project.getUserId());
-			String content = "축하드립니다 " + member.getUserName() + "님" + project.getProjectTitle() + "프로젝트에 참여하게되었습니다";
-			notificationService.sendNotification(sender,member,"프로젝트 초대", content);
+			String content = "축하드립니다! " + member.getUserName() + " 님<br/>'" + project.getProjectTitle() + "' 프로젝트에 참여하게 되었습니다.";
+			notificationService.sendNotification(sender,member,"프로젝트에 초대되었습니다", content);
 			
 		}
 		return isAdded;
@@ -156,8 +156,8 @@ public class ProjectServiceImpl implements ProjectService {
 				UserVO member = usersDAO.findById(userId);
 				ProjectVO project = projectsDAO.findById(projectId);
 				UserVO sender = usersDAO.findById(project.getUserId());
-				String content = "축하드립니다 " + member.getUserName() + "님" + project.getProjectTitle() + "프로젝트를 생성했습니다";
-				notificationService.sendNotification(sender,member,"프로젝트 초대", content);
+				String content = "축하드립니다! " + member.getUserName() + " 님<br/>'" + project.getProjectTitle() + "' 프로젝트 생성이 완료되었습니다.";
+				notificationService.sendNotification(sender,member,"프로젝트 생성이 완료되었습니다.", content);
 			}
 			return isAdded;
 		}
@@ -173,7 +173,7 @@ public class ProjectServiceImpl implements ProjectService {
 			UserVO member = usersDAO.findById(userId);
 			ProjectVO project = projectsDAO.findById(projectId);
 			UserVO sender = usersDAO.findById(project.getUserId());
-			String content = "아쉽습니다" + member.getUserName() + "님이"  + project.getProjectTitle() + "프로젝트에 함께 하지못하게되었습니다";
+			String content = "아쉽습니다. " + member.getUserName() + "님<br/>'"  + project.getProjectTitle() + "'프로젝트에 함께하지 못하게 되었습니다.";
 			notificationService.sendNotification(sender, member, "프로젝트 하차", content);
 		}
 		return isDeleted;
@@ -226,8 +226,8 @@ public class ProjectServiceImpl implements ProjectService {
 					projectsDAO.addMemberProject(memberId, project.getProjectId());
 					UserVO member = usersDAO.findById(memberId);
 					UserVO sender = usersDAO.findById(project.getUserId());
-					String contnet = member.getUserName() + "님" + project.getProjectTitle()+"프로젝트에 추가되었습니다";
-					notificationService.sendNotification(sender,member,"프로젝트 초대", contnet);
+					String content = "축하드립니다! " + member.getUserName() + " 님<br/>'" + project.getProjectTitle() + "' 프로젝트에 참여하게 되었습니다.";
+					notificationService.sendNotification(sender,member,"프로젝트에 초대되었습니다", content);
 				}
 			}
 			
