@@ -5,9 +5,9 @@
 
 <!-- 0725 추가 -->
 <%@ page import="com.github.sbshin92.project_cal.data.vo.UserVO" %> 
-<%--
-	UserVO userVO = (UserVO) session.getAttribute("authUser");
---%>
+<%
+  UserVO userVO = (UserVO) session.getAttribute("authUser");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -55,13 +55,7 @@
                       <td>
                         <form action="<c:url value='/tasks/viewTask/${st.taskId}' />"
                           method="get" style="display: inline;">
-                           <%-- 예시로 연습해본것 여기다 실제 구현할예정 아님 나중에 edit, delete에 구현할예정..
-                           	if(userVO.getUserAuthority().equals("admin")){
-                           --%>
-                          		<button type="submit" class="btn btn-primary">상세 VIEW</button>
-                          	<%-- 
-                           	}
-                           --%>              
+                              <button type="submit" class="btn btn-primary">상세 VIEW</button>             
                         </form>   
                       </td>
                    </tr>
