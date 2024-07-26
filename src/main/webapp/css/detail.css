@@ -41,13 +41,11 @@ header {
   border-radius: 8px 8px 0 0;
 }
 
-
-.projectViewMode h1 {
-  padding: 15px;
-  margin: -20px -20px 20px -20px;
-  font-size: 1.5em;
-  text-align: center;
+#projectViewMode {
+	overflow: scroll;
 }
+
+
 #projectDate, #projectStatus {
   font-style: italic;
   margin-bottom: 5px;
@@ -149,11 +147,6 @@ textarea#projectDescription {
 }
 
 
-.btn-outline-primary {
-  position: absolute;
-  left: 10vw;
-
-}
 
 
 .btn-add {
@@ -203,10 +196,6 @@ display: flex;
     width: 100%;
 }
 
-.delete-button {
-	margin-left:100px;
-}
-
 
 .custom-font {
 	font-family: 맑은고딕, Arial, sans-serif;
@@ -215,6 +204,9 @@ display: flex;
 	word-break: break-word;
 }
 
+.member-name {
+	width: 300px;
+}
 
 
 
