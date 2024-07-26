@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,9 @@ import com.github.sbshin92.project_cal.data.vo.RoleVO;
 import com.github.sbshin92.project_cal.data.vo.UserVO;
 import com.github.sbshin92.project_cal.service.EmailService;
 import com.github.sbshin92.project_cal.service.UserService;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -193,14 +197,25 @@ public class UserServiceImpl implements UserService {
 		    }
 
 			// 이메일 전송
-
 			@Override
 		    public void sendResetTokenEmail(String email, String token) {
 		        String resetUrl = "http://localhost:8080/project_cal/password/verifytoken";
 		        String message = "<p>비밀번호를 재설정하려면 다음 링크를 클릭하고 토큰을 입력하세요:</p>" + 
 		                         "<p><a href=\"" + resetUrl + "\">" + resetUrl + "</a></p>" +
 		                         "<p>토큰: " + token + "</p>";
-
-		        emailService.sendEmail(email, "비밀번호 재설정", message);
+		        
+		        try {
+		        	MimeMessage mimeMessage = mailSender.createMimeMessage();
+		        	MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,false,"UTF-8");
+		        	
+		        	helper.setTo(email);
+		        	helper.setSubject("비밀번호 재설정 메일입니다");
+		        	helper.setText(message, true);
+		        	helper.setFrom("himj9515@naver.com");
+		        	mailSender.send(mimeMessage);
+	        	
+		        } catch(MessagingException e) {
+		        	e.printStackTrace();
+		        }
 		    }
 		}
