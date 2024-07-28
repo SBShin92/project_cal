@@ -45,3 +45,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+   // 파일 업로드 처리
+    function handleFileUpload(event) {
+        event.preventDefault();
+        if (!fileInput.files.length) {
+            alert('파일을 선택해주세요.');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        formData.append('projectId', projectId);
+
+        fetch('/api/projects/upload-file', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('File uploaded:', data);
+            // 파일 목록 업데이트 로직 추가
+        })
+        .catch(error => console.error('Error:', error));
+    }

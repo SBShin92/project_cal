@@ -6,30 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href='<c:url value="/css/login.css" />' />
-    <title>로그인</title>
+    <title>OurCalendar - Login</title>
 </head>
 <body>
     <div class="login-container">
-        <h2>로그인</h2>
-        <c:if test="${param.error != null}">
-            <div class="error-message">
-                로그인에 실패했습니다. 다시 시도해주세요.
-            </div>
-        </c:if>
-        <form action="<c:url value="/login" />" method="post">
-            <div class="form-group">
-                <label for="username">Email:</label>
-                <input type="name" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">비밀번호:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">로그인</button>
-            </div>
+        <h2>Login</h2>
+        <form action="${pageContext.request.contextPath}/login" method="post">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password"><br>
+            <button type="submit">Login</button>
         </form>
-        <a href="<c:url value="/join" />">회원가입</a>
+        <a href="${pageContext.request.contextPath}/join">회원가입</a>
+      <a href="${pageContext.request.contextPath}/password/resetrequest">비밀번호 재설정</a>
+        <c:if test="${not empty error}">
+            <div>${error}</div>
+        </c:if>
     </div>
 </body>
 </html>

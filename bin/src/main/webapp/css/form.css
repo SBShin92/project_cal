@@ -1,80 +1,158 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 20px;
+/* form.css */
+
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #f5f5f5;
+  --text-color: #333;
+  --border-color: #ddd;
+
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .project-form {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 0;
 }
 
-header {
-    margin-bottom: 20px;
+.project-form h1 {
+  background-color: var(--title-bg-color);
+  color: var(--title-text-color);
+  padding: 15px;
+  margin: -20px -20px 20px -20px;
+  font-size: 1.5em;
+  text-align: center;
 }
 
-h1 {
-    color: #333;
-    margin-bottom: 10px;
+.form-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-color);
+  font-weight: 500;
 }
 
-input[type="text"], 
-input[type="file"], 
-textarea, 
-select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
-textarea {
-    resize: vertical;
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  flex: 1;
 }
 
-.error {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-
-footer {
-    text-align: right;
-    margin-top: 20px;
+.btn-group {
+  text-align: right;
+  margin-top: 20px;
 }
 
 .btn {
-    background-color: #0080ff;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    margin-left: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.btn-primary {
-    background-color: #008CBA;
+.btn-secondary {
+  background-color: #6c757d;
 }
 
 .btn:hover {
-    opacity: 0.8;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .project-form {
+    padding: 15px;
+  }
+  
+  .project-form h1 {
+    font-size: 1.2em;
+    padding: 10px;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+
+.date-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.date-field {
+  flex: 1;
+}
+
+.date-field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.date-field input[type="date"] {
+  width: 100%;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  float: right;
+  gap: 1vw;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .date-group {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
