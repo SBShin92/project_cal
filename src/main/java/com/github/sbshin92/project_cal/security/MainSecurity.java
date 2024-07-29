@@ -8,10 +8,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
@@ -98,14 +94,6 @@ public class MainSecurity {
                 .sessionRegistry(sessionRegistry())
             )
        
-         /*   .oauth2Login(oauth2Login -> oauth2Login
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/verify-token", true)
-                    .failureUrl("/login?error=true")
-                    .userInfoEndpoint(userInfo -> userInfo
-                        .oidcUserService(new OidcUserService())
-                    ) 
-                    .successHandler(customAuthenticationSuccessHandler())  */
             .csrf(csrf -> csrf.disable());
 
         return http.build();
@@ -113,25 +101,5 @@ public class MainSecurity {
     
 
    
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        return new InMemoryClientRegistrationRepository(this.naverClientRegistration());
-    }
-
-   
-    // 네이버 클라이언트 등록
-    private ClientRegistration naverClientRegistration() {
-        return ClientRegistration.withRegistrationId("naver")
-            .clientId("fCbESEtEsGr2Lcs5w2Lp3")
-            .clientSecret("vS1egkAK42")
-            .redirectUri("http://localhost:8080/project_cal/login/oauth2/code/naver")
-            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-            .scope("profile", "email")
-            .tokenUri("https://nid.naver.com/oauth2.0/token")
-            .authorizationUri("https://nid.naver.com/oauth2.0/authorize")
-            .userInfoUri("https://openapi.naver.com/v1/nid/me")
-            .userNameAttributeName("response.email")
-            .clientName("Naver")
-            .build();
-    }  
+  
 }
