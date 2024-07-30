@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.github.sbshin92</groupId>
 	<artifactId>project_cal</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>war</packaging>
 	<name>project_cal</name>
 	<description>Calendar project for Spring Boot</description>

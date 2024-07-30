@@ -233,3 +233,7 @@ th {
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.text-danger {
+	color: red;
+}
