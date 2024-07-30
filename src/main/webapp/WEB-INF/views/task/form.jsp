@@ -55,7 +55,7 @@
   
      <section class="project-content">
         <div class="form-group">
-            <label for="taskStatus">테스크 상태:</label>
+            <label for="taskStatus">태스크 상태:</label>
             <select id="taskStatus" name="taskStatus">
                 <option value="none">선택하세요</option>
                 <option value="진행중">진행 중</option>

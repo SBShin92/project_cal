@@ -64,6 +64,7 @@ main {
 	align-items: center;
 	gap: 10px;
 	text-decoration: none;
+	cursor: default;
 }
 
 .calendar {

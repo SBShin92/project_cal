@@ -2,7 +2,7 @@
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!--  테스크 목록 페이지 
+<!--  태스크 목록 페이지 
 1.task/list.jsp (태스크 목록)
 2.task/view.jsp (태스크 상세 보기)
 3.task/form.jsp (태스크 생성/수정 폼)
@@ -45,7 +45,7 @@
           <tbody>
             <c:forEach var="vo" items="${listTasks}">
               <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
-              <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
+              <!-- foreach for문 반복문을 통해 여러 태스크들을 하나씩 조회하기 -->
               <tr>
                 <td>${vo.taskId}</td>
                 <td>${vo.taskTitle}</td>

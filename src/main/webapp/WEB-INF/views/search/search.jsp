@@ -46,7 +46,7 @@
               <tbody>
                   <c:forEach var="st" items="${searchedTasks}">
                     <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
-                    <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
+                    <!-- foreach for문 반복문을 통해 여러 태스크들을 하나씩 조회하기 -->
                     <tr>
                       <td>${st.taskId}</td>
                       <td>${st.taskTitle}</td> 
@@ -104,7 +104,7 @@
               <tbody>
                   <c:forEach var="sp" items="${searchedProjects}">
                     <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
-                    <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
+                    <!-- foreach for문 반복문을 통해 여러 태스크들을 하나씩 조회하기 -->
                     <tr>
                       <td>${sp.projectId }</td>
                       <td>${sp.projectTitle}</td>

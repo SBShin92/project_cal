@@ -39,15 +39,20 @@
       <section class="project-members-container" id="member-list">
  <div class="members-header">
     <h3>프로젝트 멤버</h3>
-    <form action="<c:url value='/project/inviteMember'/>" method="post" class="member-invite-form">
-      <input type="hidden" name="projectId" value="${projectVO.projectId}">
-      <select name="userId" class="member-select">
-        <c:forEach var="user" items="${availableUsers}">
-          <option value="${user.userId}">${user.userName}</option>
-        </c:forEach>
-      </select>
-      <button type="submit" class="btn-add">멤버 추가</button>
-    </form>
+    
+    <c:if test="${ authUser.userAuthority.equals('admin') || authUser.userId == projectVO.userId }">
+	    <form action="<c:url value='/project/inviteMember'/>" method="post" class="member-invite-form">
+	      <input type="hidden" name="projectId" value="${projectVO.projectId}">
+	      <select name="userId" class="member-select">
+	        <c:forEach var="user" items="${availableUsers}">
+	          <option value="${user.userId}">[${user.userPosition}] ${user.userName} (${user.userEmail})</option>
+	        </c:forEach>
+	      </select>
+	      <button type="submit" class="btn-add">멤버 추가</button>
+	    </form>
+    </c:if>
+    
+    
   </div>
           <ul id="memberList">
               <c:forEach var="member" items="${projectMembers}">
@@ -60,13 +65,15 @@
                       ${member.userName}<br/>
                       ${member.userEmail}
                   	</span>
-	              	<form action="<c:url value='/project/removeMember'/>" method="post" class="member-delete-form">
-                     <c:if test="${member.userId != projectVO.userId }">
-                          <input type="hidden" name="projectId" value="${projectVO.projectId}">
-                          <input type="hidden" name="userId" value="${member.userId}">
-                          <button type="submit" class="btn-outline-primary delete-button">삭제</button>
+                  	<c:if test="${ authUser.userAuthority.equals('admin') || authUser.userId == projectVO.userId }">
+		              	<form action="<c:url value='/project/removeMember'/>" method="post" class="member-delete-form">
+	                     <c:if test="${member.userId != projectVO.userId }">
+	                          <input type="hidden" name="projectId" value="${projectVO.projectId}">
+	                          <input type="hidden" name="userId" value="${member.userId}">
+	                          <button type="submit" class="btn-outline-primary delete-button">삭제</button>
+	                     </c:if>
+	                     </form>
                      </c:if>
-                     </form>
                   </li>
                      <hr/>
               </c:forEach>
@@ -80,9 +87,13 @@
           data-field="projectDescription">
           <p class="custom-font">${projectVO.projectDescription}</p>
         </div>
-            <div class="footer-content">
+      <div class="footer-content">
         <div class="button-group">
-          <button id="editButton" class="btn btn-primary">수정</button>
+          <c:if test="${ authUser.userAuthority.equals('admin') || (authUser.userId == projectVO.userId && authUserRole.projectUpdate == true) }">
+          	<button id="editButton" class="btn btn-primary">수정</button>
+          </c:if>
+          
+          <c:if test="${ authUser.userAuthority.equals('admin') || (authUser.userId == projectVO.userId && authUserRole.projectDelete == true) }">
           <form
             action="<c:url value='/project/delete/${projectVO.projectId}'/>"
             method="post" style="display: inline;">
@@ -90,6 +101,7 @@
             <button type="submit" class="btn btn-danger"
               onclick="return confirm('정말로 이 프로젝트를 삭제하시겠습니까?');">삭제</button>
           </form>
+          </c:if>
         </div>
       </div>
         <!-- 이미지 부분 -->
@@ -121,7 +133,7 @@
 
       <!-- task목록0725 전체적으로 수정함 -->
       <section class="project-tasks" id="project-tasks">
-        <h3>테스크 페이지</h3>
+        <h3>태스크 페이지</h3>
         <div>
           <table border="1">
           
@@ -131,24 +143,31 @@
               <input type="hidden" name="projectId"
                 value="${projectVO.projectId}" />
               <!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
-              <button type="submit" class="btn btn-secondary">새 테스크 생성</button>
+              <button type="submit" class="btn btn-secondary">새 태스크 생성</button>
             </form>
 
-            <thead>
-              <tr>
-                <th>TaskID</th>
-                <th>TaskTitle</th> 
-                <th>Task Creator User Name</th>
-                <th>Task Creator User Position</th>
-                <th>TaskStatus</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
+			<c:choose>
+				<c:when test="${ empty projectTasks }">
+					<p>작성된 태스크가 없습니다.</p>
+				</c:when>
+				<c:otherwise>
+		            <thead>
+		              <tr>
+		                <th>TaskID</th>
+		                <th>TaskTitle</th> 
+		                <th>Task Creator User Name</th>
+		                <th>Task Creator User Position</th>
+		                <th>TaskStatus</th>
+		                <th>&nbsp;</th>
+		              </tr>
+		            </thead>				
+				</c:otherwise>
+			</c:choose>
 
             <tbody>
               <c:forEach var="pt" items="${projectTasks}">
                 <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
-                <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
+                <!-- foreach for문 반복문을 통해 여러 태스크들을 하나씩 조회하기 -->
                 <tr>
                   <td>${pt.taskId}</td>
                   <td>${pt.taskTitle}</td>
@@ -161,7 +180,7 @@
                         <button type="submit" class="btn btn-secondary">상세VIEW</button>
                       </form>
   						
-                      <!-- 추가함 0725 테스크생성자와 팀장만 여기 edit, delete 권한 있게 하기위해 적음 -->
+                      <!-- 추가함 0725 태스크생성자와 팀장만 여기 edit, delete 권한 있게 하기위해 적음 -->
   						
 
                         
@@ -204,6 +223,8 @@
         </div>
           
          <!--0725 재수정함 -->
+         
+         <c:if test="${ not empty projectTasks }">
     	    <nav>
     		  <ul class="pagination">
     		    <li class="page-item"><a class="page-link" href="?taskPage=${param.taskPage == 1 || param.taskPage == null ? 1 : param.taskPage - 1}">Previous</a></li> 
@@ -214,6 +235,7 @@
     		    <li class="page-item"><a class="page-link" href="?taskPage=${ totalPages != 10 ? (param.taskPage == null ? 1 : param.taskPage) : (param.taskPage == null ? 1 : param.taskPage) + 1}">Next</a></li>
     		  </ul>
     		</nav>
+    	</c:if>
       </section> 
      
  

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 
-<!--  테스크 상세보기 페이지 -->
+<!--  태스크 상세보기 페이지 -->
 
 <html>
 <head>
