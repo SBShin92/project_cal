@@ -75,6 +75,7 @@
 		</div>
 	</div>
 	<script src="<c:url value='/javascript/manager.js'/>"></script>
+	<script src="<c:url value='/javascript/main.js'/>"></script>
 	<script src="<c:url value='/javascript/calendar.js' />"></script>
 </body>
 </html>

@@ -53,7 +53,7 @@
                 	<!--  원래는 로그인한 사용자의 아이디를 담아야한다 (보내야한다) -->
                 <input type="hidden" name="projectId" value="${projectTasks[0].projectId}"/> 
                 	<!-- projectTasks[0].projectId가 어차피 값이1개일것이라 인덱스는 [0]해도 상관없 -->
-                <button type="submit" >테스크 생성</button>
+                <button type="submit" >태스크 생성</button>
             </form>            
               <thead>
                   <tr>
@@ -66,7 +66,7 @@
               
               <tbody> 
                   <c:forEach var="vo" items="${projectTasks}"> <!-- controller 모델.어트리뷰트한것을 보낸것을 -> jsp에서 받은것 -->
-                      <!-- foreach for문 반복문을 통해 여러 테스크들을 하나씩 조회하기 -->
+                      <!-- foreach for문 반복문을 통해 여러 태스크들을 하나씩 조회하기 -->
                       <tr>
                           <td>${vo.taskId}</td>
                           <td>${vo.taskTitle}</td>

@@ -13,8 +13,8 @@ spring:
   #멀티파트를 위한 설정
   servlet:
       multipart:
-        max-file-size: 10MB
-        max-request-size: 50MB
+        max-file-size: 50MB
+        max-request-size: 200MB
         location: c:\\uploads
   #스프링 시큐리티 설정
   security:
